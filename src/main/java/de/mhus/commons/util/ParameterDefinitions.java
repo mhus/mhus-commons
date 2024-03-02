@@ -18,9 +18,8 @@ package de.mhus.commons.util;
 import java.util.Collection;
 import java.util.TreeMap;
 
-import de.mhus.lib.common.node.INode;
-import de.mhus.lib.errors.MException;
-import de.mhus.lib.form.definition.IFmElement;
+import de.mhus.commons.node.INode;
+import de.mhus.commons.errors.MException;
 
 public class ParameterDefinitions extends TreeMap<String, ParameterDefinition> {
 
@@ -50,13 +49,6 @@ public class ParameterDefinitions extends TreeMap<String, ParameterDefinition> {
     }
 
     private static void collect(INode form, ParameterDefinitions out) throws MException {
-
-        if (form instanceof IFmElement) {
-            //            String name = form.getString("name");
-            //            String type = form.getString("type", null);
-            ParameterDefinition def = new ParameterDefinition(form);
-            out.put(def.getName(), def);
-        }
 
         for (INode node : form.getObjects()) {
             collect(node, out);

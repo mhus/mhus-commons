@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
-import de.mhus.lib.common.MCast;
+import de.mhus.commons.MCast;
 
 public class FunctionAttribute<T> implements PojoAttribute<T> {
 

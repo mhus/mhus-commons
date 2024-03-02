@@ -29,20 +29,21 @@ import java.util.TreeMap;
 import java.util.Vector;
 import java.util.regex.Pattern;
 
-import de.mhus.lib.basics.RC;
-import de.mhus.lib.common.logging.MLogUtil;
-import de.mhus.lib.common.parser.StringCompiler;
-import de.mhus.lib.common.util.EmptyList;
-import de.mhus.lib.errors.MException;
-import de.mhus.lib.errors.MRuntimeException;
+import de.mhus.commons.basics.RC;
+import de.mhus.commons.parser.StringCompiler;
+import de.mhus.commons.util.EmptyList;
+import de.mhus.commons.errors.MException;
+import de.mhus.commons.errors.MRuntimeException;
+import lombok.extern.slf4j.Slf4j;
 
 /** @author hummel */
+@Slf4j
 public class MString {
 
     public static final String CHARSET_UTF_8 = "UTF-8";
     public static final String CHARSET_UTF_16 = "UTF-16";
     public static final String CHARSET_ISO_8859_1 = "ISO-8859-1";
-
+//XXX naming
     public static final Charset CHARSET_CHARSET_UTF_8 = Charset.forName("UTF-8");
     public static final Charset CHARSET_CHARSET_UTF_16 = Charset.forName("UTF-16");
     /**
@@ -2163,7 +2164,7 @@ public class MString {
         try {
             return StringCompiler.compile(template).execute(attributes);
         } catch (MException e) {
-            MLogUtil.log().t("MString.compileAndExecute", template, e);
+            LOGGER.trace("MString.compileAndExecute {}", template, e);
         }
         return def;
     }

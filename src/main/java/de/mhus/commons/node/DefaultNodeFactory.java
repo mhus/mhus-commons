@@ -21,11 +21,11 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.HashMap;
 
-import de.mhus.lib.basics.RC;
-import de.mhus.lib.common.MFile;
-import de.mhus.lib.common.MSystem;
-import de.mhus.lib.errors.MException;
-import de.mhus.lib.errors.NotFoundException;
+import de.mhus.commons.basics.RC;
+import de.mhus.commons.MFile;
+import de.mhus.commons.MSystem;
+import de.mhus.commons.errors.MException;
+import de.mhus.commons.errors.NotFoundException;
 
 public class DefaultNodeFactory implements INodeFactory {
 

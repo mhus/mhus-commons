@@ -20,8 +20,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import de.mhus.lib.common.MCast;
-import de.mhus.lib.common.util.EmptyList;
+import de.mhus.commons.MCast;
+import de.mhus.commons.util.EmptyList;
 
 public class YList extends YElement implements Iterable<YElement> {
 

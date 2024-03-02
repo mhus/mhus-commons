@@ -42,11 +42,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import de.mhus.lib.common.json.SerializerTransformer;
-import de.mhus.lib.common.json.TransformHelper;
-import de.mhus.lib.common.json.TransformStrategy;
-import de.mhus.lib.common.util.NullValue;
-import de.mhus.lib.errors.MaxDepthReached;
+import de.mhus.commons.json.SerializerTransformer;
+import de.mhus.commons.json.TransformHelper;
+import de.mhus.commons.json.TransformStrategy;
+import de.mhus.commons.util.NullValue;
+import de.mhus.commons.errors.MaxDepthReached;
 
 public class MJson {
 

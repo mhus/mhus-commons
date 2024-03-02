@@ -27,11 +27,12 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-import de.mhus.lib.common.logging.MLogUtil;
-import de.mhus.lib.common.node.INode;
-import de.mhus.lib.common.node.NodeList;
-import de.mhus.lib.common.node.NodeSerializable;
+import de.mhus.commons.node.INode;
+import de.mhus.commons.node.NodeList;
+import de.mhus.commons.node.NodeSerializable;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class Table implements Serializable, Externalizable, NodeSerializable {
 
     private static final long serialVersionUID = 1L;
@@ -57,7 +58,7 @@ public class Table implements Serializable, Externalizable, NodeSerializable {
                 try {
                     row.appendData(res.getObject(i + 1));
                 } catch (Throwable t) {
-                    MLogUtil.log().t(t);
+                    LOGGER.trace("Error",t);
                     row.appendData((String) null);
                 }
             }

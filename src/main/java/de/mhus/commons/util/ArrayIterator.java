@@ -17,7 +17,7 @@ package de.mhus.commons.util;
 
 import java.util.Iterator;
 
-import de.mhus.lib.basics.ReadOnly;
+import de.mhus.commons.basics.ReadOnly;
 
 public class ArrayIterator<T> implements Iterator<T>, ReadOnly {
 

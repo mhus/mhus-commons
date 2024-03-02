@@ -26,8 +26,8 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-import de.mhus.lib.common.MPeriod;
-import de.mhus.lib.errors.NotSupportedException;
+import de.mhus.commons.MPeriod;
+import de.mhus.commons.errors.NotSupportedException;
 
 public class SoftTimeoutMap<K, V> implements Map<K, V> {
 

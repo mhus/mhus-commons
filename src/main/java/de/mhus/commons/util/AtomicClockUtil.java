@@ -24,15 +24,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
-import de.mhus.lib.common.MCollection;
-import de.mhus.lib.common.MPeriod;
-import de.mhus.lib.common.MThread;
-import de.mhus.lib.common.logging.Log;
+import de.mhus.commons.MCollection;
+import de.mhus.commons.MPeriod;
+import de.mhus.commons.MThread;
+import lombok.extern.slf4j.Slf4j;
 
 // https://developer.gemalto.com/faq/how-obtain-time-internet-java-rfc868
+@Slf4j
 public class AtomicClockUtil {
 
-    private static Log log = Log.getLog(AtomicClockUtil.class);
     private static final long TIMEOUT_RELOAD = MPeriod.MINUTE_IN_MILLISECONDS * 30;
     private static long lastUpdate;
     private static long now;
@@ -131,7 +131,7 @@ public class AtomicClockUtil {
                     lastUpdate = System.currentTimeMillis();
                     return now;
                 } catch (Throwable t) {
-                    log.i(t);
+                    LOGGER.info("Error", t);
                 }
                 currentServer = (currentServer + 1) % TIME_SERVERS.size();
             }

@@ -17,7 +17,7 @@ package de.mhus.commons.matcher;
 
 import java.util.Map;
 
-import de.mhus.lib.common.MString;
+import de.mhus.commons.MString;
 
 public class ModelFs extends ModelPattern {
 

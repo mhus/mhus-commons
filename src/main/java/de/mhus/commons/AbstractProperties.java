@@ -23,14 +23,15 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 
-import de.mhus.lib.basics.IsNull;
-import de.mhus.lib.basics.RC;
-import de.mhus.commons.util.MObject;
-import de.mhus.lib.errors.MException;
-import de.mhus.lib.errors.MRuntimeException;
-import de.mhus.lib.errors.NotFoundException;
+import de.mhus.commons.basics.IsNull;
+import de.mhus.commons.basics.RC;
+import de.mhus.commons.errors.MException;
+import de.mhus.commons.errors.MRuntimeException;
+import de.mhus.commons.errors.NotFoundException;
+import lombok.extern.slf4j.Slf4j;
 
-public abstract class AbstractProperties extends MObject implements IProperties {
+@Slf4j
+public abstract class AbstractProperties implements IProperties {
 
     private static final long serialVersionUID = 1L;
 
@@ -298,7 +299,7 @@ public abstract class AbstractProperties extends MObject implements IProperties 
             try {
                 removeProperty(currentkey);
             } catch (Throwable e) {
-                log().t(e);
+                LOGGER.trace("Error", e);
             }
         }
     }
@@ -331,12 +332,12 @@ public abstract class AbstractProperties extends MObject implements IProperties 
             try {
                 old = getProperty(key);
             } catch (Throwable e1) {
-                log().t(key, e1);
+                LOGGER.trace("Error with key {}", key, e1);
             }
             try {
                 setProperty(key, value);
             } catch (Throwable e) {
-                log().t(key, e);
+                LOGGER.trace("Error with key {}", key, e);
             }
             return old;
         }

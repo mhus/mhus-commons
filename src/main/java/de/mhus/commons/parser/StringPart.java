@@ -17,7 +17,7 @@ package de.mhus.commons.parser;
 
 import java.util.Map;
 
-import de.mhus.lib.errors.MException;
+import de.mhus.commons.errors.MException;
 
 public interface StringPart {
 

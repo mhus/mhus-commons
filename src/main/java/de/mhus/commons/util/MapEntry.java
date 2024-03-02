@@ -17,7 +17,7 @@ package de.mhus.commons.util;
 
 import java.util.Map;
 
-import de.mhus.lib.basics.ReadOnly;
+import de.mhus.commons.basics.ReadOnly;
 
 public class MapEntry<K, V> implements Map.Entry<K, V>, ReadOnly {
 

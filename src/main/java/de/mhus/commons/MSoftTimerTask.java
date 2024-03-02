@@ -18,7 +18,7 @@ package de.mhus.commons;
 import java.lang.ref.SoftReference;
 import java.util.TimerTask;
 
-import de.mhus.lib.basics.Named;
+import de.mhus.commons.basics.Named;
 
 public class MSoftTimerTask extends TimerTask implements Named {
 

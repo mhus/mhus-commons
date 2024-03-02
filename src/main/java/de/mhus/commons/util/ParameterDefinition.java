@@ -23,18 +23,18 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
-import de.mhus.lib.basics.RC;
-import de.mhus.lib.common.IProperties;
-import de.mhus.lib.common.IReadProperties;
-import de.mhus.lib.common.MCast;
-import de.mhus.lib.common.MProperties;
-import de.mhus.lib.common.MString;
-import de.mhus.lib.common.MValidator;
-import de.mhus.lib.common.logging.Log;
-import de.mhus.lib.errors.MException;
+import de.mhus.commons.basics.RC;
+import de.mhus.commons.IProperties;
+import de.mhus.commons.IReadProperties;
+import de.mhus.commons.MCast;
+import de.mhus.commons.MProperties;
+import de.mhus.commons.MString;
+import de.mhus.commons.MValidator;
+import de.mhus.commons.errors.MException;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class ParameterDefinition implements Externalizable {
-    private static Log log = Log.getLog(ParameterDefinition.class);
 
     private String name;
     private String type;
@@ -150,7 +150,7 @@ public class ParameterDefinition implements Externalizable {
                     return String.valueOf(object);
                 }
             default:
-                log.d("Unknown Type", name, type);
+                LOGGER.debug("Unknown Type {} {}", name, type);
         }
         return object;
     }
@@ -193,7 +193,7 @@ public class ParameterDefinition implements Externalizable {
             case "text":
                 return true;
             default:
-                log.d("Unknown Type", name, type);
+                LOGGER.debug("Unknown Type {} {}", name, type);
         }
         return true;
     }

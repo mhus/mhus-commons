@@ -17,10 +17,7 @@ package de.mhus.commons;
 
 import java.io.PrintStream;
 
-import de.mhus.lib.common.jmx.MJmx;
-import de.mhus.lib.common.service.UniqueId;
-
-public class MStopWatch extends MJmx {
+public class MStopWatch {
 
     private static final int STATUS_INITIAL = 0;
     private static final int STATUS_RUNNING = 1;
@@ -33,7 +30,7 @@ public class MStopWatch extends MJmx {
     private String name;
 
     public MStopWatch() {
-        name = "StopWatch " + M.l(UniqueId.class).nextUniqueId();
+        name = "StopWatch " + UniqueId.nextUniqueId();
     }
 
     public MStopWatch(String name) {

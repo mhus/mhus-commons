@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import de.mhus.lib.common.util.ByteBuffer;
+import de.mhus.commons.util.ByteBuffer;
 
 public class StreamBuffer {
 

@@ -20,28 +20,28 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import de.mhus.lib.common.MString;
-import de.mhus.lib.common.logging.Log;
+import de.mhus.commons.MString;
+import org.slf4j.Logger;
 
 public class SecurityTransformHelper extends TransformHelper {
 
-    private Log log;
+    private final Logger log;
     private ClassLoader loader;
     private LinkedList<Rule> rules = null;
 
-    public SecurityTransformHelper(ClassLoader loader, Log log) {
+    public SecurityTransformHelper(ClassLoader loader, Logger log) {
         this.log = log;
         this.loader = loader;
     }
 
     @Override
     public void log(String string, Throwable t) {
-        if (log != null) log.t(string, t);
+        if (log != null) log.trace(string, t);
     }
 
     @Override
     public void log(String msg) {
-        if (log != null) log.t(msg);
+        if (log != null) log.trace(msg);
     }
 
     @Override

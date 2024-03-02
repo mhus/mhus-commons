@@ -18,7 +18,7 @@ package de.mhus.commons.util;
 import java.util.Iterator;
 import java.util.ListIterator;
 
-import de.mhus.lib.basics.ReadOnly;
+import de.mhus.commons.basics.ReadOnly;
 
 public class SingleIterator<E> implements Iterator<E>, ListIterator<E>, ReadOnly {
 

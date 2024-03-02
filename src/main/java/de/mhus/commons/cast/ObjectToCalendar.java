@@ -21,9 +21,9 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import de.mhus.lib.common.MCast;
-import de.mhus.lib.common.MString;
-import de.mhus.lib.common.logging.Log;
+import de.mhus.commons.MCast;
+import de.mhus.commons.MString;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Accepted formats:
@@ -38,9 +38,9 @@ import de.mhus.lib.common.logging.Log;
  *
  * @author mikehummel
  */
+@Slf4j
 public class ObjectToCalendar implements Caster<Object, Calendar> {
 
-    private static final Log log = Log.getLog(ObjectToCalendar.class);
     private static HashMap<String, Integer> monthCatalog = new HashMap<>();
 
     static {
@@ -336,7 +336,7 @@ public class ObjectToCalendar implements Caster<Object, Calendar> {
             return null;
 
         } catch (Throwable e) {
-            log.t(in, e);
+            LOGGER.trace("Error: {}, ", in, e);
         }
 
         // return unknown - timestamp is 0

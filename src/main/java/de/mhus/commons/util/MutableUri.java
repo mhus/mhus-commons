@@ -19,8 +19,8 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Map;
 
-import de.mhus.lib.common.MPassword;
-import de.mhus.lib.common.MString;
+import de.mhus.commons.MPassword;
+import de.mhus.commons.MString;
 
 public class MutableUri extends MUri {
 

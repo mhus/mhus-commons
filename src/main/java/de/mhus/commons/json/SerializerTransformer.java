@@ -33,11 +33,13 @@ import com.fasterxml.jackson.databind.node.NullNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TextNode;
 
-import de.mhus.lib.common.MJson;
-import de.mhus.lib.common.pojo.PojoAttribute;
-import de.mhus.lib.common.pojo.PojoModel;
-import de.mhus.lib.errors.NotSupportedException;
+import de.mhus.commons.MJson;
+import de.mhus.commons.pojo.PojoAttribute;
+import de.mhus.commons.pojo.PojoModel;
+import de.mhus.commons.errors.NotSupportedException;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class SerializerTransformer extends TransformStrategy {
 
     @SuppressWarnings("unchecked")
@@ -109,7 +111,7 @@ public class SerializerTransformer extends TransformStrategy {
                 }
 
             } catch (IOException e) {
-                log().d(e);
+                LOGGER.debug("Error", e);
                 throw new NotSupportedException("exception", e);
             }
         }
@@ -155,7 +157,7 @@ public class SerializerTransformer extends TransformStrategy {
                 }
                 return to;
             } catch (Throwable t) {
-                log().d(t);
+                LOGGER.debug("Error", t);
                 throw new NotSupportedException("exception", t);
             }
         }

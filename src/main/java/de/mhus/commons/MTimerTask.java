@@ -15,11 +15,12 @@
  */
 package de.mhus.commons;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.lang.reflect.Field;
 import java.util.TimerTask;
 
-import de.mhus.lib.common.logging.MLogUtil;
-
+@Slf4j
 public abstract class MTimerTask extends TimerTask implements ITimerTask {
 
     public static final int UNKNOWN = -1;
@@ -105,7 +106,7 @@ public abstract class MTimerTask extends TimerTask implements ITimerTask {
                 return field.getInt(task);
             }
         } catch (Throwable t) {
-            MLogUtil.log().d("get status failed", task, t);
+           LOGGER.debug("get status failed for task {}", task, t);
         }
         return -1;
     }

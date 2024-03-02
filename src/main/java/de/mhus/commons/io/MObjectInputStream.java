@@ -22,21 +22,14 @@ import java.io.ObjectStreamClass;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Proxy;
 
-import de.mhus.lib.common.MActivator;
-import de.mhus.lib.common.MApi;
+import de.mhus.commons.MSystem;
 
 public class MObjectInputStream extends ObjectInputStream {
 
     private ClassLoader cl = null;
-    private MActivator act = null;
 
     public MObjectInputStream() throws IOException, SecurityException {
         super();
-    }
-
-    public MObjectInputStream(InputStream in, MActivator act) throws IOException {
-        super(in);
-        setActivator(act);
     }
 
     public MObjectInputStream(InputStream in, ClassLoader cl) throws IOException {
@@ -48,10 +41,6 @@ public class MObjectInputStream extends ObjectInputStream {
         super(in);
     }
 
-    public void setActivator(MActivator activator) {
-        act = activator;
-    }
-
     public void setClassLoader(ClassLoader cl) {
         this.cl = cl;
     }
@@ -61,13 +50,9 @@ public class MObjectInputStream extends ObjectInputStream {
             throws IOException, ClassNotFoundException {
         String name = desc.getName();
 
-        if (act == null && cl == null) {
-            act = MApi.get().lookup(MActivator.class); // load default activator
-        }
-
         try {
-            if (act != null) return act.loadClass(name);
-        } catch (ClassNotFoundException ex) {
+            if (cl != null) return MSystem.newInstance(cl, name);
+        } catch (Exception ex) {
         }
 
         try {

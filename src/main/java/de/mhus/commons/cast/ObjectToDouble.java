@@ -15,12 +15,11 @@
  */
 package de.mhus.commons.cast;
 
-import de.mhus.lib.common.logging.Log;
-import de.mhus.lib.common.util.Value;
+import de.mhus.commons.util.Value;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class ObjectToDouble implements Caster<Object, Double> {
-
-    private static final Log log = Log.getLog(ObjectToDouble.class);
 
     @Override
     public Class<? extends Double> getToClass() {
@@ -51,7 +50,7 @@ public class ObjectToDouble implements Caster<Object, Double> {
             if (ret != null) ret.setValue(r);
             return r;
         } catch (Throwable e) {
-            log.t("cast to double failed", in, e.toString());
+            LOGGER.trace("cast to double failed {}", in, e.toString());
         }
         return def;
     }

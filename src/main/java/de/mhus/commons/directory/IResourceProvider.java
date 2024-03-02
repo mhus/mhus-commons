@@ -18,7 +18,7 @@ package de.mhus.commons.directory;
 import java.io.InputStream;
 import java.net.URL;
 
-import de.mhus.lib.common.node.INode;
+import de.mhus.commons.node.INode;
 
 public interface IResourceProvider {
 

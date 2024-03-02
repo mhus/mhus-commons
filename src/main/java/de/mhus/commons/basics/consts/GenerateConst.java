@@ -13,7 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.mhus.lib.basics.consts;
+package de.mhus.commons.basics.consts;
+
+import de.mhus.commons.basics.consts.Identifier;
 
 import java.lang.annotation.Annotation;
 import java.lang.annotation.Retention;

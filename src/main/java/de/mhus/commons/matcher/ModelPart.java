@@ -17,11 +17,11 @@ package de.mhus.commons.matcher;
 
 import java.util.Map;
 
-import de.mhus.lib.basics.RC;
-import de.mhus.lib.common.parser.StringCompiler;
-import de.mhus.lib.common.parser.StringPart;
-import de.mhus.lib.errors.MException;
-import de.mhus.lib.errors.MRuntimeException;
+import de.mhus.commons.basics.RC;
+import de.mhus.commons.parser.StringCompiler;
+import de.mhus.commons.parser.StringPart;
+import de.mhus.commons.errors.MException;
+import de.mhus.commons.errors.MRuntimeException;
 
 public abstract class ModelPart {
 

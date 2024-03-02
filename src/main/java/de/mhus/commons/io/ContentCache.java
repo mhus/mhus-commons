@@ -23,17 +23,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import de.mhus.lib.common.MFile;
-import de.mhus.lib.common.node.INode;
-import de.mhus.lib.common.util.MObject;
-import de.mhus.lib.errors.MException;
+import de.mhus.commons.MFile;
+import de.mhus.commons.node.INode;
+import de.mhus.commons.errors.MException;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * TODO implement save write / read mechanism
  *
  * @author mikehummel
  */
-public class ContentCache extends MObject {
+@Slf4j
+public class ContentCache {
 
     private File root;
     private boolean saveWrite = false; // enable thread / process save write
@@ -51,7 +52,7 @@ public class ContentCache extends MObject {
         }
 
         if (root == null) {
-            log().w("cache disabled");
+            LOGGER.warn("cache disabled");
         }
     }
 
@@ -72,7 +73,7 @@ public class ContentCache extends MObject {
     public void doCache(String id, InputStream is) throws IOException {
         if (root == null || id == null) return;
         openLock();
-        log().d("cache", id);
+        LOGGER.debug("cache {}", id);
         File dir = getDir(id);
         if (!dir.exists()) dir.mkdirs();
         File file = getFile(dir, id);
@@ -93,7 +94,7 @@ public class ContentCache extends MObject {
 
     public InputStream getCached(String id) throws FileNotFoundException {
         if (root == null || id == null) return null;
-        log().d("load cached", id);
+        LOGGER.debug("load cached {}", id);
         File dir = getDir(id);
         if (!dir.exists()) dir.mkdirs();
         File file = getFile(dir, id);

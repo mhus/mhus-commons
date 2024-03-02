@@ -15,12 +15,11 @@
  */
 package de.mhus.commons.cast;
 
-import de.mhus.lib.common.logging.Log;
-import de.mhus.lib.common.util.Value;
+import de.mhus.commons.util.Value;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class ObjectToLong implements Caster<Object, Long> {
-
-    private static final Log log = Log.getLog(ObjectToLong.class);
 
     @Override
     public Class<? extends Long> getToClass() {
@@ -74,7 +73,7 @@ public class ObjectToLong implements Caster<Object, Long> {
             return r;
 
         } catch (Throwable e) {
-            log.t(ins, e.toString());
+            LOGGER.trace("Error: {}", ins, e.toString());
         }
         return def;
     }

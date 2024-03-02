@@ -40,9 +40,10 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
 
-import de.mhus.lib.common.logging.MLogUtil;
-import de.mhus.lib.common.util.SetCast;
+import de.mhus.commons.util.SetCast;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class MProperties extends AbstractProperties implements Externalizable {
 
     private static final long serialVersionUID = 1L;
@@ -173,7 +174,7 @@ public class MProperties extends AbstractProperties implements Externalizable {
                 p.load(is);
             }
         } catch (Throwable t) {
-            MLogUtil.log().d(fileName, t);
+            LOGGER.debug("Error: {}", fileName, t);
         }
         MProperties out = new MProperties(p);
         return out;
@@ -490,7 +491,7 @@ public class MProperties extends AbstractProperties implements Externalizable {
         try {
             p.load(is);
         } catch (Throwable t) {
-            MLogUtil.log().d(t);
+            LOGGER.debug("Error", t);
         }
         MProperties out = new MProperties(p);
         return out;
@@ -525,7 +526,7 @@ public class MProperties extends AbstractProperties implements Externalizable {
         try {
             store(new BufferedWriter(out), true, true);
         } catch (IOException e) {
-            log().e(e);
+            LOGGER.error("Error", e);
         }
         return out.toString();
     }
@@ -535,7 +536,7 @@ public class MProperties extends AbstractProperties implements Externalizable {
         try {
             store(new BufferedWriter(out), true, addDate);
         } catch (IOException e) {
-            log().e(e);
+            LOGGER.error("Error", e);
         }
         return out.toString();
     }

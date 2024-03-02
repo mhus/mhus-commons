@@ -15,12 +15,11 @@
  */
 package de.mhus.commons.cast;
 
-import de.mhus.lib.common.logging.Log;
-import de.mhus.lib.common.util.Value;
+import de.mhus.commons.util.Value;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class ObjectToFloat implements Caster<Object, Float> {
-
-    private static final Log log = Log.getLog(ObjectToFloat.class);
 
     @Override
     public Class<? extends Float> getToClass() {
@@ -51,7 +50,7 @@ public class ObjectToFloat implements Caster<Object, Float> {
             if (ret != null) ret.setValue(r);
             return r;
         } catch (Throwable e) {
-            log.t("cast to float failed", in, e.toString());
+            LOGGER.trace("cast to float failed {}", in, e.toString());
         }
         return def;
     }

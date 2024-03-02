@@ -28,10 +28,10 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
-import de.mhus.lib.basics.RC;
-import de.mhus.lib.common.MXml;
-import de.mhus.lib.errors.MException;
-import de.mhus.lib.errors.TooDeepStructuresException;
+import de.mhus.commons.basics.RC;
+import de.mhus.commons.MXml;
+import de.mhus.commons.errors.MException;
+import de.mhus.commons.errors.TooDeepStructuresException;
 
 public class XmlNodeBuilder extends INodeBuilder {
 

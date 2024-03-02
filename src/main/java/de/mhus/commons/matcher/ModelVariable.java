@@ -17,8 +17,8 @@ package de.mhus.commons.matcher;
 
 import java.util.Map;
 
-import de.mhus.lib.basics.RC;
-import de.mhus.lib.errors.MRuntimeException;
+import de.mhus.commons.basics.RC;
+import de.mhus.commons.errors.MRuntimeException;
 
 public class ModelVariable extends ModelPattern {
 

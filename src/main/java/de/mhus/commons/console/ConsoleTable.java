@@ -29,11 +29,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import de.mhus.lib.common.IProperties;
-import de.mhus.lib.common.MDate;
-import de.mhus.lib.common.MProperties;
-import de.mhus.lib.common.MString;
-import de.mhus.lib.common.util.Value;
+import de.mhus.commons.IProperties;
+import de.mhus.commons.MDate;
+import de.mhus.commons.MProperties;
+import de.mhus.commons.MString;
+import de.mhus.commons.util.Value;
 
 public class ConsoleTable {
 

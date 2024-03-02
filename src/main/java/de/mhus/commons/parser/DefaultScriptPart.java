@@ -15,6 +15,8 @@
  */
 package de.mhus.commons.parser;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.Map;
 
 import javax.script.Bindings;
@@ -23,9 +25,8 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
-import de.mhus.lib.common.util.MObject;
-
-public class DefaultScriptPart extends MObject implements StringPart {
+@Slf4j
+public class DefaultScriptPart implements StringPart {
 
     private String part;
     ScriptEngineManager manager = new ScriptEngineManager();
@@ -49,7 +50,7 @@ public class DefaultScriptPart extends MObject implements StringPart {
                 out.append(ret);
             }
         } catch (ScriptException e) {
-            log().d("script execution failed", e, part);
+            LOGGER.debug("script execution failed {}", part, e);
         }
     }
 

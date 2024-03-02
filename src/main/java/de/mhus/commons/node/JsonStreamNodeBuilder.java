@@ -29,9 +29,9 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 
-import de.mhus.lib.basics.RC;
-import de.mhus.lib.common.util.NullValue;
-import de.mhus.lib.errors.MException;
+import de.mhus.commons.basics.RC;
+import de.mhus.commons.util.NullValue;
+import de.mhus.commons.errors.MException;
 
 public class JsonStreamNodeBuilder extends INodeBuilder {
 

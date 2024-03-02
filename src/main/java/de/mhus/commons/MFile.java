@@ -49,21 +49,19 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.TimeoutException;
 
-import de.mhus.lib.common.cfg.CfgProperties;
-import de.mhus.lib.common.io.FileChecker;
-import de.mhus.lib.common.io.PdfFileChecker;
-import de.mhus.lib.common.logging.Log;
-import de.mhus.lib.common.logging.MLogUtil;
-import de.mhus.lib.common.util.IObserver;
-import de.mhus.lib.common.util.MUri;
+import de.mhus.commons.io.FileChecker;
+import de.mhus.commons.io.PdfFileChecker;
+import de.mhus.commons.util.IObserver;
+import de.mhus.commons.util.MUri;
+import lombok.extern.slf4j.Slf4j;
 
 /** @author hummel */
+@Slf4j
 public class MFile {
 
     public static final String DEFAULT_MIME = "text/plain";
     //	private static ResourceNode<?> mimeConfigCache;
     private static Properties mhuMimeConfigCache;
-    private static Log log = Log.getLog(MFile.class);
 
     public static final String TYPE_PDF = "pdf";
     private static final int MAX_LEVELS = 100;
@@ -100,7 +98,7 @@ public class MFile {
         try {
             Files.setPosixFilePermissions(file.toPath(), permissions);
         } catch (IOException e) {
-            log.d("set unix permissions failed", file, permissionsStr, e);
+            LOGGER.debug("set unix permissions failed {} {}", file, permissionsStr, e);
             return false;
         }
         return true;
@@ -117,7 +115,7 @@ public class MFile {
             Set<PosixFilePermission> permissions = Files.getPosixFilePermissions(file.toPath());
             return PosixFilePermissions.toString(permissions);
         } catch (IOException e) {
-            log.d("get unix permissions failed", file, e);
+            LOGGER.debug("get unix permissions failed {}", file, e);
         }
         return null;
     }
@@ -236,7 +234,7 @@ public class MFile {
             fis.close();
             return ret;
         } catch (Exception e) {
-            log.d("read file failed", _f, e);
+            LOGGER.debug("read file failed {}", _f, e);
         }
         return null;
     }
@@ -262,7 +260,7 @@ public class MFile {
             }
         } catch (EOFException eofe) {
         } catch (Exception e) {
-            log.d(e);
+            LOGGER.debug("Error", e);
         }
 
         return sb.toString();
@@ -288,7 +286,7 @@ public class MFile {
             String ret = readFile(fr);
             return ret;
         } catch (Exception e) {
-            log.d(e);
+            LOGGER.debug("Error", e);
         }
         return null;
     }
@@ -404,7 +402,7 @@ public class MFile {
             osw.flush();
             osw.close();
         } catch (Exception e) {
-            log.d("write file failed", _f, e);
+            LOGGER.debug("write file failed {}", _f, e);
             return false;
         }
 
@@ -423,7 +421,7 @@ public class MFile {
                 osw.flush();
             }
         } catch (Exception e) {
-            log.d(e);
+            LOGGER.debug("Error", e);
             return false;
         }
 
@@ -445,7 +443,7 @@ public class MFile {
             if (_content != null) writeFile(fos, _content, 0, _content.length);
             fos.close();
         } catch (Exception e) {
-            log.d("write file failed", _f, e);
+            LOGGER.debug("write file failed {}", _f, e);
             return false;
         }
 
@@ -492,7 +490,7 @@ public class MFile {
             fis.close();
             fos.close();
         } catch (Exception e) {
-            log.d("copy file failed", _src, _dest, e);
+            LOGGER.debug("copy file failed {} {}", _src, _dest, e);
             return -4;
         }
         return size;
@@ -525,7 +523,7 @@ public class MFile {
                 }
             }
         } catch (Exception e) {
-            log.d(e);
+            LOGGER.debug("Error", e);
         }
         return size;
     }
@@ -556,7 +554,7 @@ public class MFile {
                     size += i;
                 }
         } catch (Exception e) {
-            log.d(e);
+            LOGGER.debug("Error", e);
         }
         return size;
     }
@@ -745,8 +743,6 @@ public class MFile {
         return MString.beforeLastIndex(name, '.') + "." + newExtension;
     }
 
-    private static CfgProperties mimeProperties = new CfgProperties(MFile.class, "mime");
-
     /**
      * Searching for the mime type in config and as last option have a static list of extensions.
      *
@@ -775,17 +771,9 @@ public class MFile {
         if (MString.isIndex(extension, '.')) extension = MString.afterLastIndex(extension, '.');
 
         String mime = null;
-        try {
-            if (mimeProperties.value() != null)
-                mime = mimeProperties.value().getString(extension, null);
-        } catch (Throwable t) {
-        }
-
-        if (mime == null) {
-            loadMimeTypes();
-            if (mhuMimeConfigCache != null) {
-                mime = mhuMimeConfigCache.getProperty(extension, null);
-            }
+        loadMimeTypes();
+        if (mhuMimeConfigCache != null) {
+            mime = mhuMimeConfigCache.getProperty(extension, null);
         }
 
         if (mime == null) mime = def;
@@ -799,7 +787,7 @@ public class MFile {
                 mhuMimeConfigCache = new Properties();
                 MSystem.loadProperties(MFile.class, mhuMimeConfigCache, "mime-types.properties");
             } catch (Exception e) {
-                MLogUtil.log().t(e);
+                LOGGER.trace("Error", e);
             }
         }
     }
@@ -989,7 +977,7 @@ public class MFile {
             lock.close();
             channel.close();
         } catch (IOException e) {
-            log.d(e);
+            LOGGER.debug("Error", e);
         }
     }
 

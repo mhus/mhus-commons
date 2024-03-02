@@ -21,8 +21,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import de.mhus.lib.common.IReadProperties;
-import de.mhus.lib.common.MXml;
+import de.mhus.commons.IReadProperties;
+import de.mhus.commons.MXml;
 
 /*
 <text:user-field-decls>

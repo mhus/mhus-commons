@@ -20,9 +20,9 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
-import de.mhus.lib.common.MFile;
-import de.mhus.lib.common.MString;
-import de.mhus.lib.common.crypt.MCrypt;
+import de.mhus.commons.MFile;
+import de.mhus.commons.MString;
+import de.mhus.commons.crypt.MCrypt;
 
 public class SecureString implements Externalizable {
 

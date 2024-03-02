@@ -24,12 +24,12 @@ import java.util.UUID;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import de.mhus.lib.basics.consts.Identifier;
-import de.mhus.lib.common.logging.Log;
-import de.mhus.lib.common.pojo.MPojo;
-import de.mhus.lib.common.util.EmptyList;
-import de.mhus.lib.common.util.EnumerationIterator;
-import de.mhus.lib.common.util.Iterate;
+
+import de.mhus.commons.basics.consts.Identifier;
+import de.mhus.commons.pojo.MPojo;
+import de.mhus.commons.util.EmptyList;
+import de.mhus.commons.util.EnumerationIterator;
+import de.mhus.commons.util.Iterate;
 
 /**
  * This is a shortcut class to call methods without obfuscating the source code. For some reasons
@@ -228,27 +228,6 @@ public class M {
     }
 
     /**
-     * M.l()
-     *
-     * @param class1
-     * @return the service
-     */
-    public static <T> T l(Class<T> class1) {
-        return MApi.lookup(class1);
-    }
-
-    /**
-     * M.l()
-     *
-     * @param class1
-     * @param def
-     * @return the service
-     */
-    public static <T, D extends T> T l(Class<T> class1, Class<D> def) {
-        return MApi.lookup(class1, def);
-    }
-
-    /**
      * Return the node value as string or default.
      *
      * @param node
@@ -258,21 +237,6 @@ public class M {
      */
     public static String get(JsonNode node, String path, String def) {
         return MJson.getText(node, path, def);
-    }
-
-    /**
-     * Fast access to logger.
-     *
-     * @param owner
-     * @return a log instance for the owner
-     */
-    public static Log log(Object owner) {
-        try {
-            return MApi.get().lookupLog(owner);
-        } catch (Throwable t) {
-            t.printStackTrace();
-            throw t;
-        }
     }
 
     public static <E> Iterable<E> iterate(Iterator<E> iterator) {

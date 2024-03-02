@@ -20,21 +20,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.http.Consts;
-import org.apache.http.Header;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
-import org.apache.http.message.BasicNameValuePair;
-
-import de.mhus.lib.common.IProperties;
-import de.mhus.lib.common.MCast;
-import de.mhus.lib.common.MFile;
+import de.mhus.commons.MFile;
 
 public class MHttp {
 
@@ -113,60 +99,12 @@ public class MHttp {
         PATCH
     }
 
-    private static MHttpClientBuilder client;
-
     public static METHOD toMethod(String in) {
         return METHOD.valueOf(in.trim().toUpperCase());
     }
 
     public static String getContentType(String extension) {
         return MFile.getMimeType(extension);
-    }
-
-    /**
-     * Provide a central http client for common use. It will be configured with system proxy and
-     * usual parameters
-     *
-     * @return the shared configured http client
-     */
-    public static synchronized HttpClient getSharedClient() {
-        if (client == null) {
-            client =
-                    new MHttpClientBuilder() {
-                        @Override
-                        protected void configureConnectionManager(HttpClientBuilder build) {
-                            super.configureConnectionManager(build);
-                            ((PoolingHttpClientConnectionManager) connManager).setMaxTotal(10000);
-                            ((PoolingHttpClientConnectionManager) connManager)
-                                    .setDefaultMaxPerRoute(10000);
-                        }
-                    };
-            // TODO use als mhus-config configuration for proxy and other configurations
-            client.setUseSystemProperties(true);
-        }
-        client.cleanup();
-        return client.getHttpClient();
-    }
-
-    public static void setFormParameters(HttpPost action, String... values) {
-        List<NameValuePair> formparams = new ArrayList<NameValuePair>();
-        for (int i = 0; i < values.length; i = i + 2) {
-            formparams.add(new BasicNameValuePair(values[i], values[i + 1]));
-        }
-
-        UrlEncodedFormEntity entity = new UrlEncodedFormEntity(formparams, Consts.UTF_8);
-        action.setEntity(entity);
-    }
-
-    public static void setFormParameters(HttpPost action, IProperties params) {
-        List<NameValuePair> formparams = new ArrayList<NameValuePair>();
-        params.forEach(
-                e ->
-                        formparams.add(
-                                new BasicNameValuePair(e.getKey(), MCast.toString(e.getValue()))));
-
-        UrlEncodedFormEntity entity = new UrlEncodedFormEntity(formparams, Consts.UTF_8);
-        action.setEntity(entity);
     }
 
     /**
@@ -189,11 +127,4 @@ public class MHttp {
         return def;
     }
 
-    public static String getHeader(HttpResponse response, String name, String def) {
-        if (response == null) return def;
-        Header[] header = response.getHeaders(name);
-        if (header == null | header.length == 0) return def;
-
-        return header[0].getValue();
-    }
 }

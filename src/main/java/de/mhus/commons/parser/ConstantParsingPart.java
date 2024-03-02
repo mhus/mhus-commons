@@ -17,8 +17,8 @@ package de.mhus.commons.parser;
 
 import java.util.Map;
 
-import de.mhus.lib.common.MString;
-import de.mhus.lib.common.MSystem;
+import de.mhus.commons.MString;
+import de.mhus.commons.MSystem;
 
 /**
  * A default implementation to parse and hold a constant string value.

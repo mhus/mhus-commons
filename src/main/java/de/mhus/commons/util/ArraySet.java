@@ -19,7 +19,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
 
-import de.mhus.lib.basics.ReadOnly;
+import de.mhus.commons.basics.ReadOnly;
 
 public class ArraySet<T> implements Set<T>, ReadOnly {
 

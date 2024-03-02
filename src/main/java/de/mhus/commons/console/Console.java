@@ -22,10 +22,10 @@ import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.util.LinkedList;
 
-import de.mhus.lib.annotations.activator.DefaultImplementation;
-import de.mhus.lib.basics.Adaptable;
-import de.mhus.lib.common.M;
-import de.mhus.lib.errors.NotSupportedException;
+import de.mhus.commons.annotations.activator.DefaultImplementation;
+import de.mhus.commons.basics.Adaptable;
+import de.mhus.commons.M;
+import de.mhus.commons.errors.NotSupportedException;
 
 @DefaultImplementation(SimpleConsole.class)
 public abstract class Console extends PrintStream implements Adaptable {
@@ -78,7 +78,7 @@ public abstract class Console extends PrintStream implements Adaptable {
 
         Console console = consoles.get();
         if (console == null) {
-            ConsoleFactory factory = M.l(ConsoleFactory.class);
+            ConsoleFactory factory = new DefaultConsoleFactory();
             console = factory.create();
             consoles.set(console);
         }

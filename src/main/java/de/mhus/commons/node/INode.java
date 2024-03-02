@@ -22,18 +22,19 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
 
-import de.mhus.lib.basics.RC;
-import de.mhus.lib.common.IProperties;
-import de.mhus.lib.common.MString;
-import de.mhus.lib.common.MXml;
-import de.mhus.lib.common.logging.MLogUtil;
-import de.mhus.lib.common.util.MUri;
-import de.mhus.lib.errors.MException;
-import de.mhus.lib.errors.MRuntimeException;
-import de.mhus.lib.errors.NotFoundException;
-import de.mhus.lib.errors.TooDeepStructuresException;
+import de.mhus.commons.basics.RC;
+import de.mhus.commons.IProperties;
+import de.mhus.commons.MString;
+import de.mhus.commons.MXml;
+import de.mhus.commons.util.MUri;
+import de.mhus.commons.errors.MException;
+import de.mhus.commons.errors.MRuntimeException;
+import de.mhus.commons.errors.NotFoundException;
+import de.mhus.commons.errors.TooDeepStructuresException;
 
 /**
  * A INode extends the concept of properties to a object oriented structure. A property can also be
@@ -44,6 +45,8 @@ import de.mhus.lib.errors.TooDeepStructuresException;
  * @author mikehummel
  */
 public interface INode extends IProperties {
+
+    static Logger LOGGER = LoggerFactory.getLogger(INode.class);
 
     public static final String NAMELESS_VALUE = "";
     public static final String VALUE = "value";
@@ -309,7 +312,7 @@ public interface INode extends IProperties {
         try {
             fillIn.readSerializabledNode(node);
         } catch (Exception e) {
-            MLogUtil.log().d("serialization of {1} failed", node, e);
+            LOGGER.debug("serialization of {} failed", node, e);
             return null;
         }
         return fillIn;
@@ -328,7 +331,7 @@ public interface INode extends IProperties {
         try {
             fillIn.readSerializabledNode(node);
         } catch (Exception e) {
-            MLogUtil.log().d("serialization of {1} failed", node, e);
+            LOGGER.debug("serialization of {} failed", node, e);
             return null;
         }
         return fillIn;

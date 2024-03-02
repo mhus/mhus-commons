@@ -20,17 +20,19 @@
 
 	<modelVersion>4.0.0</modelVersion>
     <version>8.0.0-SNAPSHOT</version>
-	<artifactId>mhus-lib</artifactId>
+	<artifactId>mhus-commons</artifactId>
 	<groupId>de.mhus.lib</groupId>
 	<packaging>jar</packaging>
 	<description>Library with useful tools to write java programms</description>
 	<url>http://www.mhus.link</url>
-	<name>mhus-lib</name>
+	<name>mhus-commons</name>
     
     <properties>
+		<maven.java.version>21</maven.java.version>
 		<jline.version>3.19.0</jline.version>
 		<jackson.version>2.12.3</jackson.version>
 		<snakeyaml.version>1.26</snakeyaml.version>
+		<bouncycastle.version>1.70</bouncycastle.version>
 	</properties>
     
     <inceptionYear>2002</inceptionYear>
@@ -89,6 +91,27 @@
 				<groupId>com.mycila</groupId>
 				<artifactId>license-maven-plugin</artifactId>
 			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.11.0</version>
+				<configuration>
+					<source>${maven.java.version}</source>
+					<target>${maven.java.version}</target>
+					<annotationProcessorPaths>
+						<annotationProcessorPath>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+							<version>1.18.30</version>
+						</annotationProcessorPath>
+					</annotationProcessorPaths>
+					<compilerArgs>
+						<arg>-parameters</arg>
+					</compilerArgs>
+				</configuration>
+			</plugin>
+
 		</plugins>
 
 	</build>
@@ -109,6 +132,22 @@
 			<groupId>org.yaml</groupId>
 			<artifactId>snakeyaml</artifactId>
 			<version>${snakeyaml.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.30</version>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>2.0.7</version>
+		</dependency>
+		<dependency>
+			<artifactId>bcprov-jdk15on</artifactId>
+			<groupId>org.bouncycastle</groupId>
+			<version>${bouncycastle.version}</version>
 		</dependency>
 
      </dependencies>

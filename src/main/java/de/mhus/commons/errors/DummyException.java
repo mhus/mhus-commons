@@ -15,7 +15,7 @@
  */
 package de.mhus.commons.errors;
 
-import de.mhus.lib.common.basics.RC;
+import de.mhus.commons.basics.RC;
 
 public class DummyException extends MException {
 

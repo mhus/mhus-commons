@@ -19,9 +19,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import de.mhus.lib.common.MString;
-import de.mhus.lib.common.MSystem;
-import de.mhus.lib.errors.MException;
+import de.mhus.commons.MString;
+import de.mhus.commons.MSystem;
+import de.mhus.commons.errors.MException;
 
 public class StringCompiler implements Parser {
 

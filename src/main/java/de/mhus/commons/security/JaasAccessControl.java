@@ -19,7 +19,7 @@ import javax.security.auth.Subject;
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
 
-import de.mhus.lib.common.IProperties;
+import de.mhus.commons.IProperties;
 
 public class JaasAccessControl implements AccessControl {
 

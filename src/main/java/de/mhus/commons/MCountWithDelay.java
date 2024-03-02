@@ -15,9 +15,9 @@
  */
 package de.mhus.commons;
 
-import de.mhus.lib.annotations.jmx.JmxManaged;
+import lombok.extern.slf4j.Slf4j;
 
-@JmxManaged(descrition = "Counter with delay")
+@Slf4j
 public class MCountWithDelay extends MCount {
 
     private long sleepInterval = 0;
@@ -32,22 +32,18 @@ public class MCountWithDelay extends MCount {
         super(name);
     }
 
-    @JmxManaged(descrition = "Get the interval")
     public long getSleepInterval() {
         return sleepInterval;
     }
 
-    @JmxManaged(descrition = "Set the interval after it will sleeping")
     public void setSleepInterval(long sleepInterval) {
         this.sleepInterval = sleepInterval;
     }
 
-    @JmxManaged(descrition = "Get the seconds to sleep each interval")
     public int getSleepSeconds() {
         return sleepSeconds;
     }
 
-    @JmxManaged(descrition = "Set the seconds to sleep each interval")
     public void setSleepSeconds(int sleepSeconds) {
         this.sleepSeconds = sleepSeconds;
     }
@@ -62,19 +58,15 @@ public class MCountWithDelay extends MCount {
         }
         if (isClosed) return;
         if (sleepInterval > 0 && sleepSeconds > 0 && cnt % sleepInterval == 0) {
-            log().d(getName(), "Sleep", sleepSeconds);
+            LOGGER.debug("Sleep {} {}",getName(),  sleepSeconds);
             MThread.sleep(sleepSeconds * 1000);
         }
     }
 
-    @JmxManaged(
-            descrition = "Should the counter create and throw a RunntimeException() on next count")
     public boolean isThrowExceptionOnNextCount() {
         return throwExceptionOnNextCount;
     }
 
-    @JmxManaged(
-            descrition = "Should the counter create and throw a RunntimeException() on next count")
     public void setThrowExceptionOnNextCount(boolean throwExceptionOnNextCount) {
         this.throwExceptionOnNextCount = throwExceptionOnNextCount;
     }

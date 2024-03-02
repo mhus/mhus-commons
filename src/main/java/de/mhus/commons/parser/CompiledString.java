@@ -18,7 +18,7 @@ package de.mhus.commons.parser;
 import java.util.LinkedList;
 import java.util.Map;
 
-import de.mhus.lib.errors.MException;
+import de.mhus.commons.errors.MException;
 
 /**
  * Parsed and tree representated compiled variant of the original string. This is used to output the

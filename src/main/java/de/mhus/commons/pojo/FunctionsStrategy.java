@@ -19,12 +19,13 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
-import de.mhus.lib.annotations.generic.Public;
-import de.mhus.lib.annotations.pojo.Embedded;
-import de.mhus.lib.common.MSystem;
-import de.mhus.lib.common.util.MObject;
+import de.mhus.commons.annotations.generic.Public;
+import de.mhus.commons.annotations.pojo.Embedded;
+import de.mhus.commons.MSystem;
+import lombok.extern.slf4j.Slf4j;
 
-public class FunctionsStrategy extends MObject implements PojoStrategy {
+@Slf4j
+public class FunctionsStrategy implements PojoStrategy {
 
     private boolean embedded;
     private boolean toLower = true;
@@ -157,7 +158,7 @@ public class FunctionsStrategy extends MObject implements PojoStrategy {
                     }
                 }
             } catch (Exception e) {
-                log().d(e);
+                LOGGER.error("Error", e);
             }
         }
     }

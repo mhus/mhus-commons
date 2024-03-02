@@ -17,16 +17,15 @@ package de.mhus.commons.io;
 
 import java.io.File;
 
-import de.mhus.lib.common.MFile;
-import de.mhus.lib.common.MLog;
-import de.mhus.lib.common.MString;
+import de.mhus.commons.MFile;
+import de.mhus.commons.MString;
 
 /**
  * For simple pdf content checking.
  *
  * @author markus hahn
  */
-public class PdfChecker extends MLog {
+public class PdfChecker {
 
     /**
      * checks for suspicious contents

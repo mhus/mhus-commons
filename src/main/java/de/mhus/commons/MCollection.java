@@ -35,11 +35,11 @@ import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import de.mhus.lib.basics.RC;
-import de.mhus.lib.common.util.EmptyList;
-import de.mhus.lib.common.util.EmptySet;
-import de.mhus.lib.common.util.ReadOnlyList;
-import de.mhus.lib.errors.MRuntimeException;
+import de.mhus.commons.basics.RC;
+import de.mhus.commons.util.EmptyList;
+import de.mhus.commons.util.EmptySet;
+import de.mhus.commons.util.ReadOnlyList;
+import de.mhus.commons.errors.MRuntimeException;
 
 public class MCollection {
 

@@ -23,20 +23,20 @@ import java.util.List;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import de.mhus.lib.common.MActivator;
-import de.mhus.lib.common.MApi;
-import de.mhus.lib.common.MJson;
-import de.mhus.lib.common.node.INode;
-import de.mhus.lib.common.node.NodeList;
-import de.mhus.lib.common.node.NodeSerializable;
-import de.mhus.lib.common.pojo.MPojo;
-import de.mhus.lib.errors.NotFoundRuntimeException;
+import de.mhus.commons.MJson;
+import de.mhus.commons.MSystem;
+import de.mhus.commons.node.INode;
+import de.mhus.commons.node.NodeList;
+import de.mhus.commons.node.NodeSerializable;
+import de.mhus.commons.pojo.MPojo;
+import de.mhus.commons.errors.NotFoundRuntimeException;
 
 public class TableRow implements Serializable, NodeSerializable {
 
     private static final long serialVersionUID = 1L;
     LinkedList<Object> data = new LinkedList<>();
     private Table table;
+    private ClassLoader cl = Thread.currentThread().getContextClassLoader();
 
     public List<Object> getData() {
         return data;
@@ -75,7 +75,7 @@ public class TableRow implements Serializable, NodeSerializable {
                 String clazzName = in.readUTF();
                 Object obj;
                 try {
-                    obj = MApi.get().lookup(MActivator.class).createObject(clazzName);
+                    obj = MSystem.newInstance(cl, clazzName);
                 } catch (Exception e) {
                     throw new IOException(e);
                 }

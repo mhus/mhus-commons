@@ -15,12 +15,15 @@
  */
 package de.mhus.commons;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.WeakHashMap;
 
-public class MEventHandler<L> extends MLog implements IRegistry<L> {
+@Slf4j
+public class MEventHandler<L> implements IRegistry<L> {
 
     private HashMap<L, String> listeners = new HashMap<L, String>();
     private WeakHashMap<L, String> weak = new WeakHashMap<L, String>();
@@ -163,7 +166,7 @@ public class MEventHandler<L> extends MLog implements IRegistry<L> {
                 onFire((L) obj, event, values);
                 //				method.invoke(obj, values);
             } catch (Throwable t) {
-                log().d("fire of event {2} failed", obj, event, values);
+                LOGGER.debug("fire of event {} with {} failed", obj, event, values);
             }
         }
     }
@@ -173,7 +176,7 @@ public class MEventHandler<L> extends MLog implements IRegistry<L> {
             try {
                 method.invoke(obj, values);
             } catch (Throwable t) {
-                log().d("fire of event {2} failed", obj, method, values, t);
+                LOGGER.debug("fire of event failed {} {} {}", obj, method, values, t);
             }
         }
     }

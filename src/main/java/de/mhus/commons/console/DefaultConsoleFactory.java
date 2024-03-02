@@ -15,9 +15,10 @@
  */
 package de.mhus.commons.console;
 
-import de.mhus.lib.common.MSystem;
-import de.mhus.lib.common.logging.MLogUtil;
+import de.mhus.commons.MSystem;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class DefaultConsoleFactory implements ConsoleFactory {
 
     @Override
@@ -35,7 +36,7 @@ public class DefaultConsoleFactory implements ConsoleFactory {
                 if (term.indexOf("ansi") >= 0) return new ANSIConsole();
             }
         } catch (Throwable t) {
-            MLogUtil.log().d(t);
+            LOGGER.debug("Error",t);
         }
         return new SimpleConsole();
     }

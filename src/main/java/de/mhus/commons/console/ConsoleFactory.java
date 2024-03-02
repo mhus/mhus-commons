@@ -15,7 +15,7 @@
  */
 package de.mhus.commons.console;
 
-import de.mhus.lib.annotations.activator.DefaultImplementation;
+import de.mhus.commons.annotations.activator.DefaultImplementation;
 
 @DefaultImplementation(DefaultConsoleFactory.class)
 public interface ConsoleFactory {

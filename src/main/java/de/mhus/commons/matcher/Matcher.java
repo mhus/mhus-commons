@@ -15,12 +15,12 @@
  */
 package de.mhus.commons.matcher;
 
-import de.mhus.lib.common.MValidator;
-import de.mhus.lib.common.matcher.ModelPattern.CONDITION;
-import de.mhus.lib.common.parser.StringTokenizerParser;
-import de.mhus.lib.common.parser.TechnicalStringParser;
-import de.mhus.lib.errors.MException;
-import de.mhus.lib.errors.SyntaxError;
+import de.mhus.commons.MValidator;
+import de.mhus.commons.matcher.ModelPattern.CONDITION;
+import de.mhus.commons.parser.StringTokenizerParser;
+import de.mhus.commons.parser.TechnicalStringParser;
+import de.mhus.commons.errors.MException;
+import de.mhus.commons.errors.SyntaxError;
 
 /**
  * Matches a single value against a condition. The Matcher will compile the condition and speedup if

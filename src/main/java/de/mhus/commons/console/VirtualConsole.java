@@ -21,8 +21,8 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.LinkedList;
 
-import de.mhus.lib.common.io.PipedStream;
-import de.mhus.lib.common.io.TextReader;
+import de.mhus.commons.io.PipedStream;
+import de.mhus.commons.io.TextReader;
 
 public class VirtualConsole extends Console {
 

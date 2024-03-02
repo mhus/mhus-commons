@@ -19,18 +19,16 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
 
-import de.mhus.lib.basics.RC;
-import de.mhus.lib.common.crypt.AsyncKey;
-import de.mhus.lib.common.crypt.MCrypt;
-import de.mhus.lib.common.crypt.MRandom;
-import de.mhus.lib.common.crypt.Rot13;
-import de.mhus.lib.common.io.TextReader;
-import de.mhus.lib.common.keychain.KeyEntry;
-import de.mhus.lib.common.keychain.MKeychain;
-import de.mhus.lib.common.keychain.MKeychainUtil;
-import de.mhus.lib.common.util.SecureString;
-import de.mhus.lib.errors.MRuntimeException;
-import de.mhus.lib.errors.UsageException;
+import de.mhus.commons.basics.RC;
+import de.mhus.commons.crypt.AsyncKey;
+import de.mhus.commons.crypt.DefaultRandom;
+import de.mhus.commons.crypt.MCrypt;
+import de.mhus.commons.crypt.MRandom;
+import de.mhus.commons.crypt.Rot13;
+import de.mhus.commons.io.TextReader;
+import de.mhus.commons.util.SecureString;
+import de.mhus.commons.errors.MRuntimeException;
+import de.mhus.commons.errors.UsageException;
 
 /**
  * Decode / Encode passwords. Attention: This do not give security in any way. It's only a way to
@@ -95,16 +93,17 @@ public class MPassword {
                 return PREFIX_DUMMY;
             case ROT13:
                 return PREFIX_ROT13 + Rot13.encode(in);
-            case RSA:
-                MKeychain vault = MKeychainUtil.loadDefault();
-                KeyEntry entry = vault.getEntry(UUID.fromString(secret));
-                if (entry == null) throw new MRuntimeException(RC.ERROR, "key not found", secret);
-                try {
-                    AsyncKey key = MKeychainUtil.adaptTo(entry, AsyncKey.class);
-                    return PREFIX_RSA + entry.getId() + ":" + MCrypt.encodeWithSalt(key, in);
-                } catch (Exception e) {
-                    throw new MRuntimeException(RC.STATUS.ERROR, e);
-                }
+                //XXX
+//            case RSA:
+//                MKeychain vault = MKeychainUtil.loadDefault();
+//                KeyEntry entry = vault.getEntry(UUID.fromString(secret));
+//                if (entry == null) throw new MRuntimeException(RC.ERROR, "key not found", secret);
+//                try {
+//                    AsyncKey key = MKeychainUtil.adaptTo(entry, AsyncKey.class);
+//                    return PREFIX_RSA + entry.getId() + ":" + MCrypt.encodeWithSalt(key, in);
+//                } catch (Exception e) {
+//                    throw new MRuntimeException(RC.STATUS.ERROR, e);
+//                }
             case HASH_MD5:
                 return PREFIX_HASH_MD5 + encodePasswordMD5(secret);
             default:
@@ -131,22 +130,23 @@ public class MPassword {
         if (in == null) return null;
         if (!isEncoded(in)) return in;
         if (in.startsWith(PREFIX_ROT13)) return Rot13.decode(in.substring(3));
-        if (in.startsWith(PREFIX_RSA)) {
-            in = in.substring(3);
-            int p = in.indexOf(':');
-            if (p < 0) throw new UsageException("key id not found");
-            String keyId = in.substring(0, p);
-            in = in.substring(p + 1);
-            MKeychain vault = MKeychainUtil.loadDefault();
-            KeyEntry entry = vault.getEntry(UUID.fromString(keyId));
-            if (entry == null) throw new MRuntimeException(RC.ERROR, "key not found", keyId);
-            try {
-                AsyncKey key = MKeychainUtil.adaptTo(entry, AsyncKey.class);
-                return MCrypt.decodeWithSalt(key, in);
-            } catch (Exception e) {
-                throw new MRuntimeException(RC.STATUS.ERROR, e);
-            }
-        }
+        // XXX
+//        if (in.startsWith(PREFIX_RSA)) {
+//            in = in.substring(3);
+//            int p = in.indexOf(':');
+//            if (p < 0) throw new UsageException("key id not found");
+//            String keyId = in.substring(0, p);
+//            in = in.substring(p + 1);
+//            MKeychain vault = MKeychainUtil.loadDefault();
+//            KeyEntry entry = vault.getEntry(UUID.fromString(keyId));
+//            if (entry == null) throw new MRuntimeException(RC.ERROR, "key not found", keyId);
+//            try {
+//                AsyncKey key = MKeychainUtil.adaptTo(entry, AsyncKey.class);
+//                return MCrypt.decodeWithSalt(key, in);
+//            } catch (Exception e) {
+//                throw new MRuntimeException(RC.STATUS.ERROR, e);
+//            }
+//        }
         if (in.startsWith(PREFIX_DUMMY))
             throw new MRuntimeException(RC.ERROR, "try to encode a dummy password");
         if (in.startsWith(PREFIX_SPECIAL1)) {
@@ -274,7 +274,7 @@ public class MPassword {
     }
 
     private static synchronized MRandom getRandom() {
-        if (random == null) random = M.l(MRandom.class);
+        if (random == null) random = new DefaultRandom();
         return random;
     }
 

@@ -20,7 +20,7 @@ import java.io.FileFilter;
 import java.util.Arrays;
 import java.util.Iterator;
 
-import de.mhus.lib.common.util.FlatteningIterator;
+import de.mhus.commons.util.FlatteningIterator;
 
 /**
  * Iterates over all non-directory files contained in some subdirectory of the current one.

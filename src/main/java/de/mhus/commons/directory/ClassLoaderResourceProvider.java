@@ -19,12 +19,12 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
 
-import de.mhus.lib.common.MCollection;
-import de.mhus.lib.common.MString;
-import de.mhus.lib.common.MSystem;
-import de.mhus.lib.common.node.INode;
-import de.mhus.lib.common.node.MNode;
-import de.mhus.lib.common.node.NodeList;
+import de.mhus.commons.MCollection;
+import de.mhus.commons.MString;
+import de.mhus.commons.MSystem;
+import de.mhus.commons.node.INode;
+import de.mhus.commons.node.MNode;
+import de.mhus.commons.node.NodeList;
 
 public class ClassLoaderResourceProvider extends MResourceProvider {
 

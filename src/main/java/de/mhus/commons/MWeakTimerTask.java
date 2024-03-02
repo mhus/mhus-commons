@@ -31,7 +31,7 @@ package de.mhus.commons;
 import java.lang.ref.WeakReference;
 import java.util.TimerTask;
 
-import de.mhus.lib.basics.Named;
+import de.mhus.commons.basics.Named;
 
 public class MWeakTimerTask extends TimerTask implements Named {
 

@@ -19,7 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
-import de.mhus.lib.common.MFile;
+import de.mhus.commons.MFile;
 
 public class PdfFileChecker extends AbstractFileChecker {
 

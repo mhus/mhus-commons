@@ -15,7 +15,7 @@
  */
 package de.mhus.commons;
 
-import de.mhus.lib.common.util.IObserver;
+import de.mhus.commons.util.IObserver;
 
 public class MObserverHandler<T> extends MEventHandler<IObserver<T>> {
 

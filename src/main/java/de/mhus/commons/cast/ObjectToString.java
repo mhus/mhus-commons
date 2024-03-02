@@ -19,8 +19,8 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
-import de.mhus.lib.common.MCast;
-import de.mhus.lib.common.MDate;
+import de.mhus.commons.MCast;
+import de.mhus.commons.MDate;
 
 public class ObjectToString implements Caster<Object, String> {
 

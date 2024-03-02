@@ -21,15 +21,14 @@ import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.util.UUID;
 
-import de.mhus.lib.basics.RC;
-import de.mhus.lib.common.MString;
-import de.mhus.lib.common.logging.Log;
-import de.mhus.lib.errors.MRuntimeException;
+import de.mhus.commons.basics.RC;
+import de.mhus.commons.MString;
+import de.mhus.commons.errors.MRuntimeException;
+import lombok.extern.slf4j.Slf4j;
 
 /** @author Brian Wing Shun Chan */
+@Slf4j
 public class Base64 {
-
-    private static final Log log = Log.getLog(Base64.class);
 
     public static byte[] decode(String base64) {
         if (MString.isEmpty(base64)) {
@@ -94,7 +93,7 @@ public class Base64 {
             os.writeObject(o);
             os.flush();
         } catch (Exception e) {
-            log.e(e);
+            LOGGER.error("Error", e);
         }
 
         return encode(ubaos.toByteArray(), 0, ubaos.size());

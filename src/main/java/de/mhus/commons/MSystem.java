@@ -47,13 +47,52 @@ import java.util.jar.Manifest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import de.mhus.lib.common.logging.Log;
-import de.mhus.lib.errors.NotFoundException;
-import net.bytebuddy.agent.ByteBuddyAgent;
-import net.bytebuddy.description.type.TypeDescription;
-import net.bytebuddy.dynamic.ClassFileLocator;
+import de.mhus.commons.crypt.MBouncy;
+import de.mhus.commons.errors.NotFoundException;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class MSystem {
+
+    public static <T> T newInstance(Class<T> clazz) {
+        try {
+            return clazz.newInstance();
+        } catch (InstantiationException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public static <T> T newInstance(String clazzName) {
+        return newInstance(Thread.currentThread().getContextClassLoader(), clazzName);
+    }
+
+    public static <T> T newInstance(ClassLoader activator, String clazzName) {
+        try {
+            return (T) activator.loadClass(clazzName).newInstance();
+        } catch (InstantiationException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(clazzName, e);
+        }
+    }
+
+    public static long getEnv(Class<?> owner, String name, long def) {
+        //XXX: implement
+        return def;
+    }
+
+    public static int getEnv(Class<?> owner, String name, int def) {
+        //XXX: implement
+        return def;
+    }
+
+    public static String getEnv(Class<?> owner, String name, String def) {
+        //XXX: implement
+        return def;
+    }
 
     public enum OS {
         OTHER,
@@ -63,7 +102,6 @@ public class MSystem {
         SOLARIS
     }
 
-    private static Log log = Log.getLog(MSystem.class);
     private static ThreadMXBean tmxb = ManagementFactory.getThreadMXBean();
     private static String hostname; // cached hostname
 
@@ -114,21 +152,21 @@ public class MSystem {
      */
     public static Properties loadProperties(
             Object owner, Properties properties, String propertyFile) {
-        log.d("Loading properties", propertyFile);
+        LOGGER.debug("Loading properties {}", propertyFile);
         // get resource
         if (properties == null) properties = new Properties();
         try {
             URL m_url = locateResource(owner, propertyFile);
             if (m_url == null) {
-                log.w("Properties file not found", propertyFile);
+                LOGGER.warn("Properties file not found {}", propertyFile);
                 return properties;
             }
-            log.i("load", m_url);
+            LOGGER.info("load {}", m_url);
             InputStream stream = m_url.openStream();
             properties.load(stream);
             stream.close();
         } catch (IOException e) {
-            log.i("Error loading properties file", propertyFile, e.toString());
+            LOGGER.info("Error loading properties file {}: {}", propertyFile, e.toString());
             // logger.t(e);
         }
         return properties;
@@ -166,29 +204,6 @@ public class MSystem {
                 throw new FileNotFoundException(
                         "Configured file not found: " + location + " for " + qName);
         }
-
-        // do not load file from app root directory any more
-        // {
-        // File f = new File(fileName);
-        // if ( f.exists() && f.isFile() )
-        // return f.toURL();
-        // }
-
-        {
-            File f = MApi.getFile(MApi.SCOPE.ETC, qName);
-            if (f.exists() && f.isFile()) return f.toURL();
-        }
-
-        // This is done by using MApi.getFile()
-        //		try {
-        //			String configurationPath = System.getenv("CONFIGURATION");
-        //			if (url == null && configurationPath != null) {
-        //				File f = new File(configurationPath + "/" + qName);
-        //				if (f.exists() && f.isFile())
-        //					url = f.toURL();
-        //			}
-        //		} catch (SecurityException e) {
-        //		}
 
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         if (url == null && loader != null) url = loader.getResource(fileName);
@@ -332,7 +347,7 @@ public class MSystem {
      */
     @Deprecated
     public static ScriptResult startScript(File dir, String script, long timeout) {
-        log.d("script", dir, script);
+        LOGGER.debug("script {} {}", dir, script);
         ProcessBuilder pb = new ProcessBuilder(new File(dir, script).getAbsolutePath());
         @SuppressWarnings("unused")
         Map<String, String> env = pb.environment();
@@ -880,21 +895,6 @@ public class MSystem {
         return System.getProperty("java.version");
     }
 
-    private static final Instrumentation instrumentation = ByteBuddyAgent.install();
-    /*
-     * Use byte buddy to get the lambda byte code
-     */
-    public static byte[] getBytes(Class<?> c) throws IOException {
-        //		String name = '/' + c.getName().replace('.', '/')+ ".class";
-        //		InputStream is = c.getClassLoader().getResourceAsStream(name);
-        //		byte[] bytes = MFile.readBinary(is);
-        //		return bytes;
-        ClassFileLocator locator = ClassFileLocator.AgentBased.of(instrumentation, c);
-        TypeDescription.ForLoadedType desc = new TypeDescription.ForLoadedType(c);
-        ClassFileLocator.Resolution resolution = locator.locate(desc.getName());
-        return resolution.resolve();
-    }
-
     public static long getJvmUptime() {
         RuntimeMXBean rb = ManagementFactory.getRuntimeMXBean();
         long uptime = rb.getUptime();
@@ -949,7 +949,7 @@ public class MSystem {
             }
             return uptime;
         } catch (Exception e) {
-            log.d(e);
+            LOGGER.error("Error",e);
             return -1;
         }
     }
@@ -1117,13 +1117,13 @@ public class MSystem {
     }
 
     @SuppressWarnings("unchecked")
-    public static Class<? extends Enum<?>> getEnum(String className, MActivator activator)
+    public static Class<? extends Enum<?>> getEnum(String className, ClassLoader activator)
             throws Exception {
-        if (activator == null) activator = M.l(MActivator.class);
+        if (activator == null) activator = Thread.currentThread().getContextClassLoader();
         int p = className.lastIndexOf('.');
         if (p > 0) {
             className = className.substring(0, p) + "$" + className.substring(p + 1);
-            Class<?> type = activator.getClazz(className);
+            Class<?> type = activator.loadClass(className);
             if (type.isEnum()) return (Class<? extends Enum<?>>) type;
         }
         return null;
@@ -1139,7 +1139,7 @@ public class MSystem {
                 Manifest manifest = new Manifest(is);
                 return manifest;
             } catch (Throwable t) {
-                MApi.dirtyLogTrace(owner, t);
+                LOGGER.debug("Error", t);
             }
         }
         throw new NotFoundException("manifest not found for", owner);

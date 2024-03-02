@@ -20,10 +20,10 @@ import java.lang.reflect.InvocationTargetException;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import de.mhus.lib.common.MJson;
-import de.mhus.lib.common.pojo.DefaultFilter;
-import de.mhus.lib.common.pojo.PojoModel;
-import de.mhus.lib.common.pojo.PojoParser;
+import de.mhus.commons.MJson;
+import de.mhus.commons.pojo.DefaultFilter;
+import de.mhus.commons.pojo.PojoModel;
+import de.mhus.commons.pojo.PojoParser;
 
 public class TransformHelper {
     int level = 0;

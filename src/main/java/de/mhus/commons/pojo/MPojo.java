@@ -31,6 +31,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
+import de.mhus.commons.basics.consts.Identifier;
+import lombok.extern.slf4j.Slf4j;
 import org.w3c.dom.CDATASection;
 import org.w3c.dom.Element;
 
@@ -38,39 +40,35 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import de.mhus.lib.annotations.generic.Public;
-import de.mhus.lib.annotations.pojo.Embedded;
-import de.mhus.lib.annotations.pojo.Hidden;
-import de.mhus.lib.basics.consts.Identifier;
-import de.mhus.lib.common.IProperties;
-import de.mhus.lib.common.M;
-import de.mhus.lib.common.MActivator;
-import de.mhus.lib.common.MCast;
-import de.mhus.lib.common.MCollection;
-import de.mhus.lib.common.MDate;
-import de.mhus.lib.common.MProperties;
-import de.mhus.lib.common.MString;
-import de.mhus.lib.common.MSystem;
-import de.mhus.lib.common.MXml;
-import de.mhus.lib.common.cast.Caster;
-import de.mhus.lib.common.json.TransformHelper;
-import de.mhus.lib.common.logging.Log;
-import de.mhus.lib.common.node.INode;
-import de.mhus.lib.common.node.MNode;
-import de.mhus.lib.common.node.NodeList;
-import de.mhus.lib.common.util.Base64;
+import de.mhus.commons.annotations.generic.Public;
+import de.mhus.commons.annotations.pojo.Embedded;
+import de.mhus.commons.annotations.pojo.Hidden;
+import de.mhus.commons.IProperties;
+import de.mhus.commons.M;
+import de.mhus.commons.MCast;
+import de.mhus.commons.MCollection;
+import de.mhus.commons.MDate;
+import de.mhus.commons.MProperties;
+import de.mhus.commons.MString;
+import de.mhus.commons.MSystem;
+import de.mhus.commons.MXml;
+import de.mhus.commons.cast.Caster;
+import de.mhus.commons.json.TransformHelper;
+import de.mhus.commons.node.INode;
+import de.mhus.commons.node.MNode;
+import de.mhus.commons.node.NodeList;
+import de.mhus.commons.util.Base64;
 
+@Slf4j
 public class MPojo {
 
     public static final String DEEP = "deep";
 
     private static final int MAX_LEVEL = 10;
-    private static Log log = Log.getLog(MPojo.class);
     private static PojoModelFactory defaultModelFactory;
 
     private static PojoModelFactory attributesModelFactory;
-
-    private static MActivator defaultActivator;
+    private static ClassLoader defaultClassLoader;
 
     public static synchronized PojoModelFactory getDefaultModelFactory() {
         if (defaultModelFactory == null)
@@ -358,7 +356,7 @@ public class MPojo {
                 }
             }
         } catch (Throwable t) {
-            log.t(t);
+           LOGGER.trace("Failed to set Node value", t);
         }
     }
 
@@ -437,7 +435,7 @@ public class MPojo {
                 }
             }
         } catch (Throwable t) {
-            log.t(t);
+            LOGGER.trace("Failed to add node value", t);
         }
     }
 
@@ -479,12 +477,12 @@ public class MPojo {
     public static Object nodeToPojoObject(
             INode from,
             PojoModelFactory factory,
-            MActivator activator,
+            ClassLoader activator,
             boolean force,
             boolean verbose)
             throws Exception {
 
-        if (activator == null) activator = getDefaultActivator();
+        if (activator == null) activator = getDefaultClassLoader();
         if (from.getBoolean(INode.NULL, false)) return null;
         String clazz = from.getString(INode.CLASS, null);
         if (clazz == null) return null;
@@ -523,14 +521,13 @@ public class MPojo {
                 }
                 return null;
         }
-        Object obj = activator.createObject(clazz);
+        Object obj = MSystem.newInstance(activator, clazz);
         nodeToPojo(from, obj, factory, force, verbose);
         return obj;
     }
 
-    private static synchronized MActivator getDefaultActivator() {
-        if (defaultActivator == null) defaultActivator = M.l(MActivator.class);
-        return defaultActivator;
+    private static ClassLoader getDefaultClassLoader() {
+        return defaultClassLoader == null ? Thread.currentThread().getContextClassLoader() : defaultClassLoader;
     }
 
     /**
@@ -633,7 +630,7 @@ public class MPojo {
                     }
                 } else attr.set(to, from.getString(name, null), force);
             } catch (Throwable t) {
-                log.d(MSystem.getClassName(to), name, t);
+                LOGGER.debug("Error: {} {}", MSystem.getClassName(to), name, t);
             }
         }
     }
@@ -660,10 +657,10 @@ public class MPojo {
             val = MCast.to(value, hint);
             if (val == null && value instanceof INode) {
                 try {
-                    val = getDefaultActivator().createObject(hint);
+                    val = MSystem.newInstance(getDefaultClassLoader(), hint);
                     nodeToPojo((INode) value, val, factory, force, verbose);
                 } catch (Throwable t) {
-                    log.d(hint, t);
+                    LOGGER.debug("Can't create object {}", hint, t);
                 }
             } else if (val == null) {
                 try {
@@ -676,7 +673,7 @@ public class MPojo {
                         if (ord >= 0 && ord < cons.length) val = cons[ord];
                     }
                 } catch (Throwable t) {
-                    log.d(hint, t);
+                   LOGGER.debug("Error: {}", hint, t);
                 }
                 if (val == null) val = value; // fallback
             }
@@ -829,7 +826,7 @@ public class MPojo {
                 }
             }
         } catch (Throwable t) {
-            log.t(t);
+            LOGGER.trace("Error", t);
         }
     }
 
@@ -920,7 +917,7 @@ public class MPojo {
                 }
             }
         } catch (Throwable t) {
-            log.t(t);
+            LOGGER.trace("Error", t);
         }
     }
 
@@ -983,7 +980,7 @@ public class MPojo {
                     attr.set(to, c, force);
                 } else attr.set(to, json.asText(), force);
             } catch (Throwable t) {
-                log.d(MSystem.getClassName(to), name, t);
+                LOGGER.debug("Error: {} {}", MSystem.getClassName(to), name, t);
             }
         }
     }
@@ -1048,7 +1045,7 @@ public class MPojo {
                 }
 
             } catch (Throwable t) {
-                log.d(MSystem.getClassName(from), attr.getName(), t);
+                LOGGER.debug("Error: {} {}", MSystem.getClassName(from), attr.getName(), t);
             }
         }
     }
@@ -1064,23 +1061,23 @@ public class MPojo {
         return true;
     }
 
-    public static void xmlToPojo(Element from, Object to, MActivator act) throws IOException {
+    public static void xmlToPojo(Element from, Object to, ClassLoader act) throws IOException {
         xmlToPojo(from, to, getDefaultModelFactory(), act, false);
     }
 
-    public static void xmlToPojo(Element from, Object to, MActivator act, boolean force)
+    public static void xmlToPojo(Element from, Object to, ClassLoader act, boolean force)
             throws IOException {
         xmlToPojo(from, to, getDefaultModelFactory(), act, force);
     }
 
-    public static void xmlToPojo(Element from, Object to, PojoModelFactory factory, MActivator act)
+    public static void xmlToPojo(Element from, Object to, PojoModelFactory factory, ClassLoader act)
             throws IOException {
         xmlToPojo(from, to, factory, act, false);
     }
 
     @SuppressWarnings("unchecked")
     public static void xmlToPojo(
-            Element from, Object to, PojoModelFactory factory, MActivator act, boolean force)
+            Element from, Object to, PojoModelFactory factory, ClassLoader act, boolean force)
             throws IOException {
         PojoModel model = factory.createPojoModel(to.getClass());
 
@@ -1097,7 +1094,7 @@ public class MPojo {
                 //			Class<?> type = attr.getType();
                 Element a = index.get(name);
                 if (a == null) {
-                    log.d("attribute not found", name, to.getClass());
+                    LOGGER.debug("attribute not found {}", name, to.getClass());
                     continue;
                 }
                 {
@@ -1145,7 +1142,7 @@ public class MPojo {
                     try {
                         attr.set(to, UUID.fromString(value), force);
                     } catch (Throwable t) {
-                        log.d(name, t);
+                        LOGGER.debug("Error: {}", name, t);
                     }
                     continue;
                 }
@@ -1169,17 +1166,17 @@ public class MPojo {
                 if (a.hasAttribute("type")) {
                     String value = a.getAttribute("type");
                     try {
-                        Object obj = act.createObject(value);
+                        Object obj = MSystem.newInstance(act, value);
                         xmlToPojo(a, obj, factory, act);
                         attr.set(to, obj, force);
                     } catch (Exception e1) {
-                        log.d(name, to.getClass(), e1);
+                        LOGGER.debug("Error: {} {}", name, to.getClass(), e1);
                     }
                     continue;
                 }
 
             } catch (Throwable t) {
-                log.d(MSystem.getClassName(to), attr.getName(), t);
+                LOGGER.debug("Error: {} {}", MSystem.getClassName(to), attr.getName(), t);
             }
         }
     }
@@ -1247,7 +1244,7 @@ public class MPojo {
                 else out.setString(name, String.valueOf(value));
 
             } catch (Throwable t) {
-                log.d(MSystem.getClassName(from), attr.getName(), t);
+                LOGGER.debug("Error: {} {}", MSystem.getClassName(from), attr.getName(), t);
             }
         }
         return out;
@@ -1310,7 +1307,7 @@ public class MPojo {
                                     : unknownHadler.cast(from.get(name), null),
                             force);
             } catch (Throwable t) {
-                log.d(MSystem.getClassName(to), name, t);
+                LOGGER.debug("Error: {} {}", MSystem.getClassName(to), name, t);
             }
         }
     }

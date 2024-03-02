@@ -21,11 +21,11 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
-import de.mhus.lib.common.IProperties;
-import de.mhus.lib.common.MCast;
-import de.mhus.lib.common.MProperties;
-import de.mhus.lib.common.MString;
-import de.mhus.lib.common.MSystem;
+import de.mhus.commons.IProperties;
+import de.mhus.commons.MCast;
+import de.mhus.commons.MProperties;
+import de.mhus.commons.MString;
+import de.mhus.commons.MSystem;
 
 public class FilterRequest {
 

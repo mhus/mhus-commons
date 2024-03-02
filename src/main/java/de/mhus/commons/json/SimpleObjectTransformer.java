@@ -28,10 +28,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import de.mhus.lib.common.MJson;
-import de.mhus.lib.common.pojo.PojoAttribute;
-import de.mhus.lib.common.pojo.PojoModel;
-import de.mhus.lib.errors.NotSupportedException;
+import de.mhus.commons.MJson;
+import de.mhus.commons.pojo.PojoAttribute;
+import de.mhus.commons.pojo.PojoModel;
+import de.mhus.commons.errors.NotSupportedException;
 
 public class SimpleObjectTransformer extends TransformStrategy {
 

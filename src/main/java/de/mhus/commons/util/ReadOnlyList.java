@@ -26,7 +26,7 @@ import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 
-import de.mhus.lib.basics.ReadOnly;
+import de.mhus.commons.basics.ReadOnly;
 
 public class ReadOnlyList<E> implements List<E>, ReadOnly {
 

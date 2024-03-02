@@ -17,10 +17,10 @@ package de.mhus.commons.json;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import de.mhus.lib.common.MLog;
-import de.mhus.lib.errors.NotSupportedException;
+import de.mhus.commons.errors.NotSupportedException;
+import lombok.extern.slf4j.Slf4j;
 
-public abstract class TransformStrategy extends MLog {
+public abstract class TransformStrategy {
 
     public Object jsonToPojo(JsonNode node) throws NotSupportedException {
         return jsonToPojo(node, null, new TransformHelper());

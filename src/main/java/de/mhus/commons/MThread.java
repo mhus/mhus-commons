@@ -17,157 +17,21 @@ package de.mhus.commons;
 
 import java.util.function.Consumer;
 
-import org.apache.shiro.subject.Subject;
-
-import de.mhus.lib.basics.Named;
-import de.mhus.lib.common.aaa.Aaa;
-import de.mhus.lib.common.aaa.SubjectEnvironment;
-import de.mhus.lib.common.logging.ITracer;
-import de.mhus.lib.common.logging.Log;
-import de.mhus.lib.common.util.Checker;
-import de.mhus.lib.common.util.MObject;
-import de.mhus.lib.common.util.Value;
-import de.mhus.lib.common.util.ValueProvider;
-import de.mhus.lib.errors.RuntimeInterruptedException;
-import de.mhus.lib.errors.TimeoutRuntimeException;
-import io.opentracing.Scope;
-import io.opentracing.Span;
+import de.mhus.commons.basics.Named;
+import de.mhus.commons.util.Checker;
+import de.mhus.commons.util.Value;
+import de.mhus.commons.util.ValueProvider;
+import de.mhus.commons.errors.RuntimeInterruptedException;
+import de.mhus.commons.errors.TimeoutRuntimeException;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author hummel
  *     <p>To change the template for this generated type comment go to
  *     Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public class MThread extends MObject implements Runnable {
-
-    protected static Log log = Log.getLog(MThread.class);
-
-    protected Runnable task = this;
-    protected String name = null;
-    protected Thread thread = null;
-
-    private int priority = -1;
-
-    public MThread() {}
-
-    public MThread(String _name) {
-        name = _name;
-    }
-
-    public MThread(Runnable _task) {
-        task = _task;
-    }
-
-    public MThread(Runnable _task, String _name) {
-        task = _task;
-        name = _name;
-    }
-
-    protected Runnable getTask() {
-        return task;
-    }
-
-    @Override
-    public void run() {}
-
-    public MThread start() {
-        synchronized (this) {
-            if (thread != null) throw new IllegalThreadStateException();
-            Container container = new Container();
-            thread = new Thread(getGroup(), container);
-            initThread(thread);
-            thread.start();
-        }
-        return this;
-    }
-
-    private static ThreadGroup group = new ThreadGroup("MThread");
-
-    protected ThreadGroup getGroup() {
-        return group;
-    }
-
-    protected void initThread(Thread thread) {
-        if (priority != -1) thread.setPriority(priority);
-
-        if (name == null) {
-            if (task == null) name = "null";
-            else if (task instanceof Named) name = "MThread " + ((Named) task).getName();
-            else name = "MThread " + MSystem.getCanonicalClassName(task.getClass());
-        }
-
-        thread.setName(name);
-    }
-
-    private class Container implements Runnable {
-
-        private final long parentThreadId = Thread.currentThread().getId();
-        private final Span span = ITracer.get().current();
-        private final Subject subject = Aaa.getSubject();
-
-        public Container() {}
-
-        @Override
-        public void run() {
-            cleanup();
-            try (SubjectEnvironment env = Aaa.asSubjectWithoutTracing(subject)) {
-                try (Scope scope =
-                        ITracer.get()
-                                .enter(
-                                        span,
-                                        "Thread: " + name,
-                                        "thread",
-                                        "" + thread.getId(),
-                                        "parent",
-                                        "" + parentThreadId)) {
-                    log().t("###: NEW THREAD", parentThreadId, thread.getId());
-                    try {
-                        if (task != null) task.run();
-                    } catch (Throwable t) {
-                        taskError(t);
-                    }
-                    log.t("###: LEAVE THREAD", thread.getId());
-                }
-            }
-        }
-    }
-
-    public void setName(String _name) {
-        this.name = _name;
-        if (thread != null) thread.setName(_name);
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setPriority(int _p) {
-        this.priority = _p;
-        if (thread != null) thread.setPriority(_p);
-    }
-
-    public int getPriority() {
-        return priority;
-    }
-
-    @SuppressWarnings("deprecation")
-    public void stop() {
-        if (thread == null) return;
-        thread.stop();
-    }
-
-    public void interupt() {
-        if (thread == null) return;
-        thread.interrupt();
-    }
-
-    @Override
-    public String toString() {
-        if (thread != null)
-            return MSystem.toString(
-                    "MThread", name, thread.getId(), thread.getPriority(), thread.getState());
-        else return MSystem.toString("MThread", name);
-    }
+@Slf4j
+public class MThread {
 
     /**
      * Sleeps _millisec milliseconds. On Interruption it will throw an RuntimeInterruptedException
@@ -217,20 +81,12 @@ public class MThread extends MObject implements Runnable {
                     Thread.sleep(1); // clear interrupted state
                 } catch (InterruptedException e1) {
                 }
-                log.d(e);
+                LOGGER.debug("Error", e);
                 long done = System.currentTimeMillis() - start;
                 _millisec = _millisec - done;
                 if (_millisec <= 0) return interrupted;
             }
         }
-    }
-
-    protected void taskError(Throwable t) {
-        log().e(name, t);
-    }
-
-    public static void asynchron(Runnable task) {
-        new MThread(task).start();
     }
 
     /**
@@ -254,87 +110,6 @@ public class MThread extends MObject implements Runnable {
             if (System.currentTimeMillis() - start > timeout) throw new TimeoutRuntimeException();
             sleep(200);
         }
-    }
-
-    /**
-     * Like getWithTimeout but executed in a separate task, this means unblocking.
-     *
-     * @param provider
-     * @param timeout
-     * @param nullAllowed
-     * @return The requested value
-     */
-    public static <T> T getAsynchronWithTimeout(
-            final ValueProvider<T> provider, long timeout, boolean nullAllowed) {
-        long start = System.currentTimeMillis();
-        final Value<T> value = new Value<>();
-        MThreadPool t =
-                new MThreadPool(
-                        new Runnable() {
-
-                            @Override
-                            public void run() {
-                                while (true) {
-                                    try {
-                                        T val = provider.getValue();
-                                        if (nullAllowed || val != null) {
-                                            value.value = val;
-                                            return;
-                                        }
-                                    } catch (Throwable t) {
-                                    }
-                                    if (System.currentTimeMillis() - start > timeout)
-                                        throw new TimeoutRuntimeException();
-                                    sleep(200);
-                                }
-                            }
-                        });
-        t.start();
-        while (t.isAlive()) {
-            if (System.currentTimeMillis() - start > timeout) throw new TimeoutRuntimeException();
-            sleep(200);
-        }
-        return value.value;
-    }
-
-    /**
-     * Calls the provider once and will return the result. The provider is called in a separate
-     * thread to
-     *
-     * @param provider
-     * @param timeout
-     * @return The requested value
-     * @throws Exception
-     */
-    public static <T> T getAsynchronWithTimeout(final ValueProvider<T> provider, long timeout)
-            throws Exception {
-        long start = System.currentTimeMillis();
-        final Value<T> value = new Value<>();
-        final Value<Throwable> error = new Value<>();
-        MThreadPool t =
-                new MThreadPool(
-                        new Runnable() {
-
-                            @Override
-                            public void run() {
-                                try {
-                                    value.value = provider.getValue();
-                                } catch (Throwable t) {
-                                    error.value = t;
-                                }
-                            }
-                        });
-        t.start();
-        while (t.isAlive()) {
-            if (System.currentTimeMillis() - start > timeout) throw new TimeoutRuntimeException();
-            sleep(200);
-        }
-        if (error.value != null) {
-            if (error.value instanceof RuntimeException) throw (RuntimeException) error.value;
-            if (error.value instanceof Exception) throw (Exception) error.value;
-            throw new Exception(error.value);
-        }
-        return value.value;
     }
 
     /**
@@ -374,10 +149,6 @@ public class MThread extends MObject implements Runnable {
             if (System.currentTimeMillis() - start > timeout) throw new TimeoutRuntimeException();
             sleep(200);
         }
-    }
-
-    public Thread getThread() {
-        return thread;
     }
 
     /**
@@ -422,7 +193,6 @@ public class MThread extends MObject implements Runnable {
     }
 
     public static void cleanup() {
-        Aaa.subjectCleanup();
-        ITracer.get().cleanup();
+
     }
 }

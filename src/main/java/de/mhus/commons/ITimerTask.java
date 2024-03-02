@@ -15,7 +15,7 @@
  */
 package de.mhus.commons;
 
-import de.mhus.lib.basics.Named;
+import de.mhus.commons.basics.Named;
 
 public interface ITimerTask extends Named {
 

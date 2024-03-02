@@ -15,9 +15,10 @@
  */
 package de.mhus.commons.cast;
 
-import de.mhus.lib.common.logging.MLogUtil;
-import de.mhus.lib.common.util.Value;
+import de.mhus.commons.util.Value;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class ObjectToInteger implements Caster<Object, Integer> {
 
     //	private final static Log log = Log.getLog(ObjectToInteger.class);
@@ -76,7 +77,7 @@ public class ObjectToInteger implements Caster<Object, Integer> {
             if (ret != null) ret.setValue(r);
             return r;
         } catch (Throwable e) {
-            MLogUtil.log().t(_in, e.toString());
+            LOGGER.trace("Error: {}", _in, e.toString());
             return def;
         }
     }

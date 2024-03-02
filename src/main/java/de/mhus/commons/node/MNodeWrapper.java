@@ -27,9 +27,9 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import de.mhus.lib.common.IProperties;
-import de.mhus.lib.errors.MException;
-import de.mhus.lib.errors.NotFoundException;
+import de.mhus.commons.IProperties;
+import de.mhus.commons.errors.MException;
+import de.mhus.commons.errors.NotFoundException;
 
 public class MNodeWrapper extends MNode {
 

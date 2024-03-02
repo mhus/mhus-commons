@@ -15,9 +15,9 @@
  */
 package de.mhus.commons.errors;
 
-import de.mhus.lib.common.basics.IResult;
-import de.mhus.lib.common.basics.RC;
-import de.mhus.lib.common.basics.RC.STATUS;
+import de.mhus.commons.basics.IResult;
+import de.mhus.commons.basics.RC;
+import de.mhus.commons.basics.RC.STATUS;
 
 public class UsageException extends MRuntimeException {
 

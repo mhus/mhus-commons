@@ -25,17 +25,17 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import de.mhus.lib.basics.IsNull;
-import de.mhus.lib.basics.RC;
-import de.mhus.lib.common.IProperties;
-import de.mhus.lib.common.M;
-import de.mhus.lib.common.MProperties;
-import de.mhus.lib.common.parser.CompiledString;
-import de.mhus.lib.common.util.SingleList;
-import de.mhus.lib.errors.MException;
-import de.mhus.lib.errors.MRuntimeException;
-import de.mhus.lib.errors.MaxDepthReached;
-import de.mhus.lib.errors.NotFoundException;
+import de.mhus.commons.basics.IsNull;
+import de.mhus.commons.basics.RC;
+import de.mhus.commons.IProperties;
+import de.mhus.commons.M;
+import de.mhus.commons.MProperties;
+import de.mhus.commons.parser.CompiledString;
+import de.mhus.commons.util.SingleList;
+import de.mhus.commons.errors.MException;
+import de.mhus.commons.errors.MRuntimeException;
+import de.mhus.commons.errors.MaxDepthReached;
+import de.mhus.commons.errors.NotFoundException;
 
 public class MNode extends MProperties implements INode {
 

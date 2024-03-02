@@ -20,8 +20,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
-import de.mhus.lib.common.MApi;
-import de.mhus.lib.common.io.MObjectInputStream;
+import de.mhus.commons.io.MObjectInputStream;
 
 public class ObjectWrapperPojo<T> {
 
@@ -35,7 +34,7 @@ public class ObjectWrapperPojo<T> {
     }
 
     public T pojoGetObject() throws IOException, ClassNotFoundException {
-        return pojoGetObject(MApi.get().createActivator());
+        return pojoGetObject(Thread.currentThread().getContextClassLoader());
     }
 
     @SuppressWarnings("unchecked")

@@ -24,13 +24,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import de.mhus.lib.annotations.cmd.CmdArgument;
-import de.mhus.lib.annotations.cmd.CmdDescription;
-import de.mhus.lib.annotations.cmd.CmdOption;
-import de.mhus.lib.common.pojo.MPojo;
-import de.mhus.lib.common.pojo.PojoAttribute;
-import de.mhus.lib.common.pojo.PojoModel;
-import de.mhus.lib.errors.UsageException;
+import de.mhus.commons.annotations.cmd.CmdArgument;
+import de.mhus.commons.annotations.cmd.CmdDescription;
+import de.mhus.commons.annotations.cmd.CmdOption;
+import de.mhus.commons.pojo.MPojo;
+import de.mhus.commons.pojo.PojoAttribute;
+import de.mhus.commons.pojo.PojoModel;
+import de.mhus.commons.errors.UsageException;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * The class is a parser for program argument lists, like you get in the main(args) method. You can
@@ -45,7 +46,8 @@ import de.mhus.lib.errors.UsageException;
  *
  * @author mhu
  */
-public class MArgs extends MLog {
+@Slf4j
+public class MArgs {
 
     public static final String ALLOW_OTHER_OPTIONS = "allowOtherOptions";
     private Map<String, Usage> values = new HashMap<>();
@@ -130,7 +132,7 @@ public class MArgs extends MLog {
 
                 attr.set(pojo, value, true);
             } catch (Throwable e) {
-                log().e("cast of {1} to {2} failed", entry, type, e);
+                LOGGER.error("cast of {} to {} failed", entry, type, e);
             }
         }
     }

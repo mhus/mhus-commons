@@ -17,7 +17,7 @@ package de.mhus.commons.console;
 
 import java.io.IOException;
 
-import de.mhus.lib.common.MSystem;
+import de.mhus.commons.MSystem;
 
 public class XTermConsole extends ANSIConsole {
 

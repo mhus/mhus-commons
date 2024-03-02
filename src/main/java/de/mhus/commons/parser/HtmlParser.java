@@ -22,8 +22,8 @@ import java.io.Reader;
 import java.util.Hashtable;
 import java.util.Map;
 
-import de.mhus.lib.common.MString;
-import de.mhus.lib.common.MXml;
+import de.mhus.commons.MString;
+import de.mhus.commons.MXml;
 
 /** @author hummel */
 public class HtmlParser {

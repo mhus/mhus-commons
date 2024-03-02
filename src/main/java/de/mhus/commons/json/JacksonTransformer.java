@@ -17,8 +17,8 @@ package de.mhus.commons.json;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import de.mhus.lib.common.MJson;
-import de.mhus.lib.errors.NotSupportedException;
+import de.mhus.commons.MJson;
+import de.mhus.commons.errors.NotSupportedException;
 
 public class JacksonTransformer extends TransformStrategy {
 

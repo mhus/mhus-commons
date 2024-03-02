@@ -15,8 +15,8 @@
  */
 package de.mhus.commons.parser;
 
-import de.mhus.lib.basics.RC;
-import de.mhus.lib.errors.MException;
+import de.mhus.commons.basics.RC;
+import de.mhus.commons.errors.MException;
 
 public class ParseException extends MException {
 

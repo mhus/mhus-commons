@@ -21,7 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-import de.mhus.lib.basics.ReadOnly;
+import de.mhus.commons.basics.ReadOnly;
 
 /**
  * An empty list. The list is unmodifiable.

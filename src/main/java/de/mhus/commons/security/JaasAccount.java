@@ -24,9 +24,9 @@ import javax.security.auth.Subject;
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
 
-import de.mhus.lib.common.IReadProperties;
-import de.mhus.lib.common.MProperties;
-import de.mhus.lib.errors.NotSupportedException;
+import de.mhus.commons.IReadProperties;
+import de.mhus.commons.MProperties;
+import de.mhus.commons.errors.NotSupportedException;
 
 public class JaasAccount implements Account {
 

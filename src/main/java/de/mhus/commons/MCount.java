@@ -15,12 +15,12 @@
  */
 package de.mhus.commons;
 
-import de.mhus.lib.annotations.jmx.JmxManaged;
-import de.mhus.lib.common.jmx.MJmx;
-import de.mhus.lib.common.service.UniqueId;
+import lombok.extern.slf4j.Slf4j;
 
-@JmxManaged(descrition = "Simple Counter")
-public class MCount extends MJmx {
+import java.io.Closeable;
+
+@Slf4j
+public class MCount implements Closeable {
 
     protected long cnt;
     private String name;
@@ -30,16 +30,14 @@ public class MCount extends MJmx {
 
     public MCount() {
         cnt = 0;
-        name = "Counter " + M.l(UniqueId.class).nextUniqueId();
+        name = "Counter " + UniqueId.nextUniqueId();
     }
 
     public MCount(String name) {
-        super(true, name);
         cnt = 0;
         this.name = name;
     }
 
-    @JmxManaged(descrition = "Reset the counter statistic")
     public void reset() {
         isClosed = false;
         cnt = 0;
@@ -54,7 +52,6 @@ public class MCount extends MJmx {
         if (startTime == 0) startTime = lastTime;
     }
 
-    @JmxManaged(descrition = "Amount of counts")
     public long getValue() {
         return cnt;
     }
@@ -64,7 +61,6 @@ public class MCount extends MJmx {
         return (double) cnt / (double) ((lastTime - startTime) / 1000);
     }
 
-    @JmxManaged(descrition = "Name of this value")
     public String getName() {
         return name;
     }
@@ -77,7 +73,6 @@ public class MCount extends MJmx {
         return lastTime;
     }
 
-    @JmxManaged(descrition = "Readable status of the counter")
     public String getStatusAsString() {
         if (startTime == 0 || lastTime == 0 || cnt == 0) return "unused";
         return MDate.toIsoDateTime(getFirstHitTime())
@@ -92,12 +87,7 @@ public class MCount extends MJmx {
     public void close() {
         if (isClosed) return;
         isClosed = true;
-        log().d("close", name, cnt, getHitsPerSecond());
-    }
-
-    @Override
-    protected void finalize() {
-        close();
+        LOGGER.debug("close {} {} {}", name, cnt, getHitsPerSecond());
     }
 
     @Override

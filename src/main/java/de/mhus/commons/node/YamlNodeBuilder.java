@@ -19,13 +19,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import de.mhus.lib.basics.RC;
-import de.mhus.lib.common.yaml.MYaml;
-import de.mhus.lib.common.yaml.YElement;
-import de.mhus.lib.common.yaml.YList;
-import de.mhus.lib.common.yaml.YMap;
-import de.mhus.lib.errors.MException;
-import de.mhus.lib.errors.TooDeepStructuresException;
+import de.mhus.commons.basics.RC;
+import de.mhus.commons.yaml.MYaml;
+import de.mhus.commons.yaml.YElement;
+import de.mhus.commons.yaml.YList;
+import de.mhus.commons.yaml.YMap;
+import de.mhus.commons.errors.MException;
+import de.mhus.commons.errors.TooDeepStructuresException;
 
 public class YamlNodeBuilder extends INodeBuilder {
 

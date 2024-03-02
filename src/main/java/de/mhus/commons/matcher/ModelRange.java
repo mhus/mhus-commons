@@ -17,8 +17,8 @@ package de.mhus.commons.matcher;
 
 import java.util.Map;
 
-import de.mhus.lib.common.util.Version;
-import de.mhus.lib.common.util.VersionRange;
+import de.mhus.commons.util.Version;
+import de.mhus.commons.util.VersionRange;
 
 public class ModelRange extends ModelPattern {
 

@@ -22,15 +22,18 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
-import de.mhus.lib.common.M;
-import de.mhus.lib.common.MString;
-import de.mhus.lib.common.MSystem;
-import de.mhus.lib.common.directory.ClassLoaderResourceProvider;
-import de.mhus.lib.common.directory.MResourceProvider;
-import de.mhus.lib.common.node.INode;
+import de.mhus.commons.M;
+import de.mhus.commons.MString;
+import de.mhus.commons.MSystem;
+import de.mhus.commons.directory.ClassLoaderResourceProvider;
+import de.mhus.commons.directory.MResourceProvider;
+import de.mhus.commons.node.INode;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class MNlsFactory extends MNlsBundle {
 
+    private static MNlsFactory instance;
     @SuppressWarnings("unused")
     private INode config;
 
@@ -124,7 +127,7 @@ public class MNlsFactory extends MNlsBundle {
             }
 
             if (is != null) {
-                log().t("Load Resource", resourceName, locale);
+                LOGGER.trace("Load Resource {} {}", resourceName, locale);
                 InputStreamReader r = new InputStreamReader(is, MString.CHARSET_UTF_8);
                 properties.load(r);
                 is.close();
@@ -142,11 +145,11 @@ public class MNlsFactory extends MNlsBundle {
 
                 return new MNls(properties, "");
             } else {
-                log().d("Resource not found", resourceName, locale);
+                LOGGER.debug("Resource not found {} {}", resourceName, locale);
             }
 
         } catch (Throwable e) {
-            log().e(e);
+            LOGGER.error("Error", e);
         }
 
         return new MNls();
@@ -170,13 +173,20 @@ public class MNlsFactory extends MNlsBundle {
         try {
             properties.load(is);
         } catch (IOException e) {
-            log().e(e);
+            LOGGER.error("Error", e);
         }
         return new MNls(properties, "");
     }
 
-    public static MNlsFactory lookup(Object owner) {
-        return M.l(MNlsFactory.class);
+    public synchronized static MNlsFactory lookup(Object owner) {
+        if (instance == null)
+            instance= new MNlsFactory();
+        return instance;
+    }
+    public static void setFactory(MNlsFactory inst) {
+        if (instance != null)
+            LOGGER.info("Overload MNlsFactory");
+        instance = inst;
     }
 
     @Override

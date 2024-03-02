@@ -22,8 +22,8 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Properties;
 
-import de.mhus.lib.common.node.INode;
-import de.mhus.lib.common.util.MUri;
+import de.mhus.commons.node.INode;
+import de.mhus.commons.util.MUri;
 
 public interface IProperties
         extends IReadProperties,

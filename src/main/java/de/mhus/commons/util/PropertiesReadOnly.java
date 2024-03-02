@@ -23,10 +23,10 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Function;
 
-import de.mhus.lib.basics.ReadOnly;
-import de.mhus.lib.common.IProperties;
-import de.mhus.lib.common.IReadProperties;
-import de.mhus.lib.errors.MException;
+import de.mhus.commons.basics.ReadOnly;
+import de.mhus.commons.IProperties;
+import de.mhus.commons.IReadProperties;
+import de.mhus.commons.errors.MException;
 
 public class PropertiesReadOnly implements IReadProperties, ReadOnly {
 

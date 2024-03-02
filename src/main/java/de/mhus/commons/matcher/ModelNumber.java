@@ -18,8 +18,8 @@ package de.mhus.commons.matcher;
 import java.math.BigDecimal;
 import java.util.Map;
 
-import de.mhus.lib.basics.RC;
-import de.mhus.lib.errors.MRuntimeException;
+import de.mhus.commons.basics.RC;
+import de.mhus.commons.errors.MRuntimeException;
 
 public class ModelNumber extends ModelPattern {
 

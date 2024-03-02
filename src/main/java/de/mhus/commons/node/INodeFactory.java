@@ -18,8 +18,8 @@ package de.mhus.commons.node;
 import java.io.File;
 import java.net.URL;
 
-import de.mhus.lib.annotations.activator.DefaultImplementation;
-import de.mhus.lib.errors.MException;
+import de.mhus.commons.annotations.activator.DefaultImplementation;
+import de.mhus.commons.errors.MException;
 
 @DefaultImplementation(DefaultNodeFactory.class)
 public interface INodeFactory {

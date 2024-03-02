@@ -15,10 +15,11 @@
  */
 package de.mhus.commons.util;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.Iterator;
 
-import de.mhus.lib.common.logging.MLogUtil;
-
+@Slf4j
 public abstract class ObjectStream<T> implements Iterable<T> {
 
     private T next = null;
@@ -48,7 +49,7 @@ public abstract class ObjectStream<T> implements Iterable<T> {
         try {
             next = getNext();
         } catch (Throwable t) {
-            MLogUtil.log().d(t);
+            LOGGER.debug("Error", t);
             next = null;
         }
     }

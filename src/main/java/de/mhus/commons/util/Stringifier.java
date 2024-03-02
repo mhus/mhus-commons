@@ -15,10 +15,10 @@
  */
 package de.mhus.commons.util;
 
-import de.mhus.lib.common.pojo.DefaultFilter;
-import de.mhus.lib.common.pojo.PojoAttribute;
-import de.mhus.lib.common.pojo.PojoModel;
-import de.mhus.lib.common.pojo.PojoParser;
+import de.mhus.commons.pojo.DefaultFilter;
+import de.mhus.commons.pojo.PojoAttribute;
+import de.mhus.commons.pojo.PojoModel;
+import de.mhus.commons.pojo.PojoParser;
 
 /**
  * Convert a object into string using pojo mechanism. The conversion is done if the method toString

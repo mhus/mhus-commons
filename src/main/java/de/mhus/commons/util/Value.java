@@ -19,8 +19,8 @@ import java.io.IOException;
 import java.io.NotSerializableException;
 import java.io.Serializable;
 
-import de.mhus.lib.basics.Valueable;
-import de.mhus.lib.common.MSystem;
+import de.mhus.commons.basics.Valueable;
+import de.mhus.commons.MSystem;
 
 public class Value<T> implements Valueable<T>, Serializable {
 

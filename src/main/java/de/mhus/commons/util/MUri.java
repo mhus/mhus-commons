@@ -25,9 +25,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
-import de.mhus.lib.common.IProperties;
-import de.mhus.lib.common.MCast;
-import de.mhus.lib.common.MString;
+import de.mhus.commons.IProperties;
+import de.mhus.commons.MCast;
+import de.mhus.commons.MString;
 
 /**
  * The class encodes/decodes strings in rfc1738 format and provide helpers to handle with URI / URL

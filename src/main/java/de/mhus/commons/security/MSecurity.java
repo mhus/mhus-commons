@@ -33,8 +33,8 @@ import java.util.Map;
 
 import javax.security.auth.Subject;
 
-import de.mhus.lib.common.crypt.pem.PemBlock;
-import de.mhus.lib.common.crypt.pem.PemBlockModel;
+import de.mhus.commons.crypt.pem.PemBlock;
+import de.mhus.commons.crypt.pem.PemBlockModel;
 
 public class MSecurity {
 

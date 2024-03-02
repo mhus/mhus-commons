@@ -15,8 +15,8 @@
  */
 package de.mhus.commons.directory;
 
-import de.mhus.lib.annotations.activator.DefaultImplementation;
-import de.mhus.lib.common.node.MNode;
+import de.mhus.commons.annotations.activator.DefaultImplementation;
+import de.mhus.commons.node.MNode;
 
 @DefaultImplementation(ClassLoaderResourceProvider.class)
 public abstract class MResourceProvider extends MNode implements IResourceProvider {}

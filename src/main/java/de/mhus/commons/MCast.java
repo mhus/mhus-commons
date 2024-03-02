@@ -37,24 +37,24 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
-import de.mhus.lib.common.cast.Caster;
-import de.mhus.lib.common.cast.DoubleToString;
-import de.mhus.lib.common.cast.FloatToString;
-import de.mhus.lib.common.cast.ObjectToBigDecimal;
-import de.mhus.lib.common.cast.ObjectToBoolean;
-import de.mhus.lib.common.cast.ObjectToByte;
-import de.mhus.lib.common.cast.ObjectToCalendar;
-import de.mhus.lib.common.cast.ObjectToDate;
-import de.mhus.lib.common.cast.ObjectToDouble;
-import de.mhus.lib.common.cast.ObjectToFloat;
-import de.mhus.lib.common.cast.ObjectToInteger;
-import de.mhus.lib.common.cast.ObjectToLong;
-import de.mhus.lib.common.cast.ObjectToShort;
-import de.mhus.lib.common.cast.ObjectToSqlDate;
-import de.mhus.lib.common.cast.ObjectToString;
-import de.mhus.lib.common.cast.ObjectToUUID;
-import de.mhus.lib.common.io.MObjectInputStream;
-import de.mhus.lib.common.util.VectorMap;
+import de.mhus.commons.cast.Caster;
+import de.mhus.commons.cast.DoubleToString;
+import de.mhus.commons.cast.FloatToString;
+import de.mhus.commons.cast.ObjectToBigDecimal;
+import de.mhus.commons.cast.ObjectToBoolean;
+import de.mhus.commons.cast.ObjectToByte;
+import de.mhus.commons.cast.ObjectToCalendar;
+import de.mhus.commons.cast.ObjectToDate;
+import de.mhus.commons.cast.ObjectToDouble;
+import de.mhus.commons.cast.ObjectToFloat;
+import de.mhus.commons.cast.ObjectToInteger;
+import de.mhus.commons.cast.ObjectToLong;
+import de.mhus.commons.cast.ObjectToShort;
+import de.mhus.commons.cast.ObjectToSqlDate;
+import de.mhus.commons.cast.ObjectToString;
+import de.mhus.commons.cast.ObjectToUUID;
+import de.mhus.commons.io.MObjectInputStream;
+import de.mhus.commons.util.VectorMap;
 
 /**
  * Smplifies casts between java classes. Some functions in this class only make the code readable.
@@ -1211,8 +1211,8 @@ public final class MCast {
                 break;
             default:
                 try {
-                    t = M.l(MActivator.class).findClass(type);
-                } catch (ClassNotFoundException e) {
+                    t = MSystem.newInstance(type);
+                } catch (Exception e) {
                     return def;
                 }
         }

@@ -22,10 +22,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
-import de.mhus.lib.common.logging.MLogUtil;
-import de.mhus.lib.common.util.IObserver;
-import de.mhus.lib.errors.NotSupportedException;
+import de.mhus.commons.util.IObserver;
+import de.mhus.commons.errors.NotSupportedException;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class MValidator {
 
     private static List<String> passwordList;
@@ -145,7 +146,7 @@ public class MValidator {
 
             passwordList = Collections.unmodifiableList(list);
         } catch (Throwable t) {
-            MLogUtil.log().e(t);
+            LOGGER.debug("Error", t);
         }
         return passwordList;
     }

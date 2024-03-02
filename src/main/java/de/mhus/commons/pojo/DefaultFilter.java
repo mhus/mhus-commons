@@ -15,9 +15,9 @@
  */
 package de.mhus.commons.pojo;
 
-import de.mhus.lib.annotations.pojo.Action;
-import de.mhus.lib.annotations.pojo.Embedded;
-import de.mhus.lib.annotations.pojo.Hidden;
+import de.mhus.commons.annotations.pojo.Action;
+import de.mhus.commons.annotations.pojo.Embedded;
+import de.mhus.commons.annotations.pojo.Hidden;
 
 public class DefaultFilter implements PojoFilter {
 

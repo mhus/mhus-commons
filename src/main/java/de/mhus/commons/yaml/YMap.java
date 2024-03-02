@@ -19,8 +19,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import de.mhus.lib.common.MCast;
-import de.mhus.lib.common.util.EmptySet;
+import de.mhus.commons.MCast;
+import de.mhus.commons.util.EmptySet;
 
 public class YMap extends YElement {
 

@@ -17,9 +17,9 @@ package de.mhus.commons.console;
 
 import java.io.IOException;
 
-import de.mhus.lib.common.MCast;
-import de.mhus.lib.common.MString;
-import de.mhus.lib.common.MSystem;
+import de.mhus.commons.MCast;
+import de.mhus.commons.MString;
+import de.mhus.commons.MSystem;
 
 public class CmdConsole extends SimpleConsole {
 

@@ -23,7 +23,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Function;
 
-import de.mhus.lib.errors.MException;
+import de.mhus.commons.errors.MException;
 
 public interface IReadProperties extends Iterable<Map.Entry<String, Object>> {
 

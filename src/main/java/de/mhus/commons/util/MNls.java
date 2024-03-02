@@ -22,11 +22,11 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import de.mhus.lib.common.AbstractProperties;
-import de.mhus.lib.common.MSystem;
-import de.mhus.lib.common.parser.StringCompiler;
-import de.mhus.lib.errors.MException;
-import de.mhus.lib.errors.NotSupportedException;
+import de.mhus.commons.AbstractProperties;
+import de.mhus.commons.MSystem;
+import de.mhus.commons.parser.StringCompiler;
+import de.mhus.commons.errors.MException;
+import de.mhus.commons.errors.NotSupportedException;
 
 public class MNls extends AbstractProperties {
 

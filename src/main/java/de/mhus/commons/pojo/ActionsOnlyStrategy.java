@@ -21,10 +21,11 @@ import java.lang.reflect.Modifier;
 import java.util.LinkedList;
 import java.util.Set;
 
-import de.mhus.lib.annotations.generic.Public;
-import de.mhus.lib.common.util.MObject;
+import de.mhus.commons.annotations.generic.Public;
+import lombok.extern.slf4j.Slf4j;
 
-public class ActionsOnlyStrategy extends MObject implements PojoStrategy {
+@Slf4j
+public class ActionsOnlyStrategy implements PojoStrategy {
 
     private boolean toLower = true;
     private Class<? extends Annotation>[] annotationMarker;
@@ -76,7 +77,7 @@ public class ActionsOnlyStrategy extends MObject implements PojoStrategy {
                 }
 
             } catch (Exception e) {
-                log().d(e);
+                LOGGER.debug("Error", e);
             }
         }
     }

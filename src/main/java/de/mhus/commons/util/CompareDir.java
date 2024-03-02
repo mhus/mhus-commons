@@ -19,9 +19,11 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 
-import de.mhus.lib.common.MStopWatch;
+import de.mhus.commons.MStopWatch;
+import lombok.extern.slf4j.Slf4j;
 
-public class CompareDir extends MObject {
+@Slf4j
+public class CompareDir {
 
     private boolean fullRefresh;
     private String[] pathes;
@@ -45,7 +47,7 @@ public class CompareDir extends MObject {
         MStopWatch tk = new MStopWatch();
         tk.start();
 
-        log().t("START");
+        LOGGER.trace("START");
         listener.start(current, last);
 
         totalSize = current.size() + last.size();
@@ -67,7 +69,7 @@ public class CompareDir extends MObject {
             curEntry = cur.next();
             curKey = curEntry.getKey();
             curVal = curEntry.getValue();
-            log().t("CUR", curKey);
+            LOGGER.trace("CUR {}", curKey);
             totalCnt++;
             currentCnt++;
         }
@@ -76,7 +78,7 @@ public class CompareDir extends MObject {
             oldEntry = old.next();
             oldKey = (String) oldEntry.getKey();
             oldVal = (CompareDirEntry) oldEntry.getValue();
-            log().t("OLD", oldKey);
+            LOGGER.trace("OLD {}", oldKey);
             totalCnt++;
         }
 
@@ -97,7 +99,7 @@ public class CompareDir extends MObject {
 
                     if (isPath(curKey)) {
                         // check by listener
-                        log().t("UPDATE");
+                        LOGGER.trace("UPDATE");
                         updateCnt++;
                         boolean ret = listener.updateObject(curKey, curVal, oldVal);
                         if (commitAfterEveryEvent) {
@@ -111,7 +113,7 @@ public class CompareDir extends MObject {
                     curEntry = cur.next();
                     curKey = curEntry.getKey();
                     curVal = curEntry.getValue();
-                    log().t("CUR,", curKey);
+                    LOGGER.trace("CUR,{}", curKey);
                     totalCnt++;
                     currentCnt++;
                 } else curEntry = null;
@@ -120,7 +122,7 @@ public class CompareDir extends MObject {
                     oldEntry = old.next();
                     oldKey = oldEntry.getKey();
                     oldVal = oldEntry.getValue();
-                    log().t("OLD", oldKey);
+                    LOGGER.trace("OLD {}", oldKey);
                     totalCnt++;
                 } else oldEntry = null;
 
@@ -130,7 +132,7 @@ public class CompareDir extends MObject {
 
                 // old has new one (deleted in cur), check by listener
                 if (isPath(oldKey)) {
-                    log().t("DELETE");
+                    LOGGER.trace("DELETE");
                     deleteCnt++;
                     boolean ret = listener.deleteObject(oldKey, oldVal);
                     if (commitAfterEveryEvent) {
@@ -143,7 +145,7 @@ public class CompareDir extends MObject {
                     oldEntry = old.next();
                     oldKey = oldEntry.getKey();
                     oldVal = oldEntry.getValue();
-                    log().t("OLD", oldKey);
+                    LOGGER.trace("OLD {}", oldKey);
                     totalCnt++;
                 } else oldEntry = null;
 
@@ -152,7 +154,7 @@ public class CompareDir extends MObject {
 
                 // cur has new one, check by listener
                 if (isPath(curKey)) {
-                    log().t("CREATE");
+                    LOGGER.trace("CREATE");
                     insertCnt++;
                     boolean ret = listener.createObject(curKey, curVal);
                     if (commitAfterEveryEvent) {
@@ -165,14 +167,14 @@ public class CompareDir extends MObject {
                     curEntry = cur.next();
                     curKey = curEntry.getKey();
                     curVal = curEntry.getValue();
-                    log().t("CUR", curKey);
+                    LOGGER.trace("CUR {}", curKey);
                     totalCnt++;
                     currentCnt++;
                 } else curEntry = null;
             }
         }
 
-        log().t("FINISH");
+        LOGGER.trace("FINISH");
         boolean ret = listener.finish(current, last);
         if (commitAfterFinish) {
             if (ret) doCommit();
@@ -180,7 +182,7 @@ public class CompareDir extends MObject {
         }
 
         tk.stop();
-        log().d("Time", tk.getCurrentTimeAsString());
+        LOGGER.debug("Time {}", tk.getCurrentTimeAsString());
     }
 
     private boolean isPath(String path) {

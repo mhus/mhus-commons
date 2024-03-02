@@ -20,16 +20,16 @@ import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.LinkedList;
 
+import lombok.extern.slf4j.Slf4j;
 import org.jline.reader.LineReader;
 import org.jline.reader.impl.LineReaderImpl;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
 
-import de.mhus.lib.common.MString;
-import de.mhus.lib.common.logging.MLogUtil;
+import de.mhus.commons.MString;
 
 // http://ascii-table.com/ansi-escape-sequences.php
-
+@Slf4j
 public class ANSIConsole extends Console {
 
     public static final int KEY_SPECIAL_LEFT = 68;
@@ -138,7 +138,7 @@ public class ANSIConsole extends Console {
             }
             return ret;
         } catch (Exception e) {
-            MLogUtil.log().t(e);
+            LOGGER.trace("Error",e);
         }
         return null;
         //		return System.console().readLine();
@@ -149,7 +149,7 @@ public class ANSIConsole extends Console {
         try {
             return reader.readCharacter();
         } catch (Exception e) {
-            MLogUtil.log().t(e);
+            LOGGER.trace("Error",e);
         }
         return -1;
     }

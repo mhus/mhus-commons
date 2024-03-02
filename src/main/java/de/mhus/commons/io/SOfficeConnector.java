@@ -26,22 +26,22 @@ import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
-import de.mhus.lib.common.MFile;
-import de.mhus.lib.common.MLog;
-import de.mhus.lib.common.MString;
-import de.mhus.lib.common.MSystem;
-import de.mhus.lib.common.cfg.CfgString;
-import de.mhus.lib.common.parser.StringPropertyReplacer;
-import de.mhus.lib.errors.NotFoundException;
+import de.mhus.commons.MFile;
+import de.mhus.commons.MString;
+import de.mhus.commons.MSystem;
+import de.mhus.commons.parser.StringPropertyReplacer;
+import de.mhus.commons.errors.NotFoundException;
+import lombok.extern.slf4j.Slf4j;
 
-public class SOfficeConnector extends MLog {
+@Slf4j
+public class SOfficeConnector {
 
     public static final String SOFFICE_CONTENT = "content.xml";
     public static final String WORD_CONTENT = "word/document.xml";
-    private static CfgString BINARY = new CfgString(SOfficeConnector.class, "binary", "soffice");
-    private String binary = BINARY.value();
+    private static final String BINARY = MSystem.getEnv(SOfficeConnector.class, "binary", "soffice");
     private boolean valid = false;
     private String version;
+    private String binary = BINARY;
 
     public SOfficeConnector() {
         findVersion();
@@ -143,7 +143,7 @@ public class SOfficeConnector extends MLog {
             }
         }
 
-        log().d("convert-to failed", binary, format, outDir, in, res[1], res[0]);
+        LOGGER.debug("convert-to failed {} {} {} {} {} {}", binary, format, outDir, in, res[1], res[0]);
 
         return null;
     }

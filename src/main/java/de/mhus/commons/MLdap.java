@@ -31,14 +31,11 @@ import javax.naming.directory.InitialDirContext;
 import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
 
-import de.mhus.lib.basics.RC;
-import de.mhus.lib.common.logging.Log;
-import de.mhus.lib.errors.MRuntimeException;
+import de.mhus.commons.basics.RC;
+import de.mhus.commons.errors.MRuntimeException;
 
 public class MLdap {
 
-    @SuppressWarnings("unused")
-    private static final Log log = Log.getLog(MLdap.class);
 
     public static final String KEY_NAME = ".name";
     public static final String KEY_FQDN = ".fqdn";

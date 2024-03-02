@@ -23,7 +23,7 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-import de.mhus.lib.errors.NotSupportedException;
+import de.mhus.commons.errors.NotSupportedException;
 
 public class ImmutableMap<K, V> implements Map<K, V> {
 

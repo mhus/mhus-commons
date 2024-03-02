@@ -22,9 +22,9 @@ import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 
-import de.mhus.lib.common.MString;
-import de.mhus.lib.common.directory.MResourceProvider;
-import de.mhus.lib.common.logging.Log;
+import de.mhus.commons.MString;
+import de.mhus.commons.directory.MResourceProvider;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * This class loader is a distributor. You can dynamically change the list of child loaders.
@@ -33,6 +33,7 @@ import de.mhus.lib.common.logging.Log;
  *
  * @author mikehummel
  */
+@Slf4j
 public class DynamicClassLoader extends ClassLoader {
 
     public enum RESULT {
@@ -40,8 +41,6 @@ public class DynamicClassLoader extends ClassLoader {
         OWN,
         FORWARD
     };
-
-    public static Log log = Log.getLog(DynamicClassLoader.class);
 
     protected String name = null;
 
@@ -87,7 +86,7 @@ public class DynamicClassLoader extends ClassLoader {
 
     @Override
     protected Class<?> findClass(String name) throws ClassNotFoundException {
-        log.t("ask for", this, name);
+        LOGGER.trace("ask for {} {}", this, name);
 
         if (rules != null) {
             for (Rule rule : rules) {
@@ -111,11 +110,11 @@ public class DynamicClassLoader extends ClassLoader {
             try {
                 InputStream res = cl.getInputStream(resName);
                 if (res != null) {
-                    log.t("loaded class", this, cl, name);
+                    LOGGER.trace("loaded class {} {} {}", this, cl, name);
                     return toClass(name, res);
                 }
             } catch (Exception e) {
-                log.t(name, e);
+                LOGGER.trace("Error {}", name, e);
             }
         }
 
@@ -133,11 +132,11 @@ public class DynamicClassLoader extends ClassLoader {
             try {
                 InputStream res = cl.getInputStream(resName);
                 if (res != null) {
-                    log.t("loaded class", this, cl, name);
+                    LOGGER.trace("loaded class {} {} {}", this, cl, name);
                     return toClass(name, res);
                 }
             } catch (Exception e) {
-                log.t(name, e);
+                LOGGER.trace("Error {}", name, e);
             }
         }
         return super.findClass(name);
@@ -167,13 +166,13 @@ public class DynamicClassLoader extends ClassLoader {
 
     @Override
     protected URL findResource(String name) {
-        log.t("resource", this, name);
+        LOGGER.trace("resource {} {}", this, name);
         for (MResourceProvider cl : classLoaders) {
             try {
                 URL res = cl.getUrl(name);
                 if (res != null) {
                     res.openStream().close();
-                    log.t("loaded resource", this, cl, name);
+                    LOGGER.trace("loaded resource {} {} {}", this, cl, name);
                     return res;
                 }
             } catch (Exception e) {

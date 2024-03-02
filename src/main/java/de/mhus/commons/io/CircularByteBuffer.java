@@ -18,7 +18,7 @@ package de.mhus.commons.io;
 import java.io.EOFException;
 import java.nio.BufferOverflowException;
 
-import de.mhus.lib.common.util.AbstractByteBuffer;
+import de.mhus.commons.util.AbstractByteBuffer;
 
 /** Description of CircularByteBuffer. */
 public class CircularByteBuffer extends AbstractByteBuffer {

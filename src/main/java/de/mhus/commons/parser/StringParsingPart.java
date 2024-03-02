@@ -17,9 +17,7 @@ package de.mhus.commons.parser;
 
 import java.io.IOException;
 
-import de.mhus.lib.common.util.MObject;
-
-public abstract class StringParsingPart extends MObject implements ParsingPart {
+public abstract class StringParsingPart implements ParsingPart {
 
     @Override
     public void parse(ParseReader str) throws ParseException {

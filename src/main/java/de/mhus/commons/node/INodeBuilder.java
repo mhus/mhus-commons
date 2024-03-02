@@ -24,12 +24,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import de.mhus.lib.basics.RC;
-import de.mhus.lib.common.MLog;
-import de.mhus.lib.common.MString;
-import de.mhus.lib.errors.MException;
+import de.mhus.commons.basics.RC;
+import de.mhus.commons.MString;
+import de.mhus.commons.errors.MException;
 
-public abstract class INodeBuilder extends MLog {
+public abstract class INodeBuilder {
 
     public abstract INode read(InputStream is) throws MException;
 

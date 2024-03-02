@@ -20,11 +20,11 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
-import de.mhus.lib.basics.RC;
-import de.mhus.lib.basics.Versioned;
-import de.mhus.lib.common.MCast;
-import de.mhus.lib.common.MString;
-import de.mhus.lib.errors.MRuntimeException;
+import de.mhus.commons.basics.RC;
+import de.mhus.commons.basics.Versioned;
+import de.mhus.commons.MCast;
+import de.mhus.commons.MString;
+import de.mhus.commons.errors.MRuntimeException;
 
 public class Version implements Comparable<Version>, Externalizable {
 

@@ -50,6 +50,7 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import lombok.extern.slf4j.Slf4j;
 import org.w3c.dom.CDATASection;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
@@ -66,9 +67,8 @@ import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import de.mhus.lib.common.logging.MLogUtil;
-
 @SuppressWarnings("deprecation")
+@Slf4j
 public class MXml {
 
     private static DocumentBuilderFactory dbf;
@@ -466,8 +466,7 @@ public class MXml {
 
             } catch (ParserConfigurationException e) {
                 // This should catch a failed setFeature feature
-                MLogUtil.log()
-                        .e(
+                LOGGER.error(
                                 "ParserConfigurationException was thrown. The feature '"
                                         + FEATURE
                                         + "' is probably not supported by your XML processor.");

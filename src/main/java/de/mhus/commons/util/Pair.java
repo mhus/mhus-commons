@@ -15,7 +15,7 @@
  */
 package de.mhus.commons.util;
 
-import de.mhus.lib.annotations.generic.Public;
+import de.mhus.commons.annotations.generic.Public;
 
 public class Pair<K, V> {
 

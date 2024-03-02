@@ -15,8 +15,7 @@
  */
 package de.mhus.commons.util;
 
-import de.mhus.lib.common.MThread;
-import de.mhus.lib.common.MThreadDaemon;
+import de.mhus.commons.MThread;
 
 /*
  * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//httpclient/src/java/org/apache/commons/httpclient/util/TimeoutController.java,v 1.6 2004/04/18 23:51:38 jsdever Exp $
@@ -92,7 +91,9 @@ public final class TimeoutController {
      * @throws TimeoutException if the timeout passes and the thread does not return.
      */
     public static void execute(Runnable task, long timeout) throws TimeoutException {
-        MThread t = new MThreadDaemon(task, "Timeout guard");
+        Thread t = new Thread(task);
+        t.setName("Timeout guard");
+        t.setDaemon(true);
         execute(t, timeout);
     }
 

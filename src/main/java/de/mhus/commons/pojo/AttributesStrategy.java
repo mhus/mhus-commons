@@ -20,15 +20,16 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
-import de.mhus.lib.annotations.base.IgnoreBind;
-import de.mhus.lib.annotations.generic.Public;
-import de.mhus.lib.annotations.pojo.Embedded;
-import de.mhus.lib.common.MCast;
-import de.mhus.lib.common.MSystem;
-import de.mhus.lib.common.util.MObject;
+import de.mhus.commons.annotations.base.IgnoreBind;
+import de.mhus.commons.annotations.generic.Public;
+import de.mhus.commons.annotations.pojo.Embedded;
+import de.mhus.commons.MCast;
+import de.mhus.commons.MSystem;
+import lombok.extern.slf4j.Slf4j;
 
 @IgnoreBind
-public class AttributesStrategy extends MObject implements PojoStrategy {
+@Slf4j
+public class AttributesStrategy implements PojoStrategy {
 
     private boolean embedded;
     private String embedGlue;
@@ -81,8 +82,8 @@ public class AttributesStrategy extends MObject implements PojoStrategy {
                 try {
                     field.setAccessible(true);
                 } catch (Throwable t) {
-                    log().d(
-                                    "setAccessible",
+                    LOGGER.debug(
+                                    "setAccessible {} {}",
                                     field.getDeclaringClass().getCanonicalName(),
                                     field.getName(),
                                     t);

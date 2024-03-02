@@ -25,10 +25,11 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
-import de.mhus.lib.common.MFile;
-import de.mhus.lib.common.util.MObject;
+import de.mhus.commons.MFile;
+import lombok.extern.slf4j.Slf4j;
 
-public class Unzip extends MObject {
+@Slf4j
+public class Unzip {
 
     public void unzip(File src, File dst, FileFilter filter) throws ZipException, IOException {
         Enumeration<?> entries;
@@ -43,7 +44,7 @@ public class Unzip extends MObject {
             if (entry.isDirectory()) {
                 // Assume directories are stored parents first then children.
                 // System.err.println("Extracting directory: " + entry.getName());
-                log().t("Unzip directory: " + entry.getName());
+                LOGGER.trace("Unzip directory {}", entry.getName());
                 // This is not robust, just for demonstration purposes.
                 (new File(dst, entry.getName())).mkdir();
                 continue;
@@ -51,10 +52,10 @@ public class Unzip extends MObject {
 
             File dstFile = new File(dst, entry.getName());
             if (filter == null || !filter.accept(dstFile)) {
-                log().t("Unzip file: " + entry.getName());
+                LOGGER.trace("Unzip file: {}", entry.getName());
                 File parent = dstFile.getParentFile();
                 if (!parent.exists()) {
-                    log().t("  Create parent");
+                    LOGGER.trace("  Create parent");
                     parent.mkdirs();
                 }
                 BufferedOutputStream os = new BufferedOutputStream(new FileOutputStream(dstFile));

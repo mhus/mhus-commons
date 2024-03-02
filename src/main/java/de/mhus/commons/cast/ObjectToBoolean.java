@@ -15,7 +15,7 @@
  */
 package de.mhus.commons.cast;
 
-import de.mhus.lib.common.util.Value;
+import de.mhus.commons.util.Value;
 
 public class ObjectToBoolean implements Caster<Object, Boolean> {
 

@@ -26,22 +26,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import de.mhus.lib.basics.RC;
-import de.mhus.lib.common.MCollection;
-import de.mhus.lib.common.MDate;
-import de.mhus.lib.common.MProperties;
-import de.mhus.lib.common.MString;
-import de.mhus.lib.common.cfg.CfgInt;
-import de.mhus.lib.common.pojo.MPojo;
-import de.mhus.lib.common.util.NullValue;
-import de.mhus.lib.errors.MException;
-import de.mhus.lib.errors.MRuntimeException;
-import de.mhus.lib.errors.TooDeepStructuresException;
+import de.mhus.commons.MSystem;
+import de.mhus.commons.basics.RC;
+import de.mhus.commons.MCollection;
+import de.mhus.commons.MDate;
+import de.mhus.commons.MProperties;
+import de.mhus.commons.MString;
+import de.mhus.commons.pojo.MPojo;
+import de.mhus.commons.util.NullValue;
+import de.mhus.commons.errors.MException;
+import de.mhus.commons.errors.MRuntimeException;
+import de.mhus.commons.errors.TooDeepStructuresException;
 
 public class PropertiesNodeBuilder extends INodeBuilder {
 
-    protected static final CfgInt CFG_MAX_LEVEL =
-            new CfgInt(PropertiesNodeBuilder.class, "maxLevel", 100);
+    protected static final int CFG_MAX_LEVEL =
+            MSystem.getEnv(PropertiesNodeBuilder.class, "maxLevel", 100);
 
     @Override
     public INode read(InputStream is) throws MException {
@@ -75,7 +75,7 @@ public class PropertiesNodeBuilder extends INodeBuilder {
 
     protected void readFromCollection(INode node, String key, Collection<?> col, int level) {
         level++;
-        if (level > CFG_MAX_LEVEL.value()) throw new TooDeepStructuresException();
+        if (level > CFG_MAX_LEVEL) throw new TooDeepStructuresException();
 
         NodeList arr = node.createArray(key);
         for (Object item : col) {
@@ -86,7 +86,7 @@ public class PropertiesNodeBuilder extends INodeBuilder {
 
     protected INode readFromMap(Map<?, ?> map, int level) {
         level++;
-        if (level > CFG_MAX_LEVEL.value()) throw new TooDeepStructuresException();
+        if (level > CFG_MAX_LEVEL) throw new TooDeepStructuresException();
 
         INode node = new MNode();
         for (Entry<?, ?> entry : map.entrySet()) {
@@ -120,7 +120,7 @@ public class PropertiesNodeBuilder extends INodeBuilder {
 
     protected INode readObject(Object item, int level) {
         level++;
-        if (level > CFG_MAX_LEVEL.value()) throw new TooDeepStructuresException();
+        if (level > CFG_MAX_LEVEL) throw new TooDeepStructuresException();
 
         if (item == null) {
             MNode obj = new MNode();
