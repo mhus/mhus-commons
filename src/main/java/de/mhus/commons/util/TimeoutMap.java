@@ -1,0 +1,268 @@
+/**
+ * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package de.mhus.commons.util;
+
+import de.mhus.commons.MPeriod;
+import de.mhus.commons.errors.NotSupportedException;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Function;
+
+public class TimeoutMap<K, V> implements Map<K, V> {
+
+    private Map<K, Container<V>> map = new HashMap<>();
+    private long timeout = MPeriod.MINUTE_IN_MILLISECONDS * 10;
+    private long lastCheck = System.currentTimeMillis();
+    private long checkTimeout = MPeriod.MINUTE_IN_MILLISECONDS * 10;
+    private Invalidator<K, V> invalidator;
+    private boolean refreshOnAccess;
+
+    public TimeoutMap() {}
+
+    public TimeoutMap(long timeout) {
+        this.timeout = timeout;
+        checkTimeout = timeout;
+    }
+
+    @Override
+    public int size() {
+        return map.size();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return map.isEmpty();
+    }
+
+    @Override
+    public boolean containsKey(Object key) {
+        return map.containsKey(key);
+    }
+
+    @Override
+    public boolean containsValue(Object value) {
+        return map.containsValue(value);
+    }
+
+    @Override
+    public V get(Object key) {
+        doValidationCheck();
+        TimeoutMap<K, V>.Container<V> ret = map.get(key);
+        return ret == null ? null : ret.getValue();
+    }
+
+    public long getAccessCount(Object key) {
+        doValidationCheck();
+        TimeoutMap<K, V>.Container<V> ret = map.get(key);
+        return ret == null ? -1 : ret.accessed;
+    }
+
+    public synchronized void doValidationCheck() {
+        if (System.currentTimeMillis() - lastCheck > checkTimeout) {
+            Iterator<java.util.Map.Entry<K, TimeoutMap<K, V>.Container<V>>> entries =
+                    map.entrySet().iterator();
+            while (entries.hasNext()) {
+                java.util.Map.Entry<K, TimeoutMap<K, V>.Container<V>> next = entries.next();
+                if (invalidator != null
+                                && invalidator.isInvalid(
+                                        next.getKey(),
+                                        next.getValue().value,
+                                        next.getValue().time,
+                                        next.getValue().accessed)
+                        || invalidator == null && next.getValue().isTimeout()) entries.remove();
+            }
+            lastCheck = System.currentTimeMillis();
+        }
+    }
+
+    @Override
+    public V put(K key, V value) {
+        doValidationCheck();
+        TimeoutMap<K, V>.Container<V> ret = map.put(key, new Container<V>(value));
+        return ret == null ? null : ret.value;
+    }
+
+    @Override
+    public V remove(Object key) {
+        doValidationCheck();
+        TimeoutMap<K, V>.Container<V> ret = map.remove(key);
+        return ret == null ? null : ret.value;
+    }
+
+    @Override
+    public void putAll(Map<? extends K, ? extends V> m) {
+        for (java.util.Map.Entry<? extends K, ? extends V> entry : m.entrySet())
+            put(entry.getKey(), entry.getValue());
+    }
+
+    @Override
+    public void clear() {
+        map.clear();
+    }
+
+    @Override
+    public Set<K> keySet() {
+        doValidationCheck();
+        return map.keySet();
+    }
+
+    @Override
+    public Collection<V> values() {
+        throw new NotSupportedException();
+    }
+
+    @Override
+    public Set<java.util.Map.Entry<K, V>> entrySet() {
+        doValidationCheck();
+        HashSet<java.util.Map.Entry<K, V>> out = new HashSet<>();
+        for (Map.Entry<K, Container<V>> entry : map.entrySet())
+            out.add(new MapEntry<K, V>(entry.getKey(), entry.getValue().value));
+        return out;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return map.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return map.hashCode();
+    }
+
+    @Override
+    public V getOrDefault(Object key, V defaultValue) {
+        V ret = get(key);
+        if (ret == null) return defaultValue;
+        return ret;
+    }
+
+    @Override
+    public void forEach(BiConsumer<? super K, ? super V> action) {
+        throw new NotSupportedException();
+    }
+
+    @Override
+    public void replaceAll(BiFunction<? super K, ? super V, ? extends V> function) {
+        throw new NotSupportedException();
+    }
+
+    @Override
+    public V putIfAbsent(K key, V value) {
+        throw new NotSupportedException();
+    }
+
+    @Override
+    public boolean remove(Object key, Object value) {
+        throw new NotSupportedException();
+    }
+
+    @Override
+    public boolean replace(K key, V oldValue, V newValue) {
+        throw new NotSupportedException();
+    }
+
+    @Override
+    public V replace(K key, V value) {
+        throw new NotSupportedException();
+    }
+
+    @Override
+    public V computeIfAbsent(K key, Function<? super K, ? extends V> mappingFunction) {
+        throw new NotSupportedException();
+    }
+
+    @Override
+    public V computeIfPresent(
+            K key, BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
+        throw new NotSupportedException();
+    }
+
+    @Override
+    public V compute(K key, BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
+        throw new NotSupportedException();
+    }
+
+    @Override
+    public V merge(
+            K key, V value, BiFunction<? super V, ? super V, ? extends V> remappingFunction) {
+        throw new NotSupportedException();
+    }
+
+    public long getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(long timeout) {
+        this.timeout = timeout;
+    }
+
+    public long getCheckTimeout() {
+        return checkTimeout;
+    }
+
+    public void setCheckTimeout(long checkTimeout) {
+        this.checkTimeout = checkTimeout;
+    }
+
+    public Invalidator<K, V> getInvalidator() {
+        return invalidator;
+    }
+
+    public void setInvalidator(Invalidator<K, V> invalidator) {
+        this.invalidator = invalidator;
+    }
+
+    public boolean isRefreshOnAccess() {
+        return refreshOnAccess;
+    }
+
+    public void setRefreshOnAccess(boolean refreshOnAccess) {
+        this.refreshOnAccess = refreshOnAccess;
+    }
+
+    private class Container<Z> {
+        Z value;
+        long time = System.currentTimeMillis();
+        long accessed = 0;
+
+        public Container(Z value) {
+            this.value = value;
+        }
+
+        public Z getValue() {
+            if (isRefreshOnAccess()) time = System.currentTimeMillis();
+            accessed++;
+            return value;
+        }
+
+        boolean isTimeout() {
+            return System.currentTimeMillis() - time > timeout;
+        }
+    }
+
+    public static interface Invalidator<K, V> {
+
+        boolean isInvalid(K key, V value, long time, long accessed);
+    }
+}
