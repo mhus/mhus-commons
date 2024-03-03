@@ -22,7 +22,7 @@ import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.util.LinkedList;
 
-import de.mhus.commons.annotations.activator.DefaultImplementation;
+import de.mhus.commons.annotations.service.DefaultImplementation;
 import de.mhus.commons.basics.Adaptable;
 import de.mhus.commons.M;
 import de.mhus.commons.errors.NotSupportedException;

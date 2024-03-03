@@ -15,7 +15,9 @@
  */
 package de.mhus.commons.util;
 
-public class MNlsBundleFactory {
+import de.mhus.commons.services.IService;
+
+public class MNlsBundleFactory implements IService {
 
     public MNlsBundle create(Object owner) {
         return new MNlsFactory().setOwner(owner);

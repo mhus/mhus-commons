@@ -18,7 +18,7 @@ package de.mhus.commons.node;
 import java.io.File;
 import java.net.URL;
 
-import de.mhus.commons.annotations.activator.DefaultImplementation;
+import de.mhus.commons.annotations.service.DefaultImplementation;
 import de.mhus.commons.errors.MException;
 
 @DefaultImplementation(DefaultNodeFactory.class)

@@ -15,10 +15,11 @@
  */
 package de.mhus.commons.console;
 
-import de.mhus.commons.annotations.activator.DefaultImplementation;
+import de.mhus.commons.annotations.service.DefaultImplementation;
+import de.mhus.commons.services.IService;
 
 @DefaultImplementation(DefaultConsoleFactory.class)
-public interface ConsoleFactory {
+public interface ConsoleFactory extends IService {
 
     public Console create();
 }

@@ -18,16 +18,16 @@ package de.mhus.commons.util;
 import java.util.HashMap;
 import java.util.Locale;
 
-import de.mhus.commons.annotations.activator.DefaultImplementation;
-import de.mhus.commons.M;
+import de.mhus.commons.annotations.service.DefaultImplementation;
+import de.mhus.commons.services.IService;
+import de.mhus.commons.services.MService;
 
 @DefaultImplementation(MNlsFactory.class)
-public abstract class MNlsBundle {
+public abstract class MNlsBundle implements IService {
 
     private String path;
     private MNls defaultNls;
     private HashMap<String, Object> cache = new HashMap<>();
-    private static MNlsBundleFactory factory = null;
 
     public MNlsBundle() {}
 
@@ -92,9 +92,7 @@ public abstract class MNlsBundle {
     }
 
     public synchronized static MNlsBundle lookup(Object owner) {
-        if (factory == null)
-            factory = new MNlsBundleFactory();
-        MNlsBundle nlsBundle = factory.create(owner);
+        MNlsBundle nlsBundle = MService.getService(MNlsBundleFactory.class).create(owner);
         return nlsBundle;
     }
 }
