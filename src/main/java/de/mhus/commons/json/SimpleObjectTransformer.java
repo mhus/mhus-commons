@@ -15,6 +15,14 @@
  */
 package de.mhus.commons.json;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import de.mhus.commons.MJson;
+import de.mhus.commons.errors.NotSupportedException;
+import de.mhus.commons.pojo.PojoAttribute;
+import de.mhus.commons.pojo.PojoModel;
+
 import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Date;
@@ -23,15 +31,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.UUID;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-
-import de.mhus.commons.MJson;
-import de.mhus.commons.pojo.PojoAttribute;
-import de.mhus.commons.pojo.PojoModel;
-import de.mhus.commons.errors.NotSupportedException;
 
 public class SimpleObjectTransformer extends TransformStrategy {
 

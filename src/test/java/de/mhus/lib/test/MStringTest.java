@@ -15,17 +15,16 @@
  */
 package de.mhus.lib.test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import de.mhus.commons.MString;
+import de.mhus.commons.errors.MException;
+import de.mhus.commons.node.MProperties;
+import de.mhus.commons.parser.StringCompiler;
+import de.mhus.lib.test.util.TestCase;
+import org.junit.jupiter.api.Test;
 
 import java.util.Map.Entry;
 
-import de.mhus.commons.errors.MException;
-import org.junit.jupiter.api.Test;
-
-import de.mhus.commons.node.MProperties;
-import de.mhus.commons.MString;
-import de.mhus.commons.parser.StringCompiler;
-import de.mhus.lib.test.util.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MStringTest extends TestCase {
 

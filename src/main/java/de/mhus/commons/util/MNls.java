@@ -15,18 +15,18 @@
  */
 package de.mhus.commons.util;
 
+import de.mhus.commons.AbstractProperties;
+import de.mhus.commons.MSystem;
+import de.mhus.commons.errors.MException;
+import de.mhus.commons.errors.NotSupportedException;
+import de.mhus.commons.parser.StringCompiler;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-
-import de.mhus.commons.AbstractProperties;
-import de.mhus.commons.MSystem;
-import de.mhus.commons.parser.StringCompiler;
-import de.mhus.commons.errors.MException;
-import de.mhus.commons.errors.NotSupportedException;
 
 public class MNls extends AbstractProperties {
 

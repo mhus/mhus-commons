@@ -15,15 +15,15 @@
  */
 package de.mhus.commons.cast;
 
+import de.mhus.commons.MCast;
+import de.mhus.commons.MString;
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.TimeZone;
-
-import de.mhus.commons.MCast;
-import de.mhus.commons.MString;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Accepted formats:

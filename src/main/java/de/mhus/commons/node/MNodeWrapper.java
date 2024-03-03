@@ -15,6 +15,9 @@
  */
 package de.mhus.commons.node;
 
+import de.mhus.commons.errors.MException;
+import de.mhus.commons.errors.NotFoundException;
+
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -26,9 +29,6 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
-
-import de.mhus.commons.errors.MException;
-import de.mhus.commons.errors.NotFoundException;
 
 public class MNodeWrapper extends MNode {
 

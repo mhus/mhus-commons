@@ -15,11 +15,11 @@
  */
 package de.mhus.commons.pojo;
 
+import de.mhus.commons.MCast;
+
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-
-import de.mhus.commons.MCast;
 
 public class FunctionAttribute<T> implements PojoAttribute<T> {
 

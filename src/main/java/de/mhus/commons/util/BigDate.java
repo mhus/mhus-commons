@@ -157,13 +157,13 @@
 */
 package de.mhus.commons.util;
 
+import de.mhus.commons.MString;
+
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.TimeZone;
-
-import de.mhus.commons.MString;
 
 /**
  * Convert Gregorian YYYY MM DD back and forth to ordinal days since 1970 Jan 1, Thursday (sometimes

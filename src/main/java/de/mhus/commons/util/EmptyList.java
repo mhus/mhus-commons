@@ -15,13 +15,13 @@
  */
 package de.mhus.commons.util;
 
+import de.mhus.commons.basics.ReadOnly;
+
 import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
-
-import de.mhus.commons.basics.ReadOnly;
 
 /**
  * An empty list. The list is unmodifiable.

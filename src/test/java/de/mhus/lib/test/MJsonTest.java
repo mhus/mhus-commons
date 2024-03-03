@@ -15,8 +15,14 @@
  */
 package de.mhus.lib.test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import com.fasterxml.jackson.databind.JsonNode;
+import de.mhus.commons.MJson;
+import de.mhus.commons.json.JacksonTransformer;
+import de.mhus.commons.json.SerializerTransformer;
+import de.mhus.commons.json.SimpleObjectTransformer;
+import de.mhus.commons.json.TransformHelper;
+import de.mhus.lib.test.util.TestCase;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -25,16 +31,8 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.junit.jupiter.api.Test;
-
-import com.fasterxml.jackson.databind.JsonNode;
-
-import de.mhus.commons.MJson;
-import de.mhus.commons.json.JacksonTransformer;
-import de.mhus.commons.json.SerializerTransformer;
-import de.mhus.commons.json.SimpleObjectTransformer;
-import de.mhus.commons.json.TransformHelper;
-import de.mhus.lib.test.util.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class MJsonTest extends TestCase {
 

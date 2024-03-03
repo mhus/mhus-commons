@@ -15,8 +15,15 @@
  */
 package de.mhus.lib.test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import de.mhus.commons.MCast;
+import de.mhus.commons.MPeriod;
+import de.mhus.commons.MString;
+import de.mhus.commons.crypt.CryptedString;
+import de.mhus.commons.crypt.MBouncy;
+import de.mhus.commons.util.Lorem;
+import de.mhus.commons.util.SecureString;
+import de.mhus.lib.test.util.TestCase;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -26,16 +33,8 @@ import java.security.NoSuchProviderException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 
-import org.junit.jupiter.api.Test;
-
-import de.mhus.commons.MCast;
-import de.mhus.commons.MPeriod;
-import de.mhus.commons.MString;
-import de.mhus.commons.crypt.CryptedString;
-import de.mhus.commons.crypt.MBouncy;
-import de.mhus.commons.util.Lorem;
-import de.mhus.commons.util.SecureString;
-import de.mhus.lib.test.util.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class SecureStringTest extends TestCase {
 

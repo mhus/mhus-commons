@@ -15,9 +15,9 @@
  */
 package de.mhus.commons.crypt.pem;
 
-import java.security.PrivateKey;
-
 import de.mhus.commons.util.SecureString;
+
+import java.security.PrivateKey;
 
 public class SecurityPrivateKey implements PrivateKey {
 

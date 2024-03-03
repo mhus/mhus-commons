@@ -15,12 +15,11 @@
  */
 package de.mhus.commons.io;
 
-import java.util.ArrayList;
+import de.mhus.commons.MFile;
+
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import de.mhus.commons.MFile;
 
 public class MHttp {
 

@@ -15,9 +15,9 @@
  */
 package de.mhus.commons.crypt;
 
-import java.math.BigInteger;
-
 import de.mhus.commons.MSystem;
+
+import java.math.BigInteger;
 
 public class AsyncKey {
     private BigInteger modulus;

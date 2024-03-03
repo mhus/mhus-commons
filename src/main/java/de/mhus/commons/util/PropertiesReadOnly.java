@@ -15,6 +15,11 @@
  */
 package de.mhus.commons.util;
 
+import de.mhus.commons.basics.ReadOnly;
+import de.mhus.commons.errors.MException;
+import de.mhus.commons.node.IProperties;
+import de.mhus.commons.node.IReadProperties;
+
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -22,11 +27,6 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Function;
-
-import de.mhus.commons.basics.ReadOnly;
-import de.mhus.commons.node.IProperties;
-import de.mhus.commons.node.IReadProperties;
-import de.mhus.commons.errors.MException;
 
 public class PropertiesReadOnly implements IReadProperties, ReadOnly {
 

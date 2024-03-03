@@ -15,6 +15,18 @@
  */
 package de.mhus.commons.crypt;
 
+import de.mhus.commons.MCast;
+import de.mhus.commons.MPeriod;
+import de.mhus.commons.MString;
+import de.mhus.commons.MSystem;
+import de.mhus.commons.MThread;
+import de.mhus.commons.crypt.pem.PemBlock;
+import de.mhus.commons.crypt.pem.PemBlockModel;
+import de.mhus.commons.crypt.pem.PemUtil;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -35,21 +47,6 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 import java.util.LinkedList;
-
-import javax.crypto.Cipher;
-import javax.crypto.spec.SecretKeySpec;
-
-import de.mhus.commons.MSystem;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
-
-import de.mhus.commons.M;
-import de.mhus.commons.MCast;
-import de.mhus.commons.MPeriod;
-import de.mhus.commons.MString;
-import de.mhus.commons.MThread;
-import de.mhus.commons.crypt.pem.PemBlock;
-import de.mhus.commons.crypt.pem.PemBlockModel;
-import de.mhus.commons.crypt.pem.PemUtil;
 
 /**
  * This utility uses explicit bouncy castle methods for cryptography. It depends on BC but not JCE.

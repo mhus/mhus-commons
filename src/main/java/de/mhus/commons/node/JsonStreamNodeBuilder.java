@@ -15,6 +15,15 @@
  */
 package de.mhus.commons.node;
 
+import com.fasterxml.jackson.core.JsonEncoding;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
+import de.mhus.commons.basics.RC;
+import de.mhus.commons.errors.MException;
+import de.mhus.commons.util.NullValue;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -22,16 +31,6 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.Map.Entry;
-
-import com.fasterxml.jackson.core.JsonEncoding;
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonToken;
-
-import de.mhus.commons.basics.RC;
-import de.mhus.commons.util.NullValue;
-import de.mhus.commons.errors.MException;
 
 public class JsonStreamNodeBuilder extends INodeBuilder {
 

@@ -15,12 +15,12 @@
  */
 package de.mhus.commons.io;
 
+import de.mhus.commons.util.FlatteningIterator;
+
 import java.io.File;
 import java.io.FileFilter;
 import java.util.Arrays;
 import java.util.Iterator;
-
-import de.mhus.commons.util.FlatteningIterator;
 
 /**
  * Iterates over all non-directory files contained in some subdirectory of the current one.

@@ -15,25 +15,24 @@
  */
 package de.mhus.commons.node;
 
+import de.mhus.commons.MString;
+import de.mhus.commons.MXml;
+import de.mhus.commons.basics.RC;
+import de.mhus.commons.errors.MException;
+import de.mhus.commons.errors.MRuntimeException;
+import de.mhus.commons.errors.NotFoundException;
+import de.mhus.commons.errors.TooDeepStructuresException;
+import de.mhus.commons.util.MUri;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3c.dom.Element;
+
 import java.io.ByteArrayOutputStream;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3c.dom.Element;
-
-import de.mhus.commons.basics.RC;
-import de.mhus.commons.MString;
-import de.mhus.commons.MXml;
-import de.mhus.commons.util.MUri;
-import de.mhus.commons.errors.MException;
-import de.mhus.commons.errors.MRuntimeException;
-import de.mhus.commons.errors.NotFoundException;
-import de.mhus.commons.errors.TooDeepStructuresException;
 
 /**
  * A INode extends the concept of properties to a object oriented structure. A property can also be

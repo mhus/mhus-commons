@@ -15,6 +15,11 @@
  */
 package de.mhus.commons.util;
 
+import de.mhus.commons.node.INode;
+import de.mhus.commons.node.NodeList;
+import de.mhus.commons.node.NodeSerializable;
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
@@ -26,11 +31,6 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-
-import de.mhus.commons.node.INode;
-import de.mhus.commons.node.NodeList;
-import de.mhus.commons.node.NodeSerializable;
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class Table implements Serializable, Externalizable, NodeSerializable {

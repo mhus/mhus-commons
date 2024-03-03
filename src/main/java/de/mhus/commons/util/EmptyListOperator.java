@@ -15,9 +15,9 @@
  */
 package de.mhus.commons.util;
 
-import java.util.ListIterator;
-
 import de.mhus.commons.basics.ReadOnly;
+
+import java.util.ListIterator;
 
 public class EmptyListOperator<E> implements ListIterator<E>, ReadOnly {
 

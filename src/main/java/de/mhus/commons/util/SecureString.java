@@ -15,14 +15,14 @@
  */
 package de.mhus.commons.util;
 
+import de.mhus.commons.MFile;
+import de.mhus.commons.MString;
+import de.mhus.commons.crypt.MCrypt;
+
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
-
-import de.mhus.commons.MFile;
-import de.mhus.commons.MString;
-import de.mhus.commons.crypt.MCrypt;
 
 public class SecureString implements Externalizable {
 

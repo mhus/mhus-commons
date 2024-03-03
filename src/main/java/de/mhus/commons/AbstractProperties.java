@@ -15,14 +15,6 @@
  */
 package de.mhus.commons;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-import java.util.function.Function;
-
 import de.mhus.commons.basics.IsNull;
 import de.mhus.commons.basics.RC;
 import de.mhus.commons.errors.MException;
@@ -31,6 +23,14 @@ import de.mhus.commons.errors.NotFoundException;
 import de.mhus.commons.node.IProperties;
 import de.mhus.commons.node.IReadProperties;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Function;
 
 @Slf4j
 public abstract class AbstractProperties implements IProperties {

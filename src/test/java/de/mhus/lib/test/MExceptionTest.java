@@ -15,19 +15,18 @@
  */
 package de.mhus.lib.test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import de.mhus.commons.basics.IResult;
 import de.mhus.commons.basics.RC;
 import de.mhus.commons.errors.ErrorException;
 import de.mhus.commons.errors.ErrorRuntimeException;
 import de.mhus.commons.errors.NotFoundException;
+import de.mhus.lib.test.util.TestCase;
 import org.junit.jupiter.api.Test;
 
-import de.mhus.lib.test.util.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MExceptionTest extends TestCase {
 

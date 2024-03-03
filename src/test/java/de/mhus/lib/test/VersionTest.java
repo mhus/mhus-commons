@@ -15,13 +15,12 @@
  */
 package de.mhus.lib.test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import org.junit.jupiter.api.Test;
-
 import de.mhus.commons.util.Version;
 import de.mhus.commons.util.VersionRange;
 import de.mhus.lib.test.util.TestCase;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class VersionTest extends TestCase {
 

@@ -15,18 +15,17 @@
  */
 package de.mhus.lib.test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import de.mhus.commons.MFile;
+import de.mhus.commons.errors.MException;
+import de.mhus.lib.test.util.TestCase;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
-import de.mhus.commons.errors.MException;
-import org.junit.jupiter.api.Test;
-
-import de.mhus.commons.MFile;
-import de.mhus.lib.test.util.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MFileTest extends TestCase {
 

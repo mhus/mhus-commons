@@ -15,14 +15,14 @@
  */
 package de.mhus.commons.pojo;
 
+import de.mhus.commons.annotations.generic.Public;
+import lombok.extern.slf4j.Slf4j;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.LinkedList;
 import java.util.Set;
-
-import de.mhus.commons.annotations.generic.Public;
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class ActionsOnlyStrategy implements PojoStrategy {

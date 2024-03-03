@@ -15,16 +15,15 @@
  */
 package de.mhus.lib.test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.util.Date;
-
-import org.junit.jupiter.api.Test;
-
 import de.mhus.commons.MCast;
 import de.mhus.commons.MDate;
 import de.mhus.commons.MPeriod;
 import de.mhus.lib.test.util.TestCase;
+import org.junit.jupiter.api.Test;
+
+import java.util.Date;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MTimeIntervalTest extends TestCase {
 

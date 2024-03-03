@@ -15,16 +15,16 @@
  */
 package de.mhus.commons.util;
 
+import de.mhus.commons.MString;
+import de.mhus.commons.basics.RC;
+import de.mhus.commons.errors.MRuntimeException;
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.util.UUID;
-
-import de.mhus.commons.basics.RC;
-import de.mhus.commons.MString;
-import de.mhus.commons.errors.MRuntimeException;
-import lombok.extern.slf4j.Slf4j;
 
 /** @author Brian Wing Shun Chan */
 @Slf4j

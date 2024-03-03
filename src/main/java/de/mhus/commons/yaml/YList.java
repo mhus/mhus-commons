@@ -15,13 +15,13 @@
  */
 package de.mhus.commons.yaml;
 
+import de.mhus.commons.MCast;
+import de.mhus.commons.util.EmptyList;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-
-import de.mhus.commons.MCast;
-import de.mhus.commons.util.EmptyList;
 
 public class YList extends YElement implements Iterable<YElement> {
 

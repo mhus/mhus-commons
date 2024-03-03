@@ -15,13 +15,13 @@
  */
 package de.mhus.commons.json;
 
+import de.mhus.commons.MString;
+import org.slf4j.Logger;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Pattern;
-
-import de.mhus.commons.MString;
-import org.slf4j.Logger;
 
 public class SecurityTransformHelper extends TransformHelper {
 

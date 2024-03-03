@@ -15,18 +15,17 @@
  */
 package de.mhus.lib.test;
 
+import de.mhus.commons.MSystem;
+import de.mhus.commons.parser.HtmlParser;
+import de.mhus.lib.test.util.TestCase;
+import org.junit.jupiter.api.Test;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.Map;
-
-import org.junit.jupiter.api.Test;
-
-import de.mhus.commons.MSystem;
-import de.mhus.commons.parser.HtmlParser;
-import de.mhus.lib.test.util.TestCase;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

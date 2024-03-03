@@ -15,10 +15,10 @@
  */
 package de.mhus.commons.io;
 
-import java.io.File;
-
 import de.mhus.commons.MFile;
 import de.mhus.commons.MString;
+
+import java.io.File;
 
 /**
  * For simple pdf content checking.

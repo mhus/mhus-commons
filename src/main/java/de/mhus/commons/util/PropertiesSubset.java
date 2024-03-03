@@ -15,13 +15,13 @@
  */
 package de.mhus.commons.util;
 
+import de.mhus.commons.AbstractProperties;
+import de.mhus.commons.errors.NotSupportedException;
+import de.mhus.commons.node.IProperties;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-
-import de.mhus.commons.AbstractProperties;
-import de.mhus.commons.node.IProperties;
-import de.mhus.commons.errors.NotSupportedException;
 
 public class PropertiesSubset extends AbstractProperties {
 

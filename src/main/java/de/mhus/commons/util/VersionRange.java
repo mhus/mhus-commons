@@ -15,10 +15,10 @@
  */
 package de.mhus.commons.util;
 
+import de.mhus.commons.basics.Versioned;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import de.mhus.commons.basics.Versioned;
 
 /*
  * From aQute.libg.version.VersionRange

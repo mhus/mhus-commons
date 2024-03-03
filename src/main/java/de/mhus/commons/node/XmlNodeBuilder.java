@@ -15,23 +15,21 @@
  */
 package de.mhus.commons.node;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactoryConfigurationError;
-
+import de.mhus.commons.MXml;
+import de.mhus.commons.basics.RC;
+import de.mhus.commons.errors.MException;
+import de.mhus.commons.errors.TooDeepStructuresException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
-import de.mhus.commons.basics.RC;
-import de.mhus.commons.MXml;
-import de.mhus.commons.errors.MException;
-import de.mhus.commons.errors.TooDeepStructuresException;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactoryConfigurationError;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 public class XmlNodeBuilder extends INodeBuilder {
 

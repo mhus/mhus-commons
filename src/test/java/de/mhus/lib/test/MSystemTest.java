@@ -15,21 +15,20 @@
  */
 package de.mhus.lib.test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import de.mhus.commons.MSystem;
+import de.mhus.commons.errors.NotFoundException;
+import de.mhus.lib.test.util.StringValue;
+import de.mhus.lib.test.util.Template;
+import de.mhus.lib.test.util.TestCase;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 import java.util.jar.Manifest;
 
-import de.mhus.commons.errors.NotFoundException;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
-
-import de.mhus.commons.MSystem;
-import de.mhus.lib.test.util.StringValue;
-import de.mhus.lib.test.util.Template;
-import de.mhus.lib.test.util.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class MSystemTest extends TestCase {
 

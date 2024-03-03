@@ -15,6 +15,8 @@
  */
 package de.mhus.commons.util;
 
+import de.mhus.commons.basics.ReadOnly;
+
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -25,8 +27,6 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
-
-import de.mhus.commons.basics.ReadOnly;
 
 public class ReadOnlyList<E> implements List<E>, ReadOnly {
 

@@ -15,17 +15,17 @@
  */
 package de.mhus.lib.test.util;
 
-import java.io.InputStream;
-import java.io.PrintStream;
-import java.util.Optional;
-import java.util.Scanner;
-
 import de.mhus.commons.MCast;
 import de.mhus.commons.MStopWatch;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInfo;
+
+import java.io.InputStream;
+import java.io.PrintStream;
+import java.util.Optional;
+import java.util.Scanner;
 
 public class TestCase {
 

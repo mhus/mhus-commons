@@ -15,11 +15,11 @@
  */
 package de.mhus.commons.io;
 
+import de.mhus.commons.MFile;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-
-import de.mhus.commons.MFile;
 
 public class PdfFileChecker extends AbstractFileChecker {
 

@@ -15,16 +15,16 @@
  */
 package de.mhus.commons.pojo;
 
+import de.mhus.commons.MCast;
+import de.mhus.commons.MSystem;
+import de.mhus.commons.annotations.generic.Public;
+import de.mhus.commons.annotations.pojo.Embedded;
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-
-import de.mhus.commons.annotations.generic.Public;
-import de.mhus.commons.annotations.pojo.Embedded;
-import de.mhus.commons.MCast;
-import de.mhus.commons.MSystem;
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class AttributesStrategy implements PojoStrategy {

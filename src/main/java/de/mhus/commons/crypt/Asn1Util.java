@@ -15,13 +15,13 @@
  */
 package de.mhus.commons.crypt;
 
+import org.bouncycastle.asn1.ASN1Integer;
+import org.bouncycastle.asn1.ASN1Sequence;
+
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.Base64;
 import java.util.Enumeration;
-
-import org.bouncycastle.asn1.ASN1Integer;
-import org.bouncycastle.asn1.ASN1Sequence;
 
 /**
  * Need to separate this method to remove the dependency to bounycastle from the MCrypt class. Do

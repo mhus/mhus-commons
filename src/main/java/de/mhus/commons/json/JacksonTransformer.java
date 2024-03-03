@@ -16,7 +16,6 @@
 package de.mhus.commons.json;
 
 import com.fasterxml.jackson.databind.JsonNode;
-
 import de.mhus.commons.MJson;
 import de.mhus.commons.errors.NotSupportedException;
 

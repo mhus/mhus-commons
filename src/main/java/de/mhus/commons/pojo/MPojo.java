@@ -15,7 +15,33 @@
  */
 package de.mhus.commons.pojo;
 
-import java.awt.List;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import de.mhus.commons.MCast;
+import de.mhus.commons.MCollection;
+import de.mhus.commons.MDate;
+import de.mhus.commons.MString;
+import de.mhus.commons.MSystem;
+import de.mhus.commons.MXml;
+import de.mhus.commons.annotations.generic.Public;
+import de.mhus.commons.annotations.pojo.Embedded;
+import de.mhus.commons.annotations.pojo.Hidden;
+import de.mhus.commons.cast.Caster;
+import de.mhus.commons.json.TransformHelper;
+import de.mhus.commons.node.INode;
+import de.mhus.commons.node.IProperties;
+import de.mhus.commons.node.MNode;
+import de.mhus.commons.node.MProperties;
+import de.mhus.commons.node.NodeList;
+import de.mhus.commons.services.ClassLoaderProvider;
+import de.mhus.commons.services.MService;
+import de.mhus.commons.util.Base64;
+import lombok.extern.slf4j.Slf4j;
+import org.w3c.dom.CDATASection;
+import org.w3c.dom.Element;
+
+import java.awt.*;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -30,34 +56,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
-
-import de.mhus.commons.services.ClassLoaderProvider;
-import de.mhus.commons.services.MService;
-import lombok.extern.slf4j.Slf4j;
-import org.w3c.dom.CDATASection;
-import org.w3c.dom.Element;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-
-import de.mhus.commons.annotations.generic.Public;
-import de.mhus.commons.annotations.pojo.Embedded;
-import de.mhus.commons.annotations.pojo.Hidden;
-import de.mhus.commons.node.IProperties;
-import de.mhus.commons.MCast;
-import de.mhus.commons.MCollection;
-import de.mhus.commons.MDate;
-import de.mhus.commons.node.MProperties;
-import de.mhus.commons.MString;
-import de.mhus.commons.MSystem;
-import de.mhus.commons.MXml;
-import de.mhus.commons.cast.Caster;
-import de.mhus.commons.json.TransformHelper;
-import de.mhus.commons.node.INode;
-import de.mhus.commons.node.MNode;
-import de.mhus.commons.node.NodeList;
-import de.mhus.commons.util.Base64;
 
 @Slf4j
 public class MPojo {

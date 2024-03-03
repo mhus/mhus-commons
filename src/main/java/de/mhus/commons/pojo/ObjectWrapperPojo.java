@@ -15,12 +15,12 @@
  */
 package de.mhus.commons.pojo;
 
+import de.mhus.commons.io.MObjectInputStream;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-
-import de.mhus.commons.io.MObjectInputStream;
 
 public class ObjectWrapperPojo<T> {
 

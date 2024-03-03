@@ -15,17 +15,17 @@
  */
 package de.mhus.commons;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
 import de.mhus.commons.basics.RC;
 import de.mhus.commons.crypt.MCrypt;
 import de.mhus.commons.crypt.MRandom;
 import de.mhus.commons.crypt.Rot13;
+import de.mhus.commons.errors.MRuntimeException;
 import de.mhus.commons.io.TextReader;
 import de.mhus.commons.services.MService;
 import de.mhus.commons.util.SecureString;
-import de.mhus.commons.errors.MRuntimeException;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * Decode / Encode passwords. Attention: This do not give security in any way. It's only a way to

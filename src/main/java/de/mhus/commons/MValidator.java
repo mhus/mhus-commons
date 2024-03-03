@@ -15,16 +15,16 @@
  */
 package de.mhus.commons;
 
+import de.mhus.commons.errors.NotSupportedException;
+import de.mhus.commons.util.IObserver;
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
-
-import de.mhus.commons.util.IObserver;
-import de.mhus.commons.errors.NotSupportedException;
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class MValidator {

@@ -15,6 +15,15 @@
  */
 package de.mhus.commons;
 
+import de.mhus.commons.annotations.cmd.CmdArgument;
+import de.mhus.commons.annotations.cmd.CmdDescription;
+import de.mhus.commons.annotations.cmd.CmdOption;
+import de.mhus.commons.errors.UsageException;
+import de.mhus.commons.pojo.MPojo;
+import de.mhus.commons.pojo.PojoAttribute;
+import de.mhus.commons.pojo.PojoModel;
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,15 +32,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
-import de.mhus.commons.annotations.cmd.CmdArgument;
-import de.mhus.commons.annotations.cmd.CmdDescription;
-import de.mhus.commons.annotations.cmd.CmdOption;
-import de.mhus.commons.pojo.MPojo;
-import de.mhus.commons.pojo.PojoAttribute;
-import de.mhus.commons.pojo.PojoModel;
-import de.mhus.commons.errors.UsageException;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * The class is a parser for program argument lists, like you get in the main(args) method. You can

@@ -15,10 +15,21 @@
  */
 package de.mhus.lib.test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import de.mhus.commons.MCast;
+import de.mhus.commons.MFile;
+import de.mhus.commons.MString;
+import de.mhus.commons.MSystem;
+import de.mhus.commons.MXml;
+import de.mhus.commons.errors.MException;
+import de.mhus.commons.errors.NotFoundException;
+import de.mhus.commons.node.DefaultNodeFactory;
+import de.mhus.commons.node.INode;
+import de.mhus.commons.node.MNode;
+import de.mhus.commons.node.MProperties;
+import de.mhus.commons.node.NodeList;
+import de.mhus.lib.test.util.TestCase;
+import org.junit.jupiter.api.Test;
+import org.w3c.dom.Document;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,22 +37,10 @@ import java.io.InputStream;
 import java.util.Collection;
 import java.util.Iterator;
 
-import de.mhus.commons.errors.MException;
-import de.mhus.commons.errors.NotFoundException;
-import org.junit.jupiter.api.Test;
-import org.w3c.dom.Document;
-
-import de.mhus.commons.MCast;
-import de.mhus.commons.MFile;
-import de.mhus.commons.node.MProperties;
-import de.mhus.commons.MString;
-import de.mhus.commons.MSystem;
-import de.mhus.commons.MXml;
-import de.mhus.commons.node.DefaultNodeFactory;
-import de.mhus.commons.node.INode;
-import de.mhus.commons.node.MNode;
-import de.mhus.commons.node.NodeList;
-import de.mhus.lib.test.util.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MNodeTest extends TestCase {
 

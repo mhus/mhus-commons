@@ -15,14 +15,6 @@
  */
 package de.mhus.lib.test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import org.junit.jupiter.api.Test;
-
 import de.mhus.commons.MString;
 import de.mhus.commons.pojo.AttributesStrategy;
 import de.mhus.commons.pojo.DefaultFilter;
@@ -33,6 +25,13 @@ import de.mhus.commons.pojo.PojoAttribute;
 import de.mhus.commons.pojo.PojoModel;
 import de.mhus.commons.pojo.PojoParser;
 import de.mhus.lib.test.util.TestCase;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PojoTest extends TestCase {
 

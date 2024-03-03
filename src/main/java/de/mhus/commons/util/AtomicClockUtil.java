@@ -15,6 +15,11 @@
  */
 package de.mhus.commons.util;
 
+import de.mhus.commons.MCollection;
+import de.mhus.commons.MPeriod;
+import de.mhus.commons.MThread;
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -23,11 +28,6 @@ import java.net.UnknownHostException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
-
-import de.mhus.commons.MCollection;
-import de.mhus.commons.MPeriod;
-import de.mhus.commons.MThread;
-import lombok.extern.slf4j.Slf4j;
 
 // https://developer.gemalto.com/faq/how-obtain-time-internet-java-rfc868
 @Slf4j

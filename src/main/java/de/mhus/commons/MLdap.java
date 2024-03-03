@@ -15,12 +15,8 @@
  */
 package de.mhus.commons;
 
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import de.mhus.commons.basics.RC;
+import de.mhus.commons.errors.MRuntimeException;
 
 import javax.naming.Context;
 import javax.naming.NamingEnumeration;
@@ -30,9 +26,12 @@ import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
-
-import de.mhus.commons.basics.RC;
-import de.mhus.commons.errors.MRuntimeException;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 public class MLdap {
 

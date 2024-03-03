@@ -15,20 +15,17 @@
  */
 package de.mhus.commons;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import de.mhus.commons.util.EmptyList;
+import de.mhus.commons.util.EnumerationIterator;
+import de.mhus.commons.util.Iterate;
+
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
-
-import com.fasterxml.jackson.databind.JsonNode;
-
-
-import de.mhus.commons.pojo.MPojo;
-import de.mhus.commons.util.EmptyList;
-import de.mhus.commons.util.EnumerationIterator;
-import de.mhus.commons.util.Iterate;
 
 /**
  * This is a shortcut class to call methods without obfuscating the source code. For some reasons

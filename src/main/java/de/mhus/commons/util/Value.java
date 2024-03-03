@@ -15,12 +15,12 @@
  */
 package de.mhus.commons.util;
 
+import de.mhus.commons.MSystem;
+import de.mhus.commons.basics.Valueable;
+
 import java.io.IOException;
 import java.io.NotSerializableException;
 import java.io.Serializable;
-
-import de.mhus.commons.basics.Valueable;
-import de.mhus.commons.MSystem;
 
 public class Value<T> implements Valueable<T>, Serializable {
 

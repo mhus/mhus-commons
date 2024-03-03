@@ -15,22 +15,20 @@
  */
 package de.mhus.lib.test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.io.IOException;
-import java.util.Locale;
-
-import javax.xml.parsers.ParserConfigurationException;
-
+import de.mhus.commons.MXml;
+import de.mhus.lib.test.util.TestCase;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
-import de.mhus.commons.MXml;
-import de.mhus.lib.test.util.TestCase;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
+import java.util.Locale;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MXmlTest extends TestCase {
 

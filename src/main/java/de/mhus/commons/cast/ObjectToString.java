@@ -15,12 +15,12 @@
  */
 package de.mhus.commons.cast;
 
+import de.mhus.commons.MCast;
+import de.mhus.commons.MDate;
+
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-
-import de.mhus.commons.MCast;
-import de.mhus.commons.MDate;
 
 public class ObjectToString implements Caster<Object, String> {
 

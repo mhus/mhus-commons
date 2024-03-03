@@ -47,9 +47,7 @@ version 1.0 1997 March 23, initial.
  */
 package de.mhus.commons.util;
 
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.TextArea;
+import java.awt.*;
 
 /**
  * Check that Java version is sufficiently recent

@@ -15,8 +15,6 @@
  */
 package de.mhus.commons.util;
 
-import de.mhus.commons.MThread;
-
 /*
  * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//httpclient/src/java/org/apache/commons/httpclient/util/TimeoutController.java,v 1.6 2004/04/18 23:51:38 jsdever Exp $
  * $Revision: 480424 $

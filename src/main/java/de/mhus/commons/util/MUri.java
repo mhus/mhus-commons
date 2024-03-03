@@ -15,6 +15,10 @@
  */
 package de.mhus.commons.util;
 
+import de.mhus.commons.MCast;
+import de.mhus.commons.MString;
+import de.mhus.commons.node.IProperties;
+
 import java.io.File;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
@@ -24,10 +28,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
-
-import de.mhus.commons.node.IProperties;
-import de.mhus.commons.MCast;
-import de.mhus.commons.MString;
 
 /**
  * The class encodes/decodes strings in rfc1738 format and provide helpers to handle with URI / URL

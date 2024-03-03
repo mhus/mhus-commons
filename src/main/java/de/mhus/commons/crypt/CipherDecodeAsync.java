@@ -15,13 +15,13 @@
  */
 package de.mhus.commons.crypt;
 
+import de.mhus.commons.MMath;
+import de.mhus.commons.MThread;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
 import java.util.LinkedList;
-
-import de.mhus.commons.MMath;
-import de.mhus.commons.MThread;
 
 public class CipherDecodeAsync extends InputStream {
 

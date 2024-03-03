@@ -15,12 +15,12 @@
  */
 package de.mhus.commons.io;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-
 import de.mhus.commons.MFile;
 import de.mhus.commons.MString;
 import de.mhus.commons.parser.StringPropertyReplacer;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 
 /**
  * Rewrite the incoming stream using the string replacer. The rewriter need to load the full content

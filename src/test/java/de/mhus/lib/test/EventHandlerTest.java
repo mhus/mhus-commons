@@ -15,14 +15,13 @@
  */
 package de.mhus.lib.test;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import de.mhus.commons.event.MEventHandler;
+import de.mhus.lib.test.util.TestCase;
+import org.junit.jupiter.api.Test;
 
 import java.util.ConcurrentModificationException;
 
-import org.junit.jupiter.api.Test;
-
-import de.mhus.commons.event.MEventHandler;
-import de.mhus.lib.test.util.TestCase;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /** Unit test for simple App. */
 public class EventHandlerTest extends TestCase {

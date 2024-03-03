@@ -15,10 +15,10 @@
  */
 package de.mhus.commons.directory;
 
+import de.mhus.commons.node.INode;
+
 import java.io.InputStream;
 import java.net.URL;
-
-import de.mhus.commons.node.INode;
 
 public interface IResourceProvider {
 

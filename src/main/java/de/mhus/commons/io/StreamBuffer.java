@@ -15,11 +15,11 @@
  */
 package de.mhus.commons.io;
 
+import de.mhus.commons.util.ByteBuffer;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
-import de.mhus.commons.util.ByteBuffer;
 
 public class StreamBuffer {
 

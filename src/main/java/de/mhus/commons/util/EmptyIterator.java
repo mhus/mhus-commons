@@ -15,9 +15,9 @@
  */
 package de.mhus.commons.util;
 
-import java.util.Iterator;
-
 import de.mhus.commons.basics.ReadOnly;
+
+import java.util.Iterator;
 
 public class EmptyIterator<E> implements Iterator<E>, ReadOnly {
 

@@ -15,11 +15,11 @@
  */
 package de.mhus.commons.crypt;
 
-import javax.crypto.Cipher;
-import javax.crypto.spec.SecretKeySpec;
-
 import de.mhus.commons.MString;
 import de.mhus.commons.util.Base64;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 
 public class Twofish {
 

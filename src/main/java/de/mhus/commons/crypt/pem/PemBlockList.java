@@ -15,12 +15,12 @@
  */
 package de.mhus.commons.crypt.pem;
 
-import java.util.LinkedList;
-
 import de.mhus.commons.errors.MException;
 import de.mhus.commons.matcher.Condition;
 import de.mhus.commons.parser.ParseException;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.LinkedList;
 
 @Slf4j
 public class PemBlockList extends LinkedList<PemBlock> {

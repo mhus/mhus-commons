@@ -15,15 +15,6 @@
  */
 package de.mhus.commons.json;
 
-import java.io.IOException;
-import java.lang.reflect.Array;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.BooleanNode;
@@ -32,12 +23,20 @@ import com.fasterxml.jackson.databind.node.IntNode;
 import com.fasterxml.jackson.databind.node.NullNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TextNode;
-
 import de.mhus.commons.MJson;
+import de.mhus.commons.errors.NotSupportedException;
 import de.mhus.commons.pojo.PojoAttribute;
 import de.mhus.commons.pojo.PojoModel;
-import de.mhus.commons.errors.NotSupportedException;
 import lombok.extern.slf4j.Slf4j;
+
+import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Map.Entry;
 
 @Slf4j
 public class SerializerTransformer extends TransformStrategy {

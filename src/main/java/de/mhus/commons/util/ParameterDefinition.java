@@ -15,6 +15,16 @@
  */
 package de.mhus.commons.util;
 
+import de.mhus.commons.MCast;
+import de.mhus.commons.MString;
+import de.mhus.commons.MValidator;
+import de.mhus.commons.basics.RC;
+import de.mhus.commons.errors.MException;
+import de.mhus.commons.node.IProperties;
+import de.mhus.commons.node.IReadProperties;
+import de.mhus.commons.node.MProperties;
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
@@ -22,16 +32,6 @@ import java.io.ObjectOutput;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
-
-import de.mhus.commons.basics.RC;
-import de.mhus.commons.node.IProperties;
-import de.mhus.commons.node.IReadProperties;
-import de.mhus.commons.MCast;
-import de.mhus.commons.node.MProperties;
-import de.mhus.commons.MString;
-import de.mhus.commons.MValidator;
-import de.mhus.commons.errors.MException;
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class ParameterDefinition implements Externalizable {

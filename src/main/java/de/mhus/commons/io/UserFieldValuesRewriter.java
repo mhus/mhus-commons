@@ -15,14 +15,13 @@
  */
 package de.mhus.commons.io;
 
-import java.io.InputStream;
-
+import de.mhus.commons.MXml;
+import de.mhus.commons.node.IReadProperties;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import de.mhus.commons.node.IReadProperties;
-import de.mhus.commons.MXml;
+import java.io.InputStream;
 
 /*
 <text:user-field-decls>

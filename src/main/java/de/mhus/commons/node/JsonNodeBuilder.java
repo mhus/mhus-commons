@@ -15,6 +15,17 @@
  */
 package de.mhus.commons.node;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import de.mhus.commons.MDate;
+import de.mhus.commons.MJson;
+import de.mhus.commons.basics.RC;
+import de.mhus.commons.errors.MException;
+import de.mhus.commons.errors.TooDeepStructuresException;
+import de.mhus.commons.util.MIterable;
+import de.mhus.commons.util.NullValue;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -22,18 +33,6 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.Map;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-
-import de.mhus.commons.basics.RC;
-import de.mhus.commons.MDate;
-import de.mhus.commons.MJson;
-import de.mhus.commons.util.MIterable;
-import de.mhus.commons.util.NullValue;
-import de.mhus.commons.errors.MException;
-import de.mhus.commons.errors.TooDeepStructuresException;
 
 public class JsonNodeBuilder extends INodeBuilder {
 

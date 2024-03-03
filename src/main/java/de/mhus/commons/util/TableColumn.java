@@ -15,10 +15,10 @@
  */
 package de.mhus.commons.util;
 
-import java.io.Serializable;
-
 import de.mhus.commons.node.INode;
 import de.mhus.commons.node.NodeSerializable;
+
+import java.io.Serializable;
 
 public class TableColumn implements Serializable, NodeSerializable {
 

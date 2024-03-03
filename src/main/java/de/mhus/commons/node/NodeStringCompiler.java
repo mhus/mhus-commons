@@ -15,15 +15,15 @@
  */
 package de.mhus.commons.node;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.Set;
-
 import de.mhus.commons.MString;
+import de.mhus.commons.errors.MException;
 import de.mhus.commons.parser.DefaultScriptPart;
 import de.mhus.commons.parser.StringCompiler;
 import de.mhus.commons.parser.StringPart;
-import de.mhus.commons.errors.MException;
+
+import java.util.Collection;
+import java.util.Map;
+import java.util.Set;
 
 public class NodeStringCompiler extends StringCompiler {
 

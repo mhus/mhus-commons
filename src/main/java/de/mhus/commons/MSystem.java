@@ -15,6 +15,13 @@
  */
 package de.mhus.commons;
 
+import de.mhus.commons.errors.NotFoundException;
+import de.mhus.commons.node.IProperties;
+import de.mhus.commons.services.ClassLoaderProvider;
+import de.mhus.commons.services.EnvironmentProvider;
+import de.mhus.commons.services.MService;
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
@@ -45,13 +52,6 @@ import java.util.Properties;
 import java.util.jar.Manifest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import de.mhus.commons.errors.NotFoundException;
-import de.mhus.commons.node.IProperties;
-import de.mhus.commons.services.ClassLoaderProvider;
-import de.mhus.commons.services.EnvironmentProvider;
-import de.mhus.commons.services.MService;
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class MSystem {

@@ -15,17 +15,17 @@
  */
 package de.mhus.commons.util;
 
+import de.mhus.commons.MCast;
+import de.mhus.commons.MString;
+import de.mhus.commons.MSystem;
+import de.mhus.commons.node.IProperties;
+import de.mhus.commons.node.MProperties;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
-
-import de.mhus.commons.node.IProperties;
-import de.mhus.commons.MCast;
-import de.mhus.commons.node.MProperties;
-import de.mhus.commons.MString;
-import de.mhus.commons.MSystem;
 
 public class FilterRequest {
 

@@ -15,6 +15,14 @@
  */
 package de.mhus.commons;
 
+import de.mhus.commons.basics.RC;
+import de.mhus.commons.errors.MRuntimeException;
+import de.mhus.commons.node.IProperties;
+import de.mhus.commons.util.EmptyList;
+import de.mhus.commons.util.EmptyMap;
+import de.mhus.commons.util.EmptySet;
+import de.mhus.commons.util.ReadOnlyList;
+
 import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Collections;
@@ -34,14 +42,6 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
-import de.mhus.commons.basics.RC;
-import de.mhus.commons.node.IProperties;
-import de.mhus.commons.util.EmptyList;
-import de.mhus.commons.util.EmptyMap;
-import de.mhus.commons.util.EmptySet;
-import de.mhus.commons.util.ReadOnlyList;
-import de.mhus.commons.errors.MRuntimeException;
 
 public class MCollection {
 

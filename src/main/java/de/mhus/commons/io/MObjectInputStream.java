@@ -15,14 +15,14 @@
  */
 package de.mhus.commons.io;
 
+import de.mhus.commons.MSystem;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectStreamClass;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Proxy;
-
-import de.mhus.commons.MSystem;
 
 public class MObjectInputStream extends ObjectInputStream {
 

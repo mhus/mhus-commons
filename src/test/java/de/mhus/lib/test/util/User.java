@@ -15,19 +15,18 @@
  */
 package de.mhus.lib.test.util;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import de.mhus.commons.MCast;
+import de.mhus.commons.MString;
+import de.mhus.commons.annotations.generic.Public;
+import de.mhus.commons.node.IProperties;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
-import com.fasterxml.jackson.databind.JsonNode;
-
-import de.mhus.commons.node.IProperties;
-import de.mhus.commons.MCast;
-import de.mhus.commons.MString;
-import de.mhus.commons.annotations.generic.Public;
 
 public class User {
 

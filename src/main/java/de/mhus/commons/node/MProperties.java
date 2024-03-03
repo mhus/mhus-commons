@@ -15,6 +15,12 @@
  */
 package de.mhus.commons.node;
 
+import de.mhus.commons.AbstractProperties;
+import de.mhus.commons.MString;
+import de.mhus.commons.MSystem;
+import de.mhus.commons.util.SetCast;
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.BufferedWriter;
 import java.io.Externalizable;
 import java.io.File;
@@ -39,12 +45,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
-
-import de.mhus.commons.AbstractProperties;
-import de.mhus.commons.MString;
-import de.mhus.commons.MSystem;
-import de.mhus.commons.util.SetCast;
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class MProperties extends AbstractProperties implements Externalizable {

@@ -15,6 +15,16 @@
  */
 package de.mhus.commons.node;
 
+import de.mhus.commons.M;
+import de.mhus.commons.basics.IsNull;
+import de.mhus.commons.basics.RC;
+import de.mhus.commons.errors.MException;
+import de.mhus.commons.errors.MRuntimeException;
+import de.mhus.commons.errors.MaxDepthReached;
+import de.mhus.commons.errors.NotFoundException;
+import de.mhus.commons.parser.CompiledString;
+import de.mhus.commons.util.SingleList;
+
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
@@ -24,16 +34,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
-import de.mhus.commons.basics.IsNull;
-import de.mhus.commons.basics.RC;
-import de.mhus.commons.M;
-import de.mhus.commons.parser.CompiledString;
-import de.mhus.commons.util.SingleList;
-import de.mhus.commons.errors.MException;
-import de.mhus.commons.errors.MRuntimeException;
-import de.mhus.commons.errors.MaxDepthReached;
-import de.mhus.commons.errors.NotFoundException;
 
 public class MNode extends MProperties implements INode {
 

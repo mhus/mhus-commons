@@ -15,16 +15,16 @@
  */
 package de.mhus.commons.directory;
 
-import java.io.InputStream;
-import java.net.URL;
-import java.util.List;
-
 import de.mhus.commons.MCollection;
 import de.mhus.commons.MString;
 import de.mhus.commons.MSystem;
 import de.mhus.commons.node.INode;
 import de.mhus.commons.node.MNode;
 import de.mhus.commons.node.NodeList;
+
+import java.io.InputStream;
+import java.net.URL;
+import java.util.List;
 
 public class ClassLoaderResourceProvider extends MResourceProvider {
 

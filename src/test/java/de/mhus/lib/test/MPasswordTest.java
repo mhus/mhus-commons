@@ -15,12 +15,11 @@
  */
 package de.mhus.lib.test;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import org.junit.jupiter.api.Test;
-
 import de.mhus.commons.MPassword;
 import de.mhus.lib.test.util.TestCase;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MPasswordTest extends TestCase {
 

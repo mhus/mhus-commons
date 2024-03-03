@@ -15,6 +15,8 @@
  */
 package de.mhus.commons.node;
 
+import de.mhus.commons.errors.MException;
+
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -22,8 +24,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Function;
-
-import de.mhus.commons.errors.MException;
 
 public interface IReadProperties extends Iterable<Map.Entry<String, Object>> {
 

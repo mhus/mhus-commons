@@ -15,14 +15,13 @@
  */
 package de.mhus.lib.test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import org.junit.jupiter.api.Test;
-
 import de.mhus.commons.crypt.pem.PemBlockList;
 import de.mhus.commons.crypt.pem.PemBlockModel;
 import de.mhus.commons.parser.ParseException;
 import de.mhus.lib.test.util.TestCase;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PemBlockTest extends TestCase {
 

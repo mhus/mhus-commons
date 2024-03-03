@@ -15,16 +15,16 @@
  */
 package de.mhus.commons.crypt;
 
+import de.mhus.commons.MFile;
+import de.mhus.commons.MString;
+import de.mhus.commons.util.SecureString;
+
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.security.KeyPair;
 import java.security.PrivateKey;
-
-import de.mhus.commons.MFile;
-import de.mhus.commons.MString;
-import de.mhus.commons.util.SecureString;
 
 public class CryptedString extends SecureString implements Externalizable {
 

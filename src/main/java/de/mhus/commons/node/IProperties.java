@@ -15,15 +15,15 @@
  */
 package de.mhus.commons.node;
 
+import de.mhus.commons.MCast;
+import de.mhus.commons.util.MUri;
+
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Properties;
-
-import de.mhus.commons.MCast;
-import de.mhus.commons.util.MUri;
 
 public interface IProperties
         extends IReadProperties,

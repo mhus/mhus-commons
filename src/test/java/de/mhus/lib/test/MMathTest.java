@@ -15,18 +15,17 @@
  */
 package de.mhus.lib.test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.math.BigDecimal;
-import java.util.UUID;
-
-import org.junit.jupiter.api.Test;
-
 import de.mhus.commons.MBigMath;
 import de.mhus.commons.MCast;
 import de.mhus.commons.MMath;
 import de.mhus.commons.util.Base64;
 import de.mhus.lib.test.util.TestCase;
+import org.junit.jupiter.api.Test;
+
+import java.math.BigDecimal;
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MMathTest extends TestCase {
 

@@ -15,13 +15,13 @@
  */
 package de.mhus.commons.io;
 
+import de.mhus.commons.MPeriod;
+import de.mhus.commons.MThread;
+
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
-import de.mhus.commons.MPeriod;
-import de.mhus.commons.MThread;
 
 public class PipedStream implements Closeable {
 

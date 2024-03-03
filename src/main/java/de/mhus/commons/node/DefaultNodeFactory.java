@@ -15,17 +15,17 @@
  */
 package de.mhus.commons.node;
 
+import de.mhus.commons.MFile;
+import de.mhus.commons.MSystem;
+import de.mhus.commons.basics.RC;
+import de.mhus.commons.errors.MException;
+import de.mhus.commons.errors.NotFoundException;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.HashMap;
-
-import de.mhus.commons.basics.RC;
-import de.mhus.commons.MFile;
-import de.mhus.commons.MSystem;
-import de.mhus.commons.errors.MException;
-import de.mhus.commons.errors.NotFoundException;
 
 public class DefaultNodeFactory implements INodeFactory {
 

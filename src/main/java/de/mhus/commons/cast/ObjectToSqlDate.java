@@ -15,9 +15,9 @@
  */
 package de.mhus.commons.cast;
 
-import java.sql.Date;
-
 import de.mhus.commons.MCast;
+
+import java.sql.Date;
 
 public class ObjectToSqlDate implements Caster<Object, Date> {
 

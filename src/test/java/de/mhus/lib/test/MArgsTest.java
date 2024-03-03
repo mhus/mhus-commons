@@ -15,17 +15,16 @@
  */
 package de.mhus.lib.test;
 
+import de.mhus.commons.MArgs;
+import de.mhus.commons.annotations.cmd.CmdArgument;
+import de.mhus.commons.annotations.cmd.CmdOption;
+import de.mhus.lib.test.util.TestCase;
+import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import de.mhus.commons.annotations.cmd.CmdArgument;
-import de.mhus.commons.annotations.cmd.CmdOption;
-import org.junit.jupiter.api.Test;
-
-import de.mhus.commons.MArgs;
-import de.mhus.lib.test.util.TestCase;
 
 public class MArgsTest extends TestCase {
 

@@ -15,18 +15,17 @@
  */
 package de.mhus.lib.test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
-
-import java.util.HashMap;
-
 import de.mhus.commons.errors.MException;
 import de.mhus.commons.errors.SyntaxError;
-import org.junit.jupiter.api.Test;
-
 import de.mhus.commons.matcher.Condition;
 import de.mhus.commons.matcher.Matcher;
 import de.mhus.lib.test.util.TestCase;
+import org.junit.jupiter.api.Test;
+
+import java.util.HashMap;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class MatcherTest extends TestCase {
 

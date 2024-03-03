@@ -15,11 +15,11 @@
  */
 package de.mhus.commons.security;
 
+import de.mhus.commons.node.IProperties;
+
 import javax.security.auth.Subject;
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
-
-import de.mhus.commons.node.IProperties;
 
 public class JaasAccessControl implements AccessControl {
 

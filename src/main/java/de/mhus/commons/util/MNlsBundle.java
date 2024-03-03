@@ -15,12 +15,12 @@
  */
 package de.mhus.commons.util;
 
-import java.util.HashMap;
-import java.util.Locale;
-
 import de.mhus.commons.annotations.service.DefaultImplementation;
 import de.mhus.commons.services.IService;
 import de.mhus.commons.services.MService;
+
+import java.util.HashMap;
+import java.util.Locale;
 
 @DefaultImplementation(MNlsFactory.class)
 public abstract class MNlsBundle implements IService {

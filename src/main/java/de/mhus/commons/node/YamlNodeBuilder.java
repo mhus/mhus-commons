@@ -15,17 +15,17 @@
  */
 package de.mhus.commons.node;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
 import de.mhus.commons.basics.RC;
+import de.mhus.commons.errors.MException;
+import de.mhus.commons.errors.TooDeepStructuresException;
 import de.mhus.commons.yaml.MYaml;
 import de.mhus.commons.yaml.YElement;
 import de.mhus.commons.yaml.YList;
 import de.mhus.commons.yaml.YMap;
-import de.mhus.commons.errors.MException;
-import de.mhus.commons.errors.TooDeepStructuresException;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 public class YamlNodeBuilder extends INodeBuilder {
 

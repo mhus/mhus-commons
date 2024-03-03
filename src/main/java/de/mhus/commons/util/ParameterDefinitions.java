@@ -15,11 +15,11 @@
  */
 package de.mhus.commons.util;
 
+import de.mhus.commons.errors.MException;
+import de.mhus.commons.node.INode;
+
 import java.util.Collection;
 import java.util.TreeMap;
-
-import de.mhus.commons.node.INode;
-import de.mhus.commons.errors.MException;
 
 public class ParameterDefinitions extends TreeMap<String, ParameterDefinition> {
 

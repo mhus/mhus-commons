@@ -15,15 +15,15 @@
  */
 package de.mhus.commons.parser;
 
+import de.mhus.commons.MString;
+import de.mhus.commons.MXml;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Hashtable;
 import java.util.Map;
-
-import de.mhus.commons.MString;
-import de.mhus.commons.MXml;
 
 /** @author hummel */
 public class HtmlParser {

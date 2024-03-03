@@ -15,6 +15,9 @@
  */
 package de.mhus.commons.io;
 
+import de.mhus.commons.MFile;
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileFilter;
@@ -24,9 +27,6 @@ import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
-
-import de.mhus.commons.MFile;
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class Unzip {

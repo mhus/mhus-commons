@@ -15,14 +15,13 @@
  */
 package de.mhus.lib.test;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import de.mhus.commons.util.MUri;
+import de.mhus.lib.test.util.TestCase;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
-import org.junit.jupiter.api.Test;
-
-import de.mhus.commons.util.MUri;
-import de.mhus.lib.test.util.TestCase;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class Rfc1738Test extends TestCase {
 

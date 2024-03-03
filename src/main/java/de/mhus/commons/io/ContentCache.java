@@ -15,6 +15,11 @@
  */
 package de.mhus.commons.io;
 
+import de.mhus.commons.MFile;
+import de.mhus.commons.errors.MException;
+import de.mhus.commons.node.INode;
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -22,11 +27,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
-import de.mhus.commons.MFile;
-import de.mhus.commons.node.INode;
-import de.mhus.commons.errors.MException;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * TODO implement save write / read mechanism

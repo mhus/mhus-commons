@@ -15,20 +15,10 @@
  */
 package de.mhus.lib.test.util;
 
-import java.io.File;
-import java.io.IOException;
+import org.junit.jupiter.api.TestInfo;
+
 import java.lang.reflect.Method;
 import java.util.Optional;
-import java.util.logging.Handler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.junit.jupiter.api.TestInfo;
-import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
 
 public class TestUtil {
 

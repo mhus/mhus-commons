@@ -15,18 +15,17 @@
  */
 package de.mhus.lib.test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import de.mhus.commons.MSql;
+import de.mhus.commons.MValidator;
+import de.mhus.lib.test.util.TestCase;
+import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
 import java.util.Locale;
 
-import org.junit.jupiter.api.Test;
-
-import de.mhus.commons.MSql;
-import de.mhus.commons.MValidator;
-import de.mhus.lib.test.util.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MValidatorTest extends TestCase {
 

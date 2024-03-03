@@ -15,21 +15,20 @@
  */
 package de.mhus.commons.util;
 
-import java.io.IOException;
-import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.List;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-
 import de.mhus.commons.MJson;
 import de.mhus.commons.MSystem;
+import de.mhus.commons.errors.NotFoundRuntimeException;
 import de.mhus.commons.node.INode;
 import de.mhus.commons.node.NodeList;
 import de.mhus.commons.node.NodeSerializable;
 import de.mhus.commons.pojo.MPojo;
-import de.mhus.commons.errors.NotFoundRuntimeException;
+
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 
 public class TableRow implements Serializable, NodeSerializable {
 

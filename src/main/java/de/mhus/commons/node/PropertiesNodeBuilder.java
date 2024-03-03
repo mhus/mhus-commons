@@ -15,6 +15,17 @@
  */
 package de.mhus.commons.node;
 
+import de.mhus.commons.MCollection;
+import de.mhus.commons.MDate;
+import de.mhus.commons.MString;
+import de.mhus.commons.MSystem;
+import de.mhus.commons.basics.RC;
+import de.mhus.commons.errors.MException;
+import de.mhus.commons.errors.MRuntimeException;
+import de.mhus.commons.errors.TooDeepStructuresException;
+import de.mhus.commons.pojo.MPojo;
+import de.mhus.commons.util.NullValue;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -25,17 +36,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import de.mhus.commons.MSystem;
-import de.mhus.commons.basics.RC;
-import de.mhus.commons.MCollection;
-import de.mhus.commons.MDate;
-import de.mhus.commons.MString;
-import de.mhus.commons.pojo.MPojo;
-import de.mhus.commons.util.NullValue;
-import de.mhus.commons.errors.MException;
-import de.mhus.commons.errors.MRuntimeException;
-import de.mhus.commons.errors.TooDeepStructuresException;
 
 public class PropertiesNodeBuilder extends INodeBuilder {
 

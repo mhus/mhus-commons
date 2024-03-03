@@ -15,10 +15,10 @@
  */
 package de.mhus.commons.crypt;
 
+import de.mhus.commons.MMath;
+
 import java.io.IOException;
 import java.io.OutputStream;
-
-import de.mhus.commons.MMath;
 
 public class SaltOutputStream extends OutputStream {
 

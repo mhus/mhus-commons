@@ -15,6 +15,13 @@
  */
 package de.mhus.commons.io;
 
+import de.mhus.commons.MFile;
+import de.mhus.commons.MString;
+import de.mhus.commons.MSystem;
+import de.mhus.commons.errors.NotFoundException;
+import de.mhus.commons.parser.StringPropertyReplacer;
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -25,13 +32,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
-
-import de.mhus.commons.MFile;
-import de.mhus.commons.MString;
-import de.mhus.commons.MSystem;
-import de.mhus.commons.parser.StringPropertyReplacer;
-import de.mhus.commons.errors.NotFoundException;
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class SOfficeConnector {

@@ -15,6 +15,26 @@
  */
 package de.mhus.commons;
 
+import de.mhus.commons.cast.Caster;
+import de.mhus.commons.cast.DoubleToString;
+import de.mhus.commons.cast.FloatToString;
+import de.mhus.commons.cast.ObjectToBigDecimal;
+import de.mhus.commons.cast.ObjectToBoolean;
+import de.mhus.commons.cast.ObjectToByte;
+import de.mhus.commons.cast.ObjectToCalendar;
+import de.mhus.commons.cast.ObjectToDate;
+import de.mhus.commons.cast.ObjectToDouble;
+import de.mhus.commons.cast.ObjectToFloat;
+import de.mhus.commons.cast.ObjectToInteger;
+import de.mhus.commons.cast.ObjectToLong;
+import de.mhus.commons.cast.ObjectToShort;
+import de.mhus.commons.cast.ObjectToSqlDate;
+import de.mhus.commons.cast.ObjectToString;
+import de.mhus.commons.cast.ObjectToUUID;
+import de.mhus.commons.io.MObjectInputStream;
+import de.mhus.commons.node.MProperties;
+import de.mhus.commons.util.VectorMap;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -36,26 +56,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
-
-import de.mhus.commons.cast.Caster;
-import de.mhus.commons.cast.DoubleToString;
-import de.mhus.commons.cast.FloatToString;
-import de.mhus.commons.cast.ObjectToBigDecimal;
-import de.mhus.commons.cast.ObjectToBoolean;
-import de.mhus.commons.cast.ObjectToByte;
-import de.mhus.commons.cast.ObjectToCalendar;
-import de.mhus.commons.cast.ObjectToDate;
-import de.mhus.commons.cast.ObjectToDouble;
-import de.mhus.commons.cast.ObjectToFloat;
-import de.mhus.commons.cast.ObjectToInteger;
-import de.mhus.commons.cast.ObjectToLong;
-import de.mhus.commons.cast.ObjectToShort;
-import de.mhus.commons.cast.ObjectToSqlDate;
-import de.mhus.commons.cast.ObjectToString;
-import de.mhus.commons.cast.ObjectToUUID;
-import de.mhus.commons.io.MObjectInputStream;
-import de.mhus.commons.node.MProperties;
-import de.mhus.commons.util.VectorMap;
 
 /**
  * Smplifies casts between java classes. Some functions in this class only make the code readable.

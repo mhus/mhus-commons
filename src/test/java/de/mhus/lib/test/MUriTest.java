@@ -15,16 +15,15 @@
  */
 package de.mhus.lib.test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-
-import java.io.File;
-
-import org.junit.jupiter.api.Test;
-
 import de.mhus.commons.MPassword;
 import de.mhus.commons.util.MUri;
 import de.mhus.lib.test.util.TestCase;
+import org.junit.jupiter.api.Test;
+
+import java.io.File;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class MUriTest extends TestCase {
 

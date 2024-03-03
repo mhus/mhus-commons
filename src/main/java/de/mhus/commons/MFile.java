@@ -15,6 +15,12 @@
  */
 package de.mhus.commons;
 
+import de.mhus.commons.io.FileChecker;
+import de.mhus.commons.io.PdfFileChecker;
+import de.mhus.commons.util.IObserver;
+import de.mhus.commons.util.MUri;
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.EOFException;
@@ -48,12 +54,6 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.TimeoutException;
-
-import de.mhus.commons.io.FileChecker;
-import de.mhus.commons.io.PdfFileChecker;
-import de.mhus.commons.util.IObserver;
-import de.mhus.commons.util.MUri;
-import lombok.extern.slf4j.Slf4j;
 
 /** @author hummel */
 @Slf4j

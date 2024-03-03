@@ -15,15 +15,14 @@
  */
 package de.mhus.commons.json;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.InvocationTargetException;
-
 import com.fasterxml.jackson.databind.JsonNode;
-
 import de.mhus.commons.MJson;
 import de.mhus.commons.pojo.DefaultFilter;
 import de.mhus.commons.pojo.PojoModel;
 import de.mhus.commons.pojo.PojoParser;
+
+import java.lang.reflect.Array;
+import java.lang.reflect.InvocationTargetException;
 
 public class TransformHelper {
     int level = 0;
