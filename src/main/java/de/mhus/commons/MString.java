@@ -30,6 +30,7 @@ import java.util.Vector;
 import java.util.regex.Pattern;
 
 import de.mhus.commons.basics.RC;
+import de.mhus.commons.node.IProperties;
 import de.mhus.commons.parser.StringCompiler;
 import de.mhus.commons.util.EmptyList;
 import de.mhus.commons.errors.MException;

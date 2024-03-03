@@ -22,7 +22,7 @@ import java.io.OutputStream;
 import java.util.Base64;
 
 import de.mhus.commons.MFile;
-import de.mhus.commons.MProperties;
+import de.mhus.commons.node.MProperties;
 import de.mhus.commons.MString;
 import de.mhus.commons.basics.RC;
 import de.mhus.commons.errors.MRuntimeException;

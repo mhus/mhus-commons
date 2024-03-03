@@ -21,9 +21,9 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
-import de.mhus.commons.IProperties;
+import de.mhus.commons.node.IProperties;
 import de.mhus.commons.MCast;
-import de.mhus.commons.MProperties;
+import de.mhus.commons.node.MProperties;
 import de.mhus.commons.MString;
 import de.mhus.commons.MSystem;
 

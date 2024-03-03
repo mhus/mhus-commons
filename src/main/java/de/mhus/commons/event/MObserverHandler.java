@@ -13,30 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.mhus.commons.annotations.vaadin;
+package de.mhus.commons.event;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
+import de.mhus.commons.util.IObserver;
 
-@Retention(RetentionPolicy.RUNTIME)
-public @interface Column {
-    String nls() default "";
+public class MObserverHandler<T> extends MEventHandler<IObserver<T>> {
 
-    String title() default "";
+    public void fireChanged(Object event) {
+        fire(event);
+    }
 
-    boolean elapsed() default true;
-
-    int order() default -1;
-
-    String[] schema() default {};
-
-    Align align() default Align.LEFT;
-
-    boolean collapsible() default true;
-
-    boolean editable() default true;
-
-    Class<?> converter() default Object.class;
-
-    String[] properties() default {};
+    @SuppressWarnings("unchecked")
+    @Override
+    public void onFire(IObserver<T> listener, Object event, Object... values) {
+        listener.update(null, null, (T) event);
+    }
 }

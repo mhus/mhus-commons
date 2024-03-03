@@ -24,8 +24,8 @@ import java.util.Set;
 import java.util.function.Function;
 
 import de.mhus.commons.basics.ReadOnly;
-import de.mhus.commons.IProperties;
-import de.mhus.commons.IReadProperties;
+import de.mhus.commons.node.IProperties;
+import de.mhus.commons.node.IReadProperties;
 import de.mhus.commons.errors.MException;
 
 public class PropertiesReadOnly implements IReadProperties, ReadOnly {

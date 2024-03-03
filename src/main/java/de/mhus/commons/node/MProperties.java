@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.mhus.commons;
+package de.mhus.commons.node;
 
 import java.io.BufferedWriter;
 import java.io.Externalizable;
@@ -40,6 +40,9 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
 
+import de.mhus.commons.AbstractProperties;
+import de.mhus.commons.MString;
+import de.mhus.commons.MSystem;
 import de.mhus.commons.util.SetCast;
 import lombok.extern.slf4j.Slf4j;
 

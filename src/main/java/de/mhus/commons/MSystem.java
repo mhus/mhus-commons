@@ -47,6 +47,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import de.mhus.commons.errors.NotFoundException;
+import de.mhus.commons.node.IProperties;
 import de.mhus.commons.services.ClassLoaderProvider;
 import de.mhus.commons.services.EnvironmentProvider;
 import de.mhus.commons.services.MService;

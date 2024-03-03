@@ -13,6 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.mhus.commons.basics.consts;
+package de.mhus.commons.event;
 
-public class ConstBase {}
+public interface IRegistry<L> {
+
+    public void register(L listener);
+
+    public void registerWeak(L listener);
+
+    public void unregister(L listener);
+}

@@ -25,7 +25,6 @@ import java.util.UUID;
 import com.fasterxml.jackson.databind.JsonNode;
 
 
-import de.mhus.commons.basics.consts.Identifier;
 import de.mhus.commons.pojo.MPojo;
 import de.mhus.commons.util.EmptyList;
 import de.mhus.commons.util.EnumerationIterator;
@@ -126,24 +125,6 @@ public class M {
 
     public static final String CFG_SYSTEM = "system";
     public static final String PARAM_AUTH_TOKEN = "auth_token";
-
-    /**
-     * Return a string cascading the names of the getters (without 'get' prefix). and joined with
-     * underscore.
-     *
-     * <p>This is used to create identifiers for MForm or Adb.
-     *
-     * @param idents
-     * @return combined name of the getters e.g. address_firstname
-     */
-    //	@SuppressWarnings("unchecked")
-    //	public static <T> String n(Function<T,?> ... getters ) {
-    //		return MPojo.toAttributeName(getters);
-    //	}
-
-    public static <T, U> String n(Identifier... idents) {
-        return MPojo.toAttributeName(idents);
-    }
 
     /**
      * Truncate the string by length characters.

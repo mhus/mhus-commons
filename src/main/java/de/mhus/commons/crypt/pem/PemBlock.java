@@ -17,7 +17,7 @@ package de.mhus.commons.crypt.pem;
 
 import java.util.Map;
 
-import de.mhus.commons.IReadProperties;
+import de.mhus.commons.node.IReadProperties;
 
 public interface PemBlock extends IReadProperties, Map<String, Object> {
 

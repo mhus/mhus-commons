@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.mhus.commons;
+package de.mhus.commons.node;
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -22,7 +22,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Properties;
 
-import de.mhus.commons.node.INode;
+import de.mhus.commons.MCast;
 import de.mhus.commons.util.MUri;
 
 public interface IProperties

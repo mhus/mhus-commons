@@ -13,7 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.mhus.commons;
+package de.mhus.commons.util;
+
+import de.mhus.commons.MCollection;
 
 import java.util.Collection;
 import java.util.Map;

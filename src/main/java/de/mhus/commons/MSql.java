@@ -23,6 +23,7 @@ import java.sql.Statement;
 import java.sql.Types;
 
 import de.mhus.commons.errors.MException;
+import de.mhus.commons.node.MProperties;
 
 public class MSql {
 

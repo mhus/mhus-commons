@@ -18,7 +18,7 @@ package de.mhus.commons.security;
 import java.util.Date;
 import java.util.UUID;
 
-import de.mhus.commons.IReadProperties;
+import de.mhus.commons.node.IReadProperties;
 import de.mhus.commons.errors.NotSupportedException;
 
 public interface Account extends Rightful {

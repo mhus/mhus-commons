@@ -24,7 +24,7 @@ import java.util.Map;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import de.mhus.commons.IProperties;
+import de.mhus.commons.node.IProperties;
 import de.mhus.commons.MCast;
 import de.mhus.commons.MString;
 import de.mhus.commons.annotations.generic.Public;

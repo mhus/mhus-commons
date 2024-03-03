@@ -15,6 +15,9 @@
  */
 package de.mhus.commons;
 
+import de.mhus.commons.services.MService;
+import de.mhus.commons.services.UniqueId;
+
 import java.io.PrintStream;
 
 public class MStopWatch {
@@ -30,7 +33,7 @@ public class MStopWatch {
     private String name;
 
     public MStopWatch() {
-        name = "StopWatch " + UniqueId.nextUniqueId();
+        name = "StopWatch " + MService.getService(UniqueId.class).nextUniqueId();
     }
 
     public MStopWatch(String name) {

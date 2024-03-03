@@ -24,10 +24,10 @@ import java.util.Date;
 import java.util.Map;
 
 import de.mhus.commons.basics.RC;
-import de.mhus.commons.IProperties;
-import de.mhus.commons.IReadProperties;
+import de.mhus.commons.node.IProperties;
+import de.mhus.commons.node.IReadProperties;
 import de.mhus.commons.MCast;
-import de.mhus.commons.MProperties;
+import de.mhus.commons.node.MProperties;
 import de.mhus.commons.MString;
 import de.mhus.commons.MValidator;
 import de.mhus.commons.errors.MException;

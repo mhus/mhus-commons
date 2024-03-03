@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
-import de.mhus.commons.IProperties;
+import de.mhus.commons.node.IProperties;
 import de.mhus.commons.MCast;
 import de.mhus.commons.MString;
 

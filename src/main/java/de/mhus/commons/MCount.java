@@ -15,6 +15,8 @@
  */
 package de.mhus.commons;
 
+import de.mhus.commons.services.MService;
+import de.mhus.commons.services.UniqueId;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.Closeable;
@@ -30,7 +32,7 @@ public class MCount implements Closeable {
 
     public MCount() {
         cnt = 0;
-        name = "Counter " + UniqueId.nextUniqueId();
+        name = "Counter " + MService.getService(UniqueId.class).nextUniqueId();
     }
 
     public MCount(String name) {

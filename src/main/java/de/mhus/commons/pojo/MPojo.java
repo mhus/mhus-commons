@@ -31,7 +31,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
-import de.mhus.commons.basics.consts.Identifier;
 import de.mhus.commons.services.ClassLoaderProvider;
 import de.mhus.commons.services.MService;
 import lombok.extern.slf4j.Slf4j;
@@ -45,11 +44,11 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import de.mhus.commons.annotations.generic.Public;
 import de.mhus.commons.annotations.pojo.Embedded;
 import de.mhus.commons.annotations.pojo.Hidden;
-import de.mhus.commons.IProperties;
+import de.mhus.commons.node.IProperties;
 import de.mhus.commons.MCast;
 import de.mhus.commons.MCollection;
 import de.mhus.commons.MDate;
-import de.mhus.commons.MProperties;
+import de.mhus.commons.node.MProperties;
 import de.mhus.commons.MString;
 import de.mhus.commons.MSystem;
 import de.mhus.commons.MXml;
@@ -1311,25 +1310,6 @@ public class MPojo {
                 LOGGER.debug("Error: {} {}", MSystem.getClassName(to), name, t);
             }
         }
-    }
-
-    /**
-     * toAttributeName.
-     *
-     * @param idents
-     * @return a {@link java.lang.String} object.
-     * @since 3.3.0
-     */
-    public static String toAttributeName(Identifier... idents) {
-        if (idents == null) return null;
-        if (idents.length == 0) return "";
-        if (idents.length == 1) return idents[0].getPojoName();
-        StringBuilder out = new StringBuilder();
-        for (Identifier ident : idents) {
-            if (out.length() > 0) out.append('_');
-            out.append(ident.getPojoName());
-        }
-        return out.toString();
     }
 
     @SuppressWarnings("unchecked")

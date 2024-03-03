@@ -33,7 +33,7 @@ import org.w3c.dom.Document;
 
 import de.mhus.commons.MCast;
 import de.mhus.commons.MFile;
-import de.mhus.commons.MProperties;
+import de.mhus.commons.node.MProperties;
 import de.mhus.commons.MString;
 import de.mhus.commons.MSystem;
 import de.mhus.commons.MXml;

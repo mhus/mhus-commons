@@ -28,6 +28,8 @@ import de.mhus.commons.basics.RC;
 import de.mhus.commons.errors.MException;
 import de.mhus.commons.errors.MRuntimeException;
 import de.mhus.commons.errors.NotFoundException;
+import de.mhus.commons.node.IProperties;
+import de.mhus.commons.node.IReadProperties;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

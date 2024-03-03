@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.mhus.commons;
+package de.mhus.commons.node;
 
 import java.util.Calendar;
 import java.util.Collection;

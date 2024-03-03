@@ -21,7 +21,7 @@ import java.util.ConcurrentModificationException;
 
 import org.junit.jupiter.api.Test;
 
-import de.mhus.commons.MEventHandler;
+import de.mhus.commons.event.MEventHandler;
 import de.mhus.lib.test.util.TestCase;
 
 /** Unit test for simple App. */

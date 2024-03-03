@@ -54,6 +54,7 @@ import de.mhus.commons.cast.ObjectToSqlDate;
 import de.mhus.commons.cast.ObjectToString;
 import de.mhus.commons.cast.ObjectToUUID;
 import de.mhus.commons.io.MObjectInputStream;
+import de.mhus.commons.node.MProperties;
 import de.mhus.commons.util.VectorMap;
 
 /**

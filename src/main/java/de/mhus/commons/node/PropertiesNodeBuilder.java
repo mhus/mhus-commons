@@ -30,7 +30,6 @@ import de.mhus.commons.MSystem;
 import de.mhus.commons.basics.RC;
 import de.mhus.commons.MCollection;
 import de.mhus.commons.MDate;
-import de.mhus.commons.MProperties;
 import de.mhus.commons.MString;
 import de.mhus.commons.pojo.MPojo;
 import de.mhus.commons.util.NullValue;

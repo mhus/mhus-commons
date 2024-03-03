@@ -19,7 +19,6 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 import de.mhus.commons.basics.RC;
-import de.mhus.commons.IProperties;
 import de.mhus.commons.errors.MRuntimeException;
 
 public class NodeList extends LinkedList<INode> {
