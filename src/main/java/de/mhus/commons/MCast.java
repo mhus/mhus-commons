@@ -55,6 +55,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
 import java.util.TimeZone;
 
 /**
@@ -355,7 +358,11 @@ public final class MCast {
      * @return a double
      */
     public static double todouble(Object in, double def) {
-        return OBJECT_TO_DOUBLE.toDouble(in, def, null);
+        return OBJECT_TO_DOUBLE.toDouble(in).orElse(def);
+    }
+
+    public static OptionalDouble todouble(Object in) {
+        return OBJECT_TO_DOUBLE.toDouble(in);
     }
 
     public static BigDecimal toBigDecimal(Object in, BigDecimal def) {
@@ -376,7 +383,7 @@ public final class MCast {
     public static double todoubleEuropean(String in, double def) {
         if (in == null) return def;
         in = in.replaceAll(" ", "").replaceAll("\\.", "").replace(',', '.');
-        return OBJECT_TO_DOUBLE.toDouble(in, def, null);
+        return OBJECT_TO_DOUBLE.toDouble(in).orElse(def);
     }
 
     /**
@@ -393,7 +400,7 @@ public final class MCast {
     public static double todoubleUS(String in, double def) {
         if (in == null) return def;
         in = in.replaceAll(" ", "").replaceAll(",", "");
-        return OBJECT_TO_DOUBLE.toDouble(in, def, null);
+        return OBJECT_TO_DOUBLE.toDouble(in).orElse(def);
     }
 
     /**
@@ -432,7 +439,18 @@ public final class MCast {
                 return def;
             }
         }
-        return OBJECT_TO_INTEGER.toInt(in, def, null);
+        return OBJECT_TO_INTEGER.toInt(in).orElse(def);
+    }
+
+    public static OptionalInt toint(Object in) {
+        if (OBJECT_TO_INTEGER == null) {
+            try {
+                return OptionalInt.of(Integer.parseInt(String.valueOf(in)));
+            } catch (Throwable t) {
+                return OptionalInt.empty();
+            }
+        }
+        return OBJECT_TO_INTEGER.toInt(in);
     }
 
     /**
@@ -451,7 +469,18 @@ public final class MCast {
                 return def;
             }
         }
-        return OBJECT_TO_LONG.toLong(in, def, null);
+        return OBJECT_TO_LONG.toLong(in).orElse(def);
+    }
+
+    public static OptionalLong tolong(Object in) {
+        if (OBJECT_TO_LONG == null) {
+            try {
+                return OptionalLong.of(Long.parseLong(String.valueOf(in)));
+            } catch (Throwable t) {
+                return OptionalLong.empty();
+            }
+        }
+        return OBJECT_TO_LONG.toLong(in);
     }
 
     public static byte tobyte(Object in, byte def) {

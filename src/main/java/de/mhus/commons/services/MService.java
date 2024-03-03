@@ -26,13 +26,15 @@ public class MService {
                 }
                 final var factoryAnno = clazz.getAnnotation(ServiceFactory.class);
                 if (factoryAnno != null) {
-                    service = MSystem.newInstance(factoryAnno.value()).create(clazz);
+                    service = (T)MSystem.newInstance(factoryAnno.value()).create(clazz);
                 }
-                final var defaultAnno = clazz.getAnnotation(DefaultImplementation.class);
-                if (defaultAnno != null) {
-                    service = (T)defaultAnno.value().newInstance();
-                } else {
-                    service = MSystem.newInstance(clazz);
+                if (service == null) {
+                    final var defaultAnno = clazz.getAnnotation(DefaultImplementation.class);
+                    if (defaultAnno != null) {
+                        service = (T) defaultAnno.value().newInstance();
+                    } else {
+                        service = MSystem.newInstance(clazz);
+                    }
                 }
                 LOGGER.debug("Create service {} with {}", clazz, service.getClass());
                 services.put(clazz, service);

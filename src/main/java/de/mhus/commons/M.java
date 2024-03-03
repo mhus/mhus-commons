@@ -25,6 +25,9 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
 import java.util.UUID;
 
 /**
@@ -203,6 +206,18 @@ public class M {
 
     public static String to(Object in, String def) {
         return MCast.toString(in, def);
+    }
+
+    public static OptionalLong tolong(Object in) {
+        return MCast.tolong(in);
+    }
+
+    public static OptionalInt toint(Object in) {
+        return MCast.toint(in);
+    }
+
+    public static OptionalDouble todouble(Object in) {
+        return MCast.todouble(in);
     }
 
     /**

@@ -18,6 +18,8 @@ package de.mhus.commons.cast;
 import de.mhus.commons.util.Value;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.OptionalDouble;
+
 @Slf4j
 public class ObjectToDouble implements Caster<Object, Double> {
 
@@ -33,25 +35,21 @@ public class ObjectToDouble implements Caster<Object, Double> {
 
     @Override
     public Double cast(Object in, Double def) {
-        Value<Double> ret = new Value<>(def);
-        toDouble(in, 0, ret);
-        return ret.getValue();
+        return toDouble(in).orElse(def);
     }
 
-    public double toDouble(Object in, double def, Value<Double> ret) {
-        if (in == null) return def;
+    public OptionalDouble toDouble(Object in) {
+        if (in == null) return OptionalDouble.empty();
         if (in instanceof Number) {
             double r = ((Number) in).doubleValue();
-            if (ret != null) ret.setValue(r);
-            return r;
+            return OptionalDouble.of(r);
         }
         try {
             double r = Double.parseDouble(String.valueOf(in));
-            if (ret != null) ret.setValue(r);
-            return r;
+            return OptionalDouble.of(r);
         } catch (Throwable e) {
             LOGGER.trace("cast to double failed {}", in, e.toString());
         }
-        return def;
+        return OptionalDouble.empty();
     }
 }

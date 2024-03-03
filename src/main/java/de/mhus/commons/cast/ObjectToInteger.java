@@ -18,6 +18,8 @@ package de.mhus.commons.cast;
 import de.mhus.commons.util.Value;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.OptionalInt;
+
 @Slf4j
 public class ObjectToInteger implements Caster<Object, Integer> {
 
@@ -35,21 +37,17 @@ public class ObjectToInteger implements Caster<Object, Integer> {
 
     @Override
     public Integer cast(Object in, Integer def) {
-        Value<Integer> ret = new Value<>(def);
-        toInt(in, 0, ret);
-        return ret.getValue();
+        return toInt(in).orElse(def);
     }
 
-    public int toInt(Object in, int def, Value<Integer> ret) {
-        if (in == null) return def;
+    public OptionalInt toInt(Object in) {
+        if (in == null) return OptionalInt.empty();
         if (in instanceof Integer) {
-            if (ret != null) ret.setValue((Integer) in);
-            return ((Integer) in).intValue();
+            return OptionalInt.of(((Integer) in).intValue());
         }
         if (in instanceof Number) {
             int r = ((Number) in).intValue();
-            if (ret != null) ret.setValue(r);
-            return r;
+            return OptionalInt.of(r);
         }
 
         String _in = String.valueOf(in);
@@ -69,16 +67,14 @@ public class ObjectToInteger implements Caster<Object, Integer> {
                     out = out * 16 + s;
                 }
                 if (_in.startsWith("-")) out = -out;
-                if (ret != null) ret.setValue(out);
-                return out;
+                return OptionalInt.of(out);
             }
 
             int r = Integer.parseInt(_in);
-            if (ret != null) ret.setValue(r);
-            return r;
+            return OptionalInt.of(r);
         } catch (Throwable e) {
             LOGGER.trace("Error: {}", _in, e.toString());
-            return def;
+            return OptionalInt.empty();
         }
     }
 }

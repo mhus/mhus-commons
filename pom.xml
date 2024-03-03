@@ -46,8 +46,8 @@
 		</license>
 	</licenses>
 	<scm>
-		<url>https://github.com/mhus/mhus-lib</url>
-		<connection>scm:git:https://github.com/mhus/mhus-lib/</connection>
+		<url>https://github.com/mhus/mhus-commons</url>
+		<connection>scm:git:https://github.com/mhus/mhus-commons/</connection>
 		<tag>HEAD</tag>
 	</scm>
 	<developers>

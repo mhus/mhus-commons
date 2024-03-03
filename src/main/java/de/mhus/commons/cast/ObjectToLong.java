@@ -18,6 +18,8 @@ package de.mhus.commons.cast;
 import de.mhus.commons.util.Value;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.OptionalLong;
+
 @Slf4j
 public class ObjectToLong implements Caster<Object, Long> {
 
@@ -33,17 +35,14 @@ public class ObjectToLong implements Caster<Object, Long> {
 
     @Override
     public Long cast(Object in, Long def) {
-        Value<Long> ret = new Value<>(def);
-        toLong(in, 0, ret);
-        return ret.getValue();
+        return toLong(in).orElse(def);
     }
 
-    public long toLong(Object in, long def, Value<Long> ret) {
-        if (in == null) return def;
+    public OptionalLong toLong(Object in) {
+        if (in == null) return OptionalLong.empty();
         if (in instanceof Number) {
             long r = ((Number) in).longValue();
-            if (ret != null) ret.setValue(r);
-            return r;
+            return OptionalLong.of(r);
         }
         String ins = String.valueOf(in);
 
@@ -64,17 +63,15 @@ public class ObjectToLong implements Caster<Object, Long> {
                     out = out * 16 + s;
                 }
                 if (ins.startsWith("-")) out = -out;
-                if (ret != null) ret.setValue(out);
-                return out;
+                return OptionalLong.of(out);
             }
 
             long r = Long.parseLong(ins);
-            if (ret != null) ret.setValue(r);
-            return r;
+            return OptionalLong.of(r);
 
         } catch (Throwable e) {
             LOGGER.trace("Error: {}", ins, e.toString());
         }
-        return def;
+        return OptionalLong.empty();
     }
 }
