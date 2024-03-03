@@ -28,7 +28,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import java.util.UUID;
 
-import de.mhus.commons.M;
 import de.mhus.commons.MBigMath;
 import de.mhus.commons.MCast;
 import de.mhus.commons.MFile;
@@ -37,6 +36,7 @@ import de.mhus.commons.MString;
 import de.mhus.commons.MThread;
 import de.mhus.commons.basics.RC;
 import de.mhus.commons.errors.MRuntimeException;
+import de.mhus.commons.services.MService;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -52,8 +52,6 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class MCrypt {
-
-    private static DefaultRandom randomInstance;
 
     /**
      * Load a private key from file.
@@ -695,9 +693,7 @@ public class MCrypt {
         }
     }
     
-    public synchronized static MRandom getRandom() {
-        if (randomInstance == null)
-            randomInstance = new DefaultRandom();
-        return randomInstance;
+    public static MRandom getRandom() {
+        return MService.getService(MRandom.class);
     }
 }

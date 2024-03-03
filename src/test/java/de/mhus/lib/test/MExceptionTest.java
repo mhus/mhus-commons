@@ -162,7 +162,7 @@ public class MExceptionTest extends TestCase {
             ErrorException e = (ErrorException) t;
             assertEquals(400, e.getReturnCode());
             assertEquals(
-                    "[400,\"error1\",\"404 de.mhus.lib.errors.NotFoundException: [404,\\\"test\\\",\\\"nr1\\\"]\"]",
+                    "[400,\"error1\",\"404 de.mhus.commons.errors.NotFoundException: [404,\\\"test\\\",\\\"nr1\\\"]\"]",
                     e.getMessage());
             assertNotNull(t.getCause());
             assertEquals("[404,\"test\",\"nr1\"]", t.getCause().getMessage());

@@ -26,9 +26,11 @@ import de.mhus.commons.annotations.activator.DefaultImplementation;
 import de.mhus.commons.basics.Adaptable;
 import de.mhus.commons.M;
 import de.mhus.commons.errors.NotSupportedException;
+import de.mhus.commons.services.IService;
 
+//XXX will not be used
 @DefaultImplementation(SimpleConsole.class)
-public abstract class Console extends PrintStream implements Adaptable {
+public abstract class Console extends PrintStream implements Adaptable, IService {
 
     // https://en.wikipedia.org/wiki/ANSI_escape_code
     public enum COLOR {

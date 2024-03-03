@@ -17,18 +17,15 @@ package de.mhus.commons;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.UUID;
 
 import de.mhus.commons.basics.RC;
-import de.mhus.commons.crypt.AsyncKey;
-import de.mhus.commons.crypt.DefaultRandom;
 import de.mhus.commons.crypt.MCrypt;
 import de.mhus.commons.crypt.MRandom;
 import de.mhus.commons.crypt.Rot13;
 import de.mhus.commons.io.TextReader;
+import de.mhus.commons.services.MService;
 import de.mhus.commons.util.SecureString;
 import de.mhus.commons.errors.MRuntimeException;
-import de.mhus.commons.errors.UsageException;
 
 /**
  * Decode / Encode passwords. Attention: This do not give security in any way. It's only a way to
@@ -274,8 +271,7 @@ public class MPassword {
     }
 
     private static synchronized MRandom getRandom() {
-        if (random == null) random = new DefaultRandom();
-        return random;
+        return MService.getService(MRandom.class);
     }
 
     private static int getRandomInt(int max) {

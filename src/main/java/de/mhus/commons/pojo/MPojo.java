@@ -32,6 +32,8 @@ import java.util.Map.Entry;
 import java.util.UUID;
 
 import de.mhus.commons.basics.consts.Identifier;
+import de.mhus.commons.services.ClassLoaderProvider;
+import de.mhus.commons.services.MService;
 import lombok.extern.slf4j.Slf4j;
 import org.w3c.dom.CDATASection;
 import org.w3c.dom.Element;
@@ -44,7 +46,6 @@ import de.mhus.commons.annotations.generic.Public;
 import de.mhus.commons.annotations.pojo.Embedded;
 import de.mhus.commons.annotations.pojo.Hidden;
 import de.mhus.commons.IProperties;
-import de.mhus.commons.M;
 import de.mhus.commons.MCast;
 import de.mhus.commons.MCollection;
 import de.mhus.commons.MDate;
@@ -527,7 +528,7 @@ public class MPojo {
     }
 
     private static ClassLoader getDefaultClassLoader() {
-        return defaultClassLoader == null ? Thread.currentThread().getContextClassLoader() : defaultClassLoader;
+        return defaultClassLoader == null ? MService.getService(ClassLoaderProvider.class).getClassLoader() : defaultClassLoader;
     }
 
     /**

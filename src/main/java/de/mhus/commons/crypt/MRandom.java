@@ -15,11 +15,14 @@
  */
 package de.mhus.commons.crypt;
 
+import de.mhus.commons.annotations.service.DefaultImplementation;
 import de.mhus.commons.errors.NotSupportedException;
+import de.mhus.commons.services.IService;
 
 import java.security.SecureRandom;
 
-public interface MRandom {
+@DefaultImplementation(DefaultRandom.class)
+public interface MRandom extends IService {
 
     /**
      * Return a random byte from -127 to 128

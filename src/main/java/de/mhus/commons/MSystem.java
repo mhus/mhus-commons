@@ -24,7 +24,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.lang.annotation.Annotation;
-import java.lang.instrument.Instrumentation;
 import java.lang.management.LockInfo;
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
@@ -47,8 +46,10 @@ import java.util.jar.Manifest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import de.mhus.commons.crypt.MBouncy;
 import de.mhus.commons.errors.NotFoundException;
+import de.mhus.commons.services.ClassLoaderProvider;
+import de.mhus.commons.services.EnvironmentProvider;
+import de.mhus.commons.services.MService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -64,7 +65,7 @@ public class MSystem {
         }
     }
     public static <T> T newInstance(String clazzName) {
-        return newInstance(Thread.currentThread().getContextClassLoader(), clazzName);
+        return newInstance(MService.getService(ClassLoaderProvider.class).getClassLoader(), clazzName);
     }
 
     public static <T> T newInstance(ClassLoader activator, String clazzName) {
@@ -80,18 +81,15 @@ public class MSystem {
     }
 
     public static long getEnv(Class<?> owner, String name, long def) {
-        //XXX: implement
-        return def;
+        return MService.getService(EnvironmentProvider.class).getEnv(owner, name, def);
     }
 
     public static int getEnv(Class<?> owner, String name, int def) {
-        //XXX: implement
-        return def;
+        return MService.getService(EnvironmentProvider.class).getEnv(owner, name, def);
     }
 
     public static String getEnv(Class<?> owner, String name, String def) {
-        //XXX: implement
-        return def;
+        return MService.getService(EnvironmentProvider.class).getEnv(owner, name, def);
     }
 
     public enum OS {
