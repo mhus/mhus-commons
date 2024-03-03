@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,15 +15,15 @@
  */
 package de.mhus.commons.node;
 
-import de.mhus.commons.MCollection;
-import de.mhus.commons.MDate;
-import de.mhus.commons.MString;
-import de.mhus.commons.MSystem;
-import de.mhus.commons.basics.RC;
+import de.mhus.commons.tools.MSystem;
 import de.mhus.commons.errors.MException;
 import de.mhus.commons.errors.MRuntimeException;
+import de.mhus.commons.errors.RC;
 import de.mhus.commons.errors.TooDeepStructuresException;
 import de.mhus.commons.pojo.MPojo;
+import de.mhus.commons.tools.MCollection;
+import de.mhus.commons.tools.MDate;
+import de.mhus.commons.tools.MString;
 import de.mhus.commons.util.NullValue;
 
 import java.io.IOException;
@@ -40,7 +40,7 @@ import java.util.Map.Entry;
 public class PropertiesNodeBuilder extends INodeBuilder {
 
     protected static final int CFG_MAX_LEVEL =
-            MSystem.getEnv(PropertiesNodeBuilder.class, "maxLevel", 100);
+            MSystem.getEnv(PropertiesNodeBuilder.class,"maxLevel", 100);
 
     @Override
     public INode read(InputStream is) throws MException {
@@ -67,7 +67,7 @@ public class PropertiesNodeBuilder extends INodeBuilder {
     }
 
     public INode readFromCollection(Collection<?> col) {
-        INode node = new MNode();
+        INode node = new TreeNode();
         readFromCollection(node, INode.NAMELESS_VALUE, col, 0);
         return node;
     }
@@ -87,7 +87,7 @@ public class PropertiesNodeBuilder extends INodeBuilder {
         level++;
         if (level > CFG_MAX_LEVEL) throw new TooDeepStructuresException();
 
-        INode node = new MNode();
+        INode node = new TreeNode();
         for (Entry<?, ?> entry : map.entrySet()) {
             String key = MString.valueOf(entry.getKey());
             Object val = entry.getValue();
@@ -122,11 +122,11 @@ public class PropertiesNodeBuilder extends INodeBuilder {
         if (level > CFG_MAX_LEVEL) throw new TooDeepStructuresException();
 
         if (item == null) {
-            MNode obj = new MNode();
+            TreeNode obj = new TreeNode();
             obj.setBoolean(INode.NULL, true);
             return obj;
         } else if (item instanceof NodeSerializable) {
-            MNode obj = new MNode();
+            TreeNode obj = new TreeNode();
             try {
                 ((NodeSerializable) item).writeSerializabledNode(obj);
             } catch (Exception e) {
@@ -143,27 +143,27 @@ public class PropertiesNodeBuilder extends INodeBuilder {
                 || item instanceof Number
                 || item instanceof Date
                 || item instanceof Boolean) {
-            MNode obj = new MNode();
+            TreeNode obj = new TreeNode();
             obj.put(INode.NAMELESS_VALUE, item);
             return obj;
         } else if (item instanceof Date) {
-            MNode obj = new MNode();
+            TreeNode obj = new TreeNode();
             obj.put(INode.NAMELESS_VALUE, ((Date) item).getTime());
             obj.put(INode.HELPER_VALUE, MDate.toIso8601((Date) item));
             return obj;
         } else if (item.getClass().isArray()) {
-            MNode obj = new MNode();
+            TreeNode obj = new TreeNode();
             obj.setString(INode.CLASS, item.getClass().getCanonicalName());
             readFromCollection(
                     obj, INode.NAMELESS_VALUE, MCollection.toList(((Object[]) item)), level);
             return obj;
         } else if (item instanceof Collection) {
-            MNode obj = new MNode();
+            TreeNode obj = new TreeNode();
             obj.setString(INode.CLASS, item.getClass().getCanonicalName());
             readFromCollection(obj, INode.NAMELESS_VALUE, (Collection<?>) item, level);
             return obj;
         } else {
-            MNode obj = new MNode();
+            TreeNode obj = new TreeNode();
             try {
                 MPojo.pojoToNode(item, obj);
             } catch (IOException e) {

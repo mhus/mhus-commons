@@ -15,8 +15,8 @@
  */
 package de.mhus.commons.crypt;
 
-import de.mhus.commons.MMath;
-import de.mhus.commons.MThread;
+import de.mhus.commons.tools.MMath;
+import de.mhus.commons.tools.MThread;
 
 import java.io.IOException;
 import java.io.InputStream;

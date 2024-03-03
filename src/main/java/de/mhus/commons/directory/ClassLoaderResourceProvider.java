@@ -15,11 +15,11 @@
  */
 package de.mhus.commons.directory;
 
-import de.mhus.commons.MCollection;
-import de.mhus.commons.MString;
-import de.mhus.commons.MSystem;
+import de.mhus.commons.tools.MCollection;
+import de.mhus.commons.tools.MString;
+import de.mhus.commons.tools.MSystem;
 import de.mhus.commons.node.INode;
-import de.mhus.commons.node.MNode;
+import de.mhus.commons.node.TreeNode;
 import de.mhus.commons.node.NodeList;
 
 import java.io.InputStream;
@@ -52,7 +52,7 @@ public class ClassLoaderResourceProvider extends MResourceProvider {
         this.loader = loader;
     }
 
-    private static class CLResourceNode extends MNode {
+    private static class CLResourceNode extends TreeNode {
 
         private static final long serialVersionUID = 1L;
         private String name;

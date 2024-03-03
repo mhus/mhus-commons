@@ -15,7 +15,7 @@
  */
 package de.mhus.lib.test;
 
-import de.mhus.commons.event.MEventHandler;
+import de.mhus.commons.util.MEventHandler;
 import de.mhus.lib.test.util.TestCase;
 import org.junit.jupiter.api.Test;
 

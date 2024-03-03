@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,13 +15,12 @@
  */
 package de.mhus.commons.node;
 
-import de.mhus.commons.MXml;
-import de.mhus.commons.basics.RC;
 import de.mhus.commons.errors.MException;
+import de.mhus.commons.errors.RC;
 import de.mhus.commons.errors.TooDeepStructuresException;
+import de.mhus.commons.tools.MXml;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -88,7 +87,7 @@ public class XmlNodeBuilder extends INodeBuilder {
     public INode readFromElement(Element element) throws MException {
         // first must be an object
         if (element.hasAttribute("xmlns:node")) element.removeAttribute("xmlns:node");
-        INode node = new MNode();
+        INode node = new TreeNode();
         read(node, element, 0);
         return node;
     }
@@ -103,10 +102,10 @@ public class XmlNodeBuilder extends INodeBuilder {
         }
         org.w3c.dom.NodeList children = element.getChildNodes();
         if (children.getLength() == 1) {
-            Node first = children.item(0);
-            if (first.getNodeType() == Node.TEXT_NODE)
+            org.w3c.dom.Node first = children.item(0);
+            if (first.getNodeType() == org.w3c.dom.Node.TEXT_NODE)
                 node.setString(INode.NAMELESS_VALUE, first.getNodeValue());
-            else if (first.getNodeType() == Node.CDATA_SECTION_NODE)
+            else if (first.getNodeType() == org.w3c.dom.Node.CDATA_SECTION_NODE)
                 node.setString(INode.NAMELESS_VALUE, first.getNodeValue());
         }
         for (Element itemE : MXml.getLocalElementIterator(element)) {

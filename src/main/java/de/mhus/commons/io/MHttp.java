@@ -15,7 +15,7 @@
  */
 package de.mhus.commons.io;
 
-import de.mhus.commons.MFile;
+import de.mhus.commons.tools.MFile;
 
 import java.util.Collections;
 import java.util.HashMap;

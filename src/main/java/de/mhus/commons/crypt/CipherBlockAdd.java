@@ -15,7 +15,7 @@
  */
 package de.mhus.commons.crypt;
 
-import de.mhus.commons.MMath;
+import de.mhus.commons.tools.MMath;
 
 /**
  * add for encode and sub for decode current block value.

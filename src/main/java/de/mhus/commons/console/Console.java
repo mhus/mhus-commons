@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,10 @@
  */
 package de.mhus.commons.console;
 
+import de.mhus.commons.M;
+import de.mhus.commons.lang.Adaptable;
+import de.mhus.commons.errors.NotSupportedException;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -22,15 +26,8 @@ import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.util.LinkedList;
 
-import de.mhus.commons.annotations.service.DefaultImplementation;
-import de.mhus.commons.basics.Adaptable;
-import de.mhus.commons.M;
-import de.mhus.commons.errors.NotSupportedException;
-import de.mhus.commons.services.IService;
-
-//XXX will not be used
-@DefaultImplementation(SimpleConsole.class)
-public abstract class Console extends PrintStream implements Adaptable, IService {
+// @DefaultImplementation(SimpleConsole.class)
+public abstract class Console extends PrintStream implements Adaptable {
 
     // https://en.wikipedia.org/wiki/ANSI_escape_code
     public enum COLOR {
@@ -72,18 +69,33 @@ public abstract class Console extends PrintStream implements Adaptable, IService
     }
 
     /**
-     * Factory to return the correct implementation of console.
+     * Factory to return the correct implementation of console. If a console already exists, the
+     * existing console will be terminated and a new one will be created.
      *
      * @return a new console object
      */
     public static Console create() {
+        return create(null, null);
+    }
+
+    /**
+     * Factory to return the correct implementation of console. If a console already exists, the
+     * existing console will be terminated and a new one will be created.
+     *
+     * @param in Input stream to use
+     * @param out Output stream to use
+     * @return a new console object
+     */
+    public static Console create(InputStream in, PrintStream out) {
 
         Console console = consoles.get();
         if (console == null) {
-            ConsoleFactory factory = new DefaultConsoleFactory();
-            console = factory.create();
-            consoles.set(console);
+            resetConsole();
         }
+        ConsoleFactory factory = M.l(ConsoleFactory.class);
+        console = factory.create(null, in, out);
+        consoles.set(console);
+
         return console;
     }
 

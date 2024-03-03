@@ -15,8 +15,8 @@
  */
 package de.mhus.commons.util;
 
-import de.mhus.commons.AbstractProperties;
 import de.mhus.commons.errors.NotSupportedException;
+import de.mhus.commons.node.AbstractProperties;
 import de.mhus.commons.node.IProperties;
 
 import java.util.Collection;

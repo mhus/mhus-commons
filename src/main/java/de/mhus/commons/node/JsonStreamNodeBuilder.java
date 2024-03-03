@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,8 +20,8 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
-import de.mhus.commons.basics.RC;
 import de.mhus.commons.errors.MException;
+import de.mhus.commons.errors.RC;
 import de.mhus.commons.util.NullValue;
 
 import java.io.IOException;
@@ -52,11 +52,11 @@ public class JsonStreamNodeBuilder extends INodeBuilder {
                     if (root == null) {
                         // START ARRAY OR OBJECT
                         if (token == JsonToken.START_ARRAY) {
-                            root = new MNode();
+                            root = new TreeNode();
                             node = root;
                             array = node.createArray(INode.NAMELESS_VALUE);
                         } else if (token == JsonToken.START_OBJECT) {
-                            root = new MNode();
+                            root = new TreeNode();
                             node = root;
                             array = null;
                         }
@@ -136,7 +136,7 @@ public class JsonStreamNodeBuilder extends INodeBuilder {
                 }
             }
 
-            if (root == null) root = new MNode();
+            if (root == null) root = new TreeNode();
             return root;
         } catch (IOException e) {
             throw new MException(RC.STATUS.ERROR, e);

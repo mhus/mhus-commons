@@ -50,7 +50,7 @@ public class ObjectToDate implements Caster<Object, Date> {
             Calendar c = ObjectToCalendar.toCalendar(ins, locale);
             if (c == null) return def;
             return c.getTime();
-        } catch (Throwable t) {
+        } catch (Exception t) {
             return def;
         }
     }

@@ -15,7 +15,7 @@
  */
 package de.mhus.lib.test;
 
-import de.mhus.commons.MArgs;
+import de.mhus.commons.tools.MArgs;
 import de.mhus.commons.annotations.cmd.CmdArgument;
 import de.mhus.commons.annotations.cmd.CmdOption;
 import de.mhus.lib.test.util.TestCase;

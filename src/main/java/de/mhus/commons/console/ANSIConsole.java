@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,20 +15,20 @@
  */
 package de.mhus.commons.console;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintStream;
-import java.util.LinkedList;
-
+import de.mhus.commons.tools.MString;
 import lombok.extern.slf4j.Slf4j;
 import org.jline.reader.LineReader;
 import org.jline.reader.impl.LineReaderImpl;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
 
-import de.mhus.commons.MString;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintStream;
+import java.util.LinkedList;
 
 // http://ascii-table.com/ansi-escape-sequences.php
+
 @Slf4j
 public class ANSIConsole extends Console {
 
@@ -138,7 +138,7 @@ public class ANSIConsole extends Console {
             }
             return ret;
         } catch (Exception e) {
-            LOGGER.trace("Error",e);
+            LOGGER.trace("Error", e);
         }
         return null;
         //		return System.console().readLine();
@@ -149,7 +149,7 @@ public class ANSIConsole extends Console {
         try {
             return reader.readCharacter();
         } catch (Exception e) {
-            LOGGER.trace("Error",e);
+            LOGGER.trace("Error", e);
         }
         return -1;
     }

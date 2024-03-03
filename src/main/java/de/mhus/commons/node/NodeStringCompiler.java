@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,11 +15,11 @@
  */
 package de.mhus.commons.node;
 
-import de.mhus.commons.MString;
 import de.mhus.commons.errors.MException;
-import de.mhus.commons.parser.DefaultScriptPart;
 import de.mhus.commons.parser.StringCompiler;
 import de.mhus.commons.parser.StringPart;
+import de.mhus.commons.tools.MString;
+import de.mhus.commons.lang.IValuesProvider;
 
 import java.util.Collection;
 import java.util.Map;
@@ -27,16 +27,16 @@ import java.util.Set;
 
 public class NodeStringCompiler extends StringCompiler {
 
-    private MNode rootNode;
+    private TreeNode rootNode;
 
-    NodeStringCompiler(MNode rootNode) {
+    NodeStringCompiler(TreeNode rootNode) {
         this.rootNode = rootNode;
     }
 
     @Override
     protected StringPart createDefaultAttributePart(String part) {
         if (part.startsWith(">root:")) return new RootAttributePart(part);
-        if (part.startsWith(">js:")) return new DefaultScriptPart(part);
+        //        if (part.startsWith(">js:")) return new DefaultScriptPart(part);
         return new NodeAttributePart(part);
     }
 
@@ -57,7 +57,7 @@ public class NodeStringCompiler extends StringCompiler {
         }
 
         @Override
-        public void execute(StringBuilder out, Map<String, Object> attributes) throws MException {
+        public void execute(StringBuilder out, IValuesProvider attributes) throws MException {
             out.append(node.getString(name, def));
         }
 
@@ -76,7 +76,7 @@ public class NodeStringCompiler extends StringCompiler {
 
         private String name;
         private String def;
-        private MNode node;
+        private TreeNode node;
 
         public NodeAttributePart(String part) {
             name = part;
@@ -87,18 +87,18 @@ public class NodeStringCompiler extends StringCompiler {
             }
             node = rootNode;
             if (name.startsWith("/")) {
-                while (node.getParent() != null) node = (MNode) node.getParent();
+                while (node.getParent() != null) node = (TreeNode) node.getParent();
                 name = name.substring(1);
             } else
                 while (name.startsWith("../")) {
-                    node = (MNode) node.getParent();
+                    node = (TreeNode) node.getParent();
                     name = name.substring(3);
                     if (node == null) break;
                 }
         }
 
         @Override
-        public void execute(StringBuilder out, Map<String, Object> attributes) throws MException {
+        public void execute(StringBuilder out, IValuesProvider attributes) throws MException {
             int level = 0;
             if (attributes != null && attributes instanceof NodeMap) {
                 level = ((NodeMap) attributes).getLevel();
@@ -121,13 +121,13 @@ public class NodeStringCompiler extends StringCompiler {
     static class NodeMap implements Map<String, Object> {
 
         private int level;
-        private MNode node;
+        private TreeNode node;
 
         NodeMap(int level) {
             this.level = level;
         }
 
-        NodeMap(int level, MNode node) {
+        NodeMap(int level, TreeNode node) {
             this.level = level;
             this.node = node;
         }
@@ -188,7 +188,7 @@ public class NodeStringCompiler extends StringCompiler {
         }
 
         @Override
-        public Set<java.util.Map.Entry<String, Object>> entrySet() {
+        public Set<Entry<String, Object>> entrySet() {
             return null;
         }
     }

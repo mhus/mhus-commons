@@ -15,7 +15,7 @@
  */
 package de.mhus.commons.io;
 
-import de.mhus.commons.MSystem;
+import de.mhus.commons.tools.MSystem;
 
 import java.io.IOException;
 import java.io.InputStream;

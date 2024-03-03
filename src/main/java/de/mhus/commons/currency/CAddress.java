@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
-import de.mhus.commons.MString;
+import de.mhus.commons.tools.MString;
 import de.mhus.commons.util.SecureString;
 
 public class CAddress implements Externalizable {

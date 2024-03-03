@@ -1,6 +1,6 @@
 package de.mhus.commons.services;
 
-import de.mhus.commons.MCast;
+import de.mhus.commons.tools.MCast;
 
 public class DefaultEnvironmentProvider implements EnvironmentProvider {
     @Override

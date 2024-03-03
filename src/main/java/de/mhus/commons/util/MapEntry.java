@@ -15,7 +15,7 @@
  */
 package de.mhus.commons.util;
 
-import de.mhus.commons.basics.ReadOnly;
+import de.mhus.commons.lang.ReadOnly;
 
 import java.util.Map;
 

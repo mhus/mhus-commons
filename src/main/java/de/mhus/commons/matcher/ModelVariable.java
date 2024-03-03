@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,10 +15,9 @@
  */
 package de.mhus.commons.matcher;
 
-import java.util.Map;
-
-import de.mhus.commons.basics.RC;
 import de.mhus.commons.errors.MRuntimeException;
+import de.mhus.commons.errors.RC;
+import de.mhus.commons.lang.IValuesProvider;
 
 public class ModelVariable extends ModelPattern {
 
@@ -32,7 +31,7 @@ public class ModelVariable extends ModelPattern {
     }
 
     @Override
-    protected boolean matches(ModelPart model, Map<String, ?> map, String str) {
+    protected boolean matches(ModelPart model, IValuesProvider map, String str) {
         if (map == null)
             throw new MRuntimeException(
                     RC.NOT_FOUND, "variables not available, use condition not matcher");

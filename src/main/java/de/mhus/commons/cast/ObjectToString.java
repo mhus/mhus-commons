@@ -15,8 +15,8 @@
  */
 package de.mhus.commons.cast;
 
-import de.mhus.commons.MCast;
-import de.mhus.commons.MDate;
+import de.mhus.commons.tools.MCast;
+import de.mhus.commons.tools.MDate;
 
 import java.util.Arrays;
 import java.util.Calendar;

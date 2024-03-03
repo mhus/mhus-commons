@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,13 +15,15 @@
  */
 package de.mhus.commons.node;
 
-import de.mhus.commons.MString;
-import de.mhus.commons.MXml;
-import de.mhus.commons.basics.RC;
+import de.mhus.commons.M;
 import de.mhus.commons.errors.MException;
 import de.mhus.commons.errors.MRuntimeException;
 import de.mhus.commons.errors.NotFoundException;
+import de.mhus.commons.errors.RC;
 import de.mhus.commons.errors.TooDeepStructuresException;
+import de.mhus.commons.tools.MCast;
+import de.mhus.commons.tools.MString;
+import de.mhus.commons.tools.MXml;
 import de.mhus.commons.util.MUri;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,7 +46,7 @@ import java.util.Map;
  */
 public interface INode extends IProperties {
 
-    static Logger LOGGER = LoggerFactory.getLogger(INode.class);
+    Logger LOGGER = LoggerFactory.getLogger(INode.class);
 
     public static final String NAMELESS_VALUE = "";
     public static final String VALUE = "value";
@@ -149,7 +151,7 @@ public interface INode extends IProperties {
      * @throws Exception
      */
     static INode read(NodeSerializable object) throws Exception {
-        INode cfg = new MNode();
+        INode cfg = new TreeNode();
         if (object == null) cfg.setBoolean(INode.NULL, true);
         else object.writeSerializabledNode(cfg);
         return cfg;
@@ -163,7 +165,7 @@ public interface INode extends IProperties {
      * @throws MException
      */
     static INode readNodeFromString(String nodeString) throws MException {
-        if (MString.isEmptyTrim(nodeString)) return new MNode();
+        if (MString.isEmptyTrim(nodeString)) return new TreeNode();
         if (nodeString.startsWith("[") || nodeString.startsWith("{")) {
             try {
                 return readFromJsonString(nodeString);
@@ -196,7 +198,7 @@ public interface INode extends IProperties {
      * @throws MException
      */
     static INode readNodeFromString(String[] nodeStrings) throws MException {
-        if (nodeStrings == null || nodeStrings.length == 0) return new MNode();
+        if (nodeStrings == null || nodeStrings.length == 0) return new TreeNode();
         if (nodeStrings.length == 1) return readNodeFromString(nodeStrings[0]);
         return readFromProperties(IProperties.explodeToMProperties(nodeStrings));
     }
@@ -310,7 +312,7 @@ public interface INode extends IProperties {
         try {
             fillIn.readSerializabledNode(node);
         } catch (Exception e) {
-            LOGGER.debug("serialization of {} failed", node, e);
+            LOGGER.debug("deserialize of {} failed", node, e);
             return null;
         }
         return fillIn;
@@ -329,7 +331,7 @@ public interface INode extends IProperties {
         try {
             fillIn.readSerializabledNode(node);
         } catch (Exception e) {
-            LOGGER.debug("serialization of {} failed", node, e);
+            LOGGER.debug("deserialize of {} failed", node, e);
             return null;
         }
         return fillIn;
@@ -365,4 +367,71 @@ public interface INode extends IProperties {
     INode getAsObject(String key);
 
     NodeList getParentArray();
+
+    /**
+     * find or create a node in a node path. Path elements separated by slash and can have indexes
+     * wih brackets e.g. nr1/nr2[4]/nr3
+     *
+     * @param root Root element
+     * @param path The path to the node
+     * @return
+     */
+    static INode findOrCreateNode(INode root, String path) {
+
+        if (path.startsWith("/")) path = path.substring(1);
+        if (path.length() == 0) return root;
+
+        TreeNode next = null;
+        int pos = path.indexOf('/');
+        String name = pos >= 0 ? path.substring(0, pos) : path;
+        name = name.trim();
+        if (name.endsWith("]")) {
+            // array
+            int index = MCast.toint(MString.beforeIndex(MString.afterIndex(name, '['), ']'), -1);
+            name = MString.beforeIndex(name, '[');
+            NodeList array = root.getArrayOrCreate(name);
+            while (array.size() < index + 1) array.createObject();
+            next = (TreeNode) array.get(index);
+        } else {
+            next = (TreeNode) root.getObjectOrNull(name);
+            if (next == null) {
+                next = new TreeNode();
+                root.addObject(name, next);
+            }
+        }
+        return pos < 0 ? next : findOrCreateNode(next, path.substring(pos + 1));
+    }
+
+    static String getPath(INode node) {
+        StringBuilder sb = new StringBuilder();
+        getPath(node, sb, 0);
+        if (sb.length() == 0) sb.append("/");
+        return sb.toString();
+    }
+
+    private static void getPath(INode node, StringBuilder sb, int level) {
+        if (level > M.MAX_DEPTH_LEVEL)
+            throw new TooDeepStructuresException("too much node elements", sb);
+
+        INode parent = node.getParent();
+        NodeList list = node.getParentArray();
+        if (list != null) {
+            int index = -1;
+            for (int i = 0; i < list.size(); i++)
+                if (list.get(i) == node) {
+                    index = i;
+                    break;
+                }
+            sb.insert(0, "]");
+            sb.insert(0, index);
+            sb.insert(0, "[");
+            sb.insert(0, list.getName());
+            sb.insert(0, "/");
+            if (parent != null) getPath(parent, sb, level + 1);
+        } else if (parent != null) {
+            sb.insert(0, node.getName());
+            sb.insert(0, "/");
+            getPath(parent, sb, level + 1);
+        }
+    }
 }

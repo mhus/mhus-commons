@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 package de.mhus.commons.node;
 
-import de.mhus.commons.MCast;
+import de.mhus.commons.tools.MCast;
 import de.mhus.commons.util.MUri;
 
 import java.io.Serializable;
@@ -95,7 +95,7 @@ public interface IProperties
 
     /**
      * This will handle the strings like options. Means a string without separator will handled as
-     * key and set to true. e.g. val1&val2&a=b will be val1=true, val2=true, a=b
+     * key and set to true. e.g. val1&amp;val2&amp;a=b will be val1=true, val2=true, a=b
      *
      * @param properties Rfc1738 (Url Encode) encoded string
      * @return The MProperties
@@ -117,7 +117,8 @@ public interface IProperties
 
     /**
      * This will handle the strings like properties. Means a string without separator will be stored
-     * as value with an increasing key as integer, e.g. val1&val2&a=b will be 0=val1, 1=val2, a=b
+     * as value with an increasing key as integer, e.g. val1&amp;val2&amp;a=b will be 0=val1,
+     * 1=val2, a=b
      *
      * @param properties Rfc1738 (Url Encoded) encoded string
      * @return The MProperties

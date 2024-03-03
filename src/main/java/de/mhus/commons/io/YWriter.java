@@ -22,7 +22,7 @@ public class YWriter extends Writer {
 
     private Writer[] writers;
 
-    public YWriter(Writer[] pWriters) {
+    public YWriter(Writer ... pWriters) {
         writers = pWriters;
     }
 

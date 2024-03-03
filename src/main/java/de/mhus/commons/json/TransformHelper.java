@@ -16,7 +16,7 @@
 package de.mhus.commons.json;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import de.mhus.commons.MJson;
+import de.mhus.commons.tools.MJson;
 import de.mhus.commons.pojo.DefaultFilter;
 import de.mhus.commons.pojo.PojoModel;
 import de.mhus.commons.pojo.PojoParser;

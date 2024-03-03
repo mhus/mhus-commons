@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,12 @@
  */
 package de.mhus.commons.console;
 
+import de.mhus.commons.tools.MDate;
+import de.mhus.commons.tools.MString;
+import de.mhus.commons.node.IProperties;
+import de.mhus.commons.node.MProperties;
+import de.mhus.commons.util.Value;
+
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -28,12 +34,6 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
-import de.mhus.commons.node.IProperties;
-import de.mhus.commons.MDate;
-import de.mhus.commons.node.MProperties;
-import de.mhus.commons.MString;
-import de.mhus.commons.util.Value;
 
 public class ConsoleTable {
 
@@ -58,9 +58,18 @@ public class ConsoleTable {
 
     private int definedTableWidth = 0;
 
-    public ConsoleTable() {}
+    private Console console;
 
-    public ConsoleTable(String options) {
+    public ConsoleTable() {
+        this(null, null);
+    }
+
+    public ConsoleTable(Console console) {
+        this(console, null);
+    }
+
+    public ConsoleTable(Console console, String options) {
+        this.console = console == null ? Console.get() : console;
         if (options != null) {
             options = options.trim();
             MProperties o = IProperties.explodeToMProperties(options);
@@ -158,16 +167,12 @@ public class ConsoleTable {
         for (String v : values) row.add(new Column(v));
     }
 
-    public void print(Console console) {
+    public void print() {
         setMaxColSize(console.getWidth());
         print((PrintStream) console);
     }
 
-    public void print() {
-        print(System.out);
-    }
-
-    public void print(PrintStream out) {
+    protected void print(PrintStream out) {
         updateHeaderSizes();
 
         String headerLine = getHeaderRow();
@@ -318,8 +323,8 @@ public class ConsoleTable {
                     else if (maxColSize > 0) width = Math.min(width, maxColSize);
 
                     if (maxTableWidth > 0 && h.weight > 0) {
-                        weight.value += h.weight;
-                        weightWidth.value += width;
+                        weight.setValue(weight.getValue() + h.weight);
+                        weightWidth.setValue(weightWidth.getValue() + width);
                     }
                     tableWidth += width;
                     if (!h.last && colSeparator != null) tableWidth += colSeparator.length();
@@ -327,8 +332,8 @@ public class ConsoleTable {
                     h.width = width;
                 });
 
-        if (weight.value > 0) {
-            final int delta = maxTableWidth - (tableWidth - weightWidth.value);
+        if (weight.getValue() > 0) {
+            final int delta = maxTableWidth - (tableWidth - weightWidth.getValue());
             if (delta > 0) {
                 header.forEach(
                         h -> {
@@ -336,7 +341,7 @@ public class ConsoleTable {
                                 // find width
                                 int width = h.contentWidth;
                                 tableWidth -= width;
-                                width = delta * h.weight / weight.value;
+                                width = delta * h.weight / weight.getValue();
                                 tableWidth += width;
                                 h.width = width;
                             }
@@ -412,9 +417,10 @@ public class ConsoleTable {
         return sw.toString();
     }
 
-    public static ConsoleTable fromJdbcResult(ResultSet res, String tblOpt) throws SQLException {
+    public static ConsoleTable fromJdbcResult(ResultSet res, Console console, String tblOpt)
+            throws SQLException {
         ResultSetMetaData resMeta = res.getMetaData();
-        ConsoleTable out = new ConsoleTable(tblOpt);
+        ConsoleTable out = new ConsoleTable(console, tblOpt);
         String[] h = new String[resMeta.getColumnCount()];
         for (int i = 0; i < resMeta.getColumnCount(); i++) h[i] = resMeta.getColumnName(i + 1);
 
@@ -551,7 +557,6 @@ public class ConsoleTable {
     }
 
     public void fitToConsole() {
-        Console console = Console.get();
         if (!console.isSupportSize()) {
             setMaxColSize(0);
             return;

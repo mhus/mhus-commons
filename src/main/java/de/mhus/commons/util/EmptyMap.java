@@ -15,7 +15,7 @@
  */
 package de.mhus.commons.util;
 
-import de.mhus.commons.MCollection;
+import de.mhus.commons.tools.MCollection;
 
 import java.util.Collection;
 import java.util.Map;

@@ -15,8 +15,8 @@
  */
 package de.mhus.commons.io;
 
-import de.mhus.commons.MFile;
-import de.mhus.commons.MString;
+import de.mhus.commons.tools.MFile;
+import de.mhus.commons.tools.MString;
 import de.mhus.commons.parser.StringPropertyReplacer;
 
 import java.io.ByteArrayInputStream;

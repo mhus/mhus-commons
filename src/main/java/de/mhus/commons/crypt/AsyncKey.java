@@ -15,7 +15,7 @@
  */
 package de.mhus.commons.crypt;
 
-import de.mhus.commons.MSystem;
+import de.mhus.commons.tools.MSystem;
 
 import java.math.BigInteger;
 

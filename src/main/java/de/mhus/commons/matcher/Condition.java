@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,14 +15,16 @@
  */
 package de.mhus.commons.matcher;
 
-import java.util.Map;
-
-import de.mhus.commons.MValidator;
+import de.mhus.commons.errors.MException;
+import de.mhus.commons.errors.SyntaxError;
 import de.mhus.commons.matcher.ModelPattern.CONDITION;
 import de.mhus.commons.parser.StringTokenizerParser;
 import de.mhus.commons.parser.TechnicalStringParser;
-import de.mhus.commons.errors.MException;
-import de.mhus.commons.errors.SyntaxError;
+import de.mhus.commons.tools.MValidator;
+import de.mhus.commons.lang.IValuesProvider;
+import de.mhus.commons.util.MapValuesProvider;
+
+import java.util.Map;
 
 /**
  * e.g. $param1 regex .*test.* $param1 mr or $param1 mrs
@@ -44,7 +46,12 @@ public class Condition {
 
     public boolean matches(Map<String, Object> map) {
         if (map == null) return false;
-        return root.m(map);
+        return matches(new MapValuesProvider(map));
+    }
+
+    public boolean matches(IValuesProvider provider) {
+        if (provider == null) return false;
+        return root.m(provider);
     }
 
     protected void parse(StringTokenizerParser condition) throws MException {

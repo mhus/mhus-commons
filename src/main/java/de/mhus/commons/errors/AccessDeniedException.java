@@ -15,9 +15,8 @@
  */
 package de.mhus.commons.errors;
 
-import de.mhus.commons.basics.IResult;
-import de.mhus.commons.basics.RC;
-import de.mhus.commons.basics.RC.STATUS;
+import de.mhus.commons.lang.IResult;
+import de.mhus.commons.errors.RC.STATUS;
 
 public class AccessDeniedException extends MRuntimeException {
 

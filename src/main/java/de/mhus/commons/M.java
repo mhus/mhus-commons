@@ -16,6 +16,11 @@
 package de.mhus.commons;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import de.mhus.commons.services.IService;
+import de.mhus.commons.services.MService;
+import de.mhus.commons.tools.MCast;
+import de.mhus.commons.tools.MJson;
+import de.mhus.commons.tools.MString;
 import de.mhus.commons.util.EmptyList;
 import de.mhus.commons.util.EnumerationIterator;
 import de.mhus.commons.util.Iterate;
@@ -101,6 +106,10 @@ public class M {
     public static final String ADDR_COUNTRY = "country";
 
     public static final String ADDR_DISPLAY_NAME = "displayName";
+
+    public static  <T extends IService> T l(Class<T> clazz) {
+        return MService.getService(clazz);
+    }
 
     public enum DEBUG {
         NO,

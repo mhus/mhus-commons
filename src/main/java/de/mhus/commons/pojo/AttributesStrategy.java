@@ -15,8 +15,8 @@
  */
 package de.mhus.commons.pojo;
 
-import de.mhus.commons.MCast;
-import de.mhus.commons.MSystem;
+import de.mhus.commons.tools.MCast;
+import de.mhus.commons.tools.MSystem;
 import de.mhus.commons.annotations.generic.Public;
 import de.mhus.commons.annotations.pojo.Embedded;
 import lombok.extern.slf4j.Slf4j;

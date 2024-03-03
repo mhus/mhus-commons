@@ -15,9 +15,9 @@
  */
 package de.mhus.commons.io;
 
-import de.mhus.commons.MFile;
-import de.mhus.commons.MString;
-import de.mhus.commons.MSystem;
+import de.mhus.commons.tools.MFile;
+import de.mhus.commons.tools.MString;
+import de.mhus.commons.tools.MSystem;
 import de.mhus.commons.errors.NotFoundException;
 import de.mhus.commons.parser.StringPropertyReplacer;
 import lombok.extern.slf4j.Slf4j;

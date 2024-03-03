@@ -18,12 +18,12 @@ package de.mhus.commons.pojo;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import de.mhus.commons.MCast;
-import de.mhus.commons.MCollection;
-import de.mhus.commons.MDate;
-import de.mhus.commons.MString;
-import de.mhus.commons.MSystem;
-import de.mhus.commons.MXml;
+import de.mhus.commons.tools.MCast;
+import de.mhus.commons.tools.MCollection;
+import de.mhus.commons.tools.MDate;
+import de.mhus.commons.tools.MString;
+import de.mhus.commons.tools.MSystem;
+import de.mhus.commons.tools.MXml;
 import de.mhus.commons.annotations.generic.Public;
 import de.mhus.commons.annotations.pojo.Embedded;
 import de.mhus.commons.annotations.pojo.Hidden;
@@ -31,7 +31,7 @@ import de.mhus.commons.cast.Caster;
 import de.mhus.commons.json.TransformHelper;
 import de.mhus.commons.node.INode;
 import de.mhus.commons.node.IProperties;
-import de.mhus.commons.node.MNode;
+import de.mhus.commons.node.TreeNode;
 import de.mhus.commons.node.MProperties;
 import de.mhus.commons.node.NodeList;
 import de.mhus.commons.services.ClassLoaderProvider;
@@ -145,7 +145,7 @@ public class MPojo {
     public static INode pojoToNode(
             Object from, PojoModelFactory factory, boolean verbose, boolean useAnnotations)
             throws IOException {
-        MNode to = new MNode();
+        TreeNode to = new TreeNode();
         pojoToNode(from, to, factory, verbose, useAnnotations, "", 0);
         return to;
     }

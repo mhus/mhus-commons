@@ -15,8 +15,8 @@
  */
 package de.mhus.commons.io;
 
-import de.mhus.commons.MPeriod;
-import de.mhus.commons.MThread;
+import de.mhus.commons.tools.MPeriod;
+import de.mhus.commons.tools.MThread;
 
 import java.io.Closeable;
 import java.io.IOException;

@@ -15,9 +15,9 @@
  */
 package de.mhus.commons.util;
 
-import de.mhus.commons.MCast;
-import de.mhus.commons.MString;
-import de.mhus.commons.MSystem;
+import de.mhus.commons.tools.MCast;
+import de.mhus.commons.tools.MString;
+import de.mhus.commons.tools.MSystem;
 import de.mhus.commons.node.IProperties;
 import de.mhus.commons.node.MProperties;
 

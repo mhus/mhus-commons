@@ -15,7 +15,7 @@
  */
 package de.mhus.commons.currency;
 
-import de.mhus.commons.basics.RC;
+import de.mhus.commons.errors.RC;
 import de.mhus.commons.errors.MException;
 
 public class UnknownCurrencyException extends MException {

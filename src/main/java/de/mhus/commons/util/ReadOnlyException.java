@@ -15,7 +15,7 @@
  */
 package de.mhus.commons.util;
 
-import de.mhus.commons.basics.RC;
+import de.mhus.commons.errors.RC;
 import de.mhus.commons.errors.MException;
 
 public class ReadOnlyException extends MException {

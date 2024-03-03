@@ -15,8 +15,8 @@
  */
 package de.mhus.commons.cast;
 
-import de.mhus.commons.MCast;
-import de.mhus.commons.MString;
+import de.mhus.commons.tools.MCast;
+import de.mhus.commons.tools.MString;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Calendar;
@@ -28,9 +28,9 @@ import java.util.TimeZone;
 /**
  * Accepted formats:
  *
- * <p>now, jetzt integer as timestamp <<date>>[[ |_|T]<<time>>] date: yyyy-mm-dd dd.mm.yyyy
- * dd/mm/yyyy mm/dd/yyyy + locale == US time: MM:HH:ss[.SSS][Z][zone] MM-HH-ss[.SSS][Z][zone] MM:HH
- * am/pm[Z][zone] Jan 1, 2000 1:00 am[Z][zone]
+ * <p>now, jetzt integer as timestamp &lt;&lt;date&gt;&gt;[[ |_|T]&lt;&lt;time&gt;&gt;] date: yyyy-mm-dd dd.mm.yyyy
+ * yyyy-mm-dd dd.mm.yyyy dd/mm/yyyy mm/dd/yyyy + locale == US time: MM:HH:ss[.SSS][Z][zone]
+ * MM-HH-ss[.SSS][Z][zone] MM:HH am/pm[Z][zone] Jan 1, 2000 1:00 am[Z][zone]
  *
  * <p>Currently Not Accepted:
  *
@@ -108,7 +108,7 @@ public class ObjectToCalendar implements Caster<Object, Calendar> {
             Calendar ret = toCalendar(ins, locale);
             if (ret == null) return def;
             return ret;
-        } catch (Throwable t) {
+        } catch (Exception t) {
             return def;
         }
     }
@@ -335,7 +335,7 @@ public class ObjectToCalendar implements Caster<Object, Calendar> {
 
             return null;
 
-        } catch (Throwable e) {
+        } catch (Exception e) {
             LOGGER.trace("Error: {}, ", in, e);
         }
 
@@ -430,7 +430,7 @@ public class ObjectToCalendar implements Caster<Object, Calendar> {
         try {
             int out = Integer.parseInt(in);
             if (out > 0 && out < 13) return out - 1;
-        } catch (Throwable t) {
+        } catch (Exception t) {
         }
         in = in.toLowerCase().trim();
         Integer nr = monthCatalog.get(in);

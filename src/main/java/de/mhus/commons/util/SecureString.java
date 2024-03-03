@@ -15,8 +15,8 @@
  */
 package de.mhus.commons.util;
 
-import de.mhus.commons.MFile;
-import de.mhus.commons.MString;
+import de.mhus.commons.tools.MFile;
+import de.mhus.commons.tools.MString;
 import de.mhus.commons.crypt.MCrypt;
 
 import java.io.Externalizable;

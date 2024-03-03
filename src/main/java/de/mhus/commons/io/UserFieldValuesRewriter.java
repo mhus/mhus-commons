@@ -15,7 +15,7 @@
  */
 package de.mhus.commons.io;
 
-import de.mhus.commons.MXml;
+import de.mhus.commons.tools.MXml;
 import de.mhus.commons.node.IReadProperties;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

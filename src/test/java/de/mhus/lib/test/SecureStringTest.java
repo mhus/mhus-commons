@@ -15,9 +15,9 @@
  */
 package de.mhus.lib.test;
 
-import de.mhus.commons.MCast;
-import de.mhus.commons.MPeriod;
-import de.mhus.commons.MString;
+import de.mhus.commons.tools.MCast;
+import de.mhus.commons.tools.MPeriod;
+import de.mhus.commons.tools.MString;
 import de.mhus.commons.crypt.CryptedString;
 import de.mhus.commons.crypt.MBouncy;
 import de.mhus.commons.util.Lorem;

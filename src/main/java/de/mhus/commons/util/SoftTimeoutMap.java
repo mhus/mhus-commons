@@ -15,7 +15,7 @@
  */
 package de.mhus.commons.util;
 
-import de.mhus.commons.MPeriod;
+import de.mhus.commons.tools.MPeriod;
 import de.mhus.commons.errors.NotSupportedException;
 
 import java.lang.ref.SoftReference;

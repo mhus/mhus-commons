@@ -15,7 +15,7 @@
  */
 package de.mhus.lib.test;
 
-import de.mhus.commons.MSystem;
+import de.mhus.commons.tools.MSystem;
 import de.mhus.commons.parser.HtmlParser;
 import de.mhus.lib.test.util.TestCase;
 import org.junit.jupiter.api.Test;

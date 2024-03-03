@@ -15,6 +15,8 @@
  */
 package de.mhus.commons.util;
 
+import de.mhus.commons.errors.AlreadyBoundException;
+
 import java.util.Arrays;
 import java.util.HashMap;
 

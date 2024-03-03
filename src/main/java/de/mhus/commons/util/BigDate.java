@@ -157,7 +157,7 @@
 */
 package de.mhus.commons.util;
 
-import de.mhus.commons.MString;
+import de.mhus.commons.tools.MString;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;

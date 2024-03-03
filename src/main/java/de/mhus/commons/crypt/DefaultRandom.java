@@ -15,7 +15,7 @@
  */
 package de.mhus.commons.crypt;
 
-import de.mhus.commons.MString;
+import de.mhus.commons.tools.MString;
 import lombok.extern.slf4j.Slf4j;
 
 import java.security.SecureRandom;

@@ -15,8 +15,8 @@
  */
 package de.mhus.commons.util;
 
-import de.mhus.commons.MString;
-import de.mhus.commons.MSystem;
+import de.mhus.commons.tools.MString;
+import de.mhus.commons.tools.MSystem;
 import de.mhus.commons.directory.ClassLoaderResourceProvider;
 import de.mhus.commons.directory.MResourceProvider;
 import de.mhus.commons.node.INode;

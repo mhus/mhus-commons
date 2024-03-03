@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,10 +15,12 @@
  */
 package de.mhus.commons.parser;
 
+import de.mhus.commons.errors.MException;
+import de.mhus.commons.lang.IValuesProvider;
+import de.mhus.commons.util.MapValuesProvider;
+
 import java.util.LinkedList;
 import java.util.Map;
-
-import de.mhus.commons.errors.MException;
 
 /**
  * Parsed and tree representated compiled variant of the original string. This is used to output the
@@ -38,6 +40,10 @@ public class CompiledString {
         this.compiled = compiled.toArray(new StringPart[compiled.size()]);
     }
 
+    public String execute(Map<String, Object> attributes) throws MException {
+        return execute(new MapValuesProvider(attributes));
+    }
+
     /**
      * Return the new, compiled string.
      *
@@ -45,13 +51,13 @@ public class CompiledString {
      * @return the resulting string
      * @throws MException
      */
-    public String execute(Map<String, Object> attributes) throws MException {
+    public String execute(IValuesProvider attributes) throws MException {
         StringBuilder out = new StringBuilder();
         execute(out, attributes);
         return out.toString();
     }
 
-    public void execute(StringBuilder sb, Map<String, Object> attributes) throws MException {
+    public void execute(StringBuilder sb, IValuesProvider attributes) throws MException {
         for (StringPart part : compiled) {
             part.execute(sb, attributes);
         }

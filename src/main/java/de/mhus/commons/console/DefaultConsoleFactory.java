@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,29 +15,40 @@
  */
 package de.mhus.commons.console;
 
-import de.mhus.commons.MSystem;
+import de.mhus.commons.tools.MSystem;
 import lombok.extern.slf4j.Slf4j;
+
+import java.io.InputStream;
+import java.io.PrintStream;
 
 @Slf4j
 public class DefaultConsoleFactory implements ConsoleFactory {
 
     @Override
-    public Console create() {
+    public Console create(String term, InputStream in, PrintStream out) {
         try {
-            if (MSystem.isWindows()) {
-                return new CmdConsole();
+            if (in == null) {
+                in = System.in;
             }
-            String term = System.getenv("TERM");
+            if (out == null) {
+                out = System.out;
+            }
+            if (term == null) {
+                if (MSystem.isWindows()) {
+                    return new CmdConsole(in, out);
+                }
+                term = System.getenv("TERM");
+            }
             if (term != null) {
                 term = term.toLowerCase();
                 if (term.indexOf("xterm") >= 0) {
-                    return new XTermConsole();
+                    return new XTermConsole(in, out);
                 }
-                if (term.indexOf("ansi") >= 0) return new ANSIConsole();
+                if (term.indexOf("ansi") >= 0) return new ANSIConsole(in, out);
             }
-        } catch (Throwable t) {
-            LOGGER.debug("Error",t);
+        } catch (Exception e) {
+            LOGGER.debug("Error", e);
         }
-        return new SimpleConsole();
+        return new SimpleConsole(in, out);
     }
 }

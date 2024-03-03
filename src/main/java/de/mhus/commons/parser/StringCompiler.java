@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,13 +15,13 @@
  */
 package de.mhus.commons.parser;
 
+import de.mhus.commons.errors.MException;
+import de.mhus.commons.tools.MString;
+import de.mhus.commons.tools.MSystem;
+import de.mhus.commons.lang.IValuesProvider;
+
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-
-import de.mhus.commons.MString;
-import de.mhus.commons.MSystem;
-import de.mhus.commons.errors.MException;
 
 public class StringCompiler implements Parser {
 
@@ -129,7 +129,7 @@ public class StringCompiler implements Parser {
         }
 
         @Override
-        public void execute(StringBuilder out, Map<String, Object> attributes) {
+        public void execute(StringBuilder out, IValuesProvider attributes) {
             out.append(content);
         }
 
@@ -155,7 +155,7 @@ public class StringCompiler implements Parser {
         }
 
         @Override
-        public void execute(StringBuilder out, Map<String, Object> attributes) {
+        public void execute(StringBuilder out, IValuesProvider attributes) {
             String v = System.getenv(name);
             if (v == null) v = def;
             out.append(v);
@@ -182,7 +182,7 @@ public class StringCompiler implements Parser {
         }
 
         @Override
-        public void execute(StringBuilder out, Map<String, Object> attributes) throws MException {
+        public void execute(StringBuilder out, IValuesProvider attributes) throws MException {
             out.append(value);
         }
 
@@ -208,7 +208,7 @@ public class StringCompiler implements Parser {
         }
 
         @Override
-        public void execute(StringBuilder out, Map<String, Object> attributes) {
+        public void execute(StringBuilder out, IValuesProvider attributes) {
             out.append(System.getProperty(name, def));
         }
 
@@ -239,7 +239,7 @@ public class StringCompiler implements Parser {
         }
 
         @Override
-        public void execute(StringBuilder out, Map<String, Object> attributes) {
+        public void execute(StringBuilder out, IValuesProvider attributes) {
             if (attributes != null) out.append(attributes.getOrDefault(name, def));
         }
 

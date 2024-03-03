@@ -15,7 +15,7 @@
  */
 package de.mhus.lib.test;
 
-import de.mhus.commons.MFile;
+import de.mhus.commons.tools.MFile;
 import de.mhus.commons.errors.MException;
 import de.mhus.lib.test.util.TestCase;
 import org.junit.jupiter.api.Test;

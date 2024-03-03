@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,8 +18,11 @@ package de.mhus.commons.console;
 import de.mhus.commons.annotations.service.DefaultImplementation;
 import de.mhus.commons.services.IService;
 
+import java.io.InputStream;
+import java.io.PrintStream;
+
 @DefaultImplementation(DefaultConsoleFactory.class)
 public interface ConsoleFactory extends IService {
 
-    public Console create();
+    public Console create(String term, InputStream in, PrintStream out);
 }

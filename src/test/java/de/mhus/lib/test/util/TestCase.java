@@ -15,8 +15,8 @@
  */
 package de.mhus.lib.test.util;
 
-import de.mhus.commons.MCast;
-import de.mhus.commons.MStopWatch;
+import de.mhus.commons.tools.MCast;
+import de.mhus.commons.tools.MStopWatch;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;

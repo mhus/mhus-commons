@@ -15,7 +15,7 @@
  */
 package de.mhus.lib.test;
 
-import de.mhus.commons.MPassword;
+import de.mhus.commons.security.MPassword;
 import de.mhus.commons.util.MUri;
 import de.mhus.lib.test.util.TestCase;
 import org.junit.jupiter.api.Test;

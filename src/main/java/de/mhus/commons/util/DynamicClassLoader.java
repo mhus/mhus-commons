@@ -15,7 +15,7 @@
  */
 package de.mhus.commons.util;
 
-import de.mhus.commons.MString;
+import de.mhus.commons.tools.MString;
 import de.mhus.commons.directory.MResourceProvider;
 import lombok.extern.slf4j.Slf4j;
 

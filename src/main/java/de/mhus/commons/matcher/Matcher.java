@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,12 +15,12 @@
  */
 package de.mhus.commons.matcher;
 
-import de.mhus.commons.MValidator;
+import de.mhus.commons.errors.MException;
+import de.mhus.commons.errors.SyntaxError;
 import de.mhus.commons.matcher.ModelPattern.CONDITION;
 import de.mhus.commons.parser.StringTokenizerParser;
 import de.mhus.commons.parser.TechnicalStringParser;
-import de.mhus.commons.errors.MException;
-import de.mhus.commons.errors.SyntaxError;
+import de.mhus.commons.tools.MValidator;
 
 /**
  * Matches a single value against a condition. The Matcher will compile the condition and speedup if
@@ -33,8 +33,8 @@ import de.mhus.commons.errors.SyntaxError;
  * <p>Types: - fs - file sysytem like pattern with * - sql - sql like pattern with % - regex
  * (default) - regular expression
  *
- * <p>Operators: - and, && - And - or, || - Or - Brackets - How brackets work ... - not, ! as
- * negative operator
+ * <p>Operators: - and, &amp;&amp; - And - or, || - Or - Brackets - How brackets work ... - not, !
+ * as negative operator
  *
  * <p>e.g. .*aaa.* .*aaa.* or .*bbb.* .*aaa.* and .*bbb.* .*aaa.* and not .*bbb.* not (.*aaa.* or
  * .*bbb.*) .*xyz.* or (.*aaa.* and .*bbb.*) fs *aaa* sql %aaa%

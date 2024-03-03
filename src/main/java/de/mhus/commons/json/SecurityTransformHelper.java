@@ -15,7 +15,7 @@
  */
 package de.mhus.commons.json;
 
-import de.mhus.commons.MString;
+import de.mhus.commons.tools.MString;
 import org.slf4j.Logger;
 
 import java.lang.reflect.InvocationTargetException;

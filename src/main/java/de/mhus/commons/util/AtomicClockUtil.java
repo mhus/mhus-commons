@@ -15,9 +15,9 @@
  */
 package de.mhus.commons.util;
 
-import de.mhus.commons.MCollection;
-import de.mhus.commons.MPeriod;
-import de.mhus.commons.MThread;
+import de.mhus.commons.tools.MCollection;
+import de.mhus.commons.tools.MPeriod;
+import de.mhus.commons.tools.MThread;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -130,7 +130,7 @@ public class AtomicClockUtil {
                     now = getAtomicTime(TIME_SERVERS.get(currentServer));
                     lastUpdate = System.currentTimeMillis();
                     return now;
-                } catch (Throwable t) {
+                } catch (Exception t) {
                     LOGGER.info("Error", t);
                 }
                 currentServer = (currentServer + 1) % TIME_SERVERS.size();

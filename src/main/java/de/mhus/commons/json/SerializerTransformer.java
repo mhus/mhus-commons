@@ -23,7 +23,7 @@ import com.fasterxml.jackson.databind.node.IntNode;
 import com.fasterxml.jackson.databind.node.NullNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TextNode;
-import de.mhus.commons.MJson;
+import de.mhus.commons.tools.MJson;
 import de.mhus.commons.errors.NotSupportedException;
 import de.mhus.commons.pojo.PojoAttribute;
 import de.mhus.commons.pojo.PojoModel;

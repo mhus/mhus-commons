@@ -15,7 +15,7 @@
  */
 package de.mhus.commons.crypt;
 
-import de.mhus.commons.MMath;
+import de.mhus.commons.tools.MMath;
 
 /**
  * TODO Not Working !!! rotate left encode and right for decode current block value.

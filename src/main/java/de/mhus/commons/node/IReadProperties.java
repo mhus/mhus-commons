@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,12 +20,11 @@ import de.mhus.commons.errors.MException;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Function;
 
-public interface IReadProperties extends Iterable<Map.Entry<String, Object>> {
+public interface IReadProperties extends Iterable<Entry<String, Object>> {
 
     String getString(String name, String def);
 

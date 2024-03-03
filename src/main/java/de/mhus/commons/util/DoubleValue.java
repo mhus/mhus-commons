@@ -15,7 +15,7 @@
  */
 package de.mhus.commons.util;
 
-import de.mhus.commons.basics.Valueable;
+import de.mhus.commons.lang.Valueable;
 
 public class DoubleValue implements Valueable<Double> {
 

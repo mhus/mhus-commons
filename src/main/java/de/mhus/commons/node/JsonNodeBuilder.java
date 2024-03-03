@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,11 +18,11 @@ package de.mhus.commons.node;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import de.mhus.commons.MDate;
-import de.mhus.commons.MJson;
-import de.mhus.commons.basics.RC;
 import de.mhus.commons.errors.MException;
+import de.mhus.commons.errors.RC;
 import de.mhus.commons.errors.TooDeepStructuresException;
+import de.mhus.commons.tools.MDate;
+import de.mhus.commons.tools.MJson;
 import de.mhus.commons.util.MIterable;
 import de.mhus.commons.util.NullValue;
 
@@ -47,7 +47,7 @@ public class JsonNodeBuilder extends INodeBuilder {
     }
 
     public INode fromJson(JsonNode docJ) throws MException {
-        MNode node = new MNode();
+        TreeNode node = new TreeNode();
         if (docJ.isArray()) {
             NodeList array = node.createArray(INode.NAMELESS_VALUE);
             for (JsonNode itemJ : docJ) {

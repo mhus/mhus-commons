@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,8 +15,8 @@
  */
 package de.mhus.commons.node;
 
-import de.mhus.commons.basics.RC;
 import de.mhus.commons.errors.MRuntimeException;
+import de.mhus.commons.errors.RC;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -27,7 +27,7 @@ public class NodeList extends LinkedList<INode> {
     private String name;
     private INode parent;
 
-    public NodeList(String name, MNode parent) {
+    public NodeList(String name, TreeNode parent) {
         this.name = name;
         this.parent = parent;
     }
@@ -36,21 +36,21 @@ public class NodeList extends LinkedList<INode> {
     public boolean addAll(int index, Collection<? extends INode> c) {
         c.forEach(
                 i -> {
-                    ((MNode) i).name = name;
-                    ((MNode) i).parent = parent;
+                    ((TreeNode) i).name = name;
+                    ((TreeNode) i).parent = parent;
                 });
         return super.addAll(index, c);
     }
 
     @Override
     public boolean add(INode e) {
-        ((MNode) e).name = name;
-        ((MNode) e).parent = parent;
+        ((TreeNode) e).name = name;
+        ((TreeNode) e).parent = parent;
         return super.add(e);
     }
 
     public boolean add(IProperties e) {
-        MNode node = new MNode();
+        TreeNode node = new TreeNode();
         node.parent = parent;
         node.putAll(e);
         return super.add(node);
@@ -68,29 +68,29 @@ public class NodeList extends LinkedList<INode> {
 
     @Override
     public void addFirst(INode e) {
-        ((MNode) e).name = name;
-        ((MNode) e).parent = parent;
+        ((TreeNode) e).name = name;
+        ((TreeNode) e).parent = parent;
         super.addFirst(e);
     }
 
     @Override
     public void addLast(INode e) {
-        ((MNode) e).name = name;
-        ((MNode) e).parent = parent;
+        ((TreeNode) e).name = name;
+        ((TreeNode) e).parent = parent;
         super.addLast(e);
     }
 
     @Override
     public INode set(int index, INode e) {
-        if (e instanceof MNode) {
-            ((MNode) e).name = name;
-            ((MNode) e).parent = parent;
+        if (e instanceof TreeNode) {
+            ((TreeNode) e).name = name;
+            ((TreeNode) e).parent = parent;
         }
         return super.set(index, e);
     }
 
     public INode createObject() {
-        MNode ret = new MNode(name, this);
+        TreeNode ret = new TreeNode(name, this);
         super.add(ret);
         return ret;
     }

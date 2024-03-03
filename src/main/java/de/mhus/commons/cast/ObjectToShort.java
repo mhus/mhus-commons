@@ -77,7 +77,7 @@ public class ObjectToShort implements Caster<Object, Short> {
             short r = Short.parseShort(_in);
             if (ret != null) ret.setValue(r);
             return r;
-        } catch (Throwable e) {
+        } catch (Exception e) {
             LOGGER.trace("Error: {}", _in, e.toString());
             return def;
         }

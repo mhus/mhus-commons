@@ -15,7 +15,7 @@
  */
 package de.mhus.commons.io;
 
-import de.mhus.commons.MFile;
+import de.mhus.commons.tools.MFile;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedOutputStream;

@@ -15,7 +15,7 @@
  */
 package de.mhus.lib.test;
 
-import de.mhus.commons.MString;
+import de.mhus.commons.tools.MString;
 import de.mhus.commons.pojo.AttributesStrategy;
 import de.mhus.commons.pojo.DefaultFilter;
 import de.mhus.commons.pojo.DefaultStrategy;

@@ -15,7 +15,7 @@
  */
 package de.mhus.commons.util;
 
-import de.mhus.commons.basics.ReadOnly;
+import de.mhus.commons.lang.ReadOnly;
 import de.mhus.commons.errors.MException;
 import de.mhus.commons.node.IProperties;
 import de.mhus.commons.node.IReadProperties;

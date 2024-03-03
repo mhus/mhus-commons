@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 package de.mhus.commons.yaml;
 
-import de.mhus.commons.MCast;
+import de.mhus.commons.tools.MCast;
 import de.mhus.commons.util.EmptySet;
 
 import java.util.List;
@@ -63,10 +63,17 @@ public class YMap extends YElement {
         return String.valueOf(val);
     }
 
+    /**
+     * Returns in every case a string array.
+     *
+     * @param key
+     * @return
+     */
     @SuppressWarnings("unchecked")
     public String[] getStringArray(String key) {
         if (getObject() == null) return new String[0];
         Object val = ((Map<String, Object>) getObject()).get(key);
+        if (val == null) return new String[0];
         if (val instanceof List) {
             return getList(key).toStringList().toArray(new String[0]);
         }

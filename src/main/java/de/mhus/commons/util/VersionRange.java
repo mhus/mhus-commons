@@ -15,7 +15,7 @@
  */
 package de.mhus.commons.util;
 
-import de.mhus.commons.basics.Versioned;
+import de.mhus.commons.lang.Versioned;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

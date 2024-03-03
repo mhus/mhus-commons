@@ -15,7 +15,7 @@
  */
 package de.mhus.commons.pojo;
 
-import de.mhus.commons.MCast;
+import de.mhus.commons.tools.MCast;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;

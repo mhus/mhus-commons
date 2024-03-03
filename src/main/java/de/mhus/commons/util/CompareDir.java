@@ -15,7 +15,7 @@
  */
 package de.mhus.commons.util;
 
-import de.mhus.commons.MStopWatch;
+import de.mhus.commons.tools.MStopWatch;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Iterator;

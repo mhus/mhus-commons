@@ -15,7 +15,7 @@
  */
 package de.mhus.commons.crypt.pem;
 
-import de.mhus.commons.MString;
+import de.mhus.commons.tools.MString;
 import de.mhus.commons.crypt.Blowfish;
 import de.mhus.commons.errors.NotSupportedException;
 import de.mhus.commons.parser.ParseException;

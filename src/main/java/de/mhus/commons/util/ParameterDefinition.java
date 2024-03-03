@@ -15,10 +15,10 @@
  */
 package de.mhus.commons.util;
 
-import de.mhus.commons.MCast;
-import de.mhus.commons.MString;
-import de.mhus.commons.MValidator;
-import de.mhus.commons.basics.RC;
+import de.mhus.commons.tools.MCast;
+import de.mhus.commons.tools.MString;
+import de.mhus.commons.tools.MValidator;
+import de.mhus.commons.errors.RC;
 import de.mhus.commons.errors.MException;
 import de.mhus.commons.node.IProperties;
 import de.mhus.commons.node.IReadProperties;

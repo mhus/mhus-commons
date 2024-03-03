@@ -15,9 +15,9 @@
  */
 package de.mhus.lib.test;
 
-import de.mhus.commons.MCast;
-import de.mhus.commons.MDate;
-import de.mhus.commons.MPeriod;
+import de.mhus.commons.tools.MCast;
+import de.mhus.commons.tools.MDate;
+import de.mhus.commons.tools.MPeriod;
 import de.mhus.lib.test.util.TestCase;
 import org.junit.jupiter.api.Test;
 

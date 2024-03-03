@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,8 @@
  */
 package de.mhus.commons.matcher;
 
-import java.util.Map;
+import de.mhus.commons.lang.IValuesProvider;
+
 import java.util.regex.Pattern;
 
 public class ModelRegex extends ModelPattern {
@@ -23,7 +24,7 @@ public class ModelRegex extends ModelPattern {
     private Pattern pattern;
 
     @Override
-    public boolean matches(ModelPart model, Map<String, ?> map, String str) {
+    public boolean matches(ModelPart model, IValuesProvider map, String str) {
         setCondition(CONDITION.NONE);
         return pattern.matcher(str).matches();
     }

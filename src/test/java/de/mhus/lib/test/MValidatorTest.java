@@ -15,8 +15,8 @@
  */
 package de.mhus.lib.test;
 
-import de.mhus.commons.MSql;
-import de.mhus.commons.MValidator;
+import de.mhus.commons.tools.MSql;
+import de.mhus.commons.tools.MValidator;
 import de.mhus.lib.test.util.TestCase;
 import org.junit.jupiter.api.Test;
 

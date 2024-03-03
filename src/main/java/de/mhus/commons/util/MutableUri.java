@@ -15,8 +15,8 @@
  */
 package de.mhus.commons.util;
 
-import de.mhus.commons.MPassword;
-import de.mhus.commons.MString;
+import de.mhus.commons.security.MPassword;
+import de.mhus.commons.tools.MString;
 
 import java.io.IOException;
 import java.util.LinkedList;

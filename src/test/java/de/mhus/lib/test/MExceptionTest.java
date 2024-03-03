@@ -15,8 +15,8 @@
  */
 package de.mhus.lib.test;
 
-import de.mhus.commons.basics.IResult;
-import de.mhus.commons.basics.RC;
+import de.mhus.commons.lang.IResult;
+import de.mhus.commons.errors.RC;
 import de.mhus.commons.errors.ErrorException;
 import de.mhus.commons.errors.ErrorRuntimeException;
 import de.mhus.commons.errors.NotFoundException;

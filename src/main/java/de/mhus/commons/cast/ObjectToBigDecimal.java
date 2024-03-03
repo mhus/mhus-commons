@@ -48,7 +48,7 @@ public class ObjectToBigDecimal implements Caster<Object, BigDecimal> {
 
             String ins = String.valueOf(in);
             return new BigDecimal(ins);
-        } catch (Throwable t) {
+        } catch (Exception t) {
             return def;
         }
     }

@@ -15,8 +15,8 @@
  */
 package de.mhus.commons.util;
 
-import de.mhus.commons.MString;
-import de.mhus.commons.basics.RC;
+import de.mhus.commons.tools.MString;
+import de.mhus.commons.errors.RC;
 import de.mhus.commons.errors.MRuntimeException;
 import lombok.extern.slf4j.Slf4j;
 

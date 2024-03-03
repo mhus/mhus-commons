@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,12 +17,13 @@ package de.mhus.commons.node;
 
 import de.mhus.commons.annotations.service.DefaultImplementation;
 import de.mhus.commons.errors.MException;
+import de.mhus.commons.services.IService;
 
 import java.io.File;
 import java.net.URL;
 
 @DefaultImplementation(DefaultNodeFactory.class)
-public interface INodeFactory {
+public interface INodeFactory extends IService {
 
     INode read(Class<?> owner, String fileName) throws MException;
 
@@ -43,7 +44,7 @@ public interface INodeFactory {
      * @return The node object or null
      * @throws MException
      */
-    public default INode find(String path) throws MException {
+    default INode find(String path) throws MException {
         File f = new File(path);
         return find(f.getParentFile(), f.getName());
     }
@@ -56,7 +57,7 @@ public interface INodeFactory {
      * @return The node object or null
      * @throws MException
      */
-    public default INode find(File parent, String name) throws MException {
+    default INode find(File parent, String name) throws MException {
         {
             File f = new File(parent, name + ".xml");
             if (f.exists() && f.isFile()) read(f);

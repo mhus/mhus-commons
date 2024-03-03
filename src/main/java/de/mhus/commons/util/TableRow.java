@@ -17,8 +17,8 @@ package de.mhus.commons.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import de.mhus.commons.MJson;
-import de.mhus.commons.MSystem;
+import de.mhus.commons.tools.MJson;
+import de.mhus.commons.tools.MSystem;
 import de.mhus.commons.errors.NotFoundRuntimeException;
 import de.mhus.commons.node.INode;
 import de.mhus.commons.node.NodeList;

@@ -69,7 +69,7 @@ public class ObjectToLong implements Caster<Object, Long> {
             long r = Long.parseLong(ins);
             return OptionalLong.of(r);
 
-        } catch (Throwable e) {
+        } catch (Exception e) {
             LOGGER.trace("Error: {}", ins, e.toString());
         }
         return OptionalLong.empty();

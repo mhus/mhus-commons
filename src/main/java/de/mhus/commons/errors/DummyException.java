@@ -15,9 +15,7 @@
  */
 package de.mhus.commons.errors;
 
-import de.mhus.commons.basics.RC;
-
-public class DummyException extends MException {
+public class DummyException extends MRuntimeException {
 
     private static final long serialVersionUID = 1L;
     private StackTraceElement[] stackTrace;

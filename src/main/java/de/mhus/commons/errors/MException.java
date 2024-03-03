@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,9 +15,7 @@
  */
 package de.mhus.commons.errors;
 
-import de.mhus.commons.basics.IResult;
-import de.mhus.commons.basics.RC;
-import de.mhus.commons.basics.RC.CAUSE;
+import de.mhus.commons.lang.IResult;
 
 public class MException extends Exception implements IResult {
 
@@ -26,7 +24,7 @@ public class MException extends Exception implements IResult {
     private int rc;
 
     public MException(RC.STATUS rc, Object... in) {
-        this(CAUSE.ENCAPSULATE, rc.rc(), rc.name(), in);
+        this(RC.CAUSE.ENCAPSULATE, rc.rc(), rc.name(), in);
     }
 
     public MException(RC.CAUSE causeHandling, RC.STATUS rc, Object... in) {
@@ -34,7 +32,7 @@ public class MException extends Exception implements IResult {
     }
 
     public MException(int rc, Throwable cause) {
-        this(CAUSE.ENCAPSULATE, rc, cause.getMessage(), cause);
+        this(RC.CAUSE.ENCAPSULATE, rc, cause.getMessage(), cause);
     }
 
     public MException(IResult cause) {
@@ -50,7 +48,7 @@ public class MException extends Exception implements IResult {
     }
 
     public MException(int rc, String msg, Object... in) {
-        this(CAUSE.ENCAPSULATE, rc, msg, in);
+        this(RC.CAUSE.ENCAPSULATE, rc, msg, in);
     }
 
     public MException(RC.CAUSE causeHandling, int rc, String msg, Object... parameters) {

@@ -15,11 +15,11 @@
  */
 package de.mhus.lib.test;
 
-import de.mhus.commons.MBigMath;
-import de.mhus.commons.MCollection;
-import de.mhus.commons.MFile;
-import de.mhus.commons.MMath;
-import de.mhus.commons.MString;
+import de.mhus.commons.tools.MBigMath;
+import de.mhus.commons.tools.MCollection;
+import de.mhus.commons.tools.MFile;
+import de.mhus.commons.tools.MMath;
+import de.mhus.commons.tools.MString;
 import de.mhus.commons.crypt.AsyncKey;
 import de.mhus.commons.crypt.Blowfish;
 import de.mhus.commons.crypt.CipherBlockAdd;

@@ -15,7 +15,7 @@
  */
 package de.mhus.lib.test;
 
-import de.mhus.commons.MXml;
+import de.mhus.commons.tools.MXml;
 import de.mhus.lib.test.util.TestCase;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;

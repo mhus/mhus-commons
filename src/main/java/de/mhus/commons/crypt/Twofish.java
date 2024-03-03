@@ -15,7 +15,7 @@
  */
 package de.mhus.commons.crypt;
 
-import de.mhus.commons.MString;
+import de.mhus.commons.tools.MString;
 import de.mhus.commons.util.Base64;
 
 import javax.crypto.Cipher;

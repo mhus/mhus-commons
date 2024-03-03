@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,9 +15,8 @@
  */
 package de.mhus.commons.node;
 
-import de.mhus.commons.AbstractProperties;
-import de.mhus.commons.MString;
-import de.mhus.commons.MSystem;
+import de.mhus.commons.tools.MString;
+import de.mhus.commons.tools.MSystem;
 import de.mhus.commons.util.SetCast;
 import lombok.extern.slf4j.Slf4j;
 
@@ -161,9 +160,9 @@ public class MProperties extends AbstractProperties implements Externalizable {
     }
 
     @Override
-    public Set<java.util.Map.Entry<String, Object>> entrySet() {
+    public Set<Map.Entry<String, Object>> entrySet() {
         HashMap<String, Object> wrapper = new HashMap<>();
-        for (java.util.Map.Entry<Object, Object> entry : properties.entrySet())
+        for (Map.Entry<Object, Object> entry : properties.entrySet())
             wrapper.put(String.valueOf(entry.getKey()), entry.getValue());
         return wrapper.entrySet();
     }
@@ -176,8 +175,8 @@ public class MProperties extends AbstractProperties implements Externalizable {
                 FileInputStream is = new FileInputStream(f);
                 p.load(is);
             }
-        } catch (Throwable t) {
-            LOGGER.debug("Error: {}", fileName, t);
+        } catch (Exception t) {
+            LOGGER.debug("Can't load file {}", fileName, t);
         }
         MProperties out = new MProperties(p);
         return out;
@@ -204,7 +203,7 @@ public class MProperties extends AbstractProperties implements Externalizable {
         //				FileInputStream is = new FileInputStream(f);
         //				p.load(is);
         //			}
-        //		} catch (Throwable t) {
+        //		} catch (Exception t) {
         //			MLogUtil.log().d(f, t);
         //		}
         //		MProperties out = new MProperties(p);
@@ -482,7 +481,7 @@ public class MProperties extends AbstractProperties implements Externalizable {
     //		Properties p = new Properties();
     //		try {
     //			p.load(is);
-    //		} catch (Throwable t) {
+    //		} catch (Exception t) {
     //			MLogUtil.log().d(t);
     //		}
     //		MProperties out = new MProperties(p);
@@ -493,8 +492,8 @@ public class MProperties extends AbstractProperties implements Externalizable {
         Properties p = new Properties();
         try {
             p.load(is);
-        } catch (Throwable t) {
-            LOGGER.debug("Error", t);
+        } catch (Exception t) {
+            LOGGER.debug("Error",t);
         }
         MProperties out = new MProperties(p);
         return out;
@@ -529,7 +528,7 @@ public class MProperties extends AbstractProperties implements Externalizable {
         try {
             store(new BufferedWriter(out), true, true);
         } catch (IOException e) {
-            LOGGER.error("Error", e);
+            LOGGER.error("Error",e);
         }
         return out.toString();
     }
@@ -539,7 +538,7 @@ public class MProperties extends AbstractProperties implements Externalizable {
         try {
             store(new BufferedWriter(out), true, addDate);
         } catch (IOException e) {
-            LOGGER.error("Error", e);
+            LOGGER.error("Error",e);
         }
         return out.toString();
     }

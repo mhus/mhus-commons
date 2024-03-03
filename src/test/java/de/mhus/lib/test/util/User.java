@@ -16,8 +16,8 @@
 package de.mhus.lib.test.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import de.mhus.commons.MCast;
-import de.mhus.commons.MString;
+import de.mhus.commons.tools.MCast;
+import de.mhus.commons.tools.MString;
 import de.mhus.commons.annotations.generic.Public;
 import de.mhus.commons.node.IProperties;
 

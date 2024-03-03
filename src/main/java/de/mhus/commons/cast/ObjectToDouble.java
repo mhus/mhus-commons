@@ -47,7 +47,7 @@ public class ObjectToDouble implements Caster<Object, Double> {
         try {
             double r = Double.parseDouble(String.valueOf(in));
             return OptionalDouble.of(r);
-        } catch (Throwable e) {
+        } catch (Exception e) {
             LOGGER.trace("cast to double failed {}", in, e.toString());
         }
         return OptionalDouble.empty();

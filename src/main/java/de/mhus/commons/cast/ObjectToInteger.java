@@ -72,7 +72,7 @@ public class ObjectToInteger implements Caster<Object, Integer> {
 
             int r = Integer.parseInt(_in);
             return OptionalInt.of(r);
-        } catch (Throwable e) {
+        } catch (Exception e) {
             LOGGER.trace("Error: {}", _in, e.toString());
             return OptionalInt.empty();
         }

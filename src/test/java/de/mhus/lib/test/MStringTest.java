@@ -15,7 +15,7 @@
  */
 package de.mhus.lib.test;
 
-import de.mhus.commons.MString;
+import de.mhus.commons.tools.MString;
 import de.mhus.commons.errors.MException;
 import de.mhus.commons.node.MProperties;
 import de.mhus.commons.parser.StringCompiler;

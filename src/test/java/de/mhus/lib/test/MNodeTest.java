@@ -15,16 +15,16 @@
  */
 package de.mhus.lib.test;
 
-import de.mhus.commons.MCast;
-import de.mhus.commons.MFile;
-import de.mhus.commons.MString;
-import de.mhus.commons.MSystem;
-import de.mhus.commons.MXml;
+import de.mhus.commons.tools.MCast;
+import de.mhus.commons.tools.MFile;
+import de.mhus.commons.tools.MString;
+import de.mhus.commons.tools.MSystem;
+import de.mhus.commons.tools.MXml;
 import de.mhus.commons.errors.MException;
 import de.mhus.commons.errors.NotFoundException;
 import de.mhus.commons.node.DefaultNodeFactory;
 import de.mhus.commons.node.INode;
-import de.mhus.commons.node.MNode;
+import de.mhus.commons.node.TreeNode;
 import de.mhus.commons.node.MProperties;
 import de.mhus.commons.node.NodeList;
 import de.mhus.lib.test.util.TestCase;
@@ -64,19 +64,19 @@ public class MNodeTest extends TestCase {
         String serialized = null;
 
         {
-            INode c = new MNode();
+            INode c = new TreeNode();
             c.setString("test1", "wow");
             c.setString("test2", "alf");
 
-            INode c1 = new MNode();
+            INode c1 = new TreeNode();
             c1.setString("test1", "wow");
             c1.setString("test2", "alf");
 
-            INode c2 = new MNode();
+            INode c2 = new TreeNode();
             c2.setString("test1", "wow");
             c2.setString("test2", "alf");
 
-            INode c3 = new MNode();
+            INode c3 = new TreeNode();
             c3.setString("test1", "wow");
             c3.setString("test2", "alf");
 
@@ -111,14 +111,14 @@ public class MNodeTest extends TestCase {
     @Test
     public void testProperties() throws MException {
         {
-            INode c = new MNode();
+            INode c = new TreeNode();
             c.setString("test1", "wow");
             c.setString("test2", "alf");
 
             derTeschd(c, false);
         }
         {
-            INode c = new MNode();
+            INode c = new TreeNode();
             c.setString("test1", "wow");
             c.setString("test2", "alf");
 
@@ -245,7 +245,7 @@ public class MNodeTest extends TestCase {
     @Test
     public void testHash() throws Exception {
 
-        INode c = new MNode();
+        INode c = new TreeNode();
         c.setString("test1", "wow");
         c.setString("test2", "alf");
         NodeList a = c.createArray("sub");

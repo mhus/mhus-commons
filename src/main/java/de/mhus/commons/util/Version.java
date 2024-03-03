@@ -15,10 +15,10 @@
  */
 package de.mhus.commons.util;
 
-import de.mhus.commons.MCast;
-import de.mhus.commons.MString;
-import de.mhus.commons.basics.RC;
-import de.mhus.commons.basics.Versioned;
+import de.mhus.commons.tools.MCast;
+import de.mhus.commons.tools.MString;
+import de.mhus.commons.errors.RC;
+import de.mhus.commons.lang.Versioned;
 import de.mhus.commons.errors.MRuntimeException;
 
 import java.io.Externalizable;

@@ -16,7 +16,7 @@
 package de.mhus.lib.test;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import de.mhus.commons.MJson;
+import de.mhus.commons.tools.MJson;
 import de.mhus.commons.json.JacksonTransformer;
 import de.mhus.commons.json.SerializerTransformer;
 import de.mhus.commons.json.SimpleObjectTransformer;

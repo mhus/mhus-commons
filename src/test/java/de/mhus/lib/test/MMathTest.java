@@ -15,9 +15,9 @@
  */
 package de.mhus.lib.test;
 
-import de.mhus.commons.MBigMath;
-import de.mhus.commons.MCast;
-import de.mhus.commons.MMath;
+import de.mhus.commons.tools.MBigMath;
+import de.mhus.commons.tools.MCast;
+import de.mhus.commons.tools.MMath;
 import de.mhus.commons.util.Base64;
 import de.mhus.lib.test.util.TestCase;
 import org.junit.jupiter.api.Test;

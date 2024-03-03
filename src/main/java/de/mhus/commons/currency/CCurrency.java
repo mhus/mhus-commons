@@ -21,7 +21,7 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.util.HashMap;
 
-import de.mhus.commons.MString;
+import de.mhus.commons.tools.MString;
 
 public class CCurrency implements Externalizable {
 

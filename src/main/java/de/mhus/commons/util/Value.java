@@ -15,8 +15,8 @@
  */
 package de.mhus.commons.util;
 
-import de.mhus.commons.MSystem;
-import de.mhus.commons.basics.Valueable;
+import de.mhus.commons.tools.MSystem;
+import de.mhus.commons.lang.Valueable;
 
 import java.io.IOException;
 import java.io.NotSerializableException;
