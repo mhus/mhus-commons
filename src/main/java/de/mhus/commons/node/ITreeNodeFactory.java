@@ -23,19 +23,19 @@ import java.io.File;
 import java.net.URL;
 
 @DefaultImplementation(DefaultNodeFactory.class)
-public interface INodeFactory extends IService {
+public interface ITreeNodeFactory extends IService {
 
-    INode read(Class<?> owner, String fileName) throws MException;
+    ITreeNode read(Class<?> owner, String fileName) throws MException;
 
-    INode read(File file) throws MException;
+    ITreeNode read(File file) throws MException;
 
-    INode read(URL url) throws MException;
+    ITreeNode read(URL url) throws MException;
 
-    INode create();
+    ITreeNode create();
 
-    void write(INode node, File file) throws MException;
+    void write(ITreeNode node, File file) throws MException;
 
-    INodeBuilder getBuilder(String ext);
+    ITreeNodeBuilder getBuilder(String ext);
 
     /**
      * This will search a file with different file extensions
@@ -44,7 +44,7 @@ public interface INodeFactory extends IService {
      * @return The node object or null
      * @throws MException
      */
-    default INode find(String path) throws MException {
+    default ITreeNode find(String path) throws MException {
         File f = new File(path);
         return find(f.getParentFile(), f.getName());
     }
@@ -57,7 +57,7 @@ public interface INodeFactory extends IService {
      * @return The node object or null
      * @throws MException
      */
-    default INode find(File parent, String name) throws MException {
+    default ITreeNode find(File parent, String name) throws MException {
         {
             File f = new File(parent, name + ".xml");
             if (f.exists() && f.isFile()) read(f);

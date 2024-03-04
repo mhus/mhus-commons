@@ -32,16 +32,16 @@ import java.math.BigInteger;
 import java.util.Date;
 import java.util.Map.Entry;
 
-public class JsonStreamNodeBuilder extends INodeBuilder {
+public class JsonStreamNodeBuilder extends ITreeNodeBuilder {
 
     private JsonFactory factory = new JsonFactory();
     private boolean pretty = false;
 
     @Override
-    public INode read(InputStream is) throws MException {
-        INode root = null;
-        INode node = null;
-        NodeList array = null;
+    public ITreeNode read(InputStream is) throws MException {
+        ITreeNode root = null;
+        ITreeNode node = null;
+        TreeNodeList array = null;
         try {
             try (JsonParser jsonParser = factory.createParser(is)) {
 
@@ -54,7 +54,7 @@ public class JsonStreamNodeBuilder extends INodeBuilder {
                         if (token == JsonToken.START_ARRAY) {
                             root = new TreeNode();
                             node = root;
-                            array = node.createArray(INode.NAMELESS_VALUE);
+                            array = node.createArray(ITreeNode.NAMELESS_VALUE);
                         } else if (token == JsonToken.START_OBJECT) {
                             root = new TreeNode();
                             node = root;
@@ -63,8 +63,8 @@ public class JsonStreamNodeBuilder extends INodeBuilder {
                     } else if (array != null) {
                         // IN ARRAY
                         if (token == JsonToken.START_ARRAY) {
-                            INode obj = array.createObject();
-                            array = obj.createArray(INode.NAMELESS_VALUE);
+                            ITreeNode obj = array.createObject();
+                            array = obj.createArray(ITreeNode.NAMELESS_VALUE);
                             node = null;
                         } else if (token == JsonToken.START_OBJECT) {
                             node = array.createObject();
@@ -72,10 +72,10 @@ public class JsonStreamNodeBuilder extends INodeBuilder {
                         } else if (token == JsonToken.END_OBJECT) {
                             // should not happen
                         } else if (token == JsonToken.END_ARRAY) {
-                            if (INode.NAMELESS_VALUE.equals(array.getName())
+                            if (ITreeNode.NAMELESS_VALUE.equals(array.getName())
                                     && array.getParent() != null
                                     && array.getParent().getParentArray() != null) {
-                                INode obj = array.getParent();
+                                ITreeNode obj = array.getParent();
                                 array = obj.getParentArray();
                                 node = null;
                             } else {
@@ -144,7 +144,7 @@ public class JsonStreamNodeBuilder extends INodeBuilder {
     }
 
     @Override
-    public void write(INode node, OutputStream os) throws MException {
+    public void write(ITreeNode node, OutputStream os) throws MException {
         try {
 
             JsonGenerator generator = factory.createGenerator(os, JsonEncoding.UTF8);
@@ -156,15 +156,15 @@ public class JsonStreamNodeBuilder extends INodeBuilder {
         }
     }
 
-    private void write(INode node, JsonGenerator gen) throws IOException {
+    private void write(ITreeNode node, JsonGenerator gen) throws IOException {
         gen.writeStartObject();
         for (Entry<String, Object> entry : node.entrySet()) {
-            if (entry.getValue() instanceof INode) {
+            if (entry.getValue() instanceof ITreeNode) {
                 gen.writeFieldName(entry.getKey());
-                write((INode) entry.getValue(), gen);
-            } else if (entry.getValue() instanceof NodeList) {
+                write((ITreeNode) entry.getValue(), gen);
+            } else if (entry.getValue() instanceof TreeNodeList) {
                 gen.writeFieldName(entry.getKey());
-                write((NodeList) entry.getValue(), gen);
+                write((TreeNodeList) entry.getValue(), gen);
             } else if (entry.getValue() instanceof Boolean)
                 gen.writeBooleanField(entry.getKey(), (Boolean) entry.getValue());
             else if (entry.getValue() instanceof String)
@@ -193,9 +193,9 @@ public class JsonStreamNodeBuilder extends INodeBuilder {
         gen.writeEndObject();
     }
 
-    private void write(NodeList list, JsonGenerator gen) throws IOException {
+    private void write(TreeNodeList list, JsonGenerator gen) throws IOException {
         gen.writeStartArray();
-        for (INode entry : list) {
+        for (ITreeNode entry : list) {
             write(entry, gen);
         }
         gen.writeEndArray();

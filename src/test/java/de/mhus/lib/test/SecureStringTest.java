@@ -77,7 +77,7 @@ public class SecureStringTest extends TestCase {
         Field field = SecureString.class.getDeclaredField("data");
         field.setAccessible(true);
         byte[] data = (byte[]) field.get(sec);
-        assertFalse(text.equals(new String(data, MString.CHARSET_CHARSET_UTF_8)));
+        assertFalse(text.equals(new String(data, MString.UTF_8)));
     }
 
     @Test
@@ -96,7 +96,7 @@ public class SecureStringTest extends TestCase {
         Field field = SecureString.class.getDeclaredField("data");
         field.setAccessible(true);
         byte[] data = (byte[]) field.get(sec);
-        assertFalse(text.equals(new String(data, MString.CHARSET_CHARSET_UTF_8)));
+        assertFalse(text.equals(new String(data, MString.UTF_8)));
     }
 
     @Test
@@ -115,7 +115,7 @@ public class SecureStringTest extends TestCase {
         Field field = SecureString.class.getDeclaredField("data");
         field.setAccessible(true);
         byte[] data = (byte[]) field.get(sec);
-        assertFalse(text.equals(new String(data, MString.CHARSET_CHARSET_UTF_8)));
+        assertFalse(text.equals(new String(data, MString.UTF_8)));
     }
 
     @Test
@@ -134,7 +134,7 @@ public class SecureStringTest extends TestCase {
         Field field = SecureString.class.getDeclaredField("data");
         field.setAccessible(true);
         byte[] data = (byte[]) field.get(sec);
-        assertFalse(text.equals(new String(data, MString.CHARSET_CHARSET_UTF_8)));
+        assertFalse(text.equals(new String(data, MString.UTF_8)));
     }
 
     @Test
@@ -174,7 +174,7 @@ public class SecureStringTest extends TestCase {
         Field field = SecureString.class.getDeclaredField("data");
         field.setAccessible(true);
         byte[] data = (byte[]) field.get(sec);
-        assertFalse(text.equals(new String(data, MString.CHARSET_CHARSET_UTF_8)));
+        assertFalse(text.equals(new String(data, MString.UTF_8)));
     }
 
     @Test

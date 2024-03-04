@@ -15,7 +15,7 @@
  */
 package de.mhus.commons.node;
 
-public interface NodeSerializable {
+public interface TreeNodeSerializable {
 
     /**
      * Read the inner state of the object from the given node object.
@@ -23,7 +23,7 @@ public interface NodeSerializable {
      * @param node Node with stored state for this object
      * @throws Exception
      */
-    void readSerializabledNode(INode node) throws Exception;
+    void readSerializabledNode(ITreeNode node) throws Exception;
 
     /**
      * Write the inner state of the object to the given node object.
@@ -31,5 +31,5 @@ public interface NodeSerializable {
      * @param node Node to store the state of this object in
      * @throws Exception
      */
-    void writeSerializabledNode(INode node) throws Exception;
+    void writeSerializabledNode(ITreeNode node) throws Exception;
 }

@@ -20,6 +20,7 @@ import de.mhus.commons.crypt.Md5Encoder;
 import de.mhus.commons.crypt.Rot13And5Encoder;
 import de.mhus.commons.crypt.Rot13Encoder;
 import de.mhus.commons.errors.NotSupportedException;
+import de.mhus.commons.services.MService;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -45,8 +46,8 @@ public class DefaultPassword implements IPassword {
         encodings.put(MPassword.DUMMY, new DummyEncoder());
         encodings.put(MPassword.MD5, new Md5Encoder());
 
-//XXX        Map<String, IPasswordEncoder> map = MSpring.getBeansOfType(IPasswordEncoder.class);
-//        if (map != null) map.forEach((k, v) -> encodings.put(k.toLowerCase(), v));
+        Map<String, IPasswordEncoder> map = MService.getService(IPasswordEncoderFactory.class).get();
+        if (map != null) map.forEach((k, v) -> encodings.put(k.toLowerCase(), v));
 
         additionalEncodings(encodings);
 

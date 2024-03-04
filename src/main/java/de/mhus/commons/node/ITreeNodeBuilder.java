@@ -28,13 +28,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public abstract class INodeBuilder {
+public abstract class ITreeNodeBuilder {
 
-    public abstract INode read(InputStream is) throws MException;
+    public abstract ITreeNode read(InputStream is) throws MException;
 
-    public abstract void write(INode node, OutputStream os) throws MException;
+    public abstract void write(ITreeNode node, OutputStream os) throws MException;
 
-    public INode readFromFile(File file) throws MException {
+    public ITreeNode readFromFile(File file) throws MException {
         try (FileInputStream is = new FileInputStream(file)) {
             return read(is);
         } catch (IOException e) {
@@ -42,11 +42,11 @@ public abstract class INodeBuilder {
         }
     }
 
-    public INode readFromString(String content) throws MException {
+    public ITreeNode readFromString(String content) throws MException {
         return read(new ByteArrayInputStream(MString.toBytes(content)));
     }
 
-    public void writeToFile(INode node, File file) throws MException {
+    public void writeToFile(ITreeNode node, File file) throws MException {
         try (FileOutputStream os = new FileOutputStream(file)) {
             write(node, os);
         } catch (IOException e) {
@@ -54,7 +54,7 @@ public abstract class INodeBuilder {
         }
     }
 
-    public String writeToString(INode node) throws MException {
+    public String writeToString(ITreeNode node) throws MException {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         write(node, os);
         return MString.byteToString(os.toByteArray());

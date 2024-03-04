@@ -28,6 +28,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 
@@ -70,10 +71,10 @@ public abstract class AbstractProperties implements IProperties {
     }
 
     @Override
-    public String getString(String key) throws NotFoundException {
+    public Optional<String> getString(String key) {
         Object out = getProperty(key);
-        if (out == null) throw new NotFoundException("value not found", key);
-        return String.valueOf(out);
+        if (out == null) Optional.empty();
+        return Optional.of(String.valueOf(out));
     }
 
     @Override
@@ -88,10 +89,10 @@ public abstract class AbstractProperties implements IProperties {
     }
 
     @Override
-    public boolean getBoolean(String key) throws NotFoundException {
+    public Optional<Boolean> getBoolean(String key) {
         Object out = getProperty(key);
-        if (out == null) throw new NotFoundException("value not found", key);
-        return MCast.toboolean(out, false);
+        if (out == null) Optional.empty();
+        return Optional.of(MCast.toboolean(out, false));
     }
 
     @Override
@@ -139,19 +140,19 @@ public abstract class AbstractProperties implements IProperties {
     }
 
     @Override
-    public Calendar getCalendar(String key) throws MException {
+    public Optional<Calendar> getCalendar(String key) {
         Object out = getProperty(key);
-        return MCast.toCalendar(out);
+        return Optional.of(MCast.toCalendar(out));
     }
 
     @Override
-    public Date getDate(String key) {
+    public Optional<Date> getDate(String key) {
         try {
             Object out = getProperty(key);
-            return MCast.toDate(out, null);
+            return Optional.of(MCast.toDate(out, null));
         } catch (Exception t) {
         }
-        return null;
+        return Optional.empty();
     }
 
     @Override

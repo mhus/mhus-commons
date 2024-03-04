@@ -27,20 +27,20 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.HashMap;
 
-public class DefaultNodeFactory implements INodeFactory {
+public class DefaultNodeFactory implements ITreeNodeFactory {
 
-    private HashMap<String, INodeBuilder> registry = new HashMap<>();
+    private HashMap<String, ITreeNodeBuilder> registry = new HashMap<>();
 
     public DefaultNodeFactory() {
-        registry.put("xml", new XmlNodeBuilder());
+        registry.put("xml", new XmlTreeNodeBuilder());
         registry.put("json", new JsonStreamNodeBuilder());
-        registry.put("yml", new YamlNodeBuilder());
-        registry.put("yaml", new YamlNodeBuilder());
+        registry.put("yml", new YamlTreeNodeBuilder());
+        registry.put("yaml", new YamlTreeNodeBuilder());
         registry.put("properties", new PropertiesNodeBuilder());
     }
 
     @Override
-    public INode read(Class<?> owner, String fileName) throws MException {
+    public ITreeNode read(Class<?> owner, String fileName) throws MException {
         try {
             URL url = MSystem.locateResource(owner, fileName);
             return read(url);
@@ -50,18 +50,18 @@ public class DefaultNodeFactory implements INodeFactory {
     }
 
     @Override
-    public INode read(File file) throws MException {
+    public ITreeNode read(File file) throws MException {
         String ext = MFile.getFileExtension(file);
-        INodeBuilder builder = getBuilder(ext);
+        ITreeNodeBuilder builder = getBuilder(ext);
         if (builder == null)
             throw new NotFoundException("builder for resource not found", file.getName());
         return builder.readFromFile(file);
     }
 
     @Override
-    public INode read(URL url) throws MException {
+    public ITreeNode read(URL url) throws MException {
         String ext = MFile.getFileExtension(url.getPath());
-        INodeBuilder builder = getBuilder(ext);
+        ITreeNodeBuilder builder = getBuilder(ext);
         if (builder == null) throw new NotFoundException("builder for resource not found", url);
         try (InputStream is = url.openStream()) {
             return builder.read(is);
@@ -71,20 +71,20 @@ public class DefaultNodeFactory implements INodeFactory {
     }
 
     @Override
-    public INodeBuilder getBuilder(String ext) {
+    public ITreeNodeBuilder getBuilder(String ext) {
         ext = ext.toLowerCase().trim(); // paranoia
         return registry.get(ext);
     }
 
     @Override
-    public INode create() {
+    public ITreeNode create() {
         return new TreeNode();
     }
 
     @Override
-    public void write(INode node, File file) throws MException {
+    public void write(ITreeNode node, File file) throws MException {
         String ext = MFile.getFileExtension(file);
-        INodeBuilder builder = getBuilder(ext);
+        ITreeNodeBuilder builder = getBuilder(ext);
         if (builder == null)
             throw new NotFoundException("builder for resource not found", file.getName());
         builder.writeToFile(node, file);

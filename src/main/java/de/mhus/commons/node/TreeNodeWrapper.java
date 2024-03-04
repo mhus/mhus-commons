@@ -23,6 +23,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.function.BiConsumer;
@@ -30,11 +31,11 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class MNodeWrapper extends TreeNode {
+public class TreeNodeWrapper extends TreeNode {
 
     private IProperties parameters;
 
-    public MNodeWrapper(IProperties parameters) {
+    public TreeNodeWrapper(IProperties parameters) {
         this.parameters = parameters;
     }
 
@@ -54,12 +55,8 @@ public class MNodeWrapper extends TreeNode {
     }
 
     @Override
-    public String getString(String name) throws NotFoundException {
-        try {
-            return parameters.getString(name);
-        } catch (MException e) {
-            throw new NotFoundException(name, e);
-        }
+    public Optional<String> getString(String name) {
+        return parameters.getString(name);
     }
 
     @Override
@@ -78,12 +75,8 @@ public class MNodeWrapper extends TreeNode {
     }
 
     @Override
-    public boolean getBoolean(String name) throws NotFoundException {
-        try {
-            return parameters.getBoolean(name);
-        } catch (MException e) {
-            throw new NotFoundException(name, e);
-        }
+    public Optional<Boolean> getBoolean(String name) {
+        return parameters.getBoolean(name);
     }
 
     @Override
@@ -167,7 +160,7 @@ public class MNodeWrapper extends TreeNode {
     }
 
     @Override
-    public Calendar getCalendar(String name) throws MException {
+    public Optional<Calendar> getCalendar(String name) {
         return parameters.getCalendar(name);
     }
 
@@ -177,7 +170,7 @@ public class MNodeWrapper extends TreeNode {
     }
 
     @Override
-    public Date getDate(String name) {
+    public Optional<Date> getDate(String name) {
         return parameters.getDate(name);
     }
 

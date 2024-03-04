@@ -106,7 +106,7 @@ public class User {
         this.company = p.getString("company", null);
         this.language = p.getString("language", null);
         this.note = p.getString("note", null);
-        if (MString.isSet(p.getString("birthday", null))) this.birthday = p.getDate("birthday");
+        if (MString.isSet(p.getString("birthday", null))) this.birthday = p.getDate("birthday").get();
         this.enabled = p.getBoolean("enabled", true);
         if (MString.isSet(p.getString("tags", null))) {
             String[] parts = MString.split(p.getString("tags", null), ",");

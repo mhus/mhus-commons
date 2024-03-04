@@ -21,19 +21,19 @@ import de.mhus.commons.errors.RC;
 import java.util.Collection;
 import java.util.LinkedList;
 
-public class NodeList extends LinkedList<INode> {
+public class TreeNodeList extends LinkedList<ITreeNode> {
 
     private static final long serialVersionUID = 1L;
     private String name;
-    private INode parent;
+    private ITreeNode parent;
 
-    public NodeList(String name, TreeNode parent) {
+    public TreeNodeList(String name, TreeNode parent) {
         this.name = name;
         this.parent = parent;
     }
 
     @Override
-    public boolean addAll(int index, Collection<? extends INode> c) {
+    public boolean addAll(int index, Collection<? extends ITreeNode> c) {
         c.forEach(
                 i -> {
                     ((TreeNode) i).name = name;
@@ -43,7 +43,7 @@ public class NodeList extends LinkedList<INode> {
     }
 
     @Override
-    public boolean add(INode e) {
+    public boolean add(ITreeNode e) {
         ((TreeNode) e).name = name;
         ((TreeNode) e).parent = parent;
         return super.add(e);
@@ -56,8 +56,8 @@ public class NodeList extends LinkedList<INode> {
         return super.add(node);
     }
 
-    public INode add(NodeSerializable object) {
-        INode cfg = createObject();
+    public ITreeNode add(TreeNodeSerializable object) {
+        ITreeNode cfg = createObject();
         try {
             object.writeSerializabledNode(cfg);
         } catch (Exception e) {
@@ -67,21 +67,21 @@ public class NodeList extends LinkedList<INode> {
     }
 
     @Override
-    public void addFirst(INode e) {
+    public void addFirst(ITreeNode e) {
         ((TreeNode) e).name = name;
         ((TreeNode) e).parent = parent;
         super.addFirst(e);
     }
 
     @Override
-    public void addLast(INode e) {
+    public void addLast(ITreeNode e) {
         ((TreeNode) e).name = name;
         ((TreeNode) e).parent = parent;
         super.addLast(e);
     }
 
     @Override
-    public INode set(int index, INode e) {
+    public ITreeNode set(int index, ITreeNode e) {
         if (e instanceof TreeNode) {
             ((TreeNode) e).name = name;
             ((TreeNode) e).parent = parent;
@@ -89,13 +89,13 @@ public class NodeList extends LinkedList<INode> {
         return super.set(index, e);
     }
 
-    public INode createObject() {
+    public ITreeNode createObject() {
         TreeNode ret = new TreeNode(name, this);
         super.add(ret);
         return ret;
     }
 
-    public INode getParent() {
+    public ITreeNode getParent() {
         return parent;
     }
 

@@ -18,13 +18,14 @@ package de.mhus.commons.directory;
 import de.mhus.commons.tools.MCollection;
 import de.mhus.commons.tools.MString;
 import de.mhus.commons.tools.MSystem;
-import de.mhus.commons.node.INode;
+import de.mhus.commons.node.ITreeNode;
 import de.mhus.commons.node.TreeNode;
-import de.mhus.commons.node.NodeList;
+import de.mhus.commons.node.TreeNodeList;
 
 import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 
 public class ClassLoaderResourceProvider extends MResourceProvider {
 
@@ -40,7 +41,7 @@ public class ClassLoaderResourceProvider extends MResourceProvider {
     }
 
     @Override
-    public INode getResourceByPath(String name) {
+    public ITreeNode getResourceByPath(String name) {
         return new CLResourceNode(name);
     }
 
@@ -67,18 +68,18 @@ public class ClassLoaderResourceProvider extends MResourceProvider {
         }
 
         @Override
-        public INode getObject(String key) {
-            return null;
+        public Optional<ITreeNode> getObject(String key) {
+            return Optional.empty();
         }
 
         @Override
-        public List<INode> getObjects() {
+        public List<ITreeNode> getObjects() {
             return MCollection.getEmptyList();
         }
 
         @Override
-        public NodeList getArray(String key) {
-            return new NodeList(key, this);
+        public Optional<TreeNodeList> getArray(String key) {
+            return Optional.of(new TreeNodeList(key, this));
         }
 
         @Override
@@ -92,7 +93,7 @@ public class ClassLoaderResourceProvider extends MResourceProvider {
         }
 
         @Override
-        public INode getParent() {
+        public ITreeNode getParent() {
             return null;
         }
 
@@ -119,7 +120,7 @@ public class ClassLoaderResourceProvider extends MResourceProvider {
     }
 
     @Override
-    public INode getResourceById(String id) {
+    public ITreeNode getResourceById(String id) {
         return getResourceByPath(id);
     }
 

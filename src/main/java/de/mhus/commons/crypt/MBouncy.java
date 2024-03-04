@@ -100,7 +100,7 @@ public class MBouncy {
     protected static final String PROVIDER = "BC";
     protected static final String TRANSFORMATION = "RSA/ECB/PKCS1Padding";
     protected static final String ALGORITHM_AES = "AES";
-    private static final Charset STRING_ENCODING = MString.CHARSET_CHARSET_UTF_8;
+    private static final Charset STRING_ENCODING = MString.UTF_8;
     public static final RSA_KEY_SIZE RSA_KEY_SIZE_DEFAULT = RSA_KEY_SIZE.B1024;
     private static final String TRANSFORMATION_ECC = "SHA512WITHECDSA";
     private static final String ALGORITHM_ECC = "ECDSA";
@@ -497,7 +497,7 @@ public class MBouncy {
         try {
             return validateSignature(
                     key,
-                    new ByteArrayInputStream(in.getBytes(MString.CHARSET_CHARSET_UTF_8)),
+                    new ByteArrayInputStream(in.getBytes(MString.UTF_8)),
                     sign);
         } catch (Exception t) {
             throw new RuntimeException(t);

@@ -15,12 +15,11 @@
  */
 package de.mhus.commons.node;
 
-import de.mhus.commons.errors.MException;
-
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 
@@ -30,13 +29,13 @@ public interface IReadProperties extends Iterable<Entry<String, Object>> {
 
     String getStringOrCreate(String name, Function<String, String> def);
 
-    String getString(String name) throws MException;
+    Optional<String> getString(String name);
 
     boolean getBoolean(String name, boolean def);
 
     //    boolean getBooleanOrCreate(String name, Function<String, Boolean> def);
 
-    boolean getBoolean(String name) throws MException;
+    Optional<Boolean> getBoolean(String name);
 
     int getInt(String name, int def);
 
@@ -54,12 +53,12 @@ public interface IReadProperties extends Iterable<Entry<String, Object>> {
 
     //    double getDoubleOrCreate(String name, Function<String, Double> def);
 
-    Calendar getCalendar(String name) throws MException;
+    Optional<Calendar> getCalendar(String name);
 
     //    Calendar getCalendarOrCreate(String name, Function<String, Calendar> def) throws
     // MException;
 
-    Date getDate(String name);
+    Optional<Date> getDate(String name);
 
     //    Date getDateOrCreate(String name, Function<String, Date> def);
 

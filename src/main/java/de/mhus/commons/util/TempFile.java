@@ -54,12 +54,6 @@ public class TempFile extends File {
         deleteOnExit();
     }
 
-    // XXX
-    @Override
-    protected void finalize() throws Throwable {
-        delete(); // delete the tmp file if reference is lost
-    }
-
     public static File createTempFile(String prefix, String suffix) throws IOException {
         File tmpFile = File.createTempFile(prefix, suffix);
         return new TempFile(tmpFile);

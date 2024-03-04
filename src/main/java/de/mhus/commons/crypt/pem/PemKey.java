@@ -52,8 +52,8 @@ public class PemKey extends PemBlockModel implements PemPriv, PemPub {
     }
 
     @Override
-    public String getMethod() throws MException {
-        return getString(PemBlock.METHOD);
+    public String getMethod() {
+        return getString(PemBlock.METHOD).get();
     }
 
     @Override

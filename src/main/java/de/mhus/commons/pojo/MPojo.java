@@ -29,11 +29,11 @@ import de.mhus.commons.annotations.pojo.Embedded;
 import de.mhus.commons.annotations.pojo.Hidden;
 import de.mhus.commons.cast.Caster;
 import de.mhus.commons.json.TransformHelper;
-import de.mhus.commons.node.INode;
+import de.mhus.commons.node.ITreeNode;
 import de.mhus.commons.node.IProperties;
 import de.mhus.commons.node.TreeNode;
 import de.mhus.commons.node.MProperties;
-import de.mhus.commons.node.NodeList;
+import de.mhus.commons.node.TreeNodeList;
 import de.mhus.commons.services.ClassLoaderProvider;
 import de.mhus.commons.services.MService;
 import de.mhus.commons.util.Base64;
@@ -133,16 +133,16 @@ public class MPojo {
     //        return defaultModelFactory;
     //    }
 
-    public static INode pojoToNode(Object from) throws IOException {
+    public static ITreeNode pojoToNode(Object from) throws IOException {
         return pojoToNode(from, getDefaultModelFactory(), false, false);
     }
 
-    public static INode pojoToNode(Object from, boolean verbose, boolean useAnnotations)
+    public static ITreeNode pojoToNode(Object from, boolean verbose, boolean useAnnotations)
             throws IOException {
         return pojoToNode(from, getDefaultModelFactory(), verbose, useAnnotations);
     }
 
-    public static INode pojoToNode(
+    public static ITreeNode pojoToNode(
             Object from, PojoModelFactory factory, boolean verbose, boolean useAnnotations)
             throws IOException {
         TreeNode to = new TreeNode();
@@ -150,23 +150,23 @@ public class MPojo {
         return to;
     }
 
-    public static void pojoToNode(Object from, INode to) throws IOException {
+    public static void pojoToNode(Object from, ITreeNode to) throws IOException {
         pojoToNode(from, to, getDefaultModelFactory(), false, false, "", 0);
     }
 
-    public static void pojoToNode(Object from, INode to, PojoModelFactory factory)
+    public static void pojoToNode(Object from, ITreeNode to, PojoModelFactory factory)
             throws IOException {
         pojoToNode(from, to, factory, false, false, "", 0);
     }
 
-    public static void pojoToNode(Object from, INode to, boolean verbose, boolean useAnnotations)
+    public static void pojoToNode(Object from, ITreeNode to, boolean verbose, boolean useAnnotations)
             throws IOException {
         pojoToNode(from, to, getDefaultModelFactory(), verbose, useAnnotations, "", 0);
     }
 
     private static void pojoToNode(
             Object from,
-            INode to,
+            ITreeNode to,
             PojoModelFactory factory,
             boolean verbose,
             boolean useAnnotations,
@@ -175,52 +175,52 @@ public class MPojo {
             throws IOException {
         if (level > MAX_LEVEL) return;
         if (from == null) {
-            to.setBoolean(INode.NULL, true);
+            to.setBoolean(ITreeNode.NULL, true);
             return;
         }
-        if (verbose) to.setString(INode.CLASS, from.getClass().getCanonicalName());
+        if (verbose) to.setString(ITreeNode.CLASS, from.getClass().getCanonicalName());
 
         if (from instanceof String) {
-            to.setString(INode.CLASS, from.getClass().getCanonicalName());
-            to.setString(INode.NAMELESS_VALUE, (String) from);
+            to.setString(ITreeNode.CLASS, from.getClass().getCanonicalName());
+            to.setString(ITreeNode.NAMELESS_VALUE, (String) from);
         } else if (from instanceof Long) {
-            to.setString(INode.CLASS, from.getClass().getCanonicalName());
-            to.setLong(INode.NAMELESS_VALUE, (Long) from);
+            to.setString(ITreeNode.CLASS, from.getClass().getCanonicalName());
+            to.setLong(ITreeNode.NAMELESS_VALUE, (Long) from);
         } else if (from instanceof Integer) {
-            to.setString(INode.CLASS, from.getClass().getCanonicalName());
-            to.setInt(INode.NAMELESS_VALUE, (Integer) from);
+            to.setString(ITreeNode.CLASS, from.getClass().getCanonicalName());
+            to.setInt(ITreeNode.NAMELESS_VALUE, (Integer) from);
         } else if (from instanceof Boolean) {
-            to.setString(INode.CLASS, from.getClass().getCanonicalName());
-            to.setBoolean(INode.NAMELESS_VALUE, (Boolean) from);
+            to.setString(ITreeNode.CLASS, from.getClass().getCanonicalName());
+            to.setBoolean(ITreeNode.NAMELESS_VALUE, (Boolean) from);
         } else if (from instanceof Float) {
-            to.setString(INode.CLASS, from.getClass().getCanonicalName());
-            to.setFloat(INode.NAMELESS_VALUE, (Float) from);
+            to.setString(ITreeNode.CLASS, from.getClass().getCanonicalName());
+            to.setFloat(ITreeNode.NAMELESS_VALUE, (Float) from);
         } else if (from instanceof Short) {
-            to.setString(INode.CLASS, from.getClass().getCanonicalName());
-            to.setInt(INode.NAMELESS_VALUE, (Short) from);
+            to.setString(ITreeNode.CLASS, from.getClass().getCanonicalName());
+            to.setInt(ITreeNode.NAMELESS_VALUE, (Short) from);
         } else if (from instanceof Byte) {
-            to.setString(INode.CLASS, from.getClass().getCanonicalName());
-            to.setLong(INode.NAMELESS_VALUE, (Byte) from);
+            to.setString(ITreeNode.CLASS, from.getClass().getCanonicalName());
+            to.setLong(ITreeNode.NAMELESS_VALUE, (Byte) from);
         } else if (from instanceof java.sql.Timestamp) {
-            to.setString(INode.CLASS, "java.sql.Timestamp");
-            to.setLong(INode.NAMELESS_VALUE, ((java.sql.Timestamp) from).getTime());
+            to.setString(ITreeNode.CLASS, "java.sql.Timestamp");
+            to.setLong(ITreeNode.NAMELESS_VALUE, ((java.sql.Timestamp) from).getTime());
         } else if (from instanceof Date) {
-            to.setString(INode.CLASS, "java.util.Date");
-            to.setLong(INode.NAMELESS_VALUE, ((Date) from).getTime());
+            to.setString(ITreeNode.CLASS, "java.util.Date");
+            to.setLong(ITreeNode.NAMELESS_VALUE, ((Date) from).getTime());
         } else if (from instanceof Enum) {
-            to.setString(INode.CLASS, "java.lang.Enum");
-            to.setString(INode.CLASS + "_", from.getClass().getCanonicalName());
-            to.setInt(INode.NAMELESS_VALUE, ((Enum<?>) from).ordinal());
-            to.setString(INode.HELPER_VALUE, ((Enum<?>) from).toString());
+            to.setString(ITreeNode.CLASS, "java.lang.Enum");
+            to.setString(ITreeNode.CLASS + "_", from.getClass().getCanonicalName());
+            to.setInt(ITreeNode.NAMELESS_VALUE, ((Enum<?>) from).ordinal());
+            to.setString(ITreeNode.HELPER_VALUE, ((Enum<?>) from).toString());
         } else if (from instanceof Character) {
-            to.setString(INode.CLASS, from.getClass().getCanonicalName());
-            to.setInt(INode.NAMELESS_VALUE, (Character) from);
+            to.setString(ITreeNode.CLASS, from.getClass().getCanonicalName());
+            to.setInt(ITreeNode.NAMELESS_VALUE, (Character) from);
         } else if (from instanceof Double) {
-            to.setString(INode.CLASS, from.getClass().getCanonicalName());
-            to.setDouble(INode.NAMELESS_VALUE, (Double) from);
+            to.setString(ITreeNode.CLASS, from.getClass().getCanonicalName());
+            to.setDouble(ITreeNode.NAMELESS_VALUE, (Double) from);
         } else if (from instanceof UUID) {
-            to.setString(INode.CLASS, "java.util.UUID");
-            to.setString(INode.NAMELESS_VALUE, ((UUID) from).toString());
+            to.setString(ITreeNode.CLASS, "java.util.UUID");
+            to.setString(ITreeNode.NAMELESS_VALUE, ((UUID) from).toString());
         } else {
             PojoModel model = factory.createPojoModel(from.getClass());
             for (PojoAttribute<?> attr : model) {
@@ -267,7 +267,7 @@ public class MPojo {
     }
 
     public static void setNodeValue(
-            INode to,
+            ITreeNode to,
             String name,
             Object value,
             PojoModelFactory factory,
@@ -280,7 +280,7 @@ public class MPojo {
 
     @SuppressWarnings("unchecked")
     private static void setNodeValue(
-            INode to,
+            ITreeNode to,
             String name,
             Object value,
             PojoModelFactory factory,
@@ -295,9 +295,9 @@ public class MPojo {
             if (verbose) {
                 if (value != null)
                     to.setString(
-                            INode.CLASS + "_" + prefix + name, value.getClass().getCanonicalName());
+                            ITreeNode.CLASS + "_" + prefix + name, value.getClass().getCanonicalName());
                 if (value == null) {
-                    to.setBoolean(INode.NULL + "_" + prefix + name, true);
+                    to.setBoolean(ITreeNode.NULL + "_" + prefix + name, true);
                 }
             }
             if (value instanceof Boolean) to.setBoolean(prefix + name, (boolean) value);
@@ -315,12 +315,12 @@ public class MPojo {
                 to.put("_" + prefix + name, MDate.toIso8601((Date) value));
                 to.put(prefix + name, ((Date) value).getTime());
             } else if (value instanceof BigDecimal) to.put(prefix + name, (BigDecimal) value);
-            else if (value instanceof INode) to.addObject(prefix + name, (INode) value);
+            else if (value instanceof ITreeNode) to.addObject(prefix + name, (ITreeNode) value);
             else if (value.getClass().isEnum()) {
                 to.put(prefix + name, ((Enum<?>) value).ordinal());
                 to.put("_" + prefix + name, ((Enum<?>) value).name());
             } else if (value instanceof Map) {
-                INode obj = to.createObject(prefix + name);
+                ITreeNode obj = to.createObject(prefix + name);
                 for (Map.Entry<Object, Object> entry : ((Map<Object, Object>) value).entrySet()) {
                     setNodeValue(
                             obj,
@@ -334,20 +334,20 @@ public class MPojo {
                             level + 1);
                 }
             } else if (value.getClass().isArray()) {
-                NodeList array = to.createArray(prefix + name);
+                TreeNodeList array = to.createArray(prefix + name);
                 for (Object o : (Object[]) value) {
                     addNodeValue(
                             array, o, factory, verbose, useAnnotations, true, prefix, level + 1);
                 }
             } else if (value instanceof Collection) {
-                NodeList array = to.createArray(prefix + name);
+                TreeNodeList array = to.createArray(prefix + name);
                 for (Object o : ((Collection<Object>) value)) {
                     addNodeValue(
                             array, o, factory, verbose, useAnnotations, true, prefix, level + 1);
                 }
             } else {
                 if (deep) {
-                    INode too = to.createObject(prefix + name);
+                    ITreeNode too = to.createObject(prefix + name);
                     pojoToNode(value, too, factory, verbose, useAnnotations, prefix, level + 1);
                 } else {
                     to.put(prefix + name, String.valueOf(value));
@@ -359,7 +359,7 @@ public class MPojo {
     }
 
     public static void addNodeValue(
-            NodeList to,
+            TreeNodeList to,
             Object value,
             PojoModelFactory factory,
             boolean verbose,
@@ -371,7 +371,7 @@ public class MPojo {
 
     @SuppressWarnings("unchecked")
     private static void addNodeValue(
-            NodeList to,
+            TreeNodeList to,
             Object value,
             PojoModelFactory factory,
             boolean verbose,
@@ -382,30 +382,30 @@ public class MPojo {
             throws IOException {
         if (level > MAX_LEVEL) return;
         try {
-            INode oo = to.createObject();
+            ITreeNode oo = to.createObject();
             if (verbose) {
-                if (value != null) oo.setString(INode.CLASS, value.getClass().getCanonicalName());
+                if (value != null) oo.setString(ITreeNode.CLASS, value.getClass().getCanonicalName());
                 if (value == null) {
-                    oo.setBoolean(INode.NULL, true);
+                    oo.setBoolean(ITreeNode.NULL, true);
                 }
             } else if (value instanceof Boolean)
-                oo.setBoolean(INode.NAMELESS_VALUE, (boolean) value);
-            else if (value instanceof Integer) oo.setInt(INode.NAMELESS_VALUE, (int) value);
-            else if (value instanceof String) oo.setString(INode.NAMELESS_VALUE, (String) value);
-            else if (value instanceof Long) oo.setLong(INode.NAMELESS_VALUE, (Long) value);
+                oo.setBoolean(ITreeNode.NAMELESS_VALUE, (boolean) value);
+            else if (value instanceof Integer) oo.setInt(ITreeNode.NAMELESS_VALUE, (int) value);
+            else if (value instanceof String) oo.setString(ITreeNode.NAMELESS_VALUE, (String) value);
+            else if (value instanceof Long) oo.setLong(ITreeNode.NAMELESS_VALUE, (Long) value);
             else if (value instanceof Date) {
-                oo.setLong(INode.NAMELESS_VALUE, ((Date) value).getTime());
-                oo.setString(INode.HELPER_VALUE, MDate.toIso8601((Date) value));
+                oo.setLong(ITreeNode.NAMELESS_VALUE, ((Date) value).getTime());
+                oo.setString(ITreeNode.HELPER_VALUE, MDate.toIso8601((Date) value));
             }
             //            else if (value instanceof byte[]) oo.set(INode.NAMELESS_VALUE, (byte[])
             // value);
-            else if (value instanceof Float) oo.setFloat(INode.NAMELESS_VALUE, (Float) value);
+            else if (value instanceof Float) oo.setFloat(ITreeNode.NAMELESS_VALUE, (Float) value);
             //            else if (value instanceof BigDecimal) oo.set(INode.NAMELESS_VALUE,
             // (BigDecimal) value);
-            else if (value instanceof INode) oo.addObject(INode.NAMELESS_VALUE, (INode) value);
+            else if (value instanceof ITreeNode) oo.addObject(ITreeNode.NAMELESS_VALUE, (ITreeNode) value);
             else if (value.getClass().isEnum()) {
-                oo.setInt(INode.HELPER_VALUE, ((Enum<?>) value).ordinal());
-                oo.setString(INode.NAMELESS_VALUE, ((Enum<?>) value).name());
+                oo.setInt(ITreeNode.HELPER_VALUE, ((Enum<?>) value).ordinal());
+                oo.setString(ITreeNode.NAMELESS_VALUE, ((Enum<?>) value).name());
             } else if (value instanceof Map) {
                 for (Map.Entry<Object, Object> entry : ((Map<Object, Object>) value).entrySet()) {
                     setNodeValue(
@@ -420,7 +420,7 @@ public class MPojo {
                             level + 1);
                 }
             } else if (value instanceof Collection) {
-                NodeList array = oo.createArray(INode.NAMELESS_VALUE);
+                TreeNodeList array = oo.createArray(ITreeNode.NAMELESS_VALUE);
                 for (Object o : ((Collection<Object>) value)) {
                     addNodeValue(
                             array, o, factory, verbose, useAnnotations, true, prefix, level + 1);
@@ -429,7 +429,7 @@ public class MPojo {
                 if (deep) {
                     pojoToNode(value, oo, factory, verbose, useAnnotations, prefix, level + 1);
                 } else {
-                    oo.setString(INode.NAMELESS_VALUE, String.valueOf(value));
+                    oo.setString(ITreeNode.NAMELESS_VALUE, String.valueOf(value));
                 }
             }
         } catch (Throwable t) {
@@ -437,43 +437,43 @@ public class MPojo {
         }
     }
 
-    public static void nodeToPojo(INode from, Object to) throws IOException {
+    public static void nodeToPojo(ITreeNode from, Object to) throws IOException {
         nodeToPojo(from, to, getDefaultModelFactory(), false, false);
     }
 
-    public static void nodeToPojo(INode from, Object to, boolean force) throws IOException {
+    public static void nodeToPojo(ITreeNode from, Object to, boolean force) throws IOException {
         nodeToPojo(from, to, getDefaultModelFactory(), force, false);
     }
 
-    public static void nodeToPojo(INode from, Object to, boolean force, boolean verbose)
+    public static void nodeToPojo(ITreeNode from, Object to, boolean force, boolean verbose)
             throws IOException {
         nodeToPojo(from, to, getDefaultModelFactory(), force, verbose);
     }
 
-    public static void nodeToPojo(INode from, Object to, PojoModelFactory factory)
+    public static void nodeToPojo(ITreeNode from, Object to, PojoModelFactory factory)
             throws IOException {
         nodeToPojo(from, to, factory, false, false);
     }
 
-    public static Object nodeToPojoObject(INode from) throws Exception {
+    public static Object nodeToPojoObject(ITreeNode from) throws Exception {
         return nodeToPojoObject(from, getDefaultModelFactory(), null, false, false);
     }
 
-    public static Object nodeToPojoObject(INode from, boolean force) throws Exception {
+    public static Object nodeToPojoObject(ITreeNode from, boolean force) throws Exception {
         return nodeToPojoObject(from, getDefaultModelFactory(), null, force, false);
     }
 
-    public static Object nodeToPojoObject(INode from, boolean force, boolean verbose)
+    public static Object nodeToPojoObject(ITreeNode from, boolean force, boolean verbose)
             throws Exception {
         return nodeToPojoObject(from, getDefaultModelFactory(), null, force, verbose);
     }
 
-    public static Object nodeToPojoObject(INode from, PojoModelFactory factory) throws Exception {
+    public static Object nodeToPojoObject(ITreeNode from, PojoModelFactory factory) throws Exception {
         return nodeToPojoObject(from, factory, null, false, false);
     }
 
     public static Object nodeToPojoObject(
-            INode from,
+            ITreeNode from,
             PojoModelFactory factory,
             ClassLoader activator,
             boolean force,
@@ -481,40 +481,40 @@ public class MPojo {
             throws Exception {
 
         if (activator == null) activator = getDefaultClassLoader();
-        if (from.getBoolean(INode.NULL, false)) return null;
-        String clazz = from.getString(INode.CLASS, null);
+        if (from.getBoolean(ITreeNode.NULL, false)) return null;
+        String clazz = from.getString(ITreeNode.CLASS, null);
         if (clazz == null) return null;
         switch (clazz) {
             case "java.lang.Boolean":
-                return from.getBoolean(INode.NAMELESS_VALUE, false);
+                return from.getBoolean(ITreeNode.NAMELESS_VALUE, false);
             case "java.lang.Integer":
-                return from.getInt(INode.NAMELESS_VALUE, 0);
+                return from.getInt(ITreeNode.NAMELESS_VALUE, 0);
             case "java.lang.Long":
-                return from.getLong(INode.NAMELESS_VALUE, 0);
+                return from.getLong(ITreeNode.NAMELESS_VALUE, 0);
             case "java.lang.Short":
-                return (short) from.getInt(INode.NAMELESS_VALUE, 0);
+                return (short) from.getInt(ITreeNode.NAMELESS_VALUE, 0);
             case "java.lang.Double":
-                return from.getDouble(INode.NAMELESS_VALUE, 0);
+                return from.getDouble(ITreeNode.NAMELESS_VALUE, 0);
             case "java.lang.Float":
-                return from.getFloat(INode.NAMELESS_VALUE, 0);
+                return from.getFloat(ITreeNode.NAMELESS_VALUE, 0);
             case "java.lang.Byte":
-                return (byte) from.getInt(INode.NAMELESS_VALUE, 0);
+                return (byte) from.getInt(ITreeNode.NAMELESS_VALUE, 0);
             case "java.lang.String":
-                return from.getString(INode.NAMELESS_VALUE);
+                return from.getString(ITreeNode.NAMELESS_VALUE);
             case "java.util.Date":
-                return new Date(from.getLong(INode.NAMELESS_VALUE, 0));
+                return new Date(from.getLong(ITreeNode.NAMELESS_VALUE, 0));
             case "java.lang.Character":
-                return (char) from.getInt(INode.NAMELESS_VALUE, 0);
+                return (char) from.getInt(ITreeNode.NAMELESS_VALUE, 0);
             case "java.util.UUID":
-                return UUID.fromString(from.getString(INode.NAMELESS_VALUE));
+                return UUID.fromString(from.getString(ITreeNode.NAMELESS_VALUE).get());
             case "java.sql.Timestamp":
-                return new java.sql.Timestamp(from.getLong(INode.NAMELESS_VALUE, 0));
+                return new java.sql.Timestamp(from.getLong(ITreeNode.NAMELESS_VALUE, 0));
             case "java.lang.Enum":
-                String enuName = from.getString(INode.CLASS + "_");
+                String enuName = from.getString(ITreeNode.CLASS + "_").get();
                 Class<? extends Enum<?>> type = MSystem.getEnum(enuName, activator);
                 if (type != null) {
                     Object[] cons = type.getEnumConstants();
-                    int ord = from.getInt(INode.NAMELESS_VALUE, 0);
+                    int ord = from.getInt(ITreeNode.NAMELESS_VALUE, 0);
                     if (ord >= 0 && ord < cons.length) return cons[ord];
                 }
                 return null;
@@ -538,7 +538,7 @@ public class MPojo {
      */
     @SuppressWarnings({"unchecked", "rawtypes"})
     public static void nodeToPojo(
-            INode from, Object to, PojoModelFactory factory, boolean force, boolean verbose)
+            ITreeNode from, Object to, PojoModelFactory factory, boolean force, boolean verbose)
             throws IOException {
         PojoModel model = factory.createPojoModel(to.getClass());
         for (PojoAttribute<Object> attr : model) {
@@ -582,7 +582,7 @@ public class MPojo {
                     if (ord >= 0 && ord < cons.length) c = cons[ord];
                     attr.set(to, c, force);
                 } else if (Map.class.isAssignableFrom(type)) {
-                    INode obj = from.getObjectOrNull(name);
+                    ITreeNode obj = from.getObject(name).orElse(null);
                     if (obj != null) {
                         Map inst = null;
                         if (type == Map.class) inst = new HashMap<>();
@@ -591,7 +591,7 @@ public class MPojo {
                             for (Entry<String, Object> entry : obj.entrySet()) {
                                 if (!entry.getKey().startsWith("_")) {
                                     String hint =
-                                            obj.getString(INode.CLASS + "_" + entry.getKey(), null);
+                                            obj.getString(ITreeNode.CLASS + "_" + entry.getKey(), null);
                                     addNodeValue(
                                             inst,
                                             entry.getKey(),
@@ -606,19 +606,19 @@ public class MPojo {
                         attr.set(to, inst, force);
                     }
                 } else if (Collection.class.isAssignableFrom(type)) {
-                    NodeList array = from.getArrayOrNull(name);
+                    TreeNodeList array = from.getArray(name).orElse(null);
                     if (array != null) {
                         Collection inst = null;
                         if (type == Collection.class || type == List.class)
                             inst = new ArrayList<>();
                         else inst = (Collection) type.getConstructor().newInstance();
-                        for (INode obj : array) {
+                        for (ITreeNode obj : array) {
                             if (verbose) {
-                                String hint = obj.getString(INode.CLASS, null);
+                                String hint = obj.getString(ITreeNode.CLASS, null);
                                 Object val = toNodeValue(model, hint, factory, force, verbose);
                                 if (val != null) inst.add(val);
-                            } else if (obj.containsKey(INode.NAMELESS_VALUE))
-                                inst.add(obj.get(INode.NAMELESS_VALUE));
+                            } else if (obj.containsKey(ITreeNode.NAMELESS_VALUE))
+                                inst.add(obj.get(ITreeNode.NAMELESS_VALUE));
                             else {
                                 //                                oo = // not possible, cant
                                 // generate a complex object from no type
@@ -653,10 +653,10 @@ public class MPojo {
             // nothing
         } else {
             val = MCast.to(value, hint);
-            if (val == null && value instanceof INode) {
+            if (val == null && value instanceof ITreeNode) {
                 try {
                     val = MSystem.newInstance(getDefaultClassLoader(), hint);
-                    nodeToPojo((INode) value, val, factory, force, verbose);
+                    nodeToPojo((ITreeNode) value, val, factory, force, verbose);
                 } catch (Throwable t) {
                     LOGGER.debug("Can't create object {}", hint, t);
                 }
@@ -855,7 +855,7 @@ public class MPojo {
         if (level > MAX_LEVEL) return;
         try {
             if (verbose) {
-                if (value != null) to.put(INode.CLASS, value.getClass().getCanonicalName());
+                if (value != null) to.put(ITreeNode.CLASS, value.getClass().getCanonicalName());
             }
             if (value == null) to.putNull(prefix + name);
             else if (value instanceof Boolean) to.put(prefix + name, (boolean) value);
@@ -1287,7 +1287,7 @@ public class MPojo {
                 else if (type == String.class) attr.set(to, from.getString(name, null), force);
                 else if (type == UUID.class)
                     try {
-                        attr.set(to, UUID.fromString(from.getString(name)), force);
+                        attr.set(to, UUID.fromString(from.getString(name).get()), force);
                     } catch (IllegalArgumentException e) {
                         attr.set(to, null, force);
                     }

@@ -15,9 +15,9 @@
  */
 package de.mhus.commons.util;
 
-import de.mhus.commons.node.INode;
-import de.mhus.commons.node.NodeList;
-import de.mhus.commons.node.NodeSerializable;
+import de.mhus.commons.node.ITreeNode;
+import de.mhus.commons.node.TreeNodeList;
+import de.mhus.commons.node.TreeNodeSerializable;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.Externalizable;
@@ -33,7 +33,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Slf4j
-public class Table implements Serializable, Externalizable, NodeSerializable {
+public class Table implements Serializable, Externalizable, TreeNodeSerializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -208,20 +208,20 @@ public class Table implements Serializable, Externalizable, NodeSerializable {
     }
 
     @Override
-    public void readSerializabledNode(INode cfg) throws Exception {
+    public void readSerializabledNode(ITreeNode cfg) throws Exception {
         name = cfg.getString("name", null);
 
         columns = new LinkedList<>();
         columnsIndex = new HashMap<>();
 
-        for (INode col : cfg.getArrayOrCreate("columns")) {
+        for (ITreeNode col : cfg.getArray("columns").orElseGet(() -> cfg.createArray("columns"))) {
             TableColumn tc = new TableColumn();
             tc.readSerializabledNode(col);
             columnsIndex.put(tc.getName(), columns.size());
             columns.add(tc);
         }
 
-        for (INode row : cfg.getArrayOrCreate("rows")) {
+        for (ITreeNode row : cfg.getArray("rows").orElseGet(() -> cfg.createArray("rows"))) {
             TableRow tr = new TableRow();
             tr.setTable(this);
             tr.readSerializabledNode(row);
@@ -230,9 +230,9 @@ public class Table implements Serializable, Externalizable, NodeSerializable {
     }
 
     @Override
-    public void writeSerializabledNode(INode cfg) throws Exception {
+    public void writeSerializabledNode(ITreeNode cfg) throws Exception {
         cfg.setString("name", name);
-        NodeList arr = cfg.createArray("columns");
+        TreeNodeList arr = cfg.createArray("columns");
         for (TableColumn v : columns) v.writeSerializabledNode(arr.createObject());
 
         arr = cfg.createArray("rows");

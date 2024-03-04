@@ -944,7 +944,7 @@ public class MFile {
         if (is == null || lineObserver == null) return;
         InputStreamReader r =
                 new InputStreamReader(
-                        is, MString.CHARSET_CHARSET_UTF_8); // default charset is UTF-8
+                        is, MString.UTF_8); // default charset is UTF-8
         readLines(r, lineObserver);
     }
 

@@ -289,7 +289,7 @@ public interface IProperties
                 }
             }
             Object obj = MCast.toType(para, t, null);
-            if (obj != null) ((Map<Object, Object>) p).put(INode.NAMELESS_VALUE, para);
+            if (obj != null) ((Map<Object, Object>) p).put(ITreeNode.NAMELESS_VALUE, para);
             return;
         }
         String k = para.substring(0, pos).trim();

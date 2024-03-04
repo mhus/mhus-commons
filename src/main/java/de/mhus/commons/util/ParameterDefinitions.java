@@ -16,7 +16,7 @@
 package de.mhus.commons.util;
 
 import de.mhus.commons.errors.MException;
-import de.mhus.commons.node.INode;
+import de.mhus.commons.node.ITreeNode;
 
 import java.util.Collection;
 import java.util.TreeMap;
@@ -42,15 +42,15 @@ public class ParameterDefinitions extends TreeMap<String, ParameterDefinition> {
         return out;
     }
 
-    public static ParameterDefinitions create(INode form) throws MException {
+    public static ParameterDefinitions create(ITreeNode form) throws MException {
         ParameterDefinitions out = new ParameterDefinitions();
         collect(form, out);
         return out;
     }
 
-    private static void collect(INode form, ParameterDefinitions out) throws MException {
+    private static void collect(ITreeNode form, ParameterDefinitions out) throws MException {
 
-        for (INode node : form.getObjects()) {
+        for (ITreeNode node : form.getObjects()) {
             collect(node, out);
         }
     }

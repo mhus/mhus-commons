@@ -23,6 +23,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 
@@ -80,7 +81,7 @@ public class PropertiesReadOnly implements IReadProperties, ReadOnly {
     }
 
     @Override
-    public String getString(String name) throws MException {
+    public Optional<String> getString(String name) {
         return parent.getString(name);
     }
 
@@ -90,7 +91,7 @@ public class PropertiesReadOnly implements IReadProperties, ReadOnly {
     }
 
     @Override
-    public boolean getBoolean(String name) throws MException {
+    public Optional<Boolean> getBoolean(String name) {
         return parent.getBoolean(name);
     }
 
@@ -115,12 +116,12 @@ public class PropertiesReadOnly implements IReadProperties, ReadOnly {
     }
 
     @Override
-    public Calendar getCalendar(String name) throws MException {
+    public Optional<Calendar> getCalendar(String name) {
         return parent.getCalendar(name);
     }
 
     @Override
-    public Date getDate(String name) {
+    public Optional<Date> getDate(String name) {
         return parent.getDate(name);
     }
 

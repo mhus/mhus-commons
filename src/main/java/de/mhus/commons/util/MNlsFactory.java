@@ -19,7 +19,7 @@ import de.mhus.commons.tools.MString;
 import de.mhus.commons.tools.MSystem;
 import de.mhus.commons.directory.ClassLoaderResourceProvider;
 import de.mhus.commons.directory.MResourceProvider;
-import de.mhus.commons.node.INode;
+import de.mhus.commons.node.ITreeNode;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -34,14 +34,14 @@ public class MNlsFactory extends MNlsBundle {
 
     private static MNlsFactory instance;
     @SuppressWarnings("unused")
-    private INode config;
+    private ITreeNode config;
 
     public MNlsFactory() {
         this(null);
         //		forkBase();
     }
 
-    public MNlsFactory(INode config) {
+    public MNlsFactory(ITreeNode config) {
         this.config = config;
     }
 

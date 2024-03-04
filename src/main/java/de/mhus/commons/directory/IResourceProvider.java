@@ -15,7 +15,7 @@
  */
 package de.mhus.commons.directory;
 
-import de.mhus.commons.node.INode;
+import de.mhus.commons.node.ITreeNode;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -28,9 +28,9 @@ public interface IResourceProvider {
      * @param path The name or path to the resource.
      * @return The resource or null if not found.
      */
-    INode getResourceByPath(String path);
+    ITreeNode getResourceByPath(String path);
 
-    INode getResourceById(String id);
+    ITreeNode getResourceById(String id);
 
     String getName();
 

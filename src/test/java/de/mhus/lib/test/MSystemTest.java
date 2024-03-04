@@ -33,13 +33,15 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 public class MSystemTest extends TestCase {
 
     @Test
-    @Disabled // XXX
     public void testManifest() throws NotFoundException {
         Manifest manifest = MSystem.getManifest(MSystem.class);
         assertNotNull(manifest);
-        String manifestVersion = manifest.getMainAttributes().getValue("Manifest-Version");
+        String manifestVersion = manifest.getMainAttributes().getValue( "Manifest-Version");
         System.out.println(manifestVersion);
-        assertEquals("1.0", manifestVersion);
+        if (manifestVersion == null)
+            System.out.println("Manifest-Version not found"); // could happen if running from IDE
+        else
+            assertEquals("1.0", manifestVersion);
     }
 
     @Test

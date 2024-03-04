@@ -18,7 +18,6 @@ package de.mhus.commons.node;
 import de.mhus.commons.M;
 import de.mhus.commons.errors.MException;
 import de.mhus.commons.errors.MRuntimeException;
-import de.mhus.commons.errors.NotFoundException;
 import de.mhus.commons.errors.RC;
 import de.mhus.commons.errors.TooDeepStructuresException;
 import de.mhus.commons.tools.MCast;
@@ -35,6 +34,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * A INode extends the concept of properties to a object oriented structure. A property can also be
@@ -44,9 +44,9 @@ import java.util.Map;
  *
  * @author mikehummel
  */
-public interface INode extends IProperties {
+public interface ITreeNode extends IProperties {
 
-    Logger LOGGER = LoggerFactory.getLogger(INode.class);
+    Logger LOGGER = LoggerFactory.getLogger(ITreeNode.class);
 
     public static final String NAMELESS_VALUE = "";
     public static final String VALUE = "value";
@@ -64,23 +64,21 @@ public interface INode extends IProperties {
      */
     boolean isObject(String key);
 
-    INode getObjectOrNull(String key);
-
-    INode getObject(String key) throws NotFoundException;
+    Optional<ITreeNode> getObject(String key);
 
     boolean isArray(String key);
 
-    NodeList getArray(String key) throws NotFoundException;
+    Optional<TreeNodeList> getArray(String key);
 
-    INode getObjectByPath(String path);
+    ITreeNode getObjectByPath(String path);
 
     String getExtracted(String key, String def);
 
     String getExtracted(String key);
 
-    List<INode> getObjects();
+    List<ITreeNode> getObjects();
 
-    void setObject(String key, INode object);
+    void setObject(String key, ITreeNode object);
 
     /**
      * Add the Object to a list of objects named with key.
@@ -88,17 +86,17 @@ public interface INode extends IProperties {
      * @param key
      * @param object
      */
-    void addObject(String key, INode object);
+    void addObject(String key, ITreeNode object);
 
-    INode setObject(String key, NodeSerializable object);
+    ITreeNode setObject(String key, TreeNodeSerializable object);
 
-    INode createObject(String key);
+    ITreeNode createObject(String key);
 
     List<String> getPropertyKeys();
 
     String getName();
 
-    INode getParent();
+    ITreeNode getParent();
 
     List<String> getObjectKeys();
 
@@ -109,7 +107,7 @@ public interface INode extends IProperties {
      * @param key
      * @return A list
      */
-    NodeList getList(String key);
+    TreeNodeList getList(String key);
 
     /**
      * Return a iterator over a array or a single object. Return an empty iterator if not found. Use
@@ -118,21 +116,17 @@ public interface INode extends IProperties {
      * @param key
      * @return Never null.
      */
-    List<INode> getObjectList(String key);
+    List<ITreeNode> getObjectList(String key);
 
     List<String> getObjectAndArrayKeys();
 
     List<String> getArrayKeys();
 
-    NodeList getArrayOrNull(String key);
-
-    NodeList getArrayOrCreate(String key);
-
-    NodeList createArray(String key);
+    TreeNodeList createArray(String key);
 
     //    INode cloneObject(INode node);
 
-    default <T extends NodeSerializable> T load(T fillIn) {
+    default <T extends TreeNodeSerializable> T load(T fillIn) {
         if (fillIn == null) return null;
         if (getBoolean(NULL, false)) return null;
         try {
@@ -150,9 +144,9 @@ public interface INode extends IProperties {
      * @return INode
      * @throws Exception
      */
-    static INode read(NodeSerializable object) throws Exception {
-        INode cfg = new TreeNode();
-        if (object == null) cfg.setBoolean(INode.NULL, true);
+    static ITreeNode read(TreeNodeSerializable object) throws Exception {
+        ITreeNode cfg = new TreeNode();
+        if (object == null) cfg.setBoolean(ITreeNode.NULL, true);
         else object.writeSerializabledNode(cfg);
         return cfg;
     }
@@ -164,7 +158,7 @@ public interface INode extends IProperties {
      * @return A node object if the node is found or null. If no node is recognized it returns null
      * @throws MException
      */
-    static INode readNodeFromString(String nodeString) throws MException {
+    static ITreeNode readNodeFromString(String nodeString) throws MException {
         if (MString.isEmptyTrim(nodeString)) return new TreeNode();
         if (nodeString.startsWith("[") || nodeString.startsWith("{")) {
             try {
@@ -197,92 +191,92 @@ public interface INode extends IProperties {
      * @return INode, never null
      * @throws MException
      */
-    static INode readNodeFromString(String[] nodeStrings) throws MException {
+    static ITreeNode readNodeFromString(String[] nodeStrings) throws MException {
         if (nodeStrings == null || nodeStrings.length == 0) return new TreeNode();
         if (nodeStrings.length == 1) return readNodeFromString(nodeStrings[0]);
         return readFromProperties(IProperties.explodeToMProperties(nodeStrings));
     }
 
-    static INode readFromProperties(Map<String, Object> lines) {
+    static ITreeNode readFromProperties(Map<String, Object> lines) {
         return new PropertiesNodeBuilder().readFromMap(lines);
     }
 
-    static INode readFromMap(Map<?, ?> lines) {
+    static ITreeNode readFromMap(Map<?, ?> lines) {
         return new PropertiesNodeBuilder().readFromMap(lines);
     }
 
-    static <V extends NodeSerializable> Map<String, V> loadToMap(INode source, Class<V> target)
+    static <V extends TreeNodeSerializable> Map<String, V> loadToMap(ITreeNode source, Class<V> target)
             throws Exception {
         return new PropertiesNodeBuilder().loadToMap(source, target);
     }
 
-    static INode readFromCollection(Collection<?> lines) {
+    static ITreeNode readFromCollection(Collection<?> lines) {
         return new PropertiesNodeBuilder().readFromCollection(lines);
     }
 
-    static <T extends NodeSerializable> List<T> loadToCollection(INode source, Class<T> target)
+    static <T extends TreeNodeSerializable> List<T> loadToCollection(ITreeNode source, Class<T> target)
             throws Exception {
         return new PropertiesNodeBuilder().loadToCollection(source, target);
     }
 
-    static INode readFromJsonString(String json) throws MException {
+    static ITreeNode readFromJsonString(String json) throws MException {
         return new JsonStreamNodeBuilder().readFromString(json);
     }
 
-    static INode readFromXmlString(Element documentElement) throws MException {
-        return new XmlNodeBuilder().readFromElement(documentElement);
+    static ITreeNode readFromXmlString(Element documentElement) throws MException {
+        return new XmlTreeNodeBuilder().readFromElement(documentElement);
     }
 
-    static INode readFromYamlString(String yaml) throws MException {
-        return new YamlNodeBuilder().readFromString(yaml);
+    static ITreeNode readFromYamlString(String yaml) throws MException {
+        return new YamlTreeNodeBuilder().readFromString(yaml);
     }
 
-    static String toCompactJsonString(INode node) throws MException {
+    static String toCompactJsonString(ITreeNode node) throws MException {
         try {
             ByteArrayOutputStream os = new ByteArrayOutputStream();
             JsonStreamNodeBuilder builder = new JsonStreamNodeBuilder();
             builder.setPretty(false);
             builder.write(node, os);
-            return new String(os.toByteArray(), MString.CHARSET_CHARSET_UTF_8);
+            return new String(os.toByteArray(), MString.UTF_8);
         } catch (Exception e) {
             throw new MException(RC.STATUS.ERROR, e);
         }
     }
 
-    static String toPrettyJsonString(INode node) throws MException {
+    static String toPrettyJsonString(ITreeNode node) throws MException {
         try {
             ByteArrayOutputStream os = new ByteArrayOutputStream();
             JsonStreamNodeBuilder builder = new JsonStreamNodeBuilder();
             builder.setPretty(true);
             builder.write(node, os);
-            return new String(os.toByteArray(), MString.CHARSET_CHARSET_UTF_8);
+            return new String(os.toByteArray(), MString.UTF_8);
         } catch (Exception e) {
             throw new MException(RC.STATUS.ERROR, e);
         }
     }
 
-    public static void merge(INode from, INode to) throws MException {
+    public static void merge(ITreeNode from, ITreeNode to) throws MException {
         merge(from, to, 0);
     }
 
-    private static void merge(INode from, INode to, int level) throws MException {
+    private static void merge(ITreeNode from, ITreeNode to, int level) throws MException {
         if (level > 100) throw new TooDeepStructuresException();
 
-        for (INode node : from.getObjects()) {
-            INode n = to.createObject(node.getName());
+        for (ITreeNode node : from.getObjects()) {
+            ITreeNode n = to.createObject(node.getName());
             for (String name : node.getPropertyKeys()) {
                 n.put(name, node.get(name));
             }
-            merge(node, (INode) n, level + 1);
+            merge(node, (ITreeNode) n, level + 1);
         }
         for (String key : from.getArrayKeys()) {
-            NodeList toArray = to.createArray(key);
-            for (INode node : from.getArrayOrNull(key)) {
-                INode n = toArray.createObject();
-                for (String name : ((INode) node).getPropertyKeys()) {
+            TreeNodeList toArray = to.createArray(key);
+            for (ITreeNode node : from.getArray(key).orElse(null)) {
+                ITreeNode n = toArray.createObject();
+                for (String name : ((ITreeNode) node).getPropertyKeys()) {
                     n.put(name, node.get(name));
                 }
-                merge(node, (INode) n, level + 1);
+                merge(node, (ITreeNode) n, level + 1);
             }
         }
         for (String name : from.getPropertyKeys()) {
@@ -290,9 +284,9 @@ public interface INode extends IProperties {
         }
     }
 
-    public static String[] toStringArray(Collection<INode> nodes, String key) {
+    public static String[] toStringArray(Collection<ITreeNode> nodes, String key) {
         LinkedList<String> out = new LinkedList<>();
-        for (INode item : nodes) {
+        for (ITreeNode item : nodes) {
             String value = item.getString(key, null);
             if (value != null) out.add(value);
         }
@@ -307,34 +301,15 @@ public interface INode extends IProperties {
      * @param fillIn The object to fill
      * @return The fillIn object or null
      */
-    public static <T extends NodeSerializable> T loadOrNull(INode node, T fillIn) {
-        if (fillIn == null || node == null) return null;
+    static <T extends TreeNodeSerializable> Optional<T> load(ITreeNode node, T fillIn) {
+        if (fillIn == null || node == null) return Optional.empty();
         try {
             fillIn.readSerializabledNode(node);
         } catch (Exception e) {
             LOGGER.debug("deserialize of {} failed", node, e);
-            return null;
+            return Optional.empty();
         }
-        return fillIn;
-    }
-
-    /**
-     * Un serialize the object with the node.
-     *
-     * @param <T> Type
-     * @param node Node with serialized data
-     * @param fillIn The object to fill
-     * @return The fillIn object
-     */
-    public static <T extends NodeSerializable> T load(INode node, T fillIn) {
-        if (fillIn == null || node == null) return null;
-        try {
-            fillIn.readSerializabledNode(node);
-        } catch (Exception e) {
-            LOGGER.debug("deserialize of {} failed", node, e);
-            return null;
-        }
-        return fillIn;
+        return Optional.of(fillIn);
     }
 
     /**
@@ -344,8 +319,8 @@ public interface INode extends IProperties {
      * @param parameters
      * @return A wrapping INode object
      */
-    static INode wrap(IProperties parameters) {
-        return new MNodeWrapper(parameters);
+    static ITreeNode wrap(IProperties parameters) {
+        return new TreeNodeWrapper(parameters);
     }
 
     /**
@@ -364,9 +339,9 @@ public interface INode extends IProperties {
      * @param key
      * @return The INode
      */
-    INode getAsObject(String key);
+    ITreeNode getAsObject(String key);
 
-    NodeList getParentArray();
+    TreeNodeList getParentArray();
 
     /**
      * find or create a node in a node path. Path elements separated by slash and can have indexes
@@ -376,7 +351,7 @@ public interface INode extends IProperties {
      * @param path The path to the node
      * @return
      */
-    static INode findOrCreateNode(INode root, String path) {
+    static ITreeNode findOrCreateNode(ITreeNode root, String path) {
 
         if (path.startsWith("/")) path = path.substring(1);
         if (path.length() == 0) return root;
@@ -389,11 +364,12 @@ public interface INode extends IProperties {
             // array
             int index = MCast.toint(MString.beforeIndex(MString.afterIndex(name, '['), ']'), -1);
             name = MString.beforeIndex(name, '[');
-            NodeList array = root.getArrayOrCreate(name);
+            final var fName = name;
+            TreeNodeList array = root.getArray(fName).orElseGet(() -> root.createArray(fName));
             while (array.size() < index + 1) array.createObject();
             next = (TreeNode) array.get(index);
         } else {
-            next = (TreeNode) root.getObjectOrNull(name);
+            next = (TreeNode) root.getObject(name).orElse(null);
             if (next == null) {
                 next = new TreeNode();
                 root.addObject(name, next);
@@ -402,19 +378,19 @@ public interface INode extends IProperties {
         return pos < 0 ? next : findOrCreateNode(next, path.substring(pos + 1));
     }
 
-    static String getPath(INode node) {
+    static String getPath(ITreeNode node) {
         StringBuilder sb = new StringBuilder();
         getPath(node, sb, 0);
         if (sb.length() == 0) sb.append("/");
         return sb.toString();
     }
 
-    private static void getPath(INode node, StringBuilder sb, int level) {
+    private static void getPath(ITreeNode node, StringBuilder sb, int level) {
         if (level > M.MAX_DEPTH_LEVEL)
             throw new TooDeepStructuresException("too much node elements", sb);
 
-        INode parent = node.getParent();
-        NodeList list = node.getParentArray();
+        ITreeNode parent = node.getParent();
+        TreeNodeList list = node.getParentArray();
         if (list != null) {
             int index = -1;
             for (int i = 0; i < list.size(); i++)

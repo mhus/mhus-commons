@@ -44,9 +44,9 @@ public class MString {
     public static final String CHARSET_UTF_8 = "UTF-8";
     public static final String CHARSET_UTF_16 = "UTF-16";
     public static final String CHARSET_ISO_8859_1 = "ISO-8859-1";
-//XXX naming
-    public static final Charset CHARSET_CHARSET_UTF_8 = Charset.forName("UTF-8");
-    public static final Charset CHARSET_CHARSET_UTF_16 = Charset.forName("UTF-16");
+
+    public static final Charset UTF_8 = Charset.forName("UTF-8");
+    public static final Charset UTF_16 = Charset.forName("UTF-16");
     /**
      * Use this char set to encode binary data as it is in encodings. It supports 8 bits from \u0000
      * to u00FF. The 'US-ASCII' only supports 7 bits, from \u0000 to \u007F.

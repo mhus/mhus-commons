@@ -37,13 +37,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public class PropertiesNodeBuilder extends INodeBuilder {
+public class PropertiesNodeBuilder extends ITreeNodeBuilder {
 
     protected static final int CFG_MAX_LEVEL =
             MSystem.getEnv(PropertiesNodeBuilder.class,"maxLevel", 100);
 
     @Override
-    public INode read(InputStream is) throws MException {
+    public ITreeNode read(InputStream is) throws MException {
         try {
             MProperties p = MProperties.load(is);
             return readFromMap(p);
@@ -53,7 +53,7 @@ public class PropertiesNodeBuilder extends INodeBuilder {
     }
 
     @Override
-    public void write(INode node, OutputStream os) throws MException {
+    public void write(ITreeNode node, OutputStream os) throws MException {
         MProperties p = new MProperties(node);
         try {
             p.save(os);
@@ -62,32 +62,32 @@ public class PropertiesNodeBuilder extends INodeBuilder {
         }
     }
 
-    public INode readFromMap(Map<?, ?> map) {
+    public ITreeNode readFromMap(Map<?, ?> map) {
         return readFromMap(map, 0);
     }
 
-    public INode readFromCollection(Collection<?> col) {
-        INode node = new TreeNode();
-        readFromCollection(node, INode.NAMELESS_VALUE, col, 0);
+    public ITreeNode readFromCollection(Collection<?> col) {
+        ITreeNode node = new TreeNode();
+        readFromCollection(node, ITreeNode.NAMELESS_VALUE, col, 0);
         return node;
     }
 
-    protected void readFromCollection(INode node, String key, Collection<?> col, int level) {
+    protected void readFromCollection(ITreeNode node, String key, Collection<?> col, int level) {
         level++;
         if (level > CFG_MAX_LEVEL) throw new TooDeepStructuresException();
 
-        NodeList arr = node.createArray(key);
+        TreeNodeList arr = node.createArray(key);
         for (Object item : col) {
-            INode obj = readObject(item, level);
+            ITreeNode obj = readObject(item, level);
             arr.add(obj);
         }
     }
 
-    protected INode readFromMap(Map<?, ?> map, int level) {
+    protected ITreeNode readFromMap(Map<?, ?> map, int level) {
         level++;
         if (level > CFG_MAX_LEVEL) throw new TooDeepStructuresException();
 
-        INode node = new TreeNode();
+        ITreeNode node = new TreeNode();
         for (Entry<?, ?> entry : map.entrySet()) {
             String key = MString.valueOf(entry.getKey());
             Object val = entry.getValue();
@@ -100,43 +100,43 @@ public class PropertiesNodeBuilder extends INodeBuilder {
                     || val instanceof Boolean) {
                 node.put(key, val);
             } else {
-                INode obj = readObject(val, level);
-                if (obj.isProperty(INode.NAMELESS_VALUE)) {
-                    node.put(key, obj.get(INode.NAMELESS_VALUE));
-                    if (node.isProperty(INode.HELPER_VALUE))
-                        node.put(INode.HELPER_VALUE + key, node.get(INode.HELPER_VALUE));
-                } else if (obj.isObject(INode.NAMELESS_VALUE)) {
-                    node.addObject(key, obj.getObjectOrNull(INode.NAMELESS_VALUE));
+                ITreeNode obj = readObject(val, level);
+                if (obj.isProperty(ITreeNode.NAMELESS_VALUE)) {
+                    node.put(key, obj.get(ITreeNode.NAMELESS_VALUE));
+                    if (node.isProperty(ITreeNode.HELPER_VALUE))
+                        node.put(ITreeNode.HELPER_VALUE + key, node.get(ITreeNode.HELPER_VALUE));
+                } else if (obj.isObject(ITreeNode.NAMELESS_VALUE)) {
+                    node.addObject(key, obj.getObject(ITreeNode.NAMELESS_VALUE).orElse(null));
                 } else node.addObject(key, obj);
             }
         }
         return node;
     }
 
-    public INode readObject(Object item) {
+    public ITreeNode readObject(Object item) {
         return readObject(item, 0);
     }
 
-    protected INode readObject(Object item, int level) {
+    protected ITreeNode readObject(Object item, int level) {
         level++;
         if (level > CFG_MAX_LEVEL) throw new TooDeepStructuresException();
 
         if (item == null) {
             TreeNode obj = new TreeNode();
-            obj.setBoolean(INode.NULL, true);
+            obj.setBoolean(ITreeNode.NULL, true);
             return obj;
-        } else if (item instanceof NodeSerializable) {
+        } else if (item instanceof TreeNodeSerializable) {
             TreeNode obj = new TreeNode();
             try {
-                ((NodeSerializable) item).writeSerializabledNode(obj);
+                ((TreeNodeSerializable) item).writeSerializabledNode(obj);
             } catch (Exception e) {
                 throw new MRuntimeException(RC.STATUS.ERROR, item, e);
             }
             return obj;
-        } else if (item instanceof INode) {
-            return (INode) item;
+        } else if (item instanceof ITreeNode) {
+            return (ITreeNode) item;
         } else if (item instanceof Map) {
-            INode obj = readFromMap((Map<?, ?>) item, level);
+            ITreeNode obj = readFromMap((Map<?, ?>) item, level);
             return obj;
         } else if (item instanceof String
                 || item.getClass().isPrimitive()
@@ -144,23 +144,23 @@ public class PropertiesNodeBuilder extends INodeBuilder {
                 || item instanceof Date
                 || item instanceof Boolean) {
             TreeNode obj = new TreeNode();
-            obj.put(INode.NAMELESS_VALUE, item);
+            obj.put(ITreeNode.NAMELESS_VALUE, item);
             return obj;
         } else if (item instanceof Date) {
             TreeNode obj = new TreeNode();
-            obj.put(INode.NAMELESS_VALUE, ((Date) item).getTime());
-            obj.put(INode.HELPER_VALUE, MDate.toIso8601((Date) item));
+            obj.put(ITreeNode.NAMELESS_VALUE, ((Date) item).getTime());
+            obj.put(ITreeNode.HELPER_VALUE, MDate.toIso8601((Date) item));
             return obj;
         } else if (item.getClass().isArray()) {
             TreeNode obj = new TreeNode();
-            obj.setString(INode.CLASS, item.getClass().getCanonicalName());
+            obj.setString(ITreeNode.CLASS, item.getClass().getCanonicalName());
             readFromCollection(
-                    obj, INode.NAMELESS_VALUE, MCollection.toList(((Object[]) item)), level);
+                    obj, ITreeNode.NAMELESS_VALUE, MCollection.toList(((Object[]) item)), level);
             return obj;
         } else if (item instanceof Collection) {
             TreeNode obj = new TreeNode();
-            obj.setString(INode.CLASS, item.getClass().getCanonicalName());
-            readFromCollection(obj, INode.NAMELESS_VALUE, (Collection<?>) item, level);
+            obj.setString(ITreeNode.CLASS, item.getClass().getCanonicalName());
+            readFromCollection(obj, ITreeNode.NAMELESS_VALUE, (Collection<?>) item, level);
             return obj;
         } else {
             TreeNode obj = new TreeNode();
@@ -173,10 +173,10 @@ public class PropertiesNodeBuilder extends INodeBuilder {
         }
     }
 
-    public <T extends NodeSerializable> List<T> loadToCollection(INode source, Class<T> target)
+    public <T extends TreeNodeSerializable> List<T> loadToCollection(ITreeNode source, Class<T> target)
             throws Exception {
         ArrayList<T> out = new ArrayList<>();
-        for (INode entry : source.getArray(INode.NAMELESS_VALUE)) {
+        for (ITreeNode entry : source.getArray(ITreeNode.NAMELESS_VALUE).get()) {
             T inst = target.getConstructor().newInstance();
             inst.readSerializabledNode(entry);
             out.add(inst);
@@ -184,10 +184,10 @@ public class PropertiesNodeBuilder extends INodeBuilder {
         return out;
     }
 
-    public <V extends NodeSerializable> Map<String, V> loadToMap(INode source, Class<V> target)
+    public <V extends TreeNodeSerializable> Map<String, V> loadToMap(ITreeNode source, Class<V> target)
             throws Exception {
         HashMap<String, V> out = new HashMap<>();
-        for (INode entry : source.getObjects()) {
+        for (ITreeNode entry : source.getObjects()) {
             V inst = target.getConstructor().newInstance();
             inst.readSerializabledNode(entry);
             out.put(entry.getName(), inst);

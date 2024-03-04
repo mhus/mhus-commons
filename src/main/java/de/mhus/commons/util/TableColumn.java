@@ -15,12 +15,12 @@
  */
 package de.mhus.commons.util;
 
-import de.mhus.commons.node.INode;
-import de.mhus.commons.node.NodeSerializable;
+import de.mhus.commons.node.ITreeNode;
+import de.mhus.commons.node.TreeNodeSerializable;
 
 import java.io.Serializable;
 
-public class TableColumn implements Serializable, NodeSerializable {
+public class TableColumn implements Serializable, TreeNodeSerializable {
 
     private static final long serialVersionUID = 1L;
     private String name;
@@ -52,14 +52,14 @@ public class TableColumn implements Serializable, NodeSerializable {
     }
 
     @Override
-    public void readSerializabledNode(INode cfg) throws Exception {
+    public void readSerializabledNode(ITreeNode cfg) throws Exception {
         name = cfg.getString("name", null);
         type = cfg.getString("type", null);
         note = cfg.getString("note", null);
     }
 
     @Override
-    public void writeSerializabledNode(INode cfg) throws Exception {
+    public void writeSerializabledNode(ITreeNode cfg) throws Exception {
         cfg.setString("name", name);
         cfg.setString("type", type);
         cfg.setString("note", note);

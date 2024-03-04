@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.mhus.commons.tools;
+package de.mhus.commons.net;
 
 import java.io.IOException;
 import java.net.DatagramSocket;
@@ -23,6 +23,16 @@ import java.net.ServerSocket;
 import java.net.UnknownHostException;
 
 public class MNet {
+
+    public static boolean isLocalhost(String in) {
+        if (in == null) return false;
+        return "0:0:0:0:0:0:0:1".equals(in)
+                || "[0:0:0:0:0:0:0:1]".equals(in)
+                || "127.0.0.1".equals(in)
+                || "localhost".equals(in) // insecure?
+                || in.matches("127\\.0\\.0\\.1:[0-9]+")
+                || in.matches("\\[0:0:0:0:0:0:0:1\\]:[0-9]+");
+    }
 
     public static boolean isIPv4NetMatch(String network, String ipAddr) {
 

@@ -25,11 +25,11 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-public class NodeStringCompiler extends StringCompiler {
+public class TreeNodeStringCompiler extends StringCompiler {
 
     private TreeNode rootNode;
 
-    NodeStringCompiler(TreeNode rootNode) {
+    TreeNodeStringCompiler(TreeNode rootNode) {
         this.rootNode = rootNode;
     }
 
@@ -43,7 +43,7 @@ public class NodeStringCompiler extends StringCompiler {
     private class RootAttributePart implements StringPart {
         private String name;
         private String def;
-        private INode node;
+        private ITreeNode node;
 
         public RootAttributePart(String part) {
             name = MString.afterIndex(part, ':');

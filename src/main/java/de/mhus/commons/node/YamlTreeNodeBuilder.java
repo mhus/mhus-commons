@@ -27,28 +27,28 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class YamlNodeBuilder extends INodeBuilder {
+public class YamlTreeNodeBuilder extends ITreeNodeBuilder {
 
     @Override
-    public INode read(InputStream is) {
+    public ITreeNode read(InputStream is) {
         YMap itemY = MYaml.load(is);
         TreeNode itemC = new TreeNode();
         if (itemY.isList()) {
-            NodeList arrayC = itemC.createArray(INode.NAMELESS_VALUE);
+            TreeNodeList arrayC = itemC.createArray(ITreeNode.NAMELESS_VALUE);
             fill(arrayC, new YList(itemY.getObject()), 0);
         } else if (itemY.isMap()) fill(itemC, itemY, 0);
         return itemC;
     }
 
-    private void fill(INode elemC, YMap elemY, int level) {
+    private void fill(ITreeNode elemC, YMap elemY, int level) {
         if (level > 100) throw new TooDeepStructuresException();
 
         for (String key : elemY.getKeys()) {
             if (elemY.isList(key)) {
-                NodeList arrayC = elemC.createArray(key);
+                TreeNodeList arrayC = elemC.createArray(key);
                 fill(arrayC, elemY.getList(key), level + 1);
             } else if (elemY.isMap(key)) {
-                INode objC = elemC.createObject(key);
+                ITreeNode objC = elemC.createObject(key);
                 YMap objY = elemY.getMap(key);
                 fill(objC, objY, level + 1);
             } else {
@@ -57,25 +57,25 @@ public class YamlNodeBuilder extends INodeBuilder {
         }
     }
 
-    private void fill(NodeList listC, YList listY, int level) {
+    private void fill(TreeNodeList listC, YList listY, int level) {
         if (level > 100) throw new TooDeepStructuresException();
 
         for (YElement itemY : listY) {
-            INode itemC = listC.createObject();
+            ITreeNode itemC = listC.createObject();
             if (itemY.isMap()) {
                 fill(itemC, itemY.asMap(), level + 1);
             } else if (itemY.isList()) {
                 // nameless list in list - not really supported - but ...
-                NodeList arrayY2 = itemC.createArray(INode.NAMELESS_VALUE);
+                TreeNodeList arrayY2 = itemC.createArray(ITreeNode.NAMELESS_VALUE);
                 fill(arrayY2, itemY.asList(), level + 1);
             } else {
-                itemC.put(INode.NAMELESS_VALUE, itemY.getObject());
+                itemC.put(ITreeNode.NAMELESS_VALUE, itemY.getObject());
             }
         }
     }
 
     @Override
-    public void write(INode node, OutputStream os) throws MException {
+    public void write(ITreeNode node, OutputStream os) throws MException {
         YElement elemY = create(node, 0);
         try {
             MYaml.write(elemY, os);
@@ -84,21 +84,21 @@ public class YamlNodeBuilder extends INodeBuilder {
         }
     }
 
-    private YElement create(INode elemC, int level) {
+    private YElement create(ITreeNode elemC, int level) {
 
         if (level > 100) throw new TooDeepStructuresException();
 
-        if (elemC.containsKey(INode.NAMELESS_VALUE)) {
-            if (elemC.isArray(INode.NAMELESS_VALUE)) {
+        if (elemC.containsKey(ITreeNode.NAMELESS_VALUE)) {
+            if (elemC.isArray(ITreeNode.NAMELESS_VALUE)) {
                 YList out = MYaml.createList();
-                for (INode itemC : elemC.getArrayOrNull(INode.NAMELESS_VALUE)) {
+                for (ITreeNode itemC : elemC.getArray(ITreeNode.NAMELESS_VALUE).orElse(null)) {
                     YElement itemY = create(itemC, level + 1);
                     out.add(itemY);
                 }
                 return out;
-            } else if (elemC.isObject(INode.NAMELESS_VALUE)) {
-                return create(elemC.getObjectOrNull(INode.NAMELESS_VALUE), level + 1);
-            } else return new YElement(elemC.get(INode.NAMELESS_VALUE));
+            } else if (elemC.isObject(ITreeNode.NAMELESS_VALUE)) {
+                return create(elemC.getObject(ITreeNode.NAMELESS_VALUE).orElse(null), level + 1);
+            } else return new YElement(elemC.get(ITreeNode.NAMELESS_VALUE));
         }
 
         YMap elemY = MYaml.createMap();
@@ -108,7 +108,7 @@ public class YamlNodeBuilder extends INodeBuilder {
 
         for (String key : elemC.getArrayKeys()) {
             YList listY = MYaml.createList();
-            for (INode itemC : elemC.getArrayOrNull(key)) {
+            for (ITreeNode itemC : elemC.getArray(key).orElse(null)) {
                 YElement itemY = create(itemC, level + 1);
                 listY.add(itemY);
             }
@@ -116,7 +116,7 @@ public class YamlNodeBuilder extends INodeBuilder {
         }
 
         for (String key : elemC.getObjectKeys()) {
-            INode itemC = elemC.getObjectOrNull(key);
+            ITreeNode itemC = elemC.getObject(key).orElse(null);
             YElement itemY = create(itemC, level + 1);
             elemY.put(key, itemY);
         }

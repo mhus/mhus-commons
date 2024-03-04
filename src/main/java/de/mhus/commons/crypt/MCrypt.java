@@ -423,7 +423,7 @@ public class MCrypt {
         MessageDigest md;
         try {
             md = MessageDigest.getInstance("MD5");
-            md.update(real.getBytes(MString.CHARSET_CHARSET_UTF_8));
+            md.update(real.getBytes(MString.UTF_8));
             return MCast.toBinaryString(md.digest());
         } catch (NoSuchAlgorithmException e) {
             LOGGER.warn("Error",e);
@@ -483,7 +483,7 @@ public class MCrypt {
             salt[0] = rand.getByte();
             salt[1] = rand.getByte();
             md.update(salt);
-            md.update(real.getBytes(MString.CHARSET_CHARSET_UTF_8));
+            md.update(real.getBytes(MString.UTF_8));
             return MCast.toBinaryString(salt) + MCast.toBinaryString(md.digest());
         } catch (NoSuchAlgorithmException e) {
             LOGGER.warn("Error",e);
@@ -505,7 +505,7 @@ public class MCrypt {
             byte[] salt = MCast.fromBinaryString(md5.substring(0, 4));
             // calculate md5
             md.update(salt);
-            md.update(real.getBytes(MString.CHARSET_CHARSET_UTF_8));
+            md.update(real.getBytes(MString.UTF_8));
             String realMd5 = MCast.toBinaryString(md.digest());
             // compare
             return realMd5.equals(md5.substring(4));
@@ -528,7 +528,7 @@ public class MCrypt {
      */
     public static byte[] encode(String passphrase, byte[] in) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        byte[] pp = passphrase.getBytes(MString.CHARSET_CHARSET_UTF_8);
+        byte[] pp = passphrase.getBytes(MString.UTF_8);
         int ppPos = 0;
         MRandom random = getRandom();
         byte salt = random.getByte();
@@ -575,7 +575,7 @@ public class MCrypt {
      */
     public static byte[] decode(String passphrase, byte[] in) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        byte[] pp = passphrase.getBytes(MString.CHARSET_CHARSET_UTF_8);
+        byte[] pp = passphrase.getBytes(MString.UTF_8);
         int ppPos = 0;
 
         // read salt
@@ -681,7 +681,7 @@ public class MCrypt {
     public static UUID toUuidHash(String in) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
-            md.update(in.getBytes(MString.CHARSET_CHARSET_UTF_8));
+            md.update(in.getBytes(MString.UTF_8));
             byte[] md5 = md.digest();
 
             long a = md5[0] * 256 * md5[1] + 256 * 256 * md5[2] + 256 * 256 * 256 * md5[3];

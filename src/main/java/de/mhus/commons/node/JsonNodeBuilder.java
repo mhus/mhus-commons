@@ -34,10 +34,10 @@ import java.math.BigInteger;
 import java.util.Date;
 import java.util.Map;
 
-public class JsonNodeBuilder extends INodeBuilder {
+public class JsonNodeBuilder extends ITreeNodeBuilder {
 
     @Override
-    public INode read(InputStream is) throws MException {
+    public ITreeNode read(InputStream is) throws MException {
         try {
             JsonNode docJ = MJson.load(is);
             return fromJson(docJ);
@@ -46,19 +46,19 @@ public class JsonNodeBuilder extends INodeBuilder {
         }
     }
 
-    public INode fromJson(JsonNode docJ) throws MException {
+    public ITreeNode fromJson(JsonNode docJ) throws MException {
         TreeNode node = new TreeNode();
         if (docJ.isArray()) {
-            NodeList array = node.createArray(INode.NAMELESS_VALUE);
+            TreeNodeList array = node.createArray(ITreeNode.NAMELESS_VALUE);
             for (JsonNode itemJ : docJ) {
-                INode obj = array.createObject();
+                ITreeNode obj = array.createObject();
                 fill(obj, "", itemJ, 0);
             }
         } else if (docJ.isObject()) {
             fill(node, "", docJ, 0);
         } else if (docJ.isValueNode()) {
             // TODO separate for each type
-            node.setString(INode.NAMELESS_VALUE, docJ.asText());
+            node.setString(ITreeNode.NAMELESS_VALUE, docJ.asText());
         } else {
             throw new MException(RC.SYNTAX_ERROR, "Unknown basic json object type");
         }
@@ -66,31 +66,31 @@ public class JsonNodeBuilder extends INodeBuilder {
         return node;
     }
 
-    private void fill(INode node, String name, JsonNode json, int level) {
+    private void fill(ITreeNode node, String name, JsonNode json, int level) {
 
         if (level > 100) throw new TooDeepStructuresException();
 
         if (json.isValueNode()) {
-            node.put(INode.NAMELESS_VALUE, json.asText());
+            node.put(ITreeNode.NAMELESS_VALUE, json.asText());
             return;
         }
 
         for (Map.Entry<String, JsonNode> itemJ : new MIterable<>(json.fields())) {
             if (itemJ.getValue().isArray()) {
-                NodeList array = node.createArray(itemJ.getKey());
+                TreeNodeList array = node.createArray(itemJ.getKey());
                 for (JsonNode item2J : itemJ.getValue()) {
-                    INode obj = array.createObject();
+                    ITreeNode obj = array.createObject();
                     fill(obj, itemJ.getKey(), item2J, level + 1);
                 }
             } else if (itemJ.getValue().isObject()) {
-                INode obj = node.createObject(itemJ.getKey());
+                ITreeNode obj = node.createObject(itemJ.getKey());
                 fill(obj, itemJ.getKey(), itemJ.getValue(), level + 1);
             } else node.put(itemJ.getKey(), itemJ.getValue().asText());
         }
     }
 
     @Override
-    public void write(INode node, OutputStream os) throws MException {
+    public void write(ITreeNode node, OutputStream os) throws MException {
         try {
             JsonNode objectJ = writeToJsonNode(node);
             MJson.save(objectJ, os);
@@ -99,10 +99,10 @@ public class JsonNodeBuilder extends INodeBuilder {
         }
     }
 
-    public JsonNode writeToJsonNode(INode node) {
-        if (node.isArray(INode.NAMELESS_VALUE) && node.size() == 1) {
+    public JsonNode writeToJsonNode(ITreeNode node) {
+        if (node.isArray(ITreeNode.NAMELESS_VALUE) && node.size() == 1) {
             ArrayNode arrayJ = MJson.createArrayNode();
-            for (INode itemC : node.getArrayOrNull(INode.NAMELESS_VALUE)) {
+            for (ITreeNode itemC : node.getArray(ITreeNode.NAMELESS_VALUE).orElse(null)) {
                 ObjectNode objectJ = arrayJ.addObject();
                 fill(objectJ, itemC, 1);
             }
@@ -114,25 +114,25 @@ public class JsonNodeBuilder extends INodeBuilder {
         }
     }
 
-    public ObjectNode writeToJsonNodeObject(INode node) {
+    public ObjectNode writeToJsonNodeObject(ITreeNode node) {
         ObjectNode objectJ = MJson.createObjectNode();
         fill(objectJ, node, 0);
         return objectJ;
     }
 
-    private void fill(ObjectNode objectJ, INode itemC, int level) {
+    private void fill(ObjectNode objectJ, ITreeNode itemC, int level) {
         if (level > 100) throw new TooDeepStructuresException();
 
         for (String key : itemC.keys()) {
             if (itemC.isArray(key)) {
                 ArrayNode arrJ = objectJ.putArray(key);
-                for (INode arrC : itemC.getArrayOrNull(key)) {
+                for (ITreeNode arrC : itemC.getArray(key).orElse(null)) {
                     ObjectNode newJ = arrJ.addObject();
                     fill(newJ, arrC, level + 1);
                 }
             } else if (itemC.isObject(key)) {
                 ObjectNode newJ = MJson.createObjectNode();
-                fill(newJ, itemC.getObjectOrNull(key), level + 1);
+                fill(newJ, itemC.getObject(key).orElse(null), level + 1);
                 objectJ.set(key, newJ);
             } else if (itemC.get(key) instanceof NullValue) objectJ.putNull(key);
             else {

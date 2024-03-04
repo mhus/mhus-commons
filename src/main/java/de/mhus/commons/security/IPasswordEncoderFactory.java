@@ -16,15 +16,11 @@
 package de.mhus.commons.security;
 
 import de.mhus.commons.annotations.service.DefaultImplementation;
-import de.mhus.commons.crypt.Md5Encoder;
 import de.mhus.commons.services.IService;
 
-@DefaultImplementation(Md5Encoder.class)
-public interface IPasswordEncoder extends IService {
+import java.util.Map;
 
-    String encode(String plain, String secret);
-
-    String decode(String encoded, String secret);
-
-    boolean validate(String plain, String encoded, String secret);
+@DefaultImplementation(DefaultPasswordEncoderFactory.class)
+public interface IPasswordEncoderFactory extends IService {
+    Map<String, IPasswordEncoder> get();
 }

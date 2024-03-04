@@ -23,10 +23,10 @@ import de.mhus.commons.tools.MXml;
 import de.mhus.commons.errors.MException;
 import de.mhus.commons.errors.NotFoundException;
 import de.mhus.commons.node.DefaultNodeFactory;
-import de.mhus.commons.node.INode;
+import de.mhus.commons.node.ITreeNode;
 import de.mhus.commons.node.TreeNode;
 import de.mhus.commons.node.MProperties;
-import de.mhus.commons.node.NodeList;
+import de.mhus.commons.node.TreeNodeList;
 import de.mhus.lib.test.util.TestCase;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
@@ -53,8 +53,8 @@ public class MNodeTest extends TestCase {
         assertTrue(props.containsKey("utf8key_u_\u2022"));
         assertTrue(props.containsKey("test1\u00b0"));
         //        assertTrue(props.containsKey("utf8key•"));
-        assertEquals("360\u2022", props.getString("utf8key_u_\u2022"));
-        assertEquals("test\u00b0", props.getString("test1\u00b0"));
+        assertEquals("360\u2022", props.getString("utf8key_u_\u2022").get());
+        assertEquals("test\u00b0", props.getString("test1\u00b0").get());
         //        assertEquals("360\u2022", props.getString("utf8key\u2022"));
     }
 
@@ -64,61 +64,61 @@ public class MNodeTest extends TestCase {
         String serialized = null;
 
         {
-            INode c = new TreeNode();
+            ITreeNode c = new TreeNode();
             c.setString("test1", "wow");
             c.setString("test2", "alf");
 
-            INode c1 = new TreeNode();
+            ITreeNode c1 = new TreeNode();
             c1.setString("test1", "wow");
             c1.setString("test2", "alf");
 
-            INode c2 = new TreeNode();
+            ITreeNode c2 = new TreeNode();
             c2.setString("test1", "wow");
             c2.setString("test2", "alf");
 
-            INode c3 = new TreeNode();
+            ITreeNode c3 = new TreeNode();
             c3.setString("test1", "wow");
             c3.setString("test2", "alf");
 
             c.setObject("c1", c1);
-            NodeList array = c.createArray("array");
+            TreeNodeList array = c.createArray("array");
             array.add(c2);
             array.add(c3);
 
-            derTeschd(c, false);
-            derTeschd(c1, false);
-            derTeschd(c2, false);
-            derTeschd(c3, false);
+            validateTree(c, false);
+            validateTree(c1, false);
+            validateTree(c2, false);
+            validateTree(c3, false);
 
             serialized = MCast.serializeToString(c);
         }
 
         {
-            INode c = (INode) MCast.unserializeFromString(serialized, null);
-            derTeschd(c, false);
+            ITreeNode c = (ITreeNode) MCast.unserializeFromString(serialized, null);
+            validateTree(c, false);
 
-            INode c1 = c.getObject("c1");
-            derTeschd(c1, false);
+            ITreeNode c1 = c.getObject("c1").get();
+            validateTree(c1, false);
 
-            NodeList array = c.getArray("array");
-            INode c2 = array.get(0);
-            derTeschd(c2, false);
-            INode c3 = array.get(0);
-            derTeschd(c3, false);
+            TreeNodeList array = c.getArray("array").get();
+            ITreeNode c2 = array.get(0);
+            validateTree(c2, false);
+            ITreeNode c3 = array.get(0);
+            validateTree(c3, false);
         }
     }
 
     @Test
     public void testProperties() throws MException {
         {
-            INode c = new TreeNode();
+            ITreeNode c = new TreeNode();
             c.setString("test1", "wow");
             c.setString("test2", "alf");
 
-            derTeschd(c, false);
+            validateTree(c, false);
         }
         {
-            INode c = new TreeNode();
+            ITreeNode c = new TreeNode();
             c.setString("test1", "wow");
             c.setString("test2", "alf");
 
@@ -132,9 +132,9 @@ public class MNodeTest extends TestCase {
             System.out.println(MFile.readFile(file));
             System.out.println("---");
             // read
-            INode c2 = dcf.read(file);
+            ITreeNode c2 = dcf.read(file);
             System.out.println("C2: " + c2);
-            derTeschd(c2, false);
+            validateTree(c2, false);
         }
     }
 
@@ -146,13 +146,13 @@ public class MNodeTest extends TestCase {
         {
             Document doc = MXml.loadXml(xml);
 
-            INode c = INode.readFromXmlString(doc.getDocumentElement());
+            ITreeNode c = ITreeNode.readFromXmlString(doc.getDocumentElement());
 
-            derTeschd(c, true);
+            validateTree(c, true);
         }
         {
             Document doc = MXml.loadXml(xml);
-            INode c = INode.readFromXmlString(doc.getDocumentElement());
+            ITreeNode c = ITreeNode.readFromXmlString(doc.getDocumentElement());
 
             // save
             File file = new File("target/config.xml");
@@ -161,9 +161,9 @@ public class MNodeTest extends TestCase {
             dcf.write(c, file);
 
             // read
-            INode c2 = dcf.read(file);
+            ITreeNode c2 = dcf.read(file);
             System.out.println("C2: " + c2);
-            derTeschd(c2, true);
+            validateTree(c2, true);
         }
     }
 
@@ -185,20 +185,20 @@ public class MNodeTest extends TestCase {
                         + "    url: http://test.de";
 
         {
-            INode c = INode.readFromYamlString(yaml);
-            derTeschd(c, true);
+            ITreeNode c = ITreeNode.readFromYamlString(yaml);
+            validateTree(c, true);
         }
         {
-            INode c = INode.readFromYamlString(yaml);
+            ITreeNode c = ITreeNode.readFromYamlString(yaml);
             File file = new File("target/config.yaml");
             DefaultNodeFactory dcf = new DefaultNodeFactory();
             System.out.println("C1: " + c);
             dcf.write(c, file);
 
             // read
-            INode c2 = dcf.read(file);
+            ITreeNode c2 = dcf.read(file);
             System.out.println("C2: " + c2);
-            derTeschd(c2, true);
+            validateTree(c2, true);
 
             // check file
             String content = MFile.readFile(file);
@@ -221,35 +221,35 @@ public class MNodeTest extends TestCase {
                         "'",
                         "\"");
         {
-            INode c = INode.readFromJsonString(json);
-            derTeschd(c, true);
-            assertTrue(c.getBoolean("boolon"));
-            assertFalse(c.getBoolean("booloff"));
+            ITreeNode c = ITreeNode.readFromJsonString(json);
+            validateTree(c, true);
+            assertTrue(c.getBoolean("boolon").get());
+            assertFalse(c.getBoolean("booloff").get());
         }
         {
-            INode c = INode.readFromJsonString(json);
+            ITreeNode c = ITreeNode.readFromJsonString(json);
             File file = new File("target/config.json");
             DefaultNodeFactory dcf = new DefaultNodeFactory();
             System.out.println("C1: " + c);
             dcf.write(c, file);
             System.out.println("File: " + MFile.readFile(file));
             // read
-            INode c2 = dcf.read(file);
+            ITreeNode c2 = dcf.read(file);
             System.out.println("C2: " + c2);
-            derTeschd(c2, true);
-            assertTrue(c.getBoolean("boolon"));
-            assertFalse(c.getBoolean("booloff"));
+            validateTree(c2, true);
+            assertTrue(c.getBoolean("boolon").get());
+            assertFalse(c.getBoolean("booloff").get());
         }
     }
 
     @Test
     public void testHash() throws Exception {
 
-        INode c = new TreeNode();
+        ITreeNode c = new TreeNode();
         c.setString("test1", "wow");
         c.setString("test2", "alf");
-        NodeList a = c.createArray("sub");
-        INode s = a.createObject();
+        TreeNodeList a = c.createArray("sub");
+        ITreeNode s = a.createObject();
         s.setString("test1", "wow1");
         s.setString("test2", "alf1");
         s = a.createObject();
@@ -259,7 +259,7 @@ public class MNodeTest extends TestCase {
         s.setString("test1", "wow3");
         s.setString("test2", "alf3");
 
-        derTeschd(c, true);
+        validateTree(c, true);
     }
 
     //    @Test
@@ -286,24 +286,24 @@ public class MNodeTest extends TestCase {
     //        derTeschd(tar3, true);
     //    }
 
-    @Test
-    private void derTeschd(INode c, boolean testsub) throws MException {
+//    @Test
+    private void validateTree(ITreeNode c, boolean testsub) throws MException {
         System.out.println(MSystem.findCallingMethod(3) + ": " + c);
         assertEquals("wow", c.getString("test1", "no"));
         assertEquals("alf", c.getString("test2", "no"));
         assertEquals("no", c.getString("test3", "no"));
 
-        assertNull(c.getObjectOrNull("test4"));
+        assertNull(c.getObject("test4").orElse(null));
 
         if (!testsub) return;
 
         // sub config tests
 
-        Collection<INode> list = c.getArray("sub");
+        Collection<ITreeNode> list = c.getArray("sub").get();
         assertEquals(3, list.size());
 
-        Iterator<INode> listIter = list.iterator();
-        INode sub = listIter.next();
+        Iterator<ITreeNode> listIter = list.iterator();
+        ITreeNode sub = listIter.next();
         assertEquals("wow1", sub.getString("test1", "no"));
         assertEquals("alf1", sub.getString("test2", "no"));
         assertEquals("no", sub.getString("test3", "no"));

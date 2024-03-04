@@ -20,9 +20,9 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import de.mhus.commons.tools.MJson;
 import de.mhus.commons.tools.MSystem;
 import de.mhus.commons.errors.NotFoundRuntimeException;
-import de.mhus.commons.node.INode;
-import de.mhus.commons.node.NodeList;
-import de.mhus.commons.node.NodeSerializable;
+import de.mhus.commons.node.ITreeNode;
+import de.mhus.commons.node.TreeNodeList;
+import de.mhus.commons.node.TreeNodeSerializable;
 import de.mhus.commons.pojo.MPojo;
 
 import java.io.IOException;
@@ -30,7 +30,7 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-public class TableRow implements Serializable, NodeSerializable {
+public class TableRow implements Serializable, TreeNodeSerializable {
 
     private static final long serialVersionUID = 1L;
     LinkedList<Object> data = new LinkedList<>();
@@ -87,18 +87,18 @@ public class TableRow implements Serializable, NodeSerializable {
     }
 
     @Override
-    public void readSerializabledNode(INode cfg) throws Exception {
-        for (INode cell : cfg.getArrayOrCreate("data")) {
+    public void readSerializabledNode(ITreeNode cfg) throws Exception {
+        for (ITreeNode cell : cfg.getArray("data").orElseGet(() -> cfg.createArray("data"))) {
             Object obj = MPojo.nodeToPojoObject(cell);
             data.add(obj);
         }
     }
 
     @Override
-    public void writeSerializabledNode(INode cfg) throws Exception {
-        NodeList arr = cfg.createArray("data");
+    public void writeSerializabledNode(ITreeNode cfg) throws Exception {
+        TreeNodeList arr = cfg.createArray("data");
         for (Object d : data) {
-            INode cell = arr.createObject();
+            ITreeNode cell = arr.createObject();
             MPojo.pojoToNode(d, cell, true, false);
         }
     }
