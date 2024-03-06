@@ -18,6 +18,7 @@ package de.mhus.commons.util;
 import de.mhus.commons.tools.MCollection;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
@@ -68,18 +69,18 @@ public class EmptyMap<K, V> implements Map<K, V> {
     @SuppressWarnings("unchecked")
     @Override
     public Set<K> keySet() {
-        return (Set<K>) MCollection.EMPTY_SET;
+        return (Set<K>) Collections.EMPTY_SET;
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public Collection<V> values() {
-        return (Collection<V>) MCollection.EMPTY_LIST;
+        return (Collection<V>) Collections.EMPTY_LIST;
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public Set<Entry<K, V>> entrySet() {
-        return (Set<Entry<K, V>>) MCollection.EMPTY_SET;
+        return (Set<Entry<K, V>>) Collections.EMPTY_SET;
     }
 }

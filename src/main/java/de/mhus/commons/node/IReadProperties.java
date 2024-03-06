@@ -15,6 +15,8 @@
  */
 package de.mhus.commons.node;
 
+import de.mhus.commons.lang.OptionalBoolean;
+
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -35,7 +37,7 @@ public interface IReadProperties extends Iterable<Entry<String, Object>> {
 
     //    boolean getBooleanOrCreate(String name, Function<String, Boolean> def);
 
-    Optional<Boolean> getBoolean(String name);
+    OptionalBoolean getBoolean(String name);
 
     int getInt(String name, int def);
 

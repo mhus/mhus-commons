@@ -110,11 +110,11 @@ public class TreeNode extends MProperties implements ITreeNode {
     @Override
     public List<ITreeNode> getObjectList(String key) {
         Object val = get(key);
-        if (val == null) return (List<ITreeNode>) M.EMPTY_LIST;
+        if (val == null) return (List<ITreeNode>) Collections.EMPTY_LIST;
         // if (val == null) throw new NotFoundException("value not found",key);
         if (val instanceof ITreeNode) return new SingleList<ITreeNode>((ITreeNode) val);
         if (val instanceof TreeNodeList) return Collections.unmodifiableList((TreeNodeList) val);
-        return (List<ITreeNode>) M.EMPTY_LIST;
+        return (List<ITreeNode>) Collections.EMPTY_LIST;
         // throw new NotFoundException("value is not a NodeList or INode",key);
     }
 

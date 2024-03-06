@@ -32,6 +32,7 @@ import de.mhus.commons.cast.ObjectToSqlDate;
 import de.mhus.commons.cast.ObjectToString;
 import de.mhus.commons.cast.ObjectToUUID;
 import de.mhus.commons.io.MObjectInputStream;
+import de.mhus.commons.lang.OptionalBoolean;
 import de.mhus.commons.node.MProperties;
 import de.mhus.commons.util.VectorMap;
 
@@ -55,6 +56,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
@@ -335,7 +337,11 @@ public final class MCast {
      * @return a boolean
      */
     public static boolean toboolean(Object _in, boolean _default) {
-        return OBJECT_TO_BOOLEAN.toBoolean(_in, _default, null);
+        return OBJECT_TO_BOOLEAN.toBoolean(_in).orElse(_default);
+    }
+
+    public static OptionalBoolean toboolean(Object _in) {
+        return OBJECT_TO_BOOLEAN.toBoolean(_in);
     }
 
     /**

@@ -15,6 +15,7 @@
  */
 package de.mhus.commons.crypt;
 
+import de.mhus.commons.M;
 import de.mhus.commons.tools.MFile;
 import de.mhus.commons.tools.MString;
 import de.mhus.commons.util.SecureString;
@@ -44,7 +45,7 @@ public class CryptedString extends SecureString implements Externalizable {
                 length = secret.length();
                 byte[] r = MBouncy.createRandom(AES_SIZE);
                 rand = MBouncy.encryptRsa117(r, key.getPublic());
-                data = secret.getBytes(MString.CHARSET_UTF_8);
+                data = secret.getBytes(M.CHARSET_UTF_8);
                 data = MBouncy.encryptAes(r, data);
             }
             this.pubKeyMd5 = MCrypt.md5(MBouncy.getPublicKey(key));
@@ -62,7 +63,7 @@ public class CryptedString extends SecureString implements Externalizable {
                 length = secret.length();
                 byte[] r = MBouncy.createRandom(AES_SIZE);
                 rand = MBouncy.encryptRsa117(r, MBouncy.getPublicKey(pubKey));
-                data = secret.getBytes(MString.CHARSET_UTF_8);
+                data = secret.getBytes(M.CHARSET_UTF_8);
                 data = MBouncy.encryptAes(r, data);
             }
             this.pubKeyMd5 = MCrypt.md5(pubKey);
@@ -76,7 +77,7 @@ public class CryptedString extends SecureString implements Externalizable {
         try {
             byte[] r = MBouncy.decryptRsa117(rand, key.getPrivate());
             byte[] d = MBouncy.decryptAes(r, data);
-            return new String(d, MString.CHARSET_UTF_8);
+            return new String(d, M.CHARSET_UTF_8);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -89,7 +90,7 @@ public class CryptedString extends SecureString implements Externalizable {
 
             byte[] r = MBouncy.decryptRsa117(rand, key);
             byte[] d = MBouncy.decryptAes(r, data);
-            return new String(d, MString.CHARSET_UTF_8);
+            return new String(d, M.CHARSET_UTF_8);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

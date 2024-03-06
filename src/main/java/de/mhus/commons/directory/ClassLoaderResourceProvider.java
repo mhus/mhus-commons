@@ -24,6 +24,7 @@ import de.mhus.commons.node.TreeNodeList;
 
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,7 +65,7 @@ public class ClassLoaderResourceProvider extends MResourceProvider {
 
         @Override
         public List<String> getPropertyKeys() {
-            return MCollection.getEmptyList();
+            return Collections.EMPTY_LIST;
         }
 
         @Override
@@ -74,7 +75,7 @@ public class ClassLoaderResourceProvider extends MResourceProvider {
 
         @Override
         public List<ITreeNode> getObjects() {
-            return MCollection.getEmptyList();
+            return Collections.EMPTY_LIST;
         }
 
         @Override
@@ -84,7 +85,7 @@ public class ClassLoaderResourceProvider extends MResourceProvider {
 
         @Override
         public List<String> getObjectKeys() {
-            return MCollection.getEmptyList();
+            return Collections.EMPTY_LIST;
         }
 
         @Override

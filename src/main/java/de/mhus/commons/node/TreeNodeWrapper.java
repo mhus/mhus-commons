@@ -15,8 +15,7 @@
  */
 package de.mhus.commons.node;
 
-import de.mhus.commons.errors.MException;
-import de.mhus.commons.errors.NotFoundException;
+import de.mhus.commons.lang.OptionalBoolean;
 
 import java.util.Calendar;
 import java.util.Collection;
@@ -75,7 +74,7 @@ public class TreeNodeWrapper extends TreeNode {
     }
 
     @Override
-    public Optional<Boolean> getBoolean(String name) {
+    public OptionalBoolean getBoolean(String name) {
         return parameters.getBoolean(name);
     }
 

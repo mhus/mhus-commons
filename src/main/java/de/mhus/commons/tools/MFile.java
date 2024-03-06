@@ -15,6 +15,7 @@
  */
 package de.mhus.commons.tools;
 
+import de.mhus.commons.M;
 import de.mhus.commons.io.FileChecker;
 import de.mhus.commons.io.PdfFileChecker;
 import de.mhus.commons.lang.IObserver;
@@ -213,7 +214,7 @@ public class MFile {
      * @return file content
      */
     public static String readFile(File _f) {
-        return readFile(_f, MString.CHARSET_UTF_8);
+        return readFile(_f, M.CHARSET_UTF_8);
     }
 
     /**
@@ -225,7 +226,7 @@ public class MFile {
      */
     public static String readFile(File _f, String encoding) {
         if (_f == null) return null;
-        if (encoding == null) encoding = MString.CHARSET_UTF_8;
+        if (encoding == null) encoding = M.CHARSET_UTF_8;
 
         try {
             FileInputStream fis = new FileInputStream(_f);
@@ -274,12 +275,12 @@ public class MFile {
      * @return file content
      */
     public static String readFile(InputStream _is) {
-        return readFile(_is, MString.CHARSET_UTF_8);
+        return readFile(_is, M.CHARSET_UTF_8);
     }
 
     public static String readFile(InputStream _is, String encoding) {
         if (_is == null) return null;
-        if (encoding == null) encoding = MString.CHARSET_UTF_8;
+        if (encoding == null) encoding = M.CHARSET_UTF_8;
 
         try {
             InputStreamReader fr = new InputStreamReader(_is, encoding);
@@ -397,7 +398,7 @@ public class MFile {
         if (_f == null) return false;
         try {
             OutputStream fos = new FileOutputStream(_f);
-            OutputStreamWriter osw = new OutputStreamWriter(fos, MString.CHARSET_UTF_8);
+            OutputStreamWriter osw = new OutputStreamWriter(fos, M.CHARSET_UTF_8);
             osw.write(_content);
             osw.flush();
             osw.close();
@@ -410,7 +411,7 @@ public class MFile {
     }
 
     public static boolean writeFile(OutputStream os, String content) {
-        return writeFile(os, content, MString.CHARSET_UTF_8);
+        return writeFile(os, content, M.CHARSET_UTF_8);
     }
 
     public static boolean writeFile(OutputStream os, String _content, String charsetName) {
@@ -944,7 +945,7 @@ public class MFile {
         if (is == null || lineObserver == null) return;
         InputStreamReader r =
                 new InputStreamReader(
-                        is, MString.UTF_8); // default charset is UTF-8
+                        is, M.UTF_8); // default charset is UTF-8
         readLines(r, lineObserver);
     }
 

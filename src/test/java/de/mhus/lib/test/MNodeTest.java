@@ -223,8 +223,8 @@ public class MNodeTest extends TestCase {
         {
             ITreeNode c = ITreeNode.readFromJsonString(json);
             validateTree(c, true);
-            assertTrue(c.getBoolean("boolon").get());
-            assertFalse(c.getBoolean("booloff").get());
+            assertTrue(c.getBoolean("boolon").getOrFalse());
+            assertFalse(c.getBoolean("booloff").getOrTrue());
         }
         {
             ITreeNode c = ITreeNode.readFromJsonString(json);
@@ -237,8 +237,8 @@ public class MNodeTest extends TestCase {
             ITreeNode c2 = dcf.read(file);
             System.out.println("C2: " + c2);
             validateTree(c2, true);
-            assertTrue(c.getBoolean("boolon").get());
-            assertFalse(c.getBoolean("booloff").get());
+            assertTrue(c.getBoolean("boolon").getOrFalse());
+            assertFalse(c.getBoolean("booloff").getOrTrue());
         }
     }
 

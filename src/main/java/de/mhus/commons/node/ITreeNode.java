@@ -237,7 +237,7 @@ public interface ITreeNode extends IProperties {
             JsonStreamNodeBuilder builder = new JsonStreamNodeBuilder();
             builder.setPretty(false);
             builder.write(node, os);
-            return new String(os.toByteArray(), MString.UTF_8);
+            return new String(os.toByteArray(), M.UTF_8);
         } catch (Exception e) {
             throw new MException(RC.STATUS.ERROR, e);
         }
@@ -249,7 +249,7 @@ public interface ITreeNode extends IProperties {
             JsonStreamNodeBuilder builder = new JsonStreamNodeBuilder();
             builder.setPretty(true);
             builder.write(node, os);
-            return new String(os.toByteArray(), MString.UTF_8);
+            return new String(os.toByteArray(), M.UTF_8);
         } catch (Exception e) {
             throw new MException(RC.STATUS.ERROR, e);
         }

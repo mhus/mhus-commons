@@ -15,6 +15,7 @@
  */
 package de.mhus.lib.test;
 
+import de.mhus.commons.M;
 import de.mhus.commons.tools.MCast;
 import de.mhus.commons.tools.MPeriod;
 import de.mhus.commons.tools.MString;
@@ -77,7 +78,7 @@ public class SecureStringTest extends TestCase {
         Field field = SecureString.class.getDeclaredField("data");
         field.setAccessible(true);
         byte[] data = (byte[]) field.get(sec);
-        assertFalse(text.equals(new String(data, MString.UTF_8)));
+        assertFalse(text.equals(new String(data, M.UTF_8)));
     }
 
     @Test
@@ -96,7 +97,7 @@ public class SecureStringTest extends TestCase {
         Field field = SecureString.class.getDeclaredField("data");
         field.setAccessible(true);
         byte[] data = (byte[]) field.get(sec);
-        assertFalse(text.equals(new String(data, MString.UTF_8)));
+        assertFalse(text.equals(new String(data, M.UTF_8)));
     }
 
     @Test
@@ -115,7 +116,7 @@ public class SecureStringTest extends TestCase {
         Field field = SecureString.class.getDeclaredField("data");
         field.setAccessible(true);
         byte[] data = (byte[]) field.get(sec);
-        assertFalse(text.equals(new String(data, MString.UTF_8)));
+        assertFalse(text.equals(new String(data, M.UTF_8)));
     }
 
     @Test
@@ -134,7 +135,7 @@ public class SecureStringTest extends TestCase {
         Field field = SecureString.class.getDeclaredField("data");
         field.setAccessible(true);
         byte[] data = (byte[]) field.get(sec);
-        assertFalse(text.equals(new String(data, MString.UTF_8)));
+        assertFalse(text.equals(new String(data, M.UTF_8)));
     }
 
     @Test
@@ -174,7 +175,7 @@ public class SecureStringTest extends TestCase {
         Field field = SecureString.class.getDeclaredField("data");
         field.setAccessible(true);
         byte[] data = (byte[]) field.get(sec);
-        assertFalse(text.equals(new String(data, MString.UTF_8)));
+        assertFalse(text.equals(new String(data, M.UTF_8)));
     }
 
     @Test

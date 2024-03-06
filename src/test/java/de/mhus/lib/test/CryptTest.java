@@ -15,6 +15,7 @@
  */
 package de.mhus.lib.test;
 
+import de.mhus.commons.M;
 import de.mhus.commons.tools.MBigMath;
 import de.mhus.commons.tools.MCollection;
 import de.mhus.commons.tools.MFile;
@@ -219,33 +220,33 @@ public class CryptTest extends TestCase {
         }
         {
             AsyncKey pair256 = MCrypt.loadPrivateRsaKey(key256);
-            byte[] org = "Hello UTF8 äöüß".getBytes(MString.CHARSET_UTF_8);
+            byte[] org = "Hello UTF8 äöüß".getBytes(M.CHARSET_UTF_8);
             BigInteger[] enc = MCrypt.encodeBytes(pair256, org);
             byte[] copy = MCrypt.decodeBytes(pair256, enc);
-            System.out.println(new String(copy, MString.CHARSET_UTF_8));
+            System.out.println(new String(copy, M.CHARSET_UTF_8));
             assertEquals(
-                    new String(org, MString.CHARSET_UTF_8),
-                    new String(copy, MString.CHARSET_UTF_8));
+                    new String(org, M.CHARSET_UTF_8),
+                    new String(copy, M.CHARSET_UTF_8));
         }
         {
             AsyncKey pair256 = MCrypt.loadPrivateRsaKey(key256);
-            byte[] org = "Hello ISO 8859-1 äöüß".getBytes(MString.CHARSET_ISO_8859_1);
+            byte[] org = "Hello ISO 8859-1 äöüß".getBytes(M.CHARSET_ISO_8859_1);
             BigInteger[] enc = MCrypt.encodeBytes(pair256, org);
             byte[] copy = MCrypt.decodeBytes(pair256, enc);
-            System.out.println(new String(copy, MString.CHARSET_ISO_8859_1));
+            System.out.println(new String(copy, M.CHARSET_ISO_8859_1));
             assertEquals(
-                    new String(org, MString.CHARSET_ISO_8859_1),
-                    new String(copy, MString.CHARSET_ISO_8859_1));
+                    new String(org, M.CHARSET_ISO_8859_1),
+                    new String(copy, M.CHARSET_ISO_8859_1));
         }
         {
             AsyncKey pair256 = MCrypt.loadPrivateRsaKey(key256);
-            byte[] org = "Hello UTF16 äöüß".getBytes(MString.CHARSET_UTF_16);
+            byte[] org = "Hello UTF16 äöüß".getBytes(M.CHARSET_UTF_16);
             BigInteger[] enc = MCrypt.encodeBytes(pair256, org);
             byte[] copy = MCrypt.decodeBytes(pair256, enc);
-            System.out.println(new String(copy, MString.CHARSET_UTF_16));
+            System.out.println(new String(copy, M.CHARSET_UTF_16));
             assertEquals(
-                    new String(org, MString.CHARSET_UTF_16),
-                    new String(copy, MString.CHARSET_UTF_16));
+                    new String(org, M.CHARSET_UTF_16),
+                    new String(copy, M.CHARSET_UTF_16));
         }
     }
 

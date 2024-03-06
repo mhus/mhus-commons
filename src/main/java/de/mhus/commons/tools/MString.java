@@ -15,6 +15,7 @@
  */
 package de.mhus.commons.tools;
 
+import de.mhus.commons.M;
 import de.mhus.commons.errors.RC;
 import de.mhus.commons.errors.MException;
 import de.mhus.commons.errors.MRuntimeException;
@@ -41,12 +42,6 @@ import java.util.regex.Pattern;
 @Slf4j
 public class MString {
 
-    public static final String CHARSET_UTF_8 = "UTF-8";
-    public static final String CHARSET_UTF_16 = "UTF-16";
-    public static final String CHARSET_ISO_8859_1 = "ISO-8859-1";
-
-    public static final Charset UTF_8 = Charset.forName("UTF-8");
-    public static final Charset UTF_16 = Charset.forName("UTF-16");
     /**
      * Use this char set to encode binary data as it is in encodings. It supports 8 bits from \u0000
      * to u00FF. The 'US-ASCII' only supports 7 bits, from \u0000 to \u007F.
@@ -61,7 +56,7 @@ public class MString {
     public static final char[] WHITESPACE = new char[] {' ', '\n', '\r', '\t'};
     public static final String DEFAULT_SEPARATOR = ",";
     private static final String[] DEFAULT_SELECTION_SEPARATOR = new String[] {"\n\n"};
-    public static final String CHARSET_DEFAULT = CHARSET_UTF_8;
+    public static final String CHARSET_DEFAULT = M.CHARSET_UTF_16;
 
     public static final char[] CHARS_READABLE = {
         'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
@@ -2004,7 +1999,7 @@ public class MString {
     public static byte[] toBytes(String data) {
         if (data == null) return null;
         try {
-            return data.getBytes(CHARSET_UTF_8);
+            return data.getBytes(M.CHARSET_UTF_8);
         } catch (UnsupportedEncodingException e) {
             throw new MRuntimeException(RC.STATUS.ERROR, e); // this should never happen!!!
         }
@@ -2013,7 +2008,7 @@ public class MString {
     public static byte[] toBytesOrEmpty(String data) {
         if (data == null) return EMPTY_BYTES;
         try {
-            return data.getBytes(CHARSET_UTF_8);
+            return data.getBytes(M.CHARSET_UTF_8);
         } catch (UnsupportedEncodingException e) {
             return EMPTY_BYTES;
         }
@@ -2028,7 +2023,7 @@ public class MString {
     public static String byteToString(byte[] data) {
         if (data == null) return null;
         try {
-            return new String(data, CHARSET_UTF_8);
+            return new String(data, M.CHARSET_UTF_8);
         } catch (UnsupportedEncodingException e) {
             throw new MRuntimeException(RC.STATUS.ERROR, e); // this should never happen!!!
         }

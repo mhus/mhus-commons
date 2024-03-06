@@ -15,12 +15,12 @@
  */
 package de.mhus.commons.node;
 
+import de.mhus.commons.lang.OptionalBoolean;
 import de.mhus.commons.tools.MCast;
 import de.mhus.commons.lang.IsNull;
-import de.mhus.commons.errors.MException;
 import de.mhus.commons.errors.MRuntimeException;
-import de.mhus.commons.errors.NotFoundException;
 import de.mhus.commons.errors.RC;
+import de.mhus.commons.tools.MString;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Calendar;
@@ -74,7 +74,7 @@ public abstract class AbstractProperties implements IProperties {
     public Optional<String> getString(String key) {
         Object out = getProperty(key);
         if (out == null) Optional.empty();
-        return Optional.of(String.valueOf(out));
+        return Optional.ofNullable(MString.valueOf(out));
     }
 
     @Override
@@ -89,10 +89,10 @@ public abstract class AbstractProperties implements IProperties {
     }
 
     @Override
-    public Optional<Boolean> getBoolean(String key) {
+    public OptionalBoolean getBoolean(String key) {
         Object out = getProperty(key);
         if (out == null) Optional.empty();
-        return Optional.of(MCast.toboolean(out, false));
+        return MCast.toboolean(out);
     }
 
     @Override

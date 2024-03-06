@@ -15,6 +15,7 @@
  */
 package de.mhus.commons.cast;
 
+import de.mhus.commons.lang.OptionalBoolean;
 import de.mhus.commons.util.Value;
 
 public class ObjectToBoolean implements Caster<Object, Boolean> {
@@ -31,17 +32,15 @@ public class ObjectToBoolean implements Caster<Object, Boolean> {
 
     @Override
     public Boolean cast(Object in, Boolean def) {
-        Value<Boolean> ret = new Value<>(def);
-        toBoolean(in, false, ret);
-        return ret.getValue();
+        return toBoolean(in).orElseBoolean(def);
     }
 
-    public boolean toBoolean(Object in, boolean def, Value<Boolean> ret) {
-        if (in == null) return def;
+    public OptionalBoolean toBoolean(Object in) {
+        if (in == null) return OptionalBoolean.empty();
 
-        if (in instanceof Boolean) return (Boolean) in;
+        if (in instanceof Boolean) return OptionalBoolean.of((Boolean) in);
 
-        if (in instanceof Number) return !(((Number) in).intValue() == 0);
+        if (in instanceof Number) return OptionalBoolean.of(!(((Number) in).intValue() == 0));
 
         String ins = in.toString().toLowerCase().trim();
 
@@ -58,8 +57,7 @@ public class ObjectToBoolean implements Caster<Object, Boolean> {
                 || ins.equals("\u4fc2") // :-) chinese
                 || ins.equals("HIja'") // :-) // klingon
                 || ins.equals("\u2612")) {
-            if (ret != null) ret.setValue(true);
-            return true;
+            return OptionalBoolean.of(true);
         }
 
         if (ins.equals("no")
@@ -75,9 +73,8 @@ public class ObjectToBoolean implements Caster<Object, Boolean> {
                 || ins.equals("\u5514\u4fc2") // :-) chinese
                 || ins.equals("Qo'") // :-) klingon
                 || ins.equals("\u2610")) {
-            if (ret != null) ret.setValue(false);
-            return false;
+            return OptionalBoolean.of(false);
         }
-        return def;
+        return OptionalBoolean.empty();
     }
 }

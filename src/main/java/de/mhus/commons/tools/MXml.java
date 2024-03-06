@@ -15,6 +15,7 @@
  */
 package de.mhus.commons.tools;
 
+import de.mhus.commons.M;
 import lombok.extern.slf4j.Slf4j;
 import org.w3c.dom.CDATASection;
 import org.w3c.dom.Comment;
@@ -485,7 +486,7 @@ public class MXml {
      */
     public static Document loadXml(String xml)
             throws ParserConfigurationException, SAXException, IOException {
-        return loadXml(xml, MString.CHARSET_UTF_8);
+        return loadXml(xml, M.CHARSET_UTF_8);
     }
 
     /**

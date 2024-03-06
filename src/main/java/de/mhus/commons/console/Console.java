@@ -18,6 +18,7 @@ package de.mhus.commons.console;
 import de.mhus.commons.M;
 import de.mhus.commons.lang.Adaptable;
 import de.mhus.commons.errors.NotSupportedException;
+import de.mhus.commons.services.MService;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -92,7 +93,7 @@ public abstract class Console extends PrintStream implements Adaptable {
         if (console == null) {
             resetConsole();
         }
-        ConsoleFactory factory = M.l(ConsoleFactory.class);
+        ConsoleFactory factory = MService.getService(ConsoleFactory.class);
         console = factory.create(null, in, out);
         consoles.set(console);
 

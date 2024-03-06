@@ -15,8 +15,8 @@
  */
 package de.mhus.commons.node;
 
+import de.mhus.commons.lang.OptionalBoolean;
 import de.mhus.commons.lang.ReadOnly;
-import de.mhus.commons.errors.MException;
 
 import java.util.Calendar;
 import java.util.Collection;
@@ -91,7 +91,7 @@ public class PropertiesReadOnly implements IReadProperties, ReadOnly {
     }
 
     @Override
-    public Optional<Boolean> getBoolean(String name) {
+    public OptionalBoolean getBoolean(String name) {
         return parent.getBoolean(name);
     }
 

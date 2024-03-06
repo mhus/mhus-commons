@@ -15,6 +15,7 @@
  */
 package de.mhus.commons.node;
 
+import de.mhus.commons.M;
 import de.mhus.commons.tools.MString;
 import de.mhus.commons.tools.MSystem;
 import de.mhus.commons.util.SetCast;
@@ -545,14 +546,14 @@ public class MProperties extends AbstractProperties implements Externalizable {
 
     public boolean save(OutputStream out, boolean addDate) throws IOException {
         store(
-                new BufferedWriter(new OutputStreamWriter(out, MString.CHARSET_UTF_8)),
+                new BufferedWriter(new OutputStreamWriter(out, M.CHARSET_UTF_8)),
                 true,
                 addDate);
         return true;
     }
 
     public boolean save(OutputStream out) throws IOException {
-        store(new BufferedWriter(new OutputStreamWriter(out, MString.CHARSET_UTF_8)), true, true);
+        store(new BufferedWriter(new OutputStreamWriter(out, M.CHARSET_UTF_8)), true, true);
         return true;
     }
 

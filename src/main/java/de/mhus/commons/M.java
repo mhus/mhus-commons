@@ -25,6 +25,7 @@ import de.mhus.commons.util.EmptyList;
 import de.mhus.commons.util.EnumerationIterator;
 import de.mhus.commons.util.Iterate;
 
+import java.nio.charset.Charset;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -48,45 +49,26 @@ public class M {
     public static final int[] EMPTY_INT_ARRAY = new int[0];
     public static final byte[] EMPTY_BYTE_ARRAY = new byte[0];
     public static final long[] EMPTY_LONG_ARRAY = new long[0];
-    public static final List<?> EMPTY_LIST = new EmptyList<>();
+    public static final double[] EMPTY_DOUBLE_ARRAY = new double[0];
+    public static final float[] EMPTY_FLOAT_ARRAY = new float[0];
+    public static final Object[] EMPTY_OBJECT_ARRAY = new Object[0];
 
     public static final Locale LOCALE_DE_DE = new Locale("de", "DE");
     public static final Locale LOCALE_EN_US = new Locale("en", "US");
 
-    public static final String PROP_PREFIX = "mhus.lib.";
+    public static final String PROP_PREFIX = "mhus.commons.";
+
+    public static final String CHARSET_UTF_8 = "UTF-8";
+    public static final String CHARSET_UTF_16 = "UTF-16";
+    public static final String CHARSET_ISO_8859_1 = "ISO-8859-1";
+
+    public static final Charset UTF_8 = Charset.forName("UTF-8");
+    public static final Charset UTF_16 = Charset.forName("UTF-16");
 
     public static final String PROP_DIRTY_TRACE = "mhu.lib.api.trace";
     public static final String PROP_API_FACTORY_CLASS = "mhus.api.factory";
     //  public static final String PROP_FILE_WATCH = "mhus.config.watch";
     public static final String PROP_CONFIG_FILE = PROP_PREFIX + "config.file";
-
-    public static final String DEFAULT_MHUS_CONFIG_FILE = "mhus-config.xml";
-
-    public static final String PROP_LOG_FACTORY_CLASS = "log.factory";
-
-    public static final String PROP_LOG_MLOG_FACTORY_CLASS = "log.mlog.factory";
-
-    public static final String PROP_LOG_LEVEL_MAPPER_CLASS = "level.mapper";
-
-    public static final String PROP_LOG_PARAMETER_MAPPER_CLASS = "parameter.mapper";
-
-    public static final String PROP_LOG_PARAMETER_ENTRY_MAPPER_CLASS = "parameter.entry.mapper";
-
-    public static final String PROP_BASE_DIR = "base.dir";
-
-    public static final String PROP_LOG_CONSOLE_REDIRECT = "log.console.redirect";
-
-    public static final String DEFAULT_MHUS_TIMER_CONFIG_FILE = "mhus-timer.properties";
-
-    public static final String PROP_TIMER_CONFIG_FILE = "timer.config.file";
-
-    public static final String PROP_LOG_MAX_MESSAGE_SIZE = "log.max.message.size";
-
-    public static final String PROP_LOG_MAX_MESSAGE_SIZE_EXCEPTIONS =
-            "log.max.message.size.exceptions";
-
-    public static final String PROP_LOG_LEVEL = "log.level";
-    public static final String PROP_LOG_VERBOSE = "log.verbose";
 
     public static final int MAX_DEPTH_LEVEL = 20;
 
@@ -107,16 +89,6 @@ public class M {
 
     public static final String ADDR_DISPLAY_NAME = "displayName";
 
-    public static  <T extends IService> T l(Class<T> clazz) {
-        return MService.getService(clazz);
-    }
-
-    public enum DEBUG {
-        NO,
-        YES,
-        TRACE
-    }
-
     public static enum ADDR_SCOPE {
         PRIVATE,
         WORK
@@ -132,120 +104,6 @@ public class M {
     public static final String TYPE_FLOAT = "float";
     public static final String TYPE_DOUBLE = "double";
 
-    public static final String CFG_SYSTEM = "system";
     public static final String PARAM_AUTH_TOKEN = "auth_token";
 
-    /**
-     * Truncate the string by length characters.
-     *
-     * @param in String to truncate
-     * @param length Max length
-     * @return Same or truncated string
-     */
-    public static String trunc(String in, int length) {
-        return MString.truncate(in, length);
-    }
-
-    /**
-     * Substring of the string. See MString.substr() for details.
-     *
-     * @param in String to do an substring for
-     * @param from start index, if smaller zero it will be set to 0
-     * @param to end index, if smaller then or zero it will be set to in 0
-     * @return The substring or an empty string
-     */
-    public static String sub(String in, int from, int to) {
-        return MString.substr(in, from, to);
-    }
-
-    /**
-     * Substring if the string with extended functionality. See MString.substrext() for details.
-     *
-     * @param in String to do an substring for
-     * @param from start index, if smaller zero it will be set to length minus from + 1
-     * @param to end index, if smaller then or zero it will be set to in length minus to + 1
-     * @return The substring or an empty string
-     */
-    public static String sube(String in, int from, int to) {
-        return MString.substrext(in, from, to);
-    }
-
-    /**
-     * Cast to default type
-     *
-     * @param in
-     * @param def
-     * @return Integer
-     */
-    public static int to(Object in, int def) {
-        return MCast.toint(in, def);
-    }
-
-    public static int toint(Object in, int def) {
-        return MCast.toint(in, def);
-    }
-
-    public static long to(Object in, long def) {
-        return MCast.tolong(in, def);
-    }
-
-    public static long tolong(Object in, long def) {
-        return MCast.tolong(in, def);
-    }
-
-    public static double to(Object in, double def) {
-        return MCast.todouble(in, def);
-    }
-
-    public static double todouble(Object in, double def) {
-        return MCast.todouble(in, def);
-    }
-
-    public static boolean to(Object in, boolean def) {
-        return MCast.toboolean(in, def);
-    }
-
-    public static Date to(Object in, Date def) {
-        return MCast.toDate(in, def);
-    }
-
-    public static Date todate(Object in, Date def) {
-        return MCast.toDate(in, def);
-    }
-
-    public static String to(Object in, String def) {
-        return MCast.toString(in, def);
-    }
-
-    public static OptionalLong tolong(Object in) {
-        return MCast.tolong(in);
-    }
-
-    public static OptionalInt toint(Object in) {
-        return MCast.toint(in);
-    }
-
-    public static OptionalDouble todouble(Object in) {
-        return MCast.todouble(in);
-    }
-
-    /**
-     * Return the node value as string or default.
-     *
-     * @param node
-     * @param path
-     * @param def
-     * @return value of the node
-     */
-    public static String get(JsonNode node, String path, String def) {
-        return MJson.getText(node, path, def);
-    }
-
-    public static <E> Iterable<E> iterate(Iterator<E> iterator) {
-        return new Iterate<>(iterator);
-    }
-
-    public static <E> Iterable<E> iterate(Enumeration<E> enu) {
-        return new EnumerationIterator<E>(enu);
-    }
 }

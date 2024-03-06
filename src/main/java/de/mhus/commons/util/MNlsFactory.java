@@ -15,6 +15,7 @@
  */
 package de.mhus.commons.util;
 
+import de.mhus.commons.M;
 import de.mhus.commons.tools.MString;
 import de.mhus.commons.tools.MSystem;
 import de.mhus.commons.directory.ClassLoaderResourceProvider;
@@ -127,7 +128,7 @@ public class MNlsFactory extends MNlsBundle {
 
             if (is != null) {
                 LOGGER.trace("Load Resource {} {}", resourceName, locale);
-                InputStreamReader r = new InputStreamReader(is, MString.CHARSET_UTF_8);
+                InputStreamReader r = new InputStreamReader(is, M.CHARSET_UTF_8);
                 properties.load(r);
                 is.close();
 
