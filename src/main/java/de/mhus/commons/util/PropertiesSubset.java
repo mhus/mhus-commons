@@ -16,8 +16,8 @@
 package de.mhus.commons.util;
 
 import de.mhus.commons.errors.NotSupportedException;
-import de.mhus.commons.node.AbstractProperties;
-import de.mhus.commons.node.IProperties;
+import de.mhus.commons.tree.AbstractProperties;
+import de.mhus.commons.tree.IProperties;
 
 import java.util.Collection;
 import java.util.HashSet;

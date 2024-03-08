@@ -17,7 +17,7 @@ package de.mhus.commons.io;
 
 import de.mhus.commons.tools.MFile;
 import de.mhus.commons.errors.MException;
-import de.mhus.commons.node.ITreeNode;
+import de.mhus.commons.tree.ITreeNode;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;

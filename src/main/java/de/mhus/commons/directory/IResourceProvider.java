@@ -15,7 +15,7 @@
  */
 package de.mhus.commons.directory;
 
-import de.mhus.commons.node.ITreeNode;
+import de.mhus.commons.tree.ITreeNode;
 
 import java.io.InputStream;
 import java.net.URL;

@@ -16,7 +16,7 @@
 package de.mhus.commons.tools;
 
 import de.mhus.commons.errors.MException;
-import de.mhus.commons.node.MProperties;
+import de.mhus.commons.tree.MProperties;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

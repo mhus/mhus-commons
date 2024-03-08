@@ -22,11 +22,11 @@ import de.mhus.commons.tools.MSystem;
 import de.mhus.commons.tools.MXml;
 import de.mhus.commons.errors.MException;
 import de.mhus.commons.errors.NotFoundException;
-import de.mhus.commons.node.DefaultNodeFactory;
-import de.mhus.commons.node.ITreeNode;
-import de.mhus.commons.node.TreeNode;
-import de.mhus.commons.node.MProperties;
-import de.mhus.commons.node.TreeNodeList;
+import de.mhus.commons.tree.DefaultNodeFactory;
+import de.mhus.commons.tree.ITreeNode;
+import de.mhus.commons.tree.TreeNode;
+import de.mhus.commons.tree.MProperties;
+import de.mhus.commons.tree.TreeNodeList;
 import de.mhus.lib.test.util.TestCase;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
@@ -42,7 +42,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class MNodeTest extends TestCase {
+public class MTreeTest extends TestCase {
 
     @Test
     public void testPropertiesWithUTF8() throws IOException, NotFoundException {

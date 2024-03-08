@@ -15,9 +15,9 @@
  */
 package de.mhus.commons.util;
 
-import de.mhus.commons.node.ITreeNode;
-import de.mhus.commons.node.TreeNodeList;
-import de.mhus.commons.node.TreeNodeSerializable;
+import de.mhus.commons.tree.ITreeNode;
+import de.mhus.commons.tree.TreeNodeList;
+import de.mhus.commons.tree.TreeNodeSerializable;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.Externalizable;

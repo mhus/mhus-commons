@@ -13,10 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.mhus.commons.node;
+package de.mhus.commons.tree;
 
 import de.mhus.commons.M;
-import de.mhus.commons.tools.MString;
 import de.mhus.commons.tools.MSystem;
 import de.mhus.commons.util.SetCast;
 import lombok.extern.slf4j.Slf4j;

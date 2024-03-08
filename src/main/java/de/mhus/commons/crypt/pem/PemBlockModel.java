@@ -19,7 +19,7 @@ import de.mhus.commons.tools.MFile;
 import de.mhus.commons.tools.MString;
 import de.mhus.commons.errors.RC;
 import de.mhus.commons.errors.MRuntimeException;
-import de.mhus.commons.node.MProperties;
+import de.mhus.commons.tree.MProperties;
 import de.mhus.commons.parser.ParseException;
 
 import java.io.File;

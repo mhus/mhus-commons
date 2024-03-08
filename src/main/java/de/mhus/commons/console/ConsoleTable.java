@@ -17,8 +17,8 @@ package de.mhus.commons.console;
 
 import de.mhus.commons.tools.MDate;
 import de.mhus.commons.tools.MString;
-import de.mhus.commons.node.IProperties;
-import de.mhus.commons.node.MProperties;
+import de.mhus.commons.tree.IProperties;
+import de.mhus.commons.tree.MProperties;
 import de.mhus.commons.util.Value;
 
 import java.io.PrintStream;

@@ -17,8 +17,8 @@ package de.mhus.commons.util;
 
 import de.mhus.commons.lang.OptionalBoolean;
 import de.mhus.commons.lang.ReadOnly;
-import de.mhus.commons.node.IProperties;
-import de.mhus.commons.node.IReadProperties;
+import de.mhus.commons.tree.IProperties;
+import de.mhus.commons.tree.IReadProperties;
 
 import java.util.Calendar;
 import java.util.Collection;

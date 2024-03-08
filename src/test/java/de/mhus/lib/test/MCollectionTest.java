@@ -16,13 +16,16 @@
 package de.mhus.lib.test;
 
 import de.mhus.commons.tools.MCollection;
+import de.mhus.commons.util.EmptySet;
 import de.mhus.lib.test.util.TestCase;
+import org.assertj.core.api.Assert;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -131,5 +134,10 @@ public class MCollectionTest extends TestCase {
         assertEquals("c", list);
         list = MCollection.remove(list, S, "c");
         assertEquals("", list);
+    }
+
+    @Test
+    public void testEmptySet() {
+        assertThat(new EmptySet<String>().toArray(new String[1]).length).isEqualTo(0);
     }
 }

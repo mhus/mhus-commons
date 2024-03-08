@@ -15,7 +15,7 @@
  */
 package de.mhus.commons.security;
 
-import de.mhus.commons.node.IProperties;
+import de.mhus.commons.tree.IProperties;
 
 import javax.security.auth.Subject;
 import javax.security.auth.login.LoginContext;

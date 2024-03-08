@@ -16,7 +16,7 @@
 package de.mhus.commons.directory;
 
 import de.mhus.commons.annotations.service.DefaultImplementation;
-import de.mhus.commons.node.TreeNode;
+import de.mhus.commons.tree.TreeNode;
 import de.mhus.commons.services.IService;
 
 @DefaultImplementation(ClassLoaderResourceProvider.class)

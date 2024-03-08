@@ -17,7 +17,8 @@ package de.mhus.commons.util;
 
 import de.mhus.commons.tools.MCast;
 import de.mhus.commons.tools.MString;
-import de.mhus.commons.node.IProperties;
+import de.mhus.commons.tree.IProperties;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.io.Serializable;
@@ -38,6 +39,7 @@ import java.util.TreeMap;
  *
  * @author jesus
  */
+@Slf4j
 public abstract class MUri implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -47,54 +49,31 @@ public abstract class MUri implements Serializable {
     public static final String SCHEME_FILE = "file";
     public static final String SCHEME_SFPT = "sftp";
 
-    public static class Query extends TreeMap<String, String> {
-        private static final long serialVersionUID = -1;
-
-        public void put(String _key, int _value) {
-            put(_key, MCast.toString(_value));
-        }
-
-        public int getInt(String _key, int _def) {
-            String v = get(_key);
-            if (v == null) return _def;
-            return MCast.toint(v, 0);
-        }
-
-        public int getInt(String _key) {
-            return getInt(_key, -1);
-        }
-
-        @Override
-        public String toString() {
-            return implode(this);
-        }
-    }
-
     public MUri() {}
 
     /**
      * Decode a string with rfc1738 spec.
      *
-     * @param _in encoded string
+     * @param encoded encoded string
      * @return decoded string
      */
-    public static String decode(String _in) {
+    public static String decode(String encoded) {
 
-        if (_in == null) return "";
+        if (encoded == null) return "";
 
         try {
-            return URLDecoder.decode(_in, MString.CHARSET_DEFAULT);
+            return URLDecoder.decode(encoded, MString.CHARSET_DEFAULT);
         } catch (UnsupportedEncodingException e) {
-            // TODO log it
+            LOGGER.debug("decode error for {}", encoded, e);
         }
 
         StringBuilder sb = new StringBuilder();
 
         int mode = 0;
         int buffer = 0;
-        for (int i = 0; i < _in.length(); i++) {
+        for (int i = 0; i < encoded.length(); i++) {
 
-            char c = _in.charAt(i);
+            char c = encoded.charAt(i);
 
             if (mode == 0) {
 
@@ -130,27 +109,33 @@ public abstract class MUri implements Serializable {
     /**
      * encode a string in rfc1738 spec
      *
-     * @param _in decoded string
+     * @param decoded decoded string
      * @return encoded string
      */
-    public static String encode(String _in) {
-        if (_in == null) return "";
+    public static String encode(String decoded) {
+        if (decoded == null) return "";
         try {
-            return URLEncoder.encode(_in, MString.CHARSET_DEFAULT); // as default charset
+            return URLEncoder.encode(decoded, MString.CHARSET_DEFAULT); // as default charset
         } catch (UnsupportedEncodingException e) {
             // TODO log
         }
 
-        return encodeNoUTF8(_in);
+        return encodeNoUTF8(decoded);
     }
 
-    public static String encodeNoUTF8(String _in) {
+    /**
+     * encode a UTF8 string in rfc1738 spec
+     *
+     * @param decoded decoded string
+     * @return encoded string
+     */
+    public static String encodeNoUTF8(String decoded) {
 
         StringBuilder sb = new StringBuilder();
 
-        for (int i = 0; i < _in.length(); i++) {
+        for (int i = 0; i < decoded.length(); i++) {
 
-            char c = _in.charAt(i);
+            char c = decoded.charAt(i);
 
             //			if (c == '%' || c == '&' || c == '=' || c == '+' || c == '\n'
             //					|| c == '\r' || c == '?' || c == ' ' )
@@ -168,15 +153,15 @@ public abstract class MUri implements Serializable {
         return sb.toString();
     }
 
-    public static String encode(char c) {
+    public static String encode(char decodedChar) {
         StringBuilder sb = new StringBuilder();
-        encodeNoUTF8(sb, c);
+        encodeNoUTF8(sb, decodedChar);
         return sb.toString();
     }
 
-    public static void encodeNoUTF8(StringBuilder sb, char c) {
+    public static void encodeNoUTF8(StringBuilder sb, char decodedChar) {
 
-        if (c == ' ') {
+        if (decodedChar == ' ') {
             sb.append('+');
             return;
         }
@@ -185,7 +170,7 @@ public abstract class MUri implements Serializable {
 
         int buffer = 0;
 
-        int cc = c;
+        int cc = decodedChar;
         buffer = cc / 16;
         if (buffer < 10) sb.append((char) ((int) '0' + buffer));
         else sb.append((char) ((int) 'A' - 10 + buffer));
@@ -273,16 +258,16 @@ public abstract class MUri implements Serializable {
     /**
      * Transforms a list encoded map of attributes back.
      *
-     * @param _in
+     * @param encodedQuery
      * @return decoded parts
      */
-    public static Map<String, String> explode(String _in) {
+    public static Map<String, String> explode(String encodedQuery) {
 
-        if (_in == null) return new TreeMap<String, String>();
+        if (encodedQuery == null) return new TreeMap<String, String>();
 
         TreeMap<String, String> out = new TreeMap<String, String>();
 
-        String[] obj = _in.split("&");
+        String[] obj = encodedQuery.split("&");
 
         for (int i = 0; i < obj.length; i++) {
 
@@ -300,21 +285,21 @@ public abstract class MUri implements Serializable {
     /**
      * Encode a list of attributes in a single string
      *
-     * @param _in
+     * @param query
      * @return encoded string
      */
-    public static String implode(Map<String, String> _in) {
+    public static String implode(Map<String, String> query) {
 
-        if (_in == null) return "";
+        if (query == null) return "";
 
         StringBuilder sb = new StringBuilder();
 
         boolean first = true;
 
-        for (Iterator<String> e = _in.keySet().iterator(); e.hasNext(); ) {
+        for (Iterator<String> e = query.keySet().iterator(); e.hasNext(); ) {
 
             String key = e.next();
-            String value = _in.get(key);
+            String value = query.get(key);
 
             if (value != null) {
                 if (!first) sb.append('&');
@@ -331,21 +316,21 @@ public abstract class MUri implements Serializable {
     /**
      * Encode a list of attributes in a single string
      *
-     * @param _in
+     * @param query
      * @return encoded string
      */
-    public static String implode(IProperties _in) {
+    public static String implode(IProperties query) {
 
-        if (_in == null) return "";
+        if (query == null) return "";
 
         StringBuilder sb = new StringBuilder();
 
         boolean first = true;
 
-        for (Iterator<String> e = _in.keys().iterator(); e.hasNext(); ) {
+        for (Iterator<String> e = query.keys().iterator(); e.hasNext(); ) {
 
             String key = e.next();
-            String value = _in.getString(key, null);
+            String value = query.getString(key, null);
 
             if (value != null) {
                 if (!first) sb.append('&');

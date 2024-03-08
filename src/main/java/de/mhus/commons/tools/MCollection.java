@@ -17,10 +17,7 @@ package de.mhus.commons.tools;
 
 import de.mhus.commons.errors.RC;
 import de.mhus.commons.errors.MRuntimeException;
-import de.mhus.commons.node.IProperties;
-import de.mhus.commons.util.EmptyList;
-import de.mhus.commons.util.EmptyMap;
-import de.mhus.commons.util.EmptySet;
+import de.mhus.commons.tree.IProperties;
 import de.mhus.commons.util.ReadOnlyList;
 
 import java.lang.reflect.Array;

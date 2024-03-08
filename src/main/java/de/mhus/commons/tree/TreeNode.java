@@ -13,14 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.mhus.commons.node;
+package de.mhus.commons.tree;
 
 import de.mhus.commons.M;
 import de.mhus.commons.lang.IsNull;
 import de.mhus.commons.errors.MException;
 import de.mhus.commons.errors.MRuntimeException;
 import de.mhus.commons.errors.MaxDepthReached;
-import de.mhus.commons.errors.NotFoundException;
 import de.mhus.commons.errors.RC;
 import de.mhus.commons.parser.CompiledString;
 import de.mhus.commons.util.SingleList;

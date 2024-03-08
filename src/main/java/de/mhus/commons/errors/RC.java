@@ -194,7 +194,7 @@ public class RC {
                     if (parameter instanceof IResult && causeHandling == CAUSE.ADAPT) {
                         String m = ((IResult) parameter).getMessage();
                         if (m != null && maxSize > 0 && m.length() > maxSize) {
-                            m = m.substring(0, maxSize) + "...\"]"; // TODO not well truncated
+                            m = m.substring(0, maxSize) + "...\"]"; // TODO not well truncated json
                         }
                         return m;
                     }

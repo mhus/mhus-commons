@@ -15,7 +15,7 @@
  */
 package de.mhus.commons.util;
 
-import de.mhus.commons.node.AbstractProperties;
+import de.mhus.commons.tree.AbstractProperties;
 import de.mhus.commons.tools.MSystem;
 import de.mhus.commons.errors.MException;
 import de.mhus.commons.errors.NotSupportedException;

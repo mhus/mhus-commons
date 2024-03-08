@@ -20,9 +20,9 @@ import de.mhus.commons.tools.MString;
 import de.mhus.commons.tools.MValidator;
 import de.mhus.commons.errors.RC;
 import de.mhus.commons.errors.MException;
-import de.mhus.commons.node.IProperties;
-import de.mhus.commons.node.IReadProperties;
-import de.mhus.commons.node.MProperties;
+import de.mhus.commons.tree.IProperties;
+import de.mhus.commons.tree.IReadProperties;
+import de.mhus.commons.tree.MProperties;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.Externalizable;

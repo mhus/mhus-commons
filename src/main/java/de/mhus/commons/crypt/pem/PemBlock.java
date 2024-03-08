@@ -15,7 +15,7 @@
  */
 package de.mhus.commons.crypt.pem;
 
-import de.mhus.commons.node.IReadProperties;
+import de.mhus.commons.tree.IReadProperties;
 
 import java.util.Map;
 

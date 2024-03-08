@@ -15,7 +15,9 @@
  */
 package de.mhus.commons.util;
 
+import de.mhus.commons.M;
 import de.mhus.commons.lang.ReadOnly;
+import de.mhus.commons.tools.MSystem;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -45,13 +47,12 @@ public class EmptySet<T> implements Set<T>, ReadOnly {
 
     @Override
     public Object[] toArray() {
-        // TODO Auto-generated method stub
-        return null;
+        return M.EMPTY_OBJECT_ARRAY;
     }
 
     @Override
     public <E> E[] toArray(E[] a) {
-        return null;
+        return (E[])MSystem.newArray(a.getClass().getComponentType(), 0);
     }
 
     @Override

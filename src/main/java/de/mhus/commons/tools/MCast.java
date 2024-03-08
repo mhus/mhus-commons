@@ -33,7 +33,7 @@ import de.mhus.commons.cast.ObjectToString;
 import de.mhus.commons.cast.ObjectToUUID;
 import de.mhus.commons.io.MObjectInputStream;
 import de.mhus.commons.lang.OptionalBoolean;
-import de.mhus.commons.node.MProperties;
+import de.mhus.commons.tree.MProperties;
 import de.mhus.commons.util.VectorMap;
 
 import java.io.ByteArrayInputStream;
@@ -56,7 +56,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
@@ -967,8 +966,8 @@ public final class MCast {
 
     /**
      * Return a interval based of the the definition string. Allowed are lists separated by comma
-     * (1,2,3,4) and intervals (6/2 => 0,2,4,6 or 3-7/2 => 3,5,7) or '*' for null TODO also allow
-     * mixed lists and intervals like 4,6-10/2
+     * (1,2,3,4) and intervals (6/2 => 0,2,4,6 or 3-7/2 => 3,5,7) or '*' for null
+     * TODO also allow mixed lists and intervals like 4,6-10/2
      *
      * @param def
      * @return the values for the interval or null if should be ignored (*)

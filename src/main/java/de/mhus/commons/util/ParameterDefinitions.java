@@ -16,7 +16,7 @@
 package de.mhus.commons.util;
 
 import de.mhus.commons.errors.MException;
-import de.mhus.commons.node.ITreeNode;
+import de.mhus.commons.tree.ITreeNode;
 
 import java.util.Collection;
 import java.util.TreeMap;

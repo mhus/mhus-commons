@@ -1,4 +1,4 @@
-package de.mhus.commons.node;
+package de.mhus.commons.tree;
 
 import de.mhus.commons.errors.MException;
 import de.mhus.commons.services.MService;
@@ -6,7 +6,7 @@ import de.mhus.commons.services.MService;
 import java.io.File;
 import java.util.List;
 
-public class MNode {
+public class MTree {
 
     public static ITreeNode load(File file) throws MException {
         return MService.getService(ITreeNodeFactory.class).read(file);

@@ -16,11 +16,10 @@
 package de.mhus.commons.util;
 
 import de.mhus.commons.M;
-import de.mhus.commons.tools.MString;
 import de.mhus.commons.tools.MSystem;
 import de.mhus.commons.directory.ClassLoaderResourceProvider;
 import de.mhus.commons.directory.MResourceProvider;
-import de.mhus.commons.node.ITreeNode;
+import de.mhus.commons.tree.ITreeNode;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;

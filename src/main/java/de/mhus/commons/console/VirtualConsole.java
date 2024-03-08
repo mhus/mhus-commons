@@ -56,14 +56,6 @@ public class VirtualConsole extends Console {
         reset();
     }
 
-    //	public void initializeAsDefault() {
-    //		super.initializeAsDefault();
-    ////		System.setIn(inPipe);
-    //		System.setIn(piped.getIn());
-    //		//TODO switch System.setOut(this);
-    //		//System.setErr(this);
-    //	}
-
     public void reset() {
         blink = false;
         bold = false;

@@ -20,9 +20,9 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import de.mhus.commons.tools.MJson;
 import de.mhus.commons.tools.MSystem;
 import de.mhus.commons.errors.NotFoundRuntimeException;
-import de.mhus.commons.node.ITreeNode;
-import de.mhus.commons.node.TreeNodeList;
-import de.mhus.commons.node.TreeNodeSerializable;
+import de.mhus.commons.tree.ITreeNode;
+import de.mhus.commons.tree.TreeNodeList;
+import de.mhus.commons.tree.TreeNodeSerializable;
 import de.mhus.commons.pojo.MPojo;
 
 import java.io.IOException;

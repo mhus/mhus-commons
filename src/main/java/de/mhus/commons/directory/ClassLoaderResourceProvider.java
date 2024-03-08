@@ -15,12 +15,11 @@
  */
 package de.mhus.commons.directory;
 
-import de.mhus.commons.tools.MCollection;
 import de.mhus.commons.tools.MString;
 import de.mhus.commons.tools.MSystem;
-import de.mhus.commons.node.ITreeNode;
-import de.mhus.commons.node.TreeNode;
-import de.mhus.commons.node.TreeNodeList;
+import de.mhus.commons.tree.ITreeNode;
+import de.mhus.commons.tree.TreeNode;
+import de.mhus.commons.tree.TreeNodeList;
 
 import java.io.InputStream;
 import java.net.URL;

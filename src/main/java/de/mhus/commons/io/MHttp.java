@@ -109,9 +109,7 @@ public class MHttp {
     /**
      * Try to get analyze content and return the mime type.
      *
-     * <p>Currently a pure implementation.
-     *
-     * <p>TODO use external library
+     * <p>Currently a pure implementation.</p>
      *
      * @param str
      * @param def

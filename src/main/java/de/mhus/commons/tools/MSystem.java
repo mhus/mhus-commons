@@ -19,7 +19,7 @@ import de.mhus.commons.lang.ICloseable;
 import de.mhus.commons.errors.NotFoundException;
 import de.mhus.commons.io.ThreadLocalInputStream;
 import de.mhus.commons.io.ThreadLocalPrinter;
-import de.mhus.commons.node.IProperties;
+import de.mhus.commons.tree.IProperties;
 import de.mhus.commons.services.ClassLoaderProvider;
 import de.mhus.commons.services.EnvironmentProvider;
 import de.mhus.commons.services.MService;
@@ -96,6 +96,11 @@ public class MSystem {
 
     public static String getEnv(Class<?> owner, String name, String def) {
         return MService.getService(EnvironmentProvider.class).getEnv(owner, name, def);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <E> E[] newArray(Class<E> componentType, int size) {
+        return (E[]) Array.newInstance(componentType, size);
     }
 
     public enum OS {

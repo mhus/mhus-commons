@@ -15,8 +15,8 @@
  */
 package de.mhus.commons.util;
 
-import de.mhus.commons.node.ITreeNode;
-import de.mhus.commons.node.TreeNodeSerializable;
+import de.mhus.commons.tree.ITreeNode;
+import de.mhus.commons.tree.TreeNodeSerializable;
 
 import java.io.Serializable;
 

@@ -19,7 +19,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import de.mhus.commons.tools.MCast;
 import de.mhus.commons.tools.MString;
 import de.mhus.commons.annotations.generic.Public;
-import de.mhus.commons.node.IProperties;
+import de.mhus.commons.tree.IProperties;
 
 import java.util.Date;
 import java.util.HashMap;
