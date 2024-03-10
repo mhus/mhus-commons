@@ -38,6 +38,8 @@ jobs:
           server-password: OSSRH_PASSWORD
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
           gpg-passphrase: GPG_PASSPHRASE
+        env:
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 
       - name: find next release version
         id: find-next-release-version
@@ -56,7 +58,7 @@ jobs:
 
       - name: deploy release
         run: mvn -B -U --fail-at-end -Pdeploy -Prelease deploy
-        env:
+        env:x
           MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 
       - name: commit release
