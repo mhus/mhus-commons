@@ -38,6 +38,8 @@
 		<tmpl.plugin>1.1.0</tmpl.plugin>
 		<license.plugin>2.11.1</license.plugin>
 		<git-code-format-maven-plugin.version>5.3</git-code-format-maven-plugin.version>
+		<nexus.plugin.version>1.6.13</nexus.plugin.version>
+		<gpg.plugin.version>3.1.0</gpg.plugin.version>
 	</properties>
     
     <inceptionYear>2002</inceptionYear>
@@ -159,6 +161,55 @@
 
 
     <profiles>
+		<profile>
+		<id>release</id>
+		<build>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-gpg-plugin</artifactId>
+					<version>${gpg.plugin.version}</version>
+					<configuration>
+						<passphrase>${gpgpassphrase}</passphrase>
+					</configuration>
+					<executions>
+						<execution>
+							<id>sign-artifacts</id>
+							<phase>verify</phase>
+							<goals>
+								<goal>sign</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>de.mhus.mvn.plugin</groupId>
+					<artifactId>versioning-maven-plugin</artifactId>
+					<version>1.0.1</version>
+					<executions>
+						<execution>
+							<phase>validate</phase>
+							<goals>
+								<goal>validate-no-snapshots</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.sonatype.plugins</groupId>
+					<artifactId>nexus-staging-maven-plugin</artifactId>
+					<version>${nexus.plugin.version}</version>
+					<extensions>true</extensions>
+					<configuration>
+						<serverId>ossrh</serverId>
+						<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+						<autoReleaseAfterClose>true</autoReleaseAfterClose>
+					</configuration>
+				</plugin>
+
+			</plugins>
+		</build>
+		</profile>
         <profile>
             <id>deploy</id>
 			<build>
