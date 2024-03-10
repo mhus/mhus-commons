@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,17 +50,20 @@ public class StringTokenizerParser implements Iterable<String>, Iterator<String>
 
         while (true) {
             findNextToken();
-            if (part == null) return;
+            if (part == null)
+                return;
 
             part = part.trim();
-            if (part.length() != 0) break;
+            if (part.length() != 0)
+                break;
         }
     }
 
     protected void findNextToken() {
 
         part = null;
-        if (condition == null) return;
+        if (condition == null)
+            return;
 
         enclosure = 0;
         encapsulated = 0;
@@ -71,7 +74,8 @@ public class StringTokenizerParser implements Iterable<String>, Iterator<String>
 
             // comment mode
             if (comment != 0) {
-                if (isStartComment()) comment = 0;
+                if (isStartComment())
+                    comment = 0;
                 continue;
             }
 
@@ -89,8 +93,10 @@ public class StringTokenizerParser implements Iterable<String>, Iterator<String>
 
             // enclosure mode - raw write - wait for end of enclosure
             if (enclosure != 0) {
-                if (isEncapsulateStarting()) encapsulated = current;
-                else foundCharacter();
+                if (isEncapsulateStarting())
+                    encapsulated = current;
+                else
+                    foundCharacter();
             } else
             // start of enclosure ?
             if (isEnclosureCharacter()) {
@@ -108,7 +114,8 @@ public class StringTokenizerParser implements Iterable<String>, Iterator<String>
                 return;
             } else
             // if encapsulate character ?
-            if (isEncapsulateStarting()) encapsulated = current;
+            if (isEncapsulateStarting())
+                encapsulated = current;
             else
             // other breakable
             if (breakOnThisCharacter()) {
@@ -116,7 +123,8 @@ public class StringTokenizerParser implements Iterable<String>, Iterator<String>
                 return;
             } else if (isStartComment()) {
                 comment = current;
-            } else foundCharacter();
+            } else
+                foundCharacter();
         }
         foundEnd();
     }
@@ -240,7 +248,8 @@ public class StringTokenizerParser implements Iterable<String>, Iterator<String>
     }
 
     @Override
-    public void remove() {}
+    public void remove() {
+    }
 
     public boolean isTokenEncapsulated() {
         return encapsulated != 0;

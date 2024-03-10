@@ -55,8 +55,7 @@ public class Subnet {
      */
     public Subnet(final InetAddress subnetAddress, final InetAddress mask) {
         this.bytesSubnetCount = subnetAddress.getAddress().length;
-        this.bigMask =
-                null == mask ? BigInteger.valueOf(-1) : new BigInteger(mask.getAddress()); // no
+        this.bigMask = null == mask ? BigInteger.valueOf(-1) : new BigInteger(mask.getAddress()); // no
         // mask
         // given
         // case
@@ -69,19 +68,23 @@ public class Subnet {
     /**
      * Subnet factory method.
      *
-     * @param subnetMask format: "192.168.0.0/24" or "192.168.0.0/255.255.255.0" or single address
-     *     or "2001:db8:85a3:880:0:0:0:0/57"
+     * @param subnetMask
+     *            format: "192.168.0.0/24" or "192.168.0.0/255.255.255.0" or single address or
+     *            "2001:db8:85a3:880:0:0:0:0/57"
+     *
      * @return a new instance
-     * @throws UnknownHostException thrown if unsupported subnet mask.
+     *
+     * @throws UnknownHostException
+     *             thrown if unsupported subnet mask.
      */
     public static Subnet createInstance(final String subnetMask) throws UnknownHostException {
         final String[] stringArr = subnetMask.split("/");
         if (2 > stringArr.length)
             return new Subnet(InetAddress.getByName(stringArr[0]), (InetAddress) null);
         else if (stringArr[1].contains(".") || stringArr[1].contains(":"))
-            return new Subnet(
-                    InetAddress.getByName(stringArr[0]), InetAddress.getByName(stringArr[1]));
-        else return new Subnet(InetAddress.getByName(stringArr[0]), Integer.parseInt(stringArr[1]));
+            return new Subnet(InetAddress.getByName(stringArr[0]), InetAddress.getByName(stringArr[1]));
+        else
+            return new Subnet(InetAddress.getByName(stringArr[0]), Integer.parseInt(stringArr[1]));
     }
 
     public boolean isInNet(final String address) {
@@ -94,17 +97,18 @@ public class Subnet {
 
     public boolean isInNet(final InetAddress address) {
         final byte[] bytesAddress = address.getAddress();
-        if (this.bytesSubnetCount != bytesAddress.length) return false;
+        if (this.bytesSubnetCount != bytesAddress.length)
+            return false;
         final BigInteger bigAddress = new BigInteger(bytesAddress);
         return bigAddress.and(this.bigMask).equals(this.bigSubnetMasked);
     }
 
     @Override
     public final boolean equals(Object obj) {
-        if (!(obj instanceof Subnet)) return false;
+        if (!(obj instanceof Subnet))
+            return false;
         final Subnet other = (Subnet) obj;
-        return this.bigSubnetMasked.equals(other.bigSubnetMasked)
-                && this.bigMask.equals(other.bigMask)
+        return this.bigSubnetMasked.equals(other.bigSubnetMasked) && this.bigMask.equals(other.bigMask)
                 && this.bytesSubnetCount == other.bytesSubnetCount;
     }
 
@@ -122,8 +126,8 @@ public class Subnet {
         return buf.toString();
     }
 
-    private static void bigInteger2IpString(
-            final StringBuilder buf, final BigInteger bigInteger, final int displayBytes) {
+    private static void bigInteger2IpString(final StringBuilder buf, final BigInteger bigInteger,
+            final int displayBytes) {
         final boolean isIPv4 = 4 == displayBytes;
         byte[] bytes = bigInteger.toByteArray();
         int diffLen = displayBytes - bytes.length;
@@ -131,10 +135,13 @@ public class Subnet {
 
         int integer;
         for (int i = 0; i < displayBytes; i++) {
-            if (0 < i && !isIPv4 && i % 2 == 0) buf.append(':');
-            else if (0 < i && isIPv4) buf.append('.');
+            if (0 < i && !isIPv4 && i % 2 == 0)
+                buf.append(':');
+            else if (0 < i && isIPv4)
+                buf.append('.');
             integer = 0xFF & (i < diffLen ? fillByte : bytes[i - diffLen]);
-            if (!isIPv4 && 0x10 > integer) buf.append('0');
+            if (!isIPv4 && 0x10 > integer)
+                buf.append('0');
             buf.append(isIPv4 ? integer : Integer.toHexString(integer));
         }
     }

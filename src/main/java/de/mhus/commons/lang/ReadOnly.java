@@ -20,4 +20,5 @@ package de.mhus.commons.lang;
  *
  * @author mikehummel
  */
-public interface ReadOnly {}
+public interface ReadOnly {
+}

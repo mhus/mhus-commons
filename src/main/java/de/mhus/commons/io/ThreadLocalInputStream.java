@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,14 +32,16 @@ public class ThreadLocalInputStream extends InputStream {
     @Override
     public int read() throws IOException {
         InputStream in = input.get();
-        if (in == null) in = defaultIn;
+        if (in == null)
+            in = defaultIn;
         return in.read();
     }
 
     @Override
     public void close() throws IOException {
         InputStream in = input.get();
-        if (in == null) in = defaultIn;
+        if (in == null)
+            in = defaultIn;
         in.close();
     }
 

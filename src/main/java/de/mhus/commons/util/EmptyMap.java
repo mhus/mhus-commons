@@ -41,10 +41,12 @@ public class EmptyMap<K, V> implements Map<K, V> {
     }
 
     @Override
-    public void putAll(Map m) {}
+    public void putAll(Map m) {
+    }
 
     @Override
-    public void clear() {}
+    public void clear() {
+    }
 
     @Override
     public boolean containsKey(Object key) {

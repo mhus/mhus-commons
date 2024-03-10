@@ -30,16 +30,19 @@ public class SecureString implements Externalizable {
     protected byte[] data;
     protected int length;
 
-    public SecureString() {}
+    public SecureString() {
+    }
 
     public SecureString(String data) {
         this.length = data == null ? 0 : data.length();
-        if (data == null) return;
+        if (data == null)
+            return;
         this.data = MCrypt.obfuscate(MString.toBytes(data));
     }
 
     public String value() {
-        if (data == null) return null;
+        if (data == null)
+            return null;
         return MString.toString(MCrypt.unobfuscate(data));
     }
 
@@ -54,7 +57,8 @@ public class SecureString implements Externalizable {
     @Override
     public void writeExternal(ObjectOutput out) throws IOException {
         out.writeInt(length);
-        if (data == null) out.writeInt(-1);
+        if (data == null)
+            out.writeInt(-1);
         else {
             out.writeInt(data.length);
             out.write(data);

@@ -54,7 +54,8 @@ public class FallbackMap<K, V> implements Map<K, V> {
     @Override
     public V get(Object key) {
         V ret = map.get(key);
-        if (ret == null && fall != null) return fall.get(key);
+        if (ret == null && fall != null)
+            return fall.get(key);
         return ret;
     }
 
@@ -69,7 +70,8 @@ public class FallbackMap<K, V> implements Map<K, V> {
     public V remove(Object key) {
         V ret = get(key);
         map.remove(key);
-        if (!fro) fall.remove(key);
+        if (!fro)
+            fall.remove(key);
         return ret;
     }
 
@@ -81,7 +83,8 @@ public class FallbackMap<K, V> implements Map<K, V> {
     @Override
     public void clear() {
         map.clear();
-        if (!fro) fall.clear();
+        if (!fro)
+            fall.clear();
     }
 
     @Override

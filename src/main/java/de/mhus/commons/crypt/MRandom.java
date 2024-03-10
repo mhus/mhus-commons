@@ -53,15 +53,18 @@ public interface MRandom extends IService {
     long getLong();
 
     /**
-     * Return an adaption of an random if available. e.g. java.util.Random and java.security.Random
-     * should be supported.
+     * Return an adaption of an random if available. e.g. java.util.Random and java.security.Random should be supported.
      *
-     * @param ifc Requested Interface or Class
+     * @param ifc
+     *            Requested Interface or Class
+     *
      * @return The instance of Ifc
-     * @throws NotSupportedException If adaption was not possible.
+     *
+     * @throws NotSupportedException
+     *             If adaption was not possible.
      */
-    <T> T adaptTo(Class<? extends T> ifc)
-            throws NotSupportedException; // adaptTo java.util.Random or java.secure.Random if
+    <T> T adaptTo(Class<? extends T> ifc) throws NotSupportedException; // adaptTo java.util.Random or
+                                                                        // java.secure.Random if
     // available
 
     /**

@@ -79,13 +79,17 @@ public class MXml {
     /**
      * Returns the text value of a node.
      *
-     * @param root The element where you need the text value from
-     * @param inner If true all inner elements are parsed and the text appended
+     * @param root
+     *            The element where you need the text value from
+     * @param inner
+     *            If true all inner elements are parsed and the text appended
+     *
      * @return null if root is null or the text of the element
      */
     public static String getValue(Element root, boolean inner) {
 
-        if (root == null) return null;
+        if (root == null)
+            return null;
 
         NodeList raw = root.getChildNodes();
 
@@ -103,25 +107,24 @@ public class MXml {
     }
 
     /**
-     * Returns the text value of a node. The listener manipulates the output for different inner
-     * notes.
+     * Returns the text value of a node. The listener manipulates the output for different inner notes.
      *
      * @param root
      * @param listener
+     *
      * @return null if the root is null or the text
      */
     public static String getValue(Element root, ValueListener listener) {
 
-        if (root == null) return null;
+        if (root == null)
+            return null;
 
         NodeList raw = root.getChildNodes();
 
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < raw.getLength(); i++) {
             if (raw.item(i).getNodeType() == Node.ELEMENT_NODE) {
-                sb.append(
-                        listener.valueOf(
-                                (Element) raw.item(i), getValue((Element) raw.item(i), listener)));
+                sb.append(listener.valueOf((Element) raw.item(i), getValue((Element) raw.item(i), listener)));
             } else if (raw.item(i).getNodeType() == Node.TEXT_NODE)
                 sb.append(raw.item(i).getNodeValue());
         }
@@ -139,11 +142,13 @@ public class MXml {
      *
      * @param root
      * @param name
+     *
      * @return null if the root or name is null else the list of nodes
      */
     public static NodeList getLocalElements(Element root, String name) {
 
-        if (root == null || name == null) return null;
+        if (root == null || name == null)
+            return null;
 
         NodeList raw = root.getChildNodes();
 
@@ -160,27 +165,30 @@ public class MXml {
      * Returns a list of all elements in the given root element on the first level only.
      *
      * @param root
+     *
      * @return null if the root is null otherwise the list of nodes
      */
     public static NodeList getLocalElements(Element root) {
 
-        if (root == null) return null;
+        if (root == null)
+            return null;
 
         NodeList raw = root.getChildNodes();
 
         MyNodeList out = new MyNodeList();
         for (int i = 0; i < raw.getLength(); i++)
-            if (raw.item(i).getNodeType() == Node.ELEMENT_NODE) out.add(raw.item(i));
+            if (raw.item(i).getNodeType() == Node.ELEMENT_NODE)
+                out.add(raw.item(i));
 
         return out;
     }
 
     /**
-     * Returns an iterator of elements with this name in the given root element on the first level
-     * only.
+     * Returns an iterator of elements with this name in the given root element on the first level only.
      *
      * @param root
      * @param name
+     *
      * @return every time an iterator - never null
      */
     public static ElementIterator getLocalElementIterator(Element root, String name) {
@@ -191,6 +199,7 @@ public class MXml {
      * Returns an iterator of all elements in the given root element on the first level only.
      *
      * @param root
+     *
      * @return iterator of the requested elements
      */
     public static ElementIterator getLocalElementIterator(Element root) {
@@ -198,16 +207,18 @@ public class MXml {
     }
 
     /**
-     * Returns the first found element by path. Available search definitions are slash and brackets,
-     * e.g. "/root/somenode/number[3]/name" or "/root/somenode/filter@key=value/name"
+     * Returns the first found element by path. Available search definitions are slash and brackets, e.g.
+     * "/root/somenode/number[3]/name" or "/root/somenode/filter@key=value/name"
      *
      * @param root
      * @param path
+     *
      * @return null if root or path is null or the element is not found
      */
     public static Element getElementByPath(Element root, String path) {
 
-        if (root == null || path == null) return null;
+        if (root == null || path == null)
+            return null;
 
         if (path.startsWith("/")) {
             while (root.getParentNode() != null && root.getParentNode() instanceof Element)
@@ -258,9 +269,11 @@ public class MXml {
                         }
                     }
                 }
-                if (root == null) return null;
+                if (root == null)
+                    return null;
             } else {
-                if (list.getLength() <= index) return null;
+                if (list.getLength() <= index)
+                    return null;
                 root = (Element) list.item(index);
             }
         }
@@ -269,18 +282,21 @@ public class MXml {
     }
 
     /**
-     * Returns the first found element by path. Available search definitions are slash and brackets,
-     * e.g. "/root/somenode/number[3]/name" or "/root/somenode/filter@key=value/name" Add an amp
-     * before a node to collect all the nodes between too, e.g.
-     * "/root/somenode/&filter@key=value/name"
+     * Returns the first found element by path. Available search definitions are slash and brackets, e.g.
+     * "/root/somenode/number[3]/name" or "/root/somenode/filter@key=value/name" Add an amp before a node to collect all
+     * the nodes between too, e.g. "/root/somenode/&filter@key=value/name"
      *
-     * @param root Start element
-     * @param path Path to go
-     * @param list Result list (findings will be added)
+     * @param root
+     *            Start element
+     * @param path
+     *            Path to go
+     * @param list
+     *            Result list (findings will be added)
      */
     public static void getElementsByPath(Element root, String path, List<Element> list) {
 
-        if (root == null || path == null) return;
+        if (root == null || path == null)
+            return;
 
         if (path.startsWith("/")) {
             while (root.getParentNode() != null && root.getParentNode() instanceof Element)
@@ -333,18 +349,22 @@ public class MXml {
         NodeList locals = getLocalElements(root, part);
         if (index >= 0) {
             Element next = (Element) locals.item(index);
-            if (path == null) list.add(next);
+            if (path == null)
+                list.add(next);
             else {
-                if (remember) list.add(next);
+                if (remember)
+                    list.add(next);
                 getElementsByPath(next, path, list);
             }
         } else {
             for (int j = 0; j < locals.getLength(); j++) {
                 Element next = (Element) locals.item(j);
                 if (key == null || value == null || next.getAttribute(key).equals(value)) {
-                    if (path == null) list.add(next);
+                    if (path == null)
+                        list.add(next);
                     else {
-                        if (remember) list.add(next);
+                        if (remember)
+                            list.add(next);
                         getElementsByPath(next, path, list);
                     }
                 }
@@ -370,10 +390,12 @@ public class MXml {
      * Returns the path to the node as string representation, separated with slashes.
      *
      * @param in
+     *
      * @return an empty string if the node is null
      */
     public static String getPathAsString(Node in) {
-        if (in == null) return "";
+        if (in == null)
+            return "";
         StringBuilder out = new StringBuilder();
         do {
             if (in instanceof Document) {
@@ -393,16 +415,18 @@ public class MXml {
      *
      * @param xml
      * @param charset
+     *
      * @return the document of the xml model
+     *
      * @throws ParserConfigurationException
      * @throws UnsupportedEncodingException
      * @throws SAXException
      * @throws IOException
      */
     public static Document loadXml(String xml, String charset)
-            throws ParserConfigurationException, UnsupportedEncodingException, SAXException,
-                    IOException {
-        if (xml == null) return null;
+            throws ParserConfigurationException, UnsupportedEncodingException, SAXException, IOException {
+        if (xml == null)
+            return null;
         if (!xml.startsWith("<?xml"))
             xml = "<?xml version=\"1.0\" encoding=\"" + charset + "\"?>" + xml;
         DocumentBuilder builder = newBuilder();
@@ -466,10 +490,8 @@ public class MXml {
 
             } catch (ParserConfigurationException e) {
                 // This should catch a failed setFeature feature
-                LOGGER.error(
-                                "ParserConfigurationException was thrown. The feature '"
-                                        + FEATURE
-                                        + "' is probably not supported by your XML processor.");
+                LOGGER.error("ParserConfigurationException was thrown. The feature '" + FEATURE
+                        + "' is probably not supported by your XML processor.");
             }
         }
         return dbf.newDocumentBuilder();
@@ -479,13 +501,14 @@ public class MXml {
      * Create a XML Document from a string.
      *
      * @param xml
+     *
      * @return the xml model
+     *
      * @throws ParserConfigurationException
      * @throws SAXException
      * @throws IOException
      */
-    public static Document loadXml(String xml)
-            throws ParserConfigurationException, SAXException, IOException {
+    public static Document loadXml(String xml) throws ParserConfigurationException, SAXException, IOException {
         return loadXml(xml, M.CHARSET_UTF_8);
     }
 
@@ -493,26 +516,25 @@ public class MXml {
      * Create a XML Document from a stream resource.
      *
      * @param is
+     *
      * @return the xml model
+     *
      * @throws ParserConfigurationException
      * @throws SAXException
      * @throws IOException
      */
-    public static Document loadXml(InputStream is)
-            throws ParserConfigurationException, SAXException, IOException {
+    public static Document loadXml(InputStream is) throws ParserConfigurationException, SAXException, IOException {
         DocumentBuilder builder = newBuilder();
         System.setProperty("jdk.xml.entityExpansionLimit", "1");
         return builder.parse(is);
     }
 
-    public static Document loadXml(Reader file)
-            throws ParserConfigurationException, SAXException, IOException {
+    public static Document loadXml(Reader file) throws ParserConfigurationException, SAXException, IOException {
         DocumentBuilder builder = newBuilder();
         return builder.parse(new InputSource(file));
     }
 
-    public static Document loadXml(File f)
-            throws ParserConfigurationException, SAXException, IOException {
+    public static Document loadXml(File f) throws ParserConfigurationException, SAXException, IOException {
         DocumentBuilder builder = newBuilder();
         return builder.parse(f);
     }
@@ -523,11 +545,13 @@ public class MXml {
             return new InputSource(new StringBufferInputStream(""));
         }
     }
+
     /**
      * Write the element into the stream.
      *
      * @param e
      * @param out
+     *
      * @throws TransformerFactoryConfigurationError
      * @throws TransformerException
      */
@@ -546,7 +570,8 @@ public class MXml {
 
     public static void saveXml(Node e, OutputStream out, boolean intend) throws Exception {
         Transformer transformer = TransformerFactory.newInstance().newTransformer();
-        if (intend) transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        if (intend)
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 
         StreamResult result = new StreamResult(out);
         DOMSource source = new DOMSource(e);
@@ -586,6 +611,7 @@ public class MXml {
      * Create and return a empty xml document. There is no document element created.
      *
      * @return xml model
+     *
      * @throws ParserConfigurationException
      */
     public static Document createDocument() throws ParserConfigurationException {
@@ -605,11 +631,13 @@ public class MXml {
      * Encode the default problematic characters in a string to store it in a xml value.
      *
      * @param _in
+     *
      * @return encoded string
      */
     public static String encode(String _in) {
 
-        if (_in == null) return null;
+        if (_in == null)
+            return null;
 
         StringBuilder out = new StringBuilder();
         for (int i = 0; i < _in.length(); i++) {
@@ -624,16 +652,17 @@ public class MXml {
                 out.append("&lt;");
             } else if (c == '>') {
                 out.append("&gt;");
-            } else out.append(c);
+            } else
+                out.append(c);
         }
         return out.toString();
     }
 
     /**
-     * Encodes the amp and all characters greater then 255 to unicode representation with amp and
-     * hash signs.
+     * Encodes the amp and all characters greater then 255 to unicode representation with amp and hash signs.
      *
      * @param _in
+     *
      * @return encoded string
      */
     public static String unicodeEncode(String _in) {
@@ -645,7 +674,8 @@ public class MXml {
                 out.append("&#" + (int) c + ";");
             } else if (c == '&') {
                 out.append("&amp;");
-            } else out.append(c);
+            } else
+                out.append(c);
         }
         return out.toString();
     }
@@ -654,11 +684,13 @@ public class MXml {
      * Decodes a string with encoded characters to a java string.
      *
      * @param _in
+     *
      * @return decoded string
      */
     public static String decode(String _in) {
 
-        if (_in == null) return null;
+        if (_in == null)
+            return null;
 
         StringBuilder out = new StringBuilder();
         int mode = 0;
@@ -726,14 +758,16 @@ public class MXml {
     }
 
     /**
-     * Prints information - most technical - of the xml element and its childs and returns it as
-     * string. Use this function for debugging (debugger).
+     * Prints information - most technical - of the xml element and its childs and returns it as string. Use this
+     * function for debugging (debugger).
      *
      * @param element
+     *
      * @return a dump representation
      */
     public static String dump(Node element) {
-        if (element == null) return "null";
+        if (element == null)
+            return "null";
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         PrintStream o = new PrintStream(out);
         dump(o, element, "");
@@ -758,56 +792,25 @@ public class MXml {
             o.print(level + "<" + element.getNodeName());
             NamedNodeMap attrs = element.getAttributes();
             for (int i = 0; i < attrs.getLength(); i++)
-                o.print(
-                        " "
-                                + attrs.item(i).getNodeName()
-                                + "='"
-                                + attrs.item(i).getNodeValue()
-                                + "'");
+                o.print(" " + attrs.item(i).getNodeName() + "='" + attrs.item(i).getNodeValue() + "'");
             o.println("> {" + node.getClass().getCanonicalName() + "}");
 
             NodeList nodes = element.getChildNodes();
-            for (int i = 0; i < nodes.getLength(); i++) dump(o, nodes.item(i), level + "  ");
+            for (int i = 0; i < nodes.getLength(); i++)
+                dump(o, nodes.item(i), level + "  ");
 
             o.println(level + "</" + element.getNodeName() + ">");
         } else if (node instanceof ProcessingInstruction) {
-            o.println(
-                    level
-                            + "<?"
-                            + node.getNodeName()
-                            + " "
-                            + ((ProcessingInstruction) node).getData()
-                            + "?> {"
-                            + node.getClass().getCanonicalName()
-                            + "}");
+            o.println(level + "<?" + node.getNodeName() + " " + ((ProcessingInstruction) node).getData() + "?> {"
+                    + node.getClass().getCanonicalName() + "}");
         } else if (node instanceof Comment) {
-            o.println(
-                    level
-                            + "<!--"
-                            + ((Comment) node).getData()
-                            + "--> {"
-                            + node.getClass().getCanonicalName()
-                            + "}");
+            o.println(level + "<!--" + ((Comment) node).getData() + "--> {" + node.getClass().getCanonicalName() + "}");
         } else if (node instanceof Text) {
-            o.println(
-                    level
-                            + "'"
-                            + ((Text) node).getData()
-                            + "' {"
-                            + node.getClass().getCanonicalName()
-                            + "}");
+            o.println(level + "'" + ((Text) node).getData() + "' {" + node.getClass().getCanonicalName() + "}");
         } else if (node instanceof DocumentType) {
-            o.println(
-                    level
-                            + "<!DOCTYPE "
-                            + ((DocumentType) node).getName()
-                            + " "
-                            + ((DocumentType) node).getInternalSubset()
-                            + " \""
-                            + ((DocumentType) node).getPublicId()
-                            + "\"> {"
-                            + node.getClass().getCanonicalName()
-                            + "}");
+            o.println(level + "<!DOCTYPE " + ((DocumentType) node).getName() + " "
+                    + ((DocumentType) node).getInternalSubset() + " \"" + ((DocumentType) node).getPublicId() + "\"> {"
+                    + node.getClass().getCanonicalName() + "}");
         } else {
             o.println(level + "{" + node.getClass().getCanonicalName() + "}");
         }
@@ -815,7 +818,8 @@ public class MXml {
 
     public static void dump(PrintStream out, NodeList nodes) {
 
-        for (int i = 0; i < nodes.getLength(); i++) dump(out, nodes.item(i), "");
+        for (int i = 0; i < nodes.getLength(); i++)
+            dump(out, nodes.item(i), "");
     }
 
     public static class ElementIterator implements Iterator<Element>, Iterable<Element> {
@@ -886,6 +890,7 @@ public class MXml {
      * Returns the inner XML Structure as string with all tag definitions.
      *
      * @param node
+     *
      * @return inner structure as string
      */
     public static String innerXml(org.w3c.dom.Node node) {
@@ -896,16 +901,18 @@ public class MXml {
      * Returns the inner XML Structure as string with all tag definitions.
      *
      * @param node
-     * @param instructions set to false to ignore processing instructions (on the first level)
+     * @param instructions
+     *            set to false to ignore processing instructions (on the first level)
+     *
      * @return null if the node is null otherwise the innerXml as text
      */
     public static String innerXml(org.w3c.dom.Node node, boolean instructions) {
-        if (node == null) return null;
+        if (node == null)
+            return null;
         org.w3c.dom.Node childChild = null;
         try {
-            DOMImplementationLS lsImpl =
-                    (DOMImplementationLS)
-                            node.getOwnerDocument().getImplementation().getFeature("LS", "3.0");
+            DOMImplementationLS lsImpl = (DOMImplementationLS) node.getOwnerDocument().getImplementation()
+                    .getFeature("LS", "3.0");
             LSSerializer lsSerializer = lsImpl.createLSSerializer();
             NodeList childNodes = node.getChildNodes();
             StringBuilder sb = new StringBuilder();
@@ -915,17 +922,15 @@ public class MXml {
                     sb.append(childChild.getNodeValue());
                 } else if (childChild instanceof ProcessingInstruction) {
                     if (instructions)
-                        sb.append("<?")
-                                .append(childChild.getNodeName())
-                                .append(" ")
-                                .append(childChild.getNodeValue())
+                        sb.append("<?").append(childChild.getNodeName()).append(" ").append(childChild.getNodeValue())
                                 .append("?>");
                 } else {
                     String ser = lsSerializer.writeToString(childChild);
                     if (ser.substring(0, 2).equals("<?")) {
                         // remove <?xml ... ?> header
                         int pos = ser.indexOf("?>\n");
-                        if (pos > 0) ser = ser.substring(pos + 3);
+                        if (pos > 0)
+                            ser = ser.substring(pos + 3);
                     }
                     sb.append(ser);
                 }
@@ -942,11 +947,14 @@ public class MXml {
      *
      * @param root
      * @param query
+     *
      * @return never null
+     *
      * @throws XPathExpressionException
      */
     public static NodeIterator queryXPath(Node root, String query) throws XPathExpressionException {
-        if (root == null || query == null) return new NodeIterator(null);
+        if (root == null || query == null)
+            return new NodeIterator(null);
         XPath xpath = XPathFactory.newInstance().newXPath();
         XPathExpression expr = xpath.compile(query);
         NodeList result = (NodeList) expr.evaluate(root, XPathConstants.NODESET);
@@ -958,12 +966,14 @@ public class MXml {
      *
      * @param root
      * @param query
+     *
      * @return never null
+     *
      * @throws XPathExpressionException
      */
-    public static ElementIterator queryXPathElements(Node root, String query)
-            throws XPathExpressionException {
-        if (root == null || query == null) return new ElementIterator(null);
+    public static ElementIterator queryXPathElements(Node root, String query) throws XPathExpressionException {
+        if (root == null || query == null)
+            return new ElementIterator(null);
         XPath xpath = XPathFactory.newInstance().newXPath();
         XPathExpression expr = xpath.compile(query);
         NodeList result = (NodeList) expr.evaluate(root, XPathConstants.NODESET);
@@ -976,19 +986,21 @@ public class MXml {
      * @param element
      */
     public static void trim(Element element) {
-        if (element == null) return;
+        if (element == null)
+            return;
 
         NodeList nodes = element.getChildNodes();
         for (int i = 0; i < nodes.getLength(); i++) {
             Node node = nodes.item(i);
-            if (node instanceof Element) trim((Element) node);
+            if (node instanceof Element)
+                trim((Element) node);
             else if (node instanceof Text) {
                 String value = ((Text) node).getNodeValue();
                 if (value != null) {
-                    //					boolean hasEnter = value.indexOf('\n') > -1;
+                    // boolean hasEnter = value.indexOf('\n') > -1;
                     value = value.trim();
-                    //					if (hasEnter && value.indexOf('\n') < 0)
-                    //						value = value + "\n";
+                    // if (hasEnter && value.indexOf('\n') < 0)
+                    // value = value + "\n";
                     node.setNodeValue(value);
                 }
             }
@@ -996,14 +1008,15 @@ public class MXml {
     }
 
     /**
-     * Remove the element from his parent but append the children instead if it into the parent node
-     * - on the same position.
+     * Remove the element from his parent but append the children instead if it into the parent node - on the same
+     * position.
      *
      * @param element
      */
     public static void carveOut(Element element) {
 
-        if (element == null) return;
+        if (element == null)
+            return;
 
         Element parent = (Element) element.getParentNode();
 
@@ -1018,22 +1031,20 @@ public class MXml {
     }
 
     /**
-     * Normalize the name of attributes or node names. Allowed characters are (a-z, A-Z, 0-9, - _ .)
-     * all other characters are replaced with _
+     * Normalize the name of attributes or node names. Allowed characters are (a-z, A-Z, 0-9, - _ .) all other
+     * characters are replaced with _
      *
      * @param key
+     *
      * @return normalized key or null if the key is null.
      */
     public static String normalizeName(String key) {
         boolean doIt = false;
-        if (key == null) return null;
+        if (key == null)
+            return null;
         for (int i = 0; i < key.length(); i++) {
             char c = key.charAt(i);
-            if (!(c >= 'a' && c <= 'z'
-                    || c >= 'A' && c <= 'Z'
-                    || c >= '0' && c <= '9'
-                    || c == '_'
-                    || c == '.'
+            if (!(c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z' || c >= '0' && c <= '9' || c == '_' || c == '.'
                     || c == '-')) {
                 doIt = true;
                 break;
@@ -1044,11 +1055,7 @@ public class MXml {
             StringBuilder out = new StringBuilder();
             for (int i = 0; i < key.length(); i++) {
                 char c = key.charAt(i);
-                if (!(c >= 'a' && c <= 'z'
-                        || c >= 'A' && c <= 'Z'
-                        || c >= '0' && c <= '9'
-                        || c == '_'
-                        || c == '.'
+                if (!(c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z' || c >= '0' && c <= '9' || c == '_' || c == '.'
                         || c == '-')) {
                     c = '_';
                 }
@@ -1070,7 +1077,8 @@ public class MXml {
         txt = txt.replaceAll("<!--([\\s\\S]*?)-->", "");
         txt = removeTags(txt);
 
-        while (txt.indexOf("\n\n\n") >= 0) txt = txt.replaceAll("\n\n\n", "\n\n");
+        while (txt.indexOf("\n\n\n") >= 0)
+            txt = txt.replaceAll("\n\n\n", "\n\n");
 
         txt = txt.trim();
 
@@ -1079,19 +1087,24 @@ public class MXml {
 
     public static String getValue(Element root, String path, String def) {
         Element ele = getElementByPath(root, path);
-        if (ele == null) return def;
+        if (ele == null)
+            return def;
         return getValue(ele, false);
     }
 
     public static String getAttributeValue(Element root, String path, String def) {
         int pos = path.lastIndexOf('@');
-        if (pos < 0) return def;
+        if (pos < 0)
+            return def;
         String name = path.substring(pos + 1);
-        if (name.length() == 0) return def;
+        if (name.length() == 0)
+            return def;
         path = path.substring(0, pos);
         Element ele = getElementByPath(root, path);
-        if (ele == null) return def;
-        if (!ele.hasAttribute(name)) return def;
+        if (ele == null)
+            return def;
+        if (!ele.hasAttribute(name))
+            return def;
         return ele.getAttribute(name);
     }
 
@@ -1099,7 +1112,8 @@ public class MXml {
         NodeList list = a.getChildNodes();
         for (int i = 0; i < list.getLength(); i++) {
             Node child = list.item(i);
-            if (child instanceof CDATASection) return (CDATASection) child;
+            if (child instanceof CDATASection)
+                return (CDATASection) child;
         }
         return null;
     }
@@ -1115,7 +1129,8 @@ public class MXml {
     public static List<String> getAttributeNames(Element element) {
         NamedNodeMap attr = element.getAttributes();
         ArrayList<String> out = new ArrayList<>(attr.getLength());
-        for (int i = 0; i < attr.getLength(); i++) out.add(attr.item(i).getNodeName());
+        for (int i = 0; i < attr.getLength(); i++)
+            out.add(attr.item(i).getNodeName());
         return out;
     }
 }

@@ -27,16 +27,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class EventHandlerTest extends TestCase {
 
     /**
-     * Test registration of normal and weak listeners. Test if weak listener will be removed after
-     * full gc().
+     * Test registration of normal and weak listeners. Test if weak listener will be removed after full gc().
      */
     @Test
     public void testListeners() {
-        MEventHandler<MyListener> eh =
-                new MEventHandler<MyListener>() {
-                    @Override
-                    public void onFire(MyListener listener, Object event, Object... values) {}
-                };
+        MEventHandler<MyListener> eh = new MEventHandler<MyListener>() {
+            @Override
+            public void onFire(MyListener listener, Object event, Object... values) {
+            }
+        };
         MyListener l1 = new MyListener();
         MyListener l2 = new MyListener();
 
@@ -55,11 +54,11 @@ public class EventHandlerTest extends TestCase {
     /** Test unregister for normal and weak listeners */
     @Test
     public void testUnregister() {
-        MEventHandler<MyListener> eh =
-                new MEventHandler<MyListener>() {
-                    @Override
-                    public void onFire(MyListener listener, Object event, Object... values) {}
-                };
+        MEventHandler<MyListener> eh = new MEventHandler<MyListener>() {
+            @Override
+            public void onFire(MyListener listener, Object event, Object... values) {
+            }
+        };
         MyListener l1 = new MyListener();
         MyListener l2 = new MyListener();
 
@@ -77,11 +76,11 @@ public class EventHandlerTest extends TestCase {
     /** Test if weak mode is supported. */
     @Test
     public void testWeakMode() {
-        MEventHandler<MyListener> eh =
-                new MEventHandler<MyListener>(true) {
-                    @Override
-                    public void onFire(MyListener listener, Object event, Object... values) {}
-                };
+        MEventHandler<MyListener> eh = new MEventHandler<MyListener>(true) {
+            @Override
+            public void onFire(MyListener listener, Object event, Object... values) {
+            }
+        };
         MyListener l1 = new MyListener();
         MyListener l2 = new MyListener();
 
@@ -99,11 +98,11 @@ public class EventHandlerTest extends TestCase {
 
     @Test
     public void testIterator() {
-        MEventHandler<MyListener> eh =
-                new MEventHandler<MyListener>(true) {
-                    @Override
-                    public void onFire(MyListener listener, Object event, Object... values) {}
-                };
+        MEventHandler<MyListener> eh = new MEventHandler<MyListener>(true) {
+            @Override
+            public void onFire(MyListener listener, Object event, Object... values) {
+            }
+        };
         MyListener l1 = new MyListener();
         MyListener l2 = new MyListener();
 
@@ -122,11 +121,11 @@ public class EventHandlerTest extends TestCase {
     @Test
     public void testConcurrentModification() {
 
-        MEventHandler<MyListener> eh =
-                new MEventHandler<MyListener>(true) {
-                    @Override
-                    public void onFire(MyListener listener, Object event, Object... values) {}
-                };
+        MEventHandler<MyListener> eh = new MEventHandler<MyListener>(true) {
+            @Override
+            public void onFire(MyListener listener, Object event, Object... values) {
+            }
+        };
         MyListener l1 = new MyListenerModify(eh);
         MyListener l2 = new MyListenerModify(eh);
 
@@ -149,14 +148,13 @@ public class EventHandlerTest extends TestCase {
     @Test
     public void testFireMethod() throws SecurityException, NoSuchMethodException {
 
-        MEventHandler<MyListener> eh =
-                new MEventHandler<MyListener>(true) {
+        MEventHandler<MyListener> eh = new MEventHandler<MyListener>(true) {
 
-                    @Override
-                    public void onFire(MyListener listener, Object event, Object... values) {
-                        listener.doIt();
-                    }
-                };
+            @Override
+            public void onFire(MyListener listener, Object event, Object... values) {
+                listener.doIt();
+            }
+        };
         MyListener l1 = new MyListener();
         eh.register(l1);
 

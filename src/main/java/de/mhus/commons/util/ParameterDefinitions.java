@@ -28,9 +28,11 @@ public class ParameterDefinitions extends TreeMap<String, ParameterDefinition> {
     /**
      * Format of lines: name,key:value,key:value...
      *
-     * <p>Keys: type:[type] format:[format] mandatory:[bool] default:[default]
+     * <p>
+     * Keys: type:[type] format:[format] mandatory:[bool] default:[default]
      *
      * @param definitions
+     *
      * @return Parameter definition
      */
     public static ParameterDefinitions create(Collection<String> definitions) {

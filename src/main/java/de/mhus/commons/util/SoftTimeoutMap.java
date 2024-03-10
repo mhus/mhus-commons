@@ -38,7 +38,8 @@ public class SoftTimeoutMap<K, V> implements Map<K, V> {
     private Invalidator<K, V> invalidator;
     private boolean refreshOnAccess = true;
 
-    public SoftTimeoutMap() {}
+    public SoftTimeoutMap() {
+    }
 
     public SoftTimeoutMap(long timeout) {
         this.timeout = timeout;
@@ -57,11 +58,7 @@ public class SoftTimeoutMap<K, V> implements Map<K, V> {
         this.refreshOnAccess = refreshOnAccess;
     }
 
-    public SoftTimeoutMap(
-            long timeout,
-            long checkTimeout,
-            boolean refreshOnAccess,
-            Invalidator<K, V> invalidator) {
+    public SoftTimeoutMap(long timeout, long checkTimeout, boolean refreshOnAccess, Invalidator<K, V> invalidator) {
         this.timeout = timeout;
         this.checkTimeout = checkTimeout;
         this.refreshOnAccess = refreshOnAccess;
@@ -92,7 +89,8 @@ public class SoftTimeoutMap<K, V> implements Map<K, V> {
     public V get(Object key) {
         doValidationCheck();
         SoftTimeoutMap<K, V>.Container<V> ret = map.get(key);
-        if (ret == null) return null;
+        if (ret == null)
+            return null;
         if (ret.isTimeout()) {
             remove(ret);
             return null;
@@ -108,17 +106,10 @@ public class SoftTimeoutMap<K, V> implements Map<K, V> {
 
     public synchronized void doValidationCheck() {
         if (MPeriod.isTimeOut(lastCheck, checkTimeout)) {
-            map.entrySet()
-                    .removeIf(
-                            e -> {
-                                return (invalidator != null
-                                                && invalidator.isInvalid(
-                                                        e.getKey(),
-                                                        e.getValue().get(),
-                                                        e.getValue().time,
-                                                        e.getValue().accessed)
-                                        || e.getValue().isTimeout());
-                            });
+            map.entrySet().removeIf(e -> {
+                return (invalidator != null && invalidator.isInvalid(e.getKey(), e.getValue().get(), e.getValue().time,
+                        e.getValue().accessed) || e.getValue().isTimeout());
+            });
             lastCheck = System.currentTimeMillis();
         }
     }
@@ -181,7 +172,8 @@ public class SoftTimeoutMap<K, V> implements Map<K, V> {
     @Override
     public V getOrDefault(Object key, V defaultValue) {
         V ret = get(key);
-        if (ret == null) return defaultValue;
+        if (ret == null)
+            return defaultValue;
         return ret;
     }
 
@@ -221,8 +213,7 @@ public class SoftTimeoutMap<K, V> implements Map<K, V> {
     }
 
     @Override
-    public V computeIfPresent(
-            K key, BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
+    public V computeIfPresent(K key, BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
         throw new NotSupportedException();
     }
 
@@ -232,8 +223,7 @@ public class SoftTimeoutMap<K, V> implements Map<K, V> {
     }
 
     @Override
-    public V merge(
-            K key, V value, BiFunction<? super V, ? super V, ? extends V> remappingFunction) {
+    public V merge(K key, V value, BiFunction<? super V, ? super V, ? extends V> remappingFunction) {
         throw new NotSupportedException();
     }
 
@@ -244,7 +234,8 @@ public class SoftTimeoutMap<K, V> implements Map<K, V> {
     /**
      * Set the maximal life time for every entry. After the timeout the entry will be removed.
      *
-     * @param timeout timeout in ms
+     * @param timeout
+     *            timeout in ms
      */
     public void setTimeout(long timeout) {
         this.timeout = timeout;
@@ -255,10 +246,11 @@ public class SoftTimeoutMap<K, V> implements Map<K, V> {
     }
 
     /**
-     * Set the time after a full check should be done. If the map is accesses after timeout a full
-     * check over all elements will be performed. Set to -1 to disable.
+     * Set the time after a full check should be done. If the map is accesses after timeout a full check over all
+     * elements will be performed. Set to -1 to disable.
      *
-     * @param checkTimeout timeout in ms
+     * @param checkTimeout
+     *            timeout in ms
      */
     public void setCheckTimeout(long checkTimeout) {
         this.checkTimeout = checkTimeout;
@@ -282,8 +274,8 @@ public class SoftTimeoutMap<K, V> implements Map<K, V> {
     }
 
     /**
-     * Set to true if also get requests will reset the timeout. If set to false it will timeout even
-     * it was read. Default is true.
+     * Set to true if also get requests will reset the timeout. If set to false it will timeout even it was read.
+     * Default is true.
      *
      * @param refreshOnAccess
      */
@@ -300,7 +292,8 @@ public class SoftTimeoutMap<K, V> implements Map<K, V> {
         }
 
         public Z getValue() {
-            if (isRefreshOnAccess()) time = System.currentTimeMillis();
+            if (isRefreshOnAccess())
+                time = System.currentTimeMillis();
             accessed++;
             return super.get();
         }

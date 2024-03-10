@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,8 @@ import java.util.Map;
 /**
  * e.g. $param1 regex .*test.* $param1 mr or $param1 mrs
  *
- * <p>Support also: $paramName ${paramName}
+ * <p>
+ * Support also: $paramName ${paramName}
  *
  * @author mikehummel
  */
@@ -45,12 +46,14 @@ public class Condition {
     }
 
     public boolean matches(Map<String, Object> map) {
-        if (map == null) return false;
+        if (map == null)
+            return false;
         return matches(new MapValuesProvider(map));
     }
 
     public boolean matches(IValuesProvider provider) {
-        if (provider == null) return false;
+        if (provider == null)
+            return false;
         return root.m(provider);
     }
 
@@ -65,7 +68,8 @@ public class Condition {
         CONDITION cond = CONDITION.EQ;
 
         for (String part : condition) {
-            if (part == null) continue;
+            if (part == null)
+                continue;
 
             // System.out.println(part);
             String lp = part.toLowerCase();
@@ -75,126 +79,130 @@ public class Condition {
                 isPattern = true;
             } else {
                 switch (lp) {
-                    case "not":
-                    case "!":
-                        {
-                            context.not = true;
-                        }
-                        break;
-                    case "and":
-                    case "&&":
-                        if (context.not) throw new SyntaxError("not before operator");
-                        if (pattern != null) throw new SyntaxError("type before operator");
+                case "not":
+                case "!": {
+                    context.not = true;
+                }
+                    break;
+                case "and":
+                case "&&":
+                    if (context.not)
+                        throw new SyntaxError("not before operator");
+                    if (pattern != null)
+                        throw new SyntaxError("type before operator");
 
-                        if (context.current == null || !(context.current instanceof ModelAnd)) {
-                            ModelAnd next = new ModelAnd();
-                            if (param == null && context.current != null)
-                                param = context.current.getParamName();
-                            next.setParamName(param);
-                            context.append(next);
-                        }
-                        break;
-                    case "or":
-                    case "||":
-                        if (context.not) throw new SyntaxError("not before operator");
-                        if (pattern != null) throw new SyntaxError("type before operator");
+                    if (context.current == null || !(context.current instanceof ModelAnd)) {
+                        ModelAnd next = new ModelAnd();
+                        if (param == null && context.current != null)
+                            param = context.current.getParamName();
+                        next.setParamName(param);
+                        context.append(next);
+                    }
+                    break;
+                case "or":
+                case "||":
+                    if (context.not)
+                        throw new SyntaxError("not before operator");
+                    if (pattern != null)
+                        throw new SyntaxError("type before operator");
 
-                        if (context.current == null || !(context.current instanceof ModelAnd)) {
-                            ModelOr next = new ModelOr();
-                            if (param == null && context.current != null)
-                                param = context.current.getParamName();
-                            next.setParamName(param);
-                            context.append(next);
-                        }
-                        break;
-                    case "(":
-                        {
-                            Context next = new Context();
-                            next.parentContext = context;
-                            context = next;
-                        }
-                        break;
-                    case ")":
-                        {
-                            if (context.parent == null)
-                                throw new SyntaxError("can't close bracket");
-                            Context last = context;
-                            context = context.parentContext;
-                            ModelComposit next = last.findRoot();
-                            if (last.current == null && last.first != null) {
-                                ModelAnd and = new ModelAnd();
-                                and.setNot(last.not);
-                                last.current = and;
-                            } else {
-                                next.setNot(context.not);
-                            }
+                    if (context.current == null || !(context.current instanceof ModelAnd)) {
+                        ModelOr next = new ModelOr();
+                        if (param == null && context.current != null)
+                            param = context.current.getParamName();
+                        next.setParamName(param);
+                        context.append(next);
+                    }
+                    break;
+                case "(": {
+                    Context next = new Context();
+                    next.parentContext = context;
+                    context = next;
+                }
+                    break;
+                case ")": {
+                    if (context.parent == null)
+                        throw new SyntaxError("can't close bracket");
+                    Context last = context;
+                    context = context.parentContext;
+                    ModelComposit next = last.findRoot();
+                    if (last.current == null && last.first != null) {
+                        ModelAnd and = new ModelAnd();
+                        and.setNot(last.not);
+                        last.current = and;
+                    } else {
+                        next.setNot(context.not);
+                    }
 
-                            context.append(next);
-                        }
-                        break;
-                    case "number":
-                        if (pattern != null) throw new SyntaxError("type before type");
-                        pattern = new ModelNumber();
-                        break;
-                    case "fs":
-                        if (pattern != null) throw new SyntaxError("type before type");
-                        pattern = new ModelFs();
-                        break;
-                    case "sql":
-                        if (pattern != null) throw new SyntaxError("type before type");
-                        pattern = new ModelSql();
-                        break;
-                    case "regex":
-                        if (pattern != null) throw new SyntaxError("type before type");
-                        pattern = new ModelRegex();
-                        break;
-                    case "null":
-                        pattern = new NullPattern();
-                        isPattern = true;
-                        break;
-                    case "var":
-                        if (pattern != null) throw new SyntaxError("type before type");
-                        pattern = new ModelVariable();
-                        break;
-                    case "range":
-                        if (pattern != null) throw new SyntaxError("type before type");
-                        pattern = new ModelRange();
-                        break;
-                    case "is":
-                    case "==":
-                        cond = CONDITION.EQ;
-                        break;
-                    case "lt":
-                    case "<":
-                        cond = CONDITION.LT;
-                        break;
-                    case "le":
-                    case "<=":
-                        cond = CONDITION.LE;
-                        break;
-                    case "ge":
-                    case ">=":
-                        cond = CONDITION.GE;
-                        break;
-                    case "gr":
-                    case ">":
-                        cond = CONDITION.GR;
-                        break;
-                    default:
-                        isPattern = true;
+                    context.append(next);
+                }
+                    break;
+                case "number":
+                    if (pattern != null)
+                        throw new SyntaxError("type before type");
+                    pattern = new ModelNumber();
+                    break;
+                case "fs":
+                    if (pattern != null)
+                        throw new SyntaxError("type before type");
+                    pattern = new ModelFs();
+                    break;
+                case "sql":
+                    if (pattern != null)
+                        throw new SyntaxError("type before type");
+                    pattern = new ModelSql();
+                    break;
+                case "regex":
+                    if (pattern != null)
+                        throw new SyntaxError("type before type");
+                    pattern = new ModelRegex();
+                    break;
+                case "null":
+                    pattern = new NullPattern();
+                    isPattern = true;
+                    break;
+                case "var":
+                    if (pattern != null)
+                        throw new SyntaxError("type before type");
+                    pattern = new ModelVariable();
+                    break;
+                case "range":
+                    if (pattern != null)
+                        throw new SyntaxError("type before type");
+                    pattern = new ModelRange();
+                    break;
+                case "is":
+                case "==":
+                    cond = CONDITION.EQ;
+                    break;
+                case "lt":
+                case "<":
+                    cond = CONDITION.LT;
+                    break;
+                case "le":
+                case "<=":
+                    cond = CONDITION.LE;
+                    break;
+                case "ge":
+                case ">=":
+                    cond = CONDITION.GE;
+                    break;
+                case "gr":
+                case ">":
+                    cond = CONDITION.GR;
+                    break;
+                default:
+                    isPattern = true;
                 }
             }
 
-            if (isPattern
-                    && param == null
-                    && !condition.isEnclosuredToken()
-                    && lp.startsWith("$")) {
+            if (isPattern && param == null && !condition.isEnclosuredToken() && lp.startsWith("$")) {
                 param = part.substring(1);
                 if (param.startsWith("{") && param.endsWith("}"))
                     param = param.substring(1, param.length() - 1);
-                //				else // no more supports $paramName$
-                //				if (param.endsWith("$"))
-                //				    param = param.substring(0, param.length()-1);
+                // else // no more supports $paramName$
+                // if (param.endsWith("$"))
+                // param = param.substring(0, param.length()-1);
                 isPattern = false;
             }
 
@@ -205,19 +213,26 @@ public class Condition {
                 if (context.current == null && param == null) {
                     throw new SyntaxError("no left parameter defined");
                 } else {
-                    if (param == null) param = context.current.getParamName();
-                    if (param == null) throw new SyntaxError("pattern without parameter name");
+                    if (param == null)
+                        param = context.current.getParamName();
+                    if (param == null)
+                        throw new SyntaxError("pattern without parameter name");
                     if (pattern == null) {
-                        if (part.startsWith("${")) pattern = new ModelVariable();
-                        else if (MValidator.isNumber(part)) pattern = new ModelNumber();
-                        else pattern = new ModelRegex();
+                        if (part.startsWith("${"))
+                            pattern = new ModelVariable();
+                        else if (MValidator.isNumber(part))
+                            pattern = new ModelNumber();
+                        else
+                            pattern = new ModelRegex();
                     }
                     pattern.setCondition(cond);
                     pattern.setParamName(param);
                     pattern.setPattern(part);
                     pattern.setNot(context.not);
-                    if (context.current == null) context.first = pattern;
-                    else context.current.add(pattern);
+                    if (context.current == null)
+                        context.first = pattern;
+                    else
+                        context.current.add(pattern);
                     context.not = false;
                     pattern = null;
                     param = null;
@@ -226,7 +241,8 @@ public class Condition {
             }
         }
 
-        if (context.parentContext != null) throw new SyntaxError("bracked not closed");
+        if (context.parentContext != null)
+            throw new SyntaxError("bracked not closed");
 
         root = context.findRoot();
     }

@@ -31,7 +31,8 @@ public class RangeIterator implements Iterator<Integer> {
         this.next = from;
         this.to = to;
         this.step = step;
-        if (step == 0) throw new NullPointerException("step can't be 0"); // 0 is also a null :)
+        if (step == 0)
+            throw new NullPointerException("step can't be 0"); // 0 is also a null :)
     }
 
     @Override

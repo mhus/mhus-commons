@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -62,8 +62,10 @@ public class MYaml {
     public static YElement loadFromString(String content) {
         getYaml();
         Object obj = yaml.load(content);
-        if (obj instanceof Map) return new YMap((Map) obj);
-        if (obj instanceof List) return new YList((List) obj);
+        if (obj instanceof Map)
+            return new YMap((Map) obj);
+        if (obj instanceof List)
+            return new YList((List) obj);
         return new YElement(obj);
     }
 

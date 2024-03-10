@@ -30,10 +30,12 @@ public class ByteBuffer {
 
     private int firstPos = 0;
 
-    public ByteBuffer() {}
+    public ByteBuffer() {
+    }
 
     public ByteBuffer(int extend) {
-        if (extend < 1) throw new RuntimeException("Extend to less");
+        if (extend < 1)
+            throw new RuntimeException("Extend to less");
         this.extend = extend;
     }
 
@@ -81,10 +83,11 @@ public class ByteBuffer {
         byte[] out = new byte[size];
         int pos = 0;
         boolean first = true;
-        for (Iterator<byte[]> i = list.iterator(); i.hasNext(); ) {
+        for (Iterator<byte[]> i = list.iterator(); i.hasNext();) {
             byte[] part = i.next();
             int len = part.length;
-            if (pos + len >= out.length) len = out.length - pos;
+            if (pos + len >= out.length)
+                len = out.length - pos;
             int fp = 0;
             if (first) {
                 fp = firstPos;
@@ -110,7 +113,8 @@ public class ByteBuffer {
 
     public int shift() {
         synchronized (this) {
-            if (list.isEmpty()) return -1;
+            if (list.isEmpty())
+                return -1;
             byte[] first = list.getFirst();
             byte b = first[firstPos];
             firstPos++;

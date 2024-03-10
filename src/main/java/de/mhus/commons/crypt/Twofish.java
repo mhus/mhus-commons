@@ -32,17 +32,15 @@ public class Twofish {
     }
 
     private static String normalizeKey(String strKey) {
-        if (strKey == null) return "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0";
+        if (strKey == null)
+            return "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0";
         if (strKey.length() < 16)
             strKey = strKey + MString.rep('\0', 16 - strKey.length());
-        else
-        if (strKey.length() < 24)
+        else if (strKey.length() < 24)
             strKey = strKey + MString.rep('\0', 24 - strKey.length());
-        else
-        if (strKey.length() < 32)
+        else if (strKey.length() < 32)
             strKey = strKey + MString.rep('\0', 32 - strKey.length());
-        else
-        if (strKey.length() > 32)
+        else if (strKey.length() > 32)
             strKey = strKey.substring(0, 32);
         return strKey;
     }

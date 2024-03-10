@@ -53,6 +53,7 @@ import java.awt.*;
  * Check that Java version is sufficiently recent
  *
  * @author Roedy Green, Canadian Mind Products
+ *
  * @version 1.7, 2006-03-04
  */
 public class JreVersionCheck {
@@ -65,14 +66,17 @@ public class JreVersionCheck {
     // -------------------------- STATIC METHODS --------------------------
 
     /**
-     * Ensures Java runtime version e.g. 1.1.7 is sufficiently recent. Based on code by Dr. Tony
-     * Dahlman <adahlman@jps.net>
+     * Ensures Java runtime version e.g. 1.1.7 is sufficiently recent. Based on code by Dr. Tony Dahlman
+     * <adahlman@jps.net>
      *
-     * @param wantedMajor java major version e.g. 1
-     * @param wantedMinor Java minor version e.g. 1
-     * @param wantedBugFix Java bugfix version e.g. 7
-     * @return true if JVM version running is equal to or more recent than (higher than) the level
-     *     specified.
+     * @param wantedMajor
+     *            java major version e.g. 1
+     * @param wantedMinor
+     *            Java minor version e.g. 1
+     * @param wantedBugFix
+     *            Java bugfix version e.g. 7
+     *
+     * @return true if JVM version running is equal to or more recent than (higher than) the level specified.
      */
     public static boolean isJavaVersionOK(int wantedMajor, int wantedMinor, int wantedBugFix) {
         try {
@@ -183,29 +187,25 @@ public class JreVersionCheck {
     /**
      * use in a paint routine if Java version is not ok, usually tested statically.
      *
-     * @param wantedMajor java major version e.g. 1
-     * @param wantedMinor Java minor version e.g. 1
-     * @param wantedBugFix Java bugfix version e.g. 7
-     * @param container container to add an error message component.
+     * @param wantedMajor
+     *            java major version e.g. 1
+     * @param wantedMinor
+     *            Java minor version e.g. 1
+     * @param wantedBugFix
+     *            Java bugfix version e.g. 7
+     * @param container
+     *            container to add an error message component.
+     *
      * @return true if version is ok
      */
-    public static boolean isJavaVersionOK(
-            int wantedMajor, int wantedMinor, int wantedBugFix, Container container) {
+    public static boolean isJavaVersionOK(int wantedMajor, int wantedMinor, int wantedBugFix, Container container) {
         if (isJavaVersionOK(wantedMajor, wantedMinor, wantedBugFix)) {
             return true;
         } else {
-            String error =
-                    "Error: You need Java "
-                            + wantedMajor
-                            + "."
-                            + wantedMinor
-                            + "."
-                            + wantedBugFix
-                            + " or later to run this Applet.\n"
-                            + "You are currently running under Java "
-                            + System.getProperty("java.version")
-                            + ".\n"
-                            + "Get the latest Java from http://java.com/en/index.jsp";
+            String error = "Error: You need Java " + wantedMajor + "." + wantedMinor + "." + wantedBugFix
+                    + " or later to run this Applet.\n" + "You are currently running under Java "
+                    + System.getProperty("java.version") + ".\n"
+                    + "Get the latest Java from http://java.com/en/index.jsp";
             TextArea complain = new TextArea(error, 3, 42, TextArea.SCROLLBARS_NONE);
 
             complain.setEditable(false);
@@ -222,5 +222,6 @@ public class JreVersionCheck {
     // --------------------------- CONSTRUCTORS ---------------------------
 
     /** VersionCheck contains only static methods. */
-    private JreVersionCheck() {}
+    private JreVersionCheck() {
+    }
 } // end class VersionCheck

@@ -24,36 +24,34 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Read CSV (Comma Separated Value) files. This format is used my Microsoft Word and Excel. Fields
- * are separated by commas, and enclosed in quotes if they contain commas or quotes. Embedded quotes
- * are doubled. Embedded spaces do not normally require surrounding quotes. The last field on the
- * line is not followed by a comma. Null fields are represented by two commas in a row. We
- * optionally trim leading and trailing spaces on fields, even inside quotes. File must normally end
- * with a single CrLf, other wise you will get a null when trying to read a field on older JVMs.
+ * Read CSV (Comma Separated Value) files. This format is used my Microsoft Word and Excel. Fields are separated by
+ * commas, and enclosed in quotes if they contain commas or quotes. Embedded quotes are doubled. Embedded spaces do not
+ * normally require surrounding quotes. The last field on the line is not followed by a comma. Null fields are
+ * represented by two commas in a row. We optionally trim leading and trailing spaces on fields, even inside quotes.
+ * File must normally end with a single CrLf, other wise you will get a null when trying to read a field on older JVMs.
  *
  * @author copyright (c) 2002-2006 Roedy Green Canadian Mind Products version 1.0 2002 March 27 <br>
- *     1.1 2002 March 28 - close - configurable separator char - no longer sensitive to line-ending
- *     convention. - uses a categorise routine to massage categories for use in case clauses. -
- *     faster skipToNextLine <br>
- *     1.2 2002 April 23 - put in to separate package <br>
- *     1.4 2002 April 19 - fix bug if last field on line is empty, was not counting as a field.<br>
- *     1.6 2002 May 25 - allow choice of " or ' quote char. <br>
- *     1.7 2002 August 29 - getAllFieldsInLine<br>
- *     1.8 2002 November 12 - allow Microsoft Excel format fields that can span several lines.
- *     sponsored by Steve Hunter of agilense.com <br>
- *     1.9 2002 November 14 - trim parameter to control whether fields are trimmed of lead/trail
- *     whitespace (blanks, Cr, Lf, Tab etc.) <br>
- *     2.0 2003 August 10 - getInt, getLong, getFloat, getDouble <br>
- *     2.1 2005-07-16 - reorganisation, new bat files. <br>
- *     2.2 2005-08-28 - add CSVAlign and CSVPack to the suite.<br>
- *     <br>
- *     There is another CSVReader at: at http://ostermiller.org/utils/ExcelCSV.html If this
- *     CSVReader is not suitable for you, try that one. <br>
- *     There is one written in C# at http://www.csvreader.com/ <br>
- *     Future ideas: <br>
- *     1. allow specify various comment chars that mean the rest of the line should be ignored. e.g.
- *     ; ! #. These chars have to be in quotes in data then. <br>
- *     2. allow \ to be used for quoting characters.
+ *         1.1 2002 March 28 - close - configurable separator char - no longer sensitive to line-ending convention. -
+ *         uses a categorise routine to massage categories for use in case clauses. - faster skipToNextLine <br>
+ *         1.2 2002 April 23 - put in to separate package <br>
+ *         1.4 2002 April 19 - fix bug if last field on line is empty, was not counting as a field.<br>
+ *         1.6 2002 May 25 - allow choice of " or ' quote char. <br>
+ *         1.7 2002 August 29 - getAllFieldsInLine<br>
+ *         1.8 2002 November 12 - allow Microsoft Excel format fields that can span several lines. sponsored by Steve
+ *         Hunter of agilense.com <br>
+ *         1.9 2002 November 14 - trim parameter to control whether fields are trimmed of lead/trail whitespace (blanks,
+ *         Cr, Lf, Tab etc.) <br>
+ *         2.0 2003 August 10 - getInt, getLong, getFloat, getDouble <br>
+ *         2.1 2005-07-16 - reorganisation, new bat files. <br>
+ *         2.2 2005-08-28 - add CSVAlign and CSVPack to the suite.<br>
+ *         <br>
+ *         There is another CSVReader at: at http://ostermiller.org/utils/ExcelCSV.html If this CSVReader is not
+ *         suitable for you, try that one. <br>
+ *         There is one written in C# at http://www.csvreader.com/ <br>
+ *         Future ideas: <br>
+ *         1. allow specify various comment chars that mean the rest of the line should be ignored. e.g. ; ! #. These
+ *         chars have to be in quotes in data then. <br>
+ *         2. allow \ to be used for quoting characters.
  */
 public class CSVReader {
 
@@ -94,9 +92,8 @@ public class CSVReader {
     private static final int WHITESPACE = 4;
 
     /**
-     * e.g. \n \r\n or \r, whatever system uses to separate lines in a text file. Only used inside
-     * multiline fields. The file itself should use Windows format \r \n, though \n by itself will
-     * also work.
+     * e.g. \n \r\n or \r, whatever system uses to separate lines in a text file. Only used inside multiline fields. The
+     * file itself should use Windows format \r \n, though \n by itself will also work.
      */
     static String lineSeparator = System.getProperty("line.separator");
 
@@ -106,19 +103,18 @@ public class CSVReader {
     /**
      * state of the parser's finite state automaton.
      *
-     * <p>The line we are parsing. null means none read yet. Line contains unprocessed chars.
-     * Processed ones are removed.
+     * <p>
+     * The line we are parsing. null means none read yet. Line contains unprocessed chars. Processed ones are removed.
      *
-     * <p>The line we are parsing. null means none read yet. Line contains unprocessed chars.
-     * Processed ones are removed.
+     * <p>
+     * The line we are parsing. null means none read yet. Line contains unprocessed chars. Processed ones are removed.
      *
-     * <p>The line we are parsing. null means none read yet. Line contains unprocessed chars.
-     * Processed ones are removed.
+     * <p>
+     * The line we are parsing. null means none read yet. Line contains unprocessed chars. Processed ones are removed.
      */
 
     /**
-     * The line we are parsing. null means none read yet. Line contains unprocessed chars. Processed
-     * ones are removed.
+     * The line we are parsing. null means none read yet. Line contains unprocessed chars. Processed ones are removed.
      */
     private String line = null;
 
@@ -128,8 +124,8 @@ public class CSVReader {
     private boolean allFieldsDone = true;
 
     /**
-     * true if reader should allow quoted fields to span more than one line. Microsoft Excel
-     * sometimes generates files like this.
+     * true if reader should allow quoted fields to span more than one line. Microsoft Excel sometimes generates files
+     * like this.
      */
     private final boolean allowMultiLineFields;
 
@@ -137,14 +133,12 @@ public class CSVReader {
     private final boolean trim;
 
     /**
-     * quote character, usually '\"' '\'' for SOL used to enclose fields containing a separator
-     * character.
+     * quote character, usually '\"' '\'' for SOL used to enclose fields containing a separator character.
      */
     private final char quote;
 
     /**
-     * field separator character, usually ',' in North America, ';' in Europe and sometimes '\t' for
-     * tab.
+     * field separator character, usually ',' in North America, ';' in Europe and sometimes '\t' for tab.
      */
     private final char separator;
 
@@ -166,10 +160,10 @@ public class CSVReader {
     // --------------------------- CONSTRUCTORS ---------------------------
 
     /**
-     * convenience Constructor, default to comma separator, " for quote, no multiline fields, with
-     * trimming.
+     * convenience Constructor, default to comma separator, " for quote, no multiline fields, with trimming.
      *
-     * @param r input Reader source of CSV Fields to read.
+     * @param r
+     *            input Reader source of CSV Fields to read.
      */
     public CSVReader(Reader r) {
         this(r, ',', '\"', false, true);
@@ -178,17 +172,19 @@ public class CSVReader {
     /**
      * Constructor
      *
-     * @param r input Reader source of CSV Fields to read.
-     * @param separator field separator character, usually ',' in North America, ';' in Europe and
-     *     sometimes '\t' for tab.
-     * @param quote char to use to enclose fields containing a separator, usually '\"'
-     * @param allowMultiLineFields true if reader should allow quoted fields to span more than one
-     *     line. Microsoft Excel sometimes generates files like this.
-     * @param trim true if reader should trim lead/trailing whitespace e.g. blanks, Cr, Lf. Tab off
-     *     fields.
+     * @param r
+     *            input Reader source of CSV Fields to read.
+     * @param separator
+     *            field separator character, usually ',' in North America, ';' in Europe and sometimes '\t' for tab.
+     * @param quote
+     *            char to use to enclose fields containing a separator, usually '\"'
+     * @param allowMultiLineFields
+     *            true if reader should allow quoted fields to span more than one line. Microsoft Excel sometimes
+     *            generates files like this.
+     * @param trim
+     *            true if reader should trim lead/trailing whitespace e.g. blanks, Cr, Lf. Tab off fields.
      */
-    public CSVReader(
-            Reader r, char separator, char quote, boolean allowMultiLineFields, boolean trim) {
+    public CSVReader(Reader r, char separator, char quote, boolean allowMultiLineFields, boolean trim) {
         /* convert Reader to BufferedReader if necessary */
         if (r instanceof BufferedReader) {
             this.r = (BufferedReader) r;
@@ -210,39 +206,40 @@ public class CSVReader {
     /**
      * categorise a character for the finite state machine.
      *
-     * @param c the character to categorise
+     * @param c
+     *            the character to categorise
+     *
      * @return integer representing the character's category.
      */
     private int categorise(char c) {
         switch (c) {
-            case ' ':
-            case '\r':
-            case '\t':
-            case 0xff:
+        case ' ':
+        case '\r':
+        case '\t':
+        case 0xff:
+            return WHITESPACE;
+
+        case '\n':
+            return EOL; /* artificially applied to end of line */
+
+        default:
+            if (c == quote) {
+                return QUOTE;
+            } else if (c == separator /*
+                                       * dynamically determined so can't use as case label
+                                       */) {
+                return SEPARATOR;
+            }
+            /* do our tests in crafted order, hoping for an early return */
+            else if ('!' <= c && c <= '~') {
+                return ORDINARY;
+            } else if (0x00 <= c && c <= 0x20) {
                 return WHITESPACE;
-
-            case '\n':
-                return EOL; /* artificially applied to end of line */
-
-            default:
-                if (c == quote) {
-                    return QUOTE;
-                } else if (c == separator /*
-									 * dynamically determined so can't use as
-									 * case label
-									 */) {
-                    return SEPARATOR;
-                }
-                /* do our tests in crafted order, hoping for an early return */
-                else if ('!' <= c && c <= '~') {
-                    return ORDINARY;
-                } else if (0x00 <= c && c <= 0x20) {
-                    return WHITESPACE;
-                } else if (Character.isWhitespace(c)) {
-                    return WHITESPACE;
-                } else {
-                    return ORDINARY;
-                }
+            } else if (Character.isWhitespace(c)) {
+                return WHITESPACE;
+            } else {
+                return ORDINARY;
+            }
         }
     }
 
@@ -261,19 +258,21 @@ public class CSVReader {
     /**
      * Read one field from the CSV file
      *
-     * @return String value, even if the field is numeric. Surrounded and embedded double quotes are
-     *     stripped. possibly "". null means end of line.
-     * @throws EOFException at end of file after all the fields have been read.
-     * @throws IOException Some problem reading the file, possibly malformed data.
+     * @return String value, even if the field is numeric. Surrounded and embedded double quotes are stripped. possibly
+     *         "". null means end of line.
+     *
+     * @throws EOFException
+     *             at end of file after all the fields have been read.
+     * @throws IOException
+     *             Some problem reading the file, possibly malformed data.
      */
     public String get() throws EOFException, IOException {
         StringBuilder field = new StringBuilder(allowMultiLineFields ? 512 : 64);
         /* we implement the parser as a finite state automaton with five states. */
 
         int state = SEEKING_START; /*
-									 * start seeking, even if partway through a
-									 * line
-									 */
+                                    * start seeking, even if partway through a line
+                                    */
         /* don't need to maintain state between fields. */
 
         while (true) {
@@ -286,177 +285,167 @@ public class CSVReader {
                 char c = line.charAt(i);
                 int category = categorise(c);
                 switch (state) {
-                    case SEEKING_START:
-                        {
-                            /* in blanks before field */
-                            switch (category) {
-                                case WHITESPACE:
-                                    /* ignore */
-                                    break;
+                case SEEKING_START: {
+                    /* in blanks before field */
+                    switch (category) {
+                    case WHITESPACE:
+                        /* ignore */
+                        break;
 
-                                case QUOTE:
-                                    state = IN_QUOTED;
-                                    break;
+                    case QUOTE:
+                        state = IN_QUOTED;
+                        break;
 
-                                case SEPARATOR:
-                                    /* end of empty field */
-                                    line = line.substring(i + 1);
-                                    return "";
+                    case SEPARATOR:
+                        /* end of empty field */
+                        line = line.substring(i + 1);
+                        return "";
 
-                                case EOL:
-                                    /* end of line */
-                                    if (allFieldsDone) {
-                                        /* null to mark end of line */
-                                        line = null;
-                                        return null;
-                                    } else {
-                                        /* empty field, usually after a comma */
-                                        allFieldsDone = true;
-                                        line = line.substring(i);
-                                        return "";
-                                    }
-
-                                case ORDINARY:
-                                    field.append(c);
-                                    state = IN_PLAIN;
-                                    break;
-                            }
-                            break;
-                        }
-                    case IN_PLAIN:
-                        {
-                            /* in middle of ordinary field */
-                            switch (category) {
-                                case QUOTE:
-                                    throw new IOException(
-                                            "Malformed CSV stream. Missing quote at start of field on line "
-                                                    + lineCount);
-
-                                case SEPARATOR:
-                                    /* done */
-                                    line = line.substring(i + 1);
-                                    return maybeTrim(field.toString());
-
-                                case EOL:
-                                    line = line.substring(i); /* push EOL back */
-                                    allFieldsDone = true;
-                                    return maybeTrim(field.toString());
-
-                                case WHITESPACE:
-                                    field.append(' ');
-                                    break;
-
-                                case ORDINARY:
-                                    field.append(c);
-                                    break;
-                            }
-                            break;
+                    case EOL:
+                        /* end of line */
+                        if (allFieldsDone) {
+                            /* null to mark end of line */
+                            line = null;
+                            return null;
+                        } else {
+                            /* empty field, usually after a comma */
+                            allFieldsDone = true;
+                            line = line.substring(i);
+                            return "";
                         }
 
-                    case IN_QUOTED:
-                        {
-                            /* in middle of field surrounded in quotes */
-                            switch (category) {
-                                case QUOTE:
-                                    state = AFTER_END_QUOTE;
-                                    break;
+                    case ORDINARY:
+                        field.append(c);
+                        state = IN_PLAIN;
+                        break;
+                    }
+                    break;
+                }
+                case IN_PLAIN: {
+                    /* in middle of ordinary field */
+                    switch (category) {
+                    case QUOTE:
+                        throw new IOException(
+                                "Malformed CSV stream. Missing quote at start of field on line " + lineCount);
 
-                                case EOL:
-                                    if (allowMultiLineFields) {
-                                        field.append(lineSeparator);
-                                        // we are done with that line, but not with
-                                        // the
-                                        // field.
-                                        // We don't want to return a null
-                                        // to mark the end of the line.
-                                        line = null;
-                                        // will read next line and seek the end of
-                                        // the
-                                        // quoted field.
-                                        // with state = IN_QUOTED.
-                                        break charLoop;
-                                    } else {
-                                        // no multiline fields allowed
-                                        allFieldsDone = true;
-                                        throw new IOException(
-                                                "Malformed CSV stream. Missing quote (\") after field on line "
-                                                        + lineCount);
-                                    }
-                                case WHITESPACE:
-                                    field.append(' ');
-                                    break;
+                    case SEPARATOR:
+                        /* done */
+                        line = line.substring(i + 1);
+                        return maybeTrim(field.toString());
 
-                                case SEPARATOR:
-                                case ORDINARY:
-                                    field.append(c);
-                                    break;
-                            }
-                            break;
+                    case EOL:
+                        line = line.substring(i); /* push EOL back */
+                        allFieldsDone = true;
+                        return maybeTrim(field.toString());
+
+                    case WHITESPACE:
+                        field.append(' ');
+                        break;
+
+                    case ORDINARY:
+                        field.append(c);
+                        break;
+                    }
+                    break;
+                }
+
+                case IN_QUOTED: {
+                    /* in middle of field surrounded in quotes */
+                    switch (category) {
+                    case QUOTE:
+                        state = AFTER_END_QUOTE;
+                        break;
+
+                    case EOL:
+                        if (allowMultiLineFields) {
+                            field.append(lineSeparator);
+                            // we are done with that line, but not with
+                            // the
+                            // field.
+                            // We don't want to return a null
+                            // to mark the end of the line.
+                            line = null;
+                            // will read next line and seek the end of
+                            // the
+                            // quoted field.
+                            // with state = IN_QUOTED.
+                            break charLoop;
+                        } else {
+                            // no multiline fields allowed
+                            allFieldsDone = true;
+                            throw new IOException(
+                                    "Malformed CSV stream. Missing quote (\") after field on line " + lineCount);
                         }
+                    case WHITESPACE:
+                        field.append(' ');
+                        break;
 
-                    case AFTER_END_QUOTE:
-                        {
-                            /*
-                             * In situation like this "xxx" which may turn out to be
-                             * xxx""xxx" or "xxx", We find out here.
-                             */
-                            switch (category) {
-                                case QUOTE:
-                                    /* was a double quote, e.g. a literal " */
-                                    field.append(c);
-                                    state = IN_QUOTED;
-                                    break;
+                    case SEPARATOR:
+                    case ORDINARY:
+                        field.append(c);
+                        break;
+                    }
+                    break;
+                }
 
-                                case SEPARATOR:
-                                    /* we are done with field. */
-                                    line = line.substring(i + 1);
-                                    return maybeTrim(field.toString());
+                case AFTER_END_QUOTE: {
+                    /*
+                     * In situation like this "xxx" which may turn out to be xxx""xxx" or "xxx", We find out here.
+                     */
+                    switch (category) {
+                    case QUOTE:
+                        /* was a double quote, e.g. a literal " */
+                        field.append(c);
+                        state = IN_QUOTED;
+                        break;
 
-                                case EOL:
-                                    line = line.substring(i); /* push back eol */
-                                    allFieldsDone = true;
-                                    return maybeTrim(field.toString());
+                    case SEPARATOR:
+                        /* we are done with field. */
+                        line = line.substring(i + 1);
+                        return maybeTrim(field.toString());
 
-                                case WHITESPACE:
-                                    /* ignore trailing spaces up to separator */
-                                    state = SKIPPING_TAIL;
-                                    break;
+                    case EOL:
+                        line = line.substring(i); /* push back eol */
+                        allFieldsDone = true;
+                        return maybeTrim(field.toString());
 
-                                case ORDINARY:
-                                    throw new IOException(
-                                            "Malformed CSV stream, missing separator after fieldon line "
-                                                    + lineCount);
-                            }
-                            break;
-                        }
+                    case WHITESPACE:
+                        /* ignore trailing spaces up to separator */
+                        state = SKIPPING_TAIL;
+                        break;
 
-                    case SKIPPING_TAIL:
-                        {
-                            /* in spaces after field seeking separator */
+                    case ORDINARY:
+                        throw new IOException(
+                                "Malformed CSV stream, missing separator after fieldon line " + lineCount);
+                    }
+                    break;
+                }
 
-                            switch (category) {
-                                case SEPARATOR:
-                                    /* we are done. */
-                                    line = line.substring(i + 1);
-                                    return maybeTrim(field.toString());
+                case SKIPPING_TAIL: {
+                    /* in spaces after field seeking separator */
 
-                                case EOL:
-                                    line = line.substring(i); /* push back eol */
-                                    allFieldsDone = true;
-                                    return maybeTrim(field.toString());
+                    switch (category) {
+                    case SEPARATOR:
+                        /* we are done. */
+                        line = line.substring(i + 1);
+                        return maybeTrim(field.toString());
 
-                                case WHITESPACE:
-                                    /* ignore trailing spaces up to separator */
-                                    break;
+                    case EOL:
+                        line = line.substring(i); /* push back eol */
+                        allFieldsDone = true;
+                        return maybeTrim(field.toString());
 
-                                case QUOTE:
-                                case ORDINARY:
-                                    throw new IOException(
-                                            "Malformed CSV stream, missing separator after field on line "
-                                                    + lineCount);
-                            }
-                            break;
-                        }
+                    case WHITESPACE:
+                        /* ignore trailing spaces up to separator */
+                        break;
+
+                    case QUOTE:
+                    case ORDINARY:
+                        throw new IOException(
+                                "Malformed CSV stream, missing separator after field on line " + lineCount);
+                    }
+                    break;
+                }
                 } // end switch(state)
             } // end charLoop
         } // end lineLoop
@@ -466,6 +455,7 @@ public class CSVReader {
      * Get all fields in the line
      *
      * @return Array of strings, one for each field. Possibly empty, but never null.
+     *
      * @throws EOFException
      * @throws IOException
      */
@@ -485,9 +475,13 @@ public class CSVReader {
      * Read one double field from the CSV file.
      *
      * @return houble value, empty field returns 0, as does end of line.
-     * @throws EOFException at end of file after all the fields have been read.
-     * @throws IOException Some problem reading the file, possibly malformed data.
-     * @throws NumberFormatException , if field does not contain a well-formed int.
+     *
+     * @throws EOFException
+     *             at end of file after all the fields have been read.
+     * @throws IOException
+     *             Some problem reading the file, possibly malformed data.
+     * @throws NumberFormatException
+     *             , if field does not contain a well-formed int.
      */
     public double getDouble() throws EOFException, IOException, NumberFormatException {
         String s = get();
@@ -507,9 +501,13 @@ public class CSVReader {
      * Read one float field from the CSV file.
      *
      * @return float value, empty field returns 0, as does end of line.
-     * @throws EOFException at end of file after all the fields have been read.
-     * @throws IOException Some problem reading the file, possibly malformed data.
-     * @throws NumberFormatException , if field does not contain a well-formed int.
+     *
+     * @throws EOFException
+     *             at end of file after all the fields have been read.
+     * @throws IOException
+     *             Some problem reading the file, possibly malformed data.
+     * @throws NumberFormatException
+     *             , if field does not contain a well-formed int.
      */
     public float getFloat() throws EOFException, IOException, NumberFormatException {
         String s = get();
@@ -529,9 +527,13 @@ public class CSVReader {
      * Read one integer field from the CSV file
      *
      * @return int value, empty field returns 0, as does end of line.
-     * @throws EOFException at end of file after all the fields have been read.
-     * @throws IOException Some problem reading the file, possibly malformed data.
-     * @throws NumberFormatException , if field does not contain a well-formed int.
+     *
+     * @throws EOFException
+     *             at end of file after all the fields have been read.
+     * @throws IOException
+     *             Some problem reading the file, possibly malformed data.
+     * @throws NumberFormatException
+     *             , if field does not contain a well-formed int.
      */
     public int getInt() throws EOFException, IOException, NumberFormatException {
         String s = get();
@@ -561,9 +563,8 @@ public class CSVReader {
             allFieldsDone = false;
             line = r.readLine(); /* this strips platform specific line ending */
             if (line == null) /*
-							 * null means EOF, yet another inconsistent Java
-							 * convention.
-							 */ {
+                               * null means EOF, yet another inconsistent Java convention.
+                               */ {
                 throw new EOFException();
             } else {
                 line += '\n'; /* apply standard line end for parser to find */
@@ -576,9 +577,13 @@ public class CSVReader {
      * Read one long field from the CSV file
      *
      * @return long value, empty field returns 0, as does end of line.
-     * @throws EOFException at end of file after all the fields have been read.
-     * @throws IOException Some problem reading the file, possibly malformed data.
-     * @throws NumberFormatException , if field does not contain a well-formed int.
+     *
+     * @throws EOFException
+     *             at end of file after all the fields have been read.
+     * @throws IOException
+     *             Some problem reading the file, possibly malformed data.
+     * @throws NumberFormatException
+     *             , if field does not contain a well-formed int.
      */
     public long getLong() throws EOFException, IOException, NumberFormatException {
         String s = get();
@@ -598,7 +603,9 @@ public class CSVReader {
     /**
      * Trim the string, but only if we are in trimming mode.
      *
-     * @param s String to be trimmed.
+     * @param s
+     *            String to be trimmed.
+     *
      * @return String or trimmed string.
      */
     private String maybeTrim(String s) {
@@ -612,9 +619,13 @@ public class CSVReader {
     /**
      * Skip over fields you don't want to process.
      *
-     * @param fields How many field you want to bypass reading. The newline counts as one field.
-     * @throws EOFException at end of file after all the fields have been read.
-     * @throws IOException Some problem reading the file, possibly malformed data.
+     * @param fields
+     *            How many field you want to bypass reading. The newline counts as one field.
+     *
+     * @throws EOFException
+     *             at end of file after all the fields have been read.
+     * @throws IOException
+     *             Some problem reading the file, possibly malformed data.
      */
     public void skip(int fields) throws EOFException, IOException {
         if (fields <= 0) {
@@ -629,8 +640,10 @@ public class CSVReader {
     /**
      * Skip over remaining fields on this line you don't want to process.
      *
-     * @throws EOFException at end of file after all the fields have been read.
-     * @throws IOException Some problem reading the file, possibly malformed data.
+     * @throws EOFException
+     *             at end of file after all the fields have been read.
+     * @throws IOException
+     *             Some problem reading the file, possibly malformed data.
      */
     public void skipToNextLine() throws EOFException, IOException {
         if (line == null) {
@@ -661,7 +674,8 @@ public class CSVReader {
 
     public String get(String row) throws IOException {
         Integer idx = headerIndex.get(row);
-        if (idx == null) throw new IOException("row not found " + row);
+        if (idx == null)
+            throw new IOException("row not found " + row);
         return currentLine[idx];
     }
 
@@ -686,7 +700,8 @@ public class CSVReader {
     /**
      * Test driver
      *
-     * @param args not used
+     * @param args
+     *            not used
      */
     public static void main(String[] args) {
         if (DEBUGGING) {

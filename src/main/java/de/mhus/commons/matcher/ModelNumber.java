@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,8 @@ public class ModelNumber extends ModelPattern {
     public void setPattern(String pattern) {
         if (pattern.startsWith("${") && pattern.endsWith("}"))
             name = pattern.substring(2, pattern.length() - 1);
-        else this.right = new BigDecimal(pattern);
+        else
+            this.right = new BigDecimal(pattern);
     }
 
     @Override
@@ -38,35 +39,36 @@ public class ModelNumber extends ModelPattern {
 
         if (name != null) {
             if (map == null)
-                throw new MRuntimeException(
-                        RC.NOT_FOUND, "variables not available, use condition not matcher");
+                throw new MRuntimeException(RC.NOT_FOUND, "variables not available, use condition not matcher");
             Object val = map.get(name);
-            if (val == null) return false;
+            if (val == null)
+                return false;
             str = val.toString();
         }
         BigDecimal left = new BigDecimal(str);
 
         int c = left.compareTo(right);
         switch (getCondition()) {
-            case EQ:
-                return c == 0;
-            case GE:
-                return c >= 0;
-            case GR:
-                return c > 0;
-            case LE:
-                return c <= 0;
-            case LT:
-                return c < 0;
-            default:
-                break;
+        case EQ:
+            return c == 0;
+        case GE:
+            return c >= 0;
+        case GR:
+            return c > 0;
+        case LE:
+            return c <= 0;
+        case LT:
+            return c < 0;
+        default:
+            break;
         }
         return false;
     }
 
     @Override
     public String getPattern() {
-        if (name != null) return "${" + name + "}";
+        if (name != null)
+            return "${" + name + "}";
         return right.toString();
     }
 

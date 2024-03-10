@@ -42,7 +42,8 @@ public class Table implements Serializable, Externalizable, TreeNodeSerializable
     HashMap<String, Integer> columnsIndex = new HashMap<>();
     LinkedList<TableRow> rows = new LinkedList<>();
 
-    public Table() {}
+    public Table() {
+    }
 
     public Table(ResultSet res) throws SQLException {
         ResultSetMetaData meta = res.getMetaData();
@@ -58,7 +59,7 @@ public class Table implements Serializable, Externalizable, TreeNodeSerializable
                 try {
                     row.appendData(res.getObject(i + 1));
                 } catch (Throwable t) {
-                    LOGGER.trace("Error",t);
+                    LOGGER.trace("Error", t);
                     row.appendData((String) null);
                 }
             }
@@ -98,18 +99,20 @@ public class Table implements Serializable, Externalizable, TreeNodeSerializable
 
     private void writeObject(java.io.ObjectOutputStream out) throws IOException {
 
-        if (name == null) name = "";
+        if (name == null)
+            name = "";
         out.writeUTF(name);
 
         out.writeInt(columns.size());
-        for (TableColumn col : columns) out.writeObject(col);
+        for (TableColumn col : columns)
+            out.writeObject(col);
 
         out.writeInt(rows.size());
-        for (TableRow row : rows) out.writeObject(row);
+        for (TableRow row : rows)
+            out.writeObject(row);
     }
 
-    private void readObject(java.io.ObjectInputStream in)
-            throws IOException, ClassNotFoundException {
+    private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
 
         name = in.readUTF();
         {
@@ -136,11 +139,10 @@ public class Table implements Serializable, Externalizable, TreeNodeSerializable
         }
     }
     /*
-    private void readObjectNoData()
-        throws ObjectStreamException {
-
-    }
-    */
+     * private void readObjectNoData() throws ObjectStreamException {
+     *
+     * }
+     */
 
     public String getName() {
         return name;
@@ -170,14 +172,17 @@ public class Table implements Serializable, Externalizable, TreeNodeSerializable
 
     @Override
     public void writeExternal(ObjectOutput out) throws IOException {
-        if (name == null) name = "";
+        if (name == null)
+            name = "";
         out.writeUTF(name);
 
         out.writeInt(columns.size());
-        for (TableColumn col : columns) out.writeObject(col);
+        for (TableColumn col : columns)
+            out.writeObject(col);
 
         out.writeInt(rows.size());
-        for (TableRow row : rows) out.writeObject(row);
+        for (TableRow row : rows)
+            out.writeObject(row);
     }
 
     @Override
@@ -233,7 +238,8 @@ public class Table implements Serializable, Externalizable, TreeNodeSerializable
     public void writeSerializabledNode(ITreeNode cfg) throws Exception {
         cfg.setString("name", name);
         TreeNodeList arr = cfg.createArray("columns");
-        for (TableColumn v : columns) v.writeSerializabledNode(arr.createObject());
+        for (TableColumn v : columns)
+            v.writeSerializabledNode(arr.createObject());
 
         arr = cfg.createArray("rows");
         for (TableRow tr : rows) {

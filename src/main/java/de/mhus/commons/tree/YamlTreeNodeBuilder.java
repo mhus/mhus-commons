@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,12 +36,14 @@ public class YamlTreeNodeBuilder extends ITreeNodeBuilder {
         if (itemY.isList()) {
             TreeNodeList arrayC = itemC.createArray(ITreeNode.NAMELESS_VALUE);
             fill(arrayC, new YList(itemY.getObject()), 0);
-        } else if (itemY.isMap()) fill(itemC, itemY, 0);
+        } else if (itemY.isMap())
+            fill(itemC, itemY, 0);
         return itemC;
     }
 
     private void fill(ITreeNode elemC, YMap elemY, int level) {
-        if (level > 100) throw new TooDeepStructuresException();
+        if (level > 100)
+            throw new TooDeepStructuresException();
 
         for (String key : elemY.getKeys()) {
             if (elemY.isList(key)) {
@@ -58,7 +60,8 @@ public class YamlTreeNodeBuilder extends ITreeNodeBuilder {
     }
 
     private void fill(TreeNodeList listC, YList listY, int level) {
-        if (level > 100) throw new TooDeepStructuresException();
+        if (level > 100)
+            throw new TooDeepStructuresException();
 
         for (YElement itemY : listY) {
             ITreeNode itemC = listC.createObject();
@@ -86,7 +89,8 @@ public class YamlTreeNodeBuilder extends ITreeNodeBuilder {
 
     private YElement create(ITreeNode elemC, int level) {
 
-        if (level > 100) throw new TooDeepStructuresException();
+        if (level > 100)
+            throw new TooDeepStructuresException();
 
         if (elemC.containsKey(ITreeNode.NAMELESS_VALUE)) {
             if (elemC.isArray(ITreeNode.NAMELESS_VALUE)) {
@@ -98,7 +102,8 @@ public class YamlTreeNodeBuilder extends ITreeNodeBuilder {
                 return out;
             } else if (elemC.isObject(ITreeNode.NAMELESS_VALUE)) {
                 return create(elemC.getObject(ITreeNode.NAMELESS_VALUE).orElse(null), level + 1);
-            } else return new YElement(elemC.get(ITreeNode.NAMELESS_VALUE));
+            } else
+                return new YElement(elemC.get(ITreeNode.NAMELESS_VALUE));
         }
 
         YMap elemY = MYaml.createMap();

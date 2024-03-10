@@ -19,7 +19,8 @@ import de.mhus.commons.lang.Valueable;
 
 public class DoubleValue implements Valueable<Double> {
 
-    public DoubleValue() {}
+    public DoubleValue() {
+    }
 
     public DoubleValue(double initial) {
         value = initial;
@@ -34,8 +35,10 @@ public class DoubleValue implements Valueable<Double> {
 
     @Override
     public boolean equals(Object in) {
-        if (in == null) return false;
-        if (in instanceof Number) return ((Number) in).doubleValue() == value;
+        if (in == null)
+            return false;
+        if (in instanceof Number)
+            return ((Number) in).doubleValue() == value;
         return false;
     }
 

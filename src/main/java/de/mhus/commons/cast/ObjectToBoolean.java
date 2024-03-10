@@ -36,21 +36,19 @@ public class ObjectToBoolean implements Caster<Object, Boolean> {
     }
 
     public OptionalBoolean toBoolean(Object in) {
-        if (in == null) return OptionalBoolean.empty();
+        if (in == null)
+            return OptionalBoolean.empty();
 
-        if (in instanceof Boolean) return OptionalBoolean.of((Boolean) in);
+        if (in instanceof Boolean)
+            return OptionalBoolean.of((Boolean) in);
 
-        if (in instanceof Number) return OptionalBoolean.of(!(((Number) in).intValue() == 0));
+        if (in instanceof Number)
+            return OptionalBoolean.of(!(((Number) in).intValue() == 0));
 
         String ins = in.toString().toLowerCase().trim();
 
-        if (ins.equals("yes")
-                || ins.equals("true")
-                || ins.equals("1")
-                || ins.equals("y")
-                || ins.equals("on")
-                || ins.equals("t")
-                || ins.equals("ja") // :-)
+        if (ins.equals("yes") || ins.equals("true") || ins.equals("1") || ins.equals("y") || ins.equals("on")
+                || ins.equals("t") || ins.equals("ja") // :-)
                 || ins.equals("tak") // :-)
                 || ins.equals("oui") // :-)
                 || ins.equals("si") // :-)
@@ -60,14 +58,8 @@ public class ObjectToBoolean implements Caster<Object, Boolean> {
             return OptionalBoolean.of(true);
         }
 
-        if (ins.equals("no")
-                || ins.equals("false")
-                || ins.equals("0")
-                || ins.equals("off")
-                || ins.equals("n")
-                || ins.equals("f")
-                || ins.equals("-1")
-                || ins.equals("nein") // :-)
+        if (ins.equals("no") || ins.equals("false") || ins.equals("0") || ins.equals("off") || ins.equals("n")
+                || ins.equals("f") || ins.equals("-1") || ins.equals("nein") // :-)
                 || ins.equals("nie") // :-)
                 || ins.equals("non") // :-)
                 || ins.equals("\u5514\u4fc2") // :-) chinese

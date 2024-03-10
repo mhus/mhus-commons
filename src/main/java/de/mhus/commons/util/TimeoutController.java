@@ -50,23 +50,29 @@ package de.mhus.commons.util;
  *
  * @author Ortwin Glueck
  * @author <a href="mailto:mbowler@GargoyleSoftware.com">Mike Bowler</a>
+ *
  * @version $Revision: 480424 $
+ *
  * @since 2.0
  */
 public final class TimeoutController {
 
     /** Do not instantiate objects of this class. Methods are static. */
-    private TimeoutController() {}
+    private TimeoutController() {
+    }
 
     /**
-     * Executes <code>task</code>. Waits for <code>timeout</code> milliseconds for the task to end
-     * and returns. If the task does not return in time, the thread is interrupted and an Exception
-     * is thrown. The caller should override the Thread.interrupt() method to something that quickly
-     * makes the thread die or use Thread.isInterrupted().
+     * Executes <code>task</code>. Waits for <code>timeout</code> milliseconds for the task to end and returns. If the
+     * task does not return in time, the thread is interrupted and an Exception is thrown. The caller should override
+     * the Thread.interrupt() method to something that quickly makes the thread die or use Thread.isInterrupted().
      *
-     * @param task The thread to execute
-     * @param timeout The timeout in milliseconds. 0 means to wait forever.
-     * @throws TimeoutException if the timeout passes and the thread does not return.
+     * @param task
+     *            The thread to execute
+     * @param timeout
+     *            The timeout in milliseconds. 0 means to wait forever.
+     *
+     * @throws TimeoutException
+     *             if the timeout passes and the thread does not return.
      */
     public static void execute(Thread task, long timeout) throws TimeoutException {
         task.start();
@@ -84,9 +90,13 @@ public final class TimeoutController {
     /**
      * Executes <code>task</code> in a new deamon Thread and waits for the timeout.
      *
-     * @param task The task to execute
-     * @param timeout The timeout in milliseconds. 0 means to wait forever.
-     * @throws TimeoutException if the timeout passes and the thread does not return.
+     * @param task
+     *            The task to execute
+     * @param timeout
+     *            The timeout in milliseconds. 0 means to wait forever.
+     *
+     * @throws TimeoutException
+     *             if the timeout passes and the thread does not return.
      */
     public static void execute(Runnable task, long timeout) throws TimeoutException {
         Thread t = new Thread(task);
@@ -100,6 +110,7 @@ public final class TimeoutController {
         private static final long serialVersionUID = 1L;
 
         /** Create an instance */
-        public TimeoutException() {}
+        public TimeoutException() {
+        }
     }
 }

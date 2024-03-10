@@ -25,7 +25,9 @@ public interface IResourceProvider {
     /**
      * Return a requested resource.
      *
-     * @param path The name or path to the resource.
+     * @param path
+     *            The name or path to the resource.
+     *
      * @return The resource or null if not found.
      */
     ITreeNode getResourceByPath(String path);

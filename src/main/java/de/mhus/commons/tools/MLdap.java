@@ -35,15 +35,13 @@ import java.util.Map;
 
 public class MLdap {
 
-
     public static final String KEY_NAME = ".name";
     public static final String KEY_FQDN = ".fqdn";
     public static final String KEY_CLASS = ".class";
     public static final String FILTER_ALL_CLASSES = "(objectclass=*)";
 
     @SuppressWarnings("unchecked")
-    public static DirContext getConnection(String url, String principal, String password)
-            throws NamingException {
+    public static DirContext getConnection(String url, String principal, String password) throws NamingException {
         @SuppressWarnings("rawtypes")
         Hashtable env = new Hashtable();
         env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
@@ -102,7 +100,8 @@ public class MLdap {
 
     public static Map<String, Object> getNext(NamingEnumeration<SearchResult> res) {
         try {
-            if (!res.hasMore()) return null;
+            if (!res.hasMore())
+                return null;
             SearchResult result = (SearchResult) res.next();
             return resultToMap(result);
         } catch (Exception t) {

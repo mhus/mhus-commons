@@ -26,7 +26,8 @@ public class ImmutableListIterator<E> implements ListIterator<E> {
     }
 
     @Override
-    public void add(E o) {}
+    public void add(E o) {
+    }
 
     @Override
     public boolean hasNext() {
@@ -59,8 +60,10 @@ public class ImmutableListIterator<E> implements ListIterator<E> {
     }
 
     @Override
-    public void remove() {}
+    public void remove() {
+    }
 
     @Override
-    public void set(E o) {}
+    public void set(E o) {
+    }
 }

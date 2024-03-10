@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,8 @@ import de.mhus.commons.lang.IValuesProvider;
 public class NullPattern extends ModelPattern {
 
     @Override
-    public void setPattern(String pattern) {}
+    public void setPattern(String pattern) {
+    }
 
     @Override
     public String getPattern() {

@@ -26,7 +26,8 @@ public class Value<T> implements Valueable<T>, Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Value() {}
+    public Value() {
+    }
 
     public Value(T initial) {
         value = initial;
@@ -66,11 +67,11 @@ public class Value<T> implements Valueable<T>, Serializable {
     }
 
     @SuppressWarnings("unchecked")
-    private void readObject(java.io.ObjectInputStream in)
-            throws IOException, ClassNotFoundException {
+    private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
         value = null;
         int type = in.readInt();
-        if (type == 1) value = (T) in.readObject();
+        if (type == 1)
+            value = (T) in.readObject();
     }
 
     public void setValue(T value) {

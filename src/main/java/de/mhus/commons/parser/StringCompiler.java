@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -64,7 +64,8 @@ public class StringCompiler implements Parser {
     protected List<String> splitString(String in) {
         LinkedList<String> parts = new LinkedList<>();
         while (true) {
-            if (in.length() == 0) return parts;
+            if (in.length() == 0)
+                return parts;
             int nextPos = in.indexOf(separator);
             if (nextPos < 0) {
                 parts.add(in);
@@ -98,15 +99,20 @@ public class StringCompiler implements Parser {
     }
 
     protected StringPart createAttributePart(String part) {
-        if (part.startsWith("#")) return createExtraAttributePart(part);
+        if (part.startsWith("#"))
+            return createExtraAttributePart(part);
         return createDefaultAttributePart(part);
     }
 
     public static StringPart createExtraAttributePart(String part) {
-        if (part.startsWith("#env.")) return new EnvironmentPart(part);
-        if (part.startsWith("#system.")) return new SystemPart(part);
-        if (part.equals("#hostname")) return new StaticPart(MSystem.getHostname());
-        if (part.equals("#username")) return new StaticPart(MSystem.getUsername());
+        if (part.startsWith("#env."))
+            return new EnvironmentPart(part);
+        if (part.startsWith("#system."))
+            return new SystemPart(part);
+        if (part.equals("#hostname"))
+            return new StaticPart(MSystem.getHostname());
+        if (part.equals("#username"))
+            return new StaticPart(MSystem.getUsername());
         if (part.equals("#userhome"))
             return new StaticPart(MSystem.getUserHome().getAbsolutePath());
         return new StaticPart(part.substring(1));
@@ -157,19 +163,15 @@ public class StringCompiler implements Parser {
         @Override
         public void execute(StringBuilder out, IValuesProvider attributes) {
             String v = System.getenv(name);
-            if (v == null) v = def;
+            if (v == null)
+                v = def;
             out.append(v);
         }
 
         @Override
         public void dump(int level, StringBuilder out) {
             MString.appendRepeating(level, ' ', out);
-            out.append(getClass().getCanonicalName())
-                    .append(" ")
-                    .append(name)
-                    .append(':')
-                    .append(def)
-                    .append('\n');
+            out.append(getClass().getCanonicalName()).append(" ").append(name).append(':').append(def).append('\n');
         }
     }
 
@@ -215,12 +217,7 @@ public class StringCompiler implements Parser {
         @Override
         public void dump(int level, StringBuilder out) {
             MString.appendRepeating(level, ' ', out);
-            out.append(getClass().getCanonicalName())
-                    .append(" ")
-                    .append(name)
-                    .append(':')
-                    .append(def)
-                    .append("\n");
+            out.append(getClass().getCanonicalName()).append(" ").append(name).append(':').append(def).append("\n");
         }
     }
 
@@ -240,18 +237,14 @@ public class StringCompiler implements Parser {
 
         @Override
         public void execute(StringBuilder out, IValuesProvider attributes) {
-            if (attributes != null) out.append(attributes.getOrDefault(name, def));
+            if (attributes != null)
+                out.append(attributes.getOrDefault(name, def));
         }
 
         @Override
         public void dump(int level, StringBuilder out) {
             MString.appendRepeating(level, ' ', out);
-            out.append(getClass().getCanonicalName())
-                    .append(" ")
-                    .append(name)
-                    .append(':')
-                    .append(def)
-                    .append("\n");
+            out.append(getClass().getCanonicalName()).append(" ").append(name).append(':').append(def).append("\n");
         }
     }
 }

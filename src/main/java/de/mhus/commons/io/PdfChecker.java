@@ -31,6 +31,7 @@ public class PdfChecker {
      * checks for suspicious contents
      *
      * @param pdfFile
+     *
      * @return 0 = not suspicious, 1 = little suspicious, 2-3 = suspicious, 4-5 = highly suspicious
      */
     public int getSuspiciousScore(File pdfFile) {
@@ -40,16 +41,19 @@ public class PdfChecker {
     }
 
     /**
-     * A score lesser then 1 is NO, 1 is MAYBE, greater is YES. If you want be sure reject
-     * everything that is not NO. If you are generous reject everything that is YES.
+     * A score lesser then 1 is NO, 1 is MAYBE, greater is YES. If you want be sure reject everything that is not NO. If
+     * you are generous reject everything that is YES.
      *
      * @param pdfFile
+     *
      * @return Suspicios
      */
     public FileChecker.SUSPICIOUS isSuspicious(File pdfFile) {
         int score = getSuspiciousScore(pdfFile);
-        if (score == 0) return FileChecker.SUSPICIOUS.NO;
-        if (score == 1) return FileChecker.SUSPICIOUS.MAYBE;
+        if (score == 0)
+            return FileChecker.SUSPICIOUS.NO;
+        if (score == 1)
+            return FileChecker.SUSPICIOUS.MAYBE;
         return FileChecker.SUSPICIOUS.YES;
     }
 
@@ -57,6 +61,7 @@ public class PdfChecker {
      * checks for suspicious contents
      *
      * @param content
+     *
      * @return 0 = not suspicious, 1 = little suspicious, 2-3 = suspicious, 4-5 = highly suspicious
      */
     public int isSuspicious(String content) {
@@ -68,6 +73,7 @@ public class PdfChecker {
      * checks for suspicious contents
      *
      * @param lines
+     *
      * @return 0 = not suspicious, 1 = little suspicious, 2-3 = suspicious, 4-5 = highly suspicious
      */
     public int isSuspicious(String[] lines) {
@@ -79,35 +85,17 @@ public class PdfChecker {
         int openActionCnt = 0;
         int pageCnt = 0;
         /*
-         * possible tags:
-         * obj
-         * endobj
-         * stream
-         * endstream
-         * xref
-         * trailer
-         * startxref
-         * /Page
-         * /Encrypt
-         * /ObjStm
-         * /JS
-         * /JavaScript
-         * /AA
-         * /OpenAction
-         * /JBIG2Decode
-         * /RichMedia
-         * /Launch
-         * /XFA
+         * possible tags: obj endobj stream endstream xref trailer startxref /Page /Encrypt /ObjStm /JS /JavaScript /AA
+         * /OpenAction /JBIG2Decode /RichMedia /Launch /XFA
          *
-         * suspicious tags:
-         * /JS and /JavaScript (contain scripts)
-         * /AA and /OpenAction (auto execution of scripts at startup is very suspicious)
-         * /Page BUT NOT /Pages (if there's only 1 page, only in combination with other tags)
-         * /ObjStm (can contain/obfuscate other objects)
+         * suspicious tags: /JS and /JavaScript (contain scripts) /AA and /OpenAction (auto execution of scripts at
+         * startup is very suspicious) /Page BUT NOT /Pages (if there's only 1 page, only in combination with other
+         * tags) /ObjStm (can contain/obfuscate other objects)
          */
         for (String line : lines) {
             // only evaluate type descriptors
-            if (!line.startsWith("<<")) continue;
+            if (!line.startsWith("<<"))
+                continue;
 
             if (line.contains("/JS")) {
                 jsCnt++;
@@ -127,15 +115,20 @@ public class PdfChecker {
         }
 
         if (aaCnt > 0 || openActionCnt > 0) {
-            if (score < 3) score += 2;
-            else if (score < 5) score++;
+            if (score < 3)
+                score += 2;
+            else if (score < 5)
+                score++;
         }
         if (jsCnt > 0 || javaScriptCnt > 0) {
-            if (score < 3) score += 2;
-            else if (score < 5) score++;
+            if (score < 3)
+                score += 2;
+            else if (score < 5)
+                score++;
         }
         if (pageCnt == 1) {
-            if (score > 0 && score < 5) score++;
+            if (score > 0 && score < 5)
+                score++;
         }
 
         return score;

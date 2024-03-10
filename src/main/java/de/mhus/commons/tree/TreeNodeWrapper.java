@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -299,29 +299,23 @@ public class TreeNodeWrapper extends TreeNode {
     }
 
     @Override
-    public Object computeIfAbsent(
-            String key, Function<? super String, ? extends Object> mappingFunction) {
+    public Object computeIfAbsent(String key, Function<? super String, ? extends Object> mappingFunction) {
         return parameters.computeIfAbsent(key, mappingFunction);
     }
 
     @Override
-    public Object computeIfPresent(
-            String key,
+    public Object computeIfPresent(String key,
             BiFunction<? super String, ? super Object, ? extends Object> remappingFunction) {
         return parameters.computeIfPresent(key, remappingFunction);
     }
 
     @Override
-    public Object compute(
-            String key,
-            BiFunction<? super String, ? super Object, ? extends Object> remappingFunction) {
+    public Object compute(String key, BiFunction<? super String, ? super Object, ? extends Object> remappingFunction) {
         return parameters.compute(key, remappingFunction);
     }
 
     @Override
-    public Object merge(
-            String key,
-            Object value,
+    public Object merge(String key, Object value,
             BiFunction<? super Object, ? super Object, ? extends Object> remappingFunction) {
         return parameters.merge(key, value, remappingFunction);
     }

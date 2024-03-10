@@ -57,14 +57,16 @@ public class DefaultRandom implements MRandom {
     }
 
     public synchronized Random getRandom() {
-        if (rand == null) rand = new MyRandom();
+        if (rand == null)
+            rand = new MyRandom();
         return rand;
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public <T> T adaptTo(Class<? extends T> ifc) {
-        if (Random.class.isAssignableFrom(ifc)) return (T) getRandom();
+        if (Random.class.isAssignableFrom(ifc))
+            return (T) getRandom();
         return null;
     }
 
@@ -76,8 +78,9 @@ public class DefaultRandom implements MRandom {
     @Override
     public synchronized SecureRandom getSecureRandom() {
         try {
-            //			secureRandom = SecureRandom.getInstance("SHA1PRNG", "SUN");
-            if (secureRandom == null) secureRandom = new MySecureRandom();
+            // secureRandom = SecureRandom.getInstance("SHA1PRNG", "SUN");
+            if (secureRandom == null)
+                secureRandom = new MySecureRandom();
         } catch (Exception e) {
             LOGGER.error("Error", e);
         }
@@ -92,7 +95,8 @@ public class DefaultRandom implements MRandom {
         public synchronized void nextBytes(byte[] bytes) {
             super.nextBytes(bytes);
             byte b = getByte();
-            for (int i = 0; i < bytes.length; i++) bytes[i] = (byte) ((bytes[i] + b) & 255);
+            for (int i = 0; i < bytes.length; i++)
+                bytes[i] = (byte) ((bytes[i] + b) & 255);
         }
     }
 

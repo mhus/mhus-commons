@@ -35,7 +35,8 @@ public class TransformHelper {
         return this;
     }
 
-    public void postToJson(Object from, JsonNode to) {}
+    public void postToJson(Object from, JsonNode to) {
+    }
 
     public Class<?> getType(String clazz) throws IllegalAccessException {
         try {
@@ -45,20 +46,20 @@ public class TransformHelper {
             }
 
             switch (clazz) {
-                case "byte":
-                    return byte.class;
-                case "int":
-                    return int.class;
-                case "float":
-                    return float.class;
-                case "double":
-                    return double.class;
-                case "boolean":
-                    return boolean.class;
-                case "short":
-                    return short.class;
-                case "char":
-                    return char.class;
+            case "byte":
+                return byte.class;
+            case "int":
+                return int.class;
+            case "float":
+                return float.class;
+            case "double":
+                return double.class;
+            case "boolean":
+                return boolean.class;
+            case "short":
+                return short.class;
+            case "char":
+                return char.class;
             }
 
             return getClassLoader().loadClass(clazz);
@@ -80,9 +81,8 @@ public class TransformHelper {
         return this;
     }
 
-    public Object createObject(Class<?> type)
-            throws InstantiationException, IllegalAccessException, IllegalArgumentException,
-                    InvocationTargetException, NoSuchMethodException, SecurityException {
+    public Object createObject(Class<?> type) throws InstantiationException, IllegalAccessException,
+            IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
         return type.getDeclaredConstructor().newInstance();
     }
 
@@ -101,17 +101,15 @@ public class TransformHelper {
     }
 
     public PojoModel createPojoModel(Object from) {
-        PojoModel model =
-                new PojoParser()
-                        .parse(from, "_", null)
-                        .filter(new DefaultFilter(true, false, true, true, true))
-                        .getModel();
+        PojoModel model = new PojoParser().parse(from, "_", null)
+                .filter(new DefaultFilter(true, false, true, true, true)).getModel();
         return model;
     }
 
     public void log(String msg) {
         System.out.println(msg);
     }
+
     /**
      * Return true if the level is ok
      *

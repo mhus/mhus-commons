@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,8 +41,7 @@ public class MException extends Exception implements IResult {
     }
 
     public MException(IResult cause, String msg, Object... parameters) {
-        super(
-                RC.toMessage(cause.getReturnCode(), cause, msg, parameters, 0),
+        super(RC.toMessage(cause.getReturnCode(), cause, msg, parameters, 0),
                 cause instanceof Throwable ? (Throwable) cause : null);
         setReturnCode(cause.getReturnCode());
     }
@@ -52,9 +51,7 @@ public class MException extends Exception implements IResult {
     }
 
     public MException(RC.CAUSE causeHandling, int rc, String msg, Object... parameters) {
-        super(
-                RC.toMessage(rc, causeHandling, msg, parameters, 0),
-                RC.findCause(causeHandling, parameters));
+        super(RC.toMessage(rc, causeHandling, msg, parameters, 0), RC.findCause(causeHandling, parameters));
         setReturnCode(RC.findReturnCode(causeHandling, rc, parameters));
     }
 

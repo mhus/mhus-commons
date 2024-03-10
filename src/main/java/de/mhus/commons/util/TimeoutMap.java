@@ -37,7 +37,8 @@ public class TimeoutMap<K, V> implements Map<K, V> {
     private Invalidator<K, V> invalidator;
     private boolean refreshOnAccess;
 
-    public TimeoutMap() {}
+    public TimeoutMap() {
+    }
 
     public TimeoutMap(long timeout) {
         this.timeout = timeout;
@@ -79,17 +80,13 @@ public class TimeoutMap<K, V> implements Map<K, V> {
 
     public synchronized void doValidationCheck() {
         if (System.currentTimeMillis() - lastCheck > checkTimeout) {
-            Iterator<java.util.Map.Entry<K, TimeoutMap<K, V>.Container<V>>> entries =
-                    map.entrySet().iterator();
+            Iterator<java.util.Map.Entry<K, TimeoutMap<K, V>.Container<V>>> entries = map.entrySet().iterator();
             while (entries.hasNext()) {
                 java.util.Map.Entry<K, TimeoutMap<K, V>.Container<V>> next = entries.next();
-                if (invalidator != null
-                                && invalidator.isInvalid(
-                                        next.getKey(),
-                                        next.getValue().value,
-                                        next.getValue().time,
-                                        next.getValue().accessed)
-                        || invalidator == null && next.getValue().isTimeout()) entries.remove();
+                if (invalidator != null && invalidator.isInvalid(next.getKey(), next.getValue().value,
+                        next.getValue().time, next.getValue().accessed)
+                        || invalidator == null && next.getValue().isTimeout())
+                    entries.remove();
             }
             lastCheck = System.currentTimeMillis();
         }
@@ -153,7 +150,8 @@ public class TimeoutMap<K, V> implements Map<K, V> {
     @Override
     public V getOrDefault(Object key, V defaultValue) {
         V ret = get(key);
-        if (ret == null) return defaultValue;
+        if (ret == null)
+            return defaultValue;
         return ret;
     }
 
@@ -193,8 +191,7 @@ public class TimeoutMap<K, V> implements Map<K, V> {
     }
 
     @Override
-    public V computeIfPresent(
-            K key, BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
+    public V computeIfPresent(K key, BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
         throw new NotSupportedException();
     }
 
@@ -204,8 +201,7 @@ public class TimeoutMap<K, V> implements Map<K, V> {
     }
 
     @Override
-    public V merge(
-            K key, V value, BiFunction<? super V, ? super V, ? extends V> remappingFunction) {
+    public V merge(K key, V value, BiFunction<? super V, ? super V, ? extends V> remappingFunction) {
         throw new NotSupportedException();
     }
 
@@ -251,7 +247,8 @@ public class TimeoutMap<K, V> implements Map<K, V> {
         }
 
         public Z getValue() {
-            if (isRefreshOnAccess()) time = System.currentTimeMillis();
+            if (isRefreshOnAccess())
+                time = System.currentTimeMillis();
             accessed++;
             return value;
         }

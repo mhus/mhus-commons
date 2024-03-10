@@ -46,11 +46,13 @@ public interface Account extends Rightful {
     IReadProperties getAttributes();
 
     /**
-     * Overwrites the given attributes, leaves all other properties untouched. Use NullValue to
-     * remove a attribute from list.
+     * Overwrites the given attributes, leaves all other properties untouched. Use NullValue to remove a attribute from
+     * list.
      *
      * @param properties
-     * @throws NotSupportedException Thrown if attributes are not supported
+     *
+     * @throws NotSupportedException
+     *             Thrown if attributes are not supported
      */
     void putAttributes(IReadProperties properties) throws NotSupportedException;
 
@@ -58,6 +60,7 @@ public interface Account extends Rightful {
      * Return the set of assigned groups
      *
      * @return List of groups
+     *
      * @throws NotSupportedException
      */
     String[] getGroups() throws NotSupportedException;

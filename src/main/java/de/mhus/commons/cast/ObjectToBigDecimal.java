@@ -37,14 +37,21 @@ public class ObjectToBigDecimal implements Caster<Object, BigDecimal> {
     }
 
     public BigDecimal cast(Object in, BigDecimal def, Locale locale) {
-        if (in == null) return def;
+        if (in == null)
+            return def;
         try {
-            if (in instanceof BigDecimal) return (BigDecimal) in;
-            if (in instanceof Long) return new BigDecimal((Long) in);
-            if (in instanceof Integer) return new BigDecimal((Integer) in);
-            if (in instanceof Double) return new BigDecimal((Double) in);
-            if (in instanceof BigInteger) return new BigDecimal((BigInteger) in);
-            if (in instanceof String) return new BigDecimal((String) in);
+            if (in instanceof BigDecimal)
+                return (BigDecimal) in;
+            if (in instanceof Long)
+                return new BigDecimal((Long) in);
+            if (in instanceof Integer)
+                return new BigDecimal((Integer) in);
+            if (in instanceof Double)
+                return new BigDecimal((Double) in);
+            if (in instanceof BigInteger)
+                return new BigDecimal((BigInteger) in);
+            if (in instanceof String)
+                return new BigDecimal((String) in);
 
             String ins = String.valueOf(in);
             return new BigDecimal(ins);

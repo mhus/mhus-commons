@@ -34,51 +34,51 @@ public class MCollectionTest extends TestCase {
     @Test
     public void testArrayManipulation() {
         {
-            String[] array = new String[] {"a", "b", "c"};
+            String[] array = new String[] { "a", "b", "c" };
             array = MCollection.append(array, "d");
-            equals(new String[] {"a", "b", "c", "d"}, array);
+            equals(new String[] { "a", "b", "c", "d" }, array);
         }
         {
             String[] array = new String[] {};
             array = MCollection.append(array, "d");
-            equals(new String[] {"d"}, array);
+            equals(new String[] { "d" }, array);
         }
         // insert
         {
-            String[] array = new String[] {"a", "b", "c"};
+            String[] array = new String[] { "a", "b", "c" };
             array = MCollection.insert(array, 0, "d");
-            equals(new String[] {"d", "a", "b", "c"}, array);
+            equals(new String[] { "d", "a", "b", "c" }, array);
         }
         {
-            String[] array = new String[] {"a", "b", "c"};
+            String[] array = new String[] { "a", "b", "c" };
             array = MCollection.insert(array, 3, "d");
-            equals(new String[] {"a", "b", "c", "d"}, array);
+            equals(new String[] { "a", "b", "c", "d" }, array);
         }
         {
-            String[] array = new String[] {"a", "b", "c"};
+            String[] array = new String[] { "a", "b", "c" };
             array = MCollection.insert(array, 1, "d");
-            equals(new String[] {"a", "d", "b", "c"}, array);
+            equals(new String[] { "a", "d", "b", "c" }, array);
         }
         // remove
         {
-            String[] array = new String[] {"a", "b", "c"};
+            String[] array = new String[] { "a", "b", "c" };
             array = MCollection.remove(array, 0, 1);
-            equals(new String[] {"b", "c"}, array);
+            equals(new String[] { "b", "c" }, array);
         }
         {
-            String[] array = new String[] {"a", "b", "c"};
+            String[] array = new String[] { "a", "b", "c" };
             array = MCollection.remove(array, 0, 3);
             equals(new String[] {}, array);
         }
         {
-            String[] array = new String[] {"a", "b", "c"};
+            String[] array = new String[] { "a", "b", "c" };
             array = MCollection.remove(array, 1, 1);
-            equals(new String[] {"a", "c"}, array);
+            equals(new String[] { "a", "c" }, array);
         }
         {
-            String[] array = new String[] {"a", "b", "c"};
+            String[] array = new String[] { "a", "b", "c" };
             array = MCollection.remove(array, 2, 1);
-            equals(new String[] {"a", "b"}, array);
+            equals(new String[] { "a", "b" }, array);
         }
     }
 

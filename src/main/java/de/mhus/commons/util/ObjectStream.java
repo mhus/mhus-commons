@@ -24,22 +24,22 @@ public abstract class ObjectStream<T> implements Iterable<T> {
 
     private T next = null;
 
-    private Iterator<T> iterator =
-            new Iterator<T>() {
+    private Iterator<T> iterator = new Iterator<T>() {
 
-                @Override
-                public boolean hasNext() {
-                    return ObjectStream.this.hasNext();
-                }
+        @Override
+        public boolean hasNext() {
+            return ObjectStream.this.hasNext();
+        }
 
-                @Override
-                public T next() {
-                    if (next == null) return null;
-                    T result = next;
-                    findNext();
-                    return result;
-                }
-            };
+        @Override
+        public T next() {
+            if (next == null)
+                return null;
+            T result = next;
+            findNext();
+            return result;
+        }
+    };
 
     public ObjectStream() {
         findNext();

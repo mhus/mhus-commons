@@ -39,9 +39,7 @@ public class CompareDir {
     private boolean commitAfterFinish;
     private boolean needAllFolders;
 
-    public void compare(
-            TreeMap<String, CompareDirEntry> current,
-            TreeMap<String, CompareDirEntry> last,
+    public void compare(TreeMap<String, CompareDirEntry> current, TreeMap<String, CompareDirEntry> last,
             Listener listener) {
 
         MStopWatch tk = new MStopWatch();
@@ -84,13 +82,17 @@ public class CompareDir {
 
         while (true) {
 
-            if (curEntry == null && oldEntry == null || killed) break;
+            if (curEntry == null && oldEntry == null || killed)
+                break;
 
             int comp = 0;
 
-            if (curEntry != null && oldEntry != null) comp = curKey.compareTo(oldKey);
-            else if (curEntry == null) comp = 1;
-            else comp = -1;
+            if (curEntry != null && oldEntry != null)
+                comp = curKey.compareTo(oldKey);
+            else if (curEntry == null)
+                comp = 1;
+            else
+                comp = -1;
 
             if (comp == 0) {
 
@@ -103,8 +105,10 @@ public class CompareDir {
                         updateCnt++;
                         boolean ret = listener.updateObject(curKey, curVal, oldVal);
                         if (commitAfterEveryEvent) {
-                            if (ret) doCommit();
-                            else doRollback();
+                            if (ret)
+                                doCommit();
+                            else
+                                doRollback();
                         }
                     }
                 }
@@ -116,7 +120,8 @@ public class CompareDir {
                     LOGGER.trace("CUR,{}", curKey);
                     totalCnt++;
                     currentCnt++;
-                } else curEntry = null;
+                } else
+                    curEntry = null;
 
                 if (old != null && old.hasNext()) {
                     oldEntry = old.next();
@@ -124,7 +129,8 @@ public class CompareDir {
                     oldVal = oldEntry.getValue();
                     LOGGER.trace("OLD {}", oldKey);
                     totalCnt++;
-                } else oldEntry = null;
+                } else
+                    oldEntry = null;
 
                 continue;
 
@@ -136,8 +142,10 @@ public class CompareDir {
                     deleteCnt++;
                     boolean ret = listener.deleteObject(oldKey, oldVal);
                     if (commitAfterEveryEvent) {
-                        if (ret) doCommit();
-                        else doRollback();
+                        if (ret)
+                            doCommit();
+                        else
+                            doRollback();
                     }
                 }
 
@@ -147,7 +155,8 @@ public class CompareDir {
                     oldVal = oldEntry.getValue();
                     LOGGER.trace("OLD {}", oldKey);
                     totalCnt++;
-                } else oldEntry = null;
+                } else
+                    oldEntry = null;
 
             } else {
                 // comp < 0
@@ -158,8 +167,10 @@ public class CompareDir {
                     insertCnt++;
                     boolean ret = listener.createObject(curKey, curVal);
                     if (commitAfterEveryEvent) {
-                        if (ret) doCommit();
-                        else doRollback();
+                        if (ret)
+                            doCommit();
+                        else
+                            doRollback();
                     }
                 }
 
@@ -170,15 +181,18 @@ public class CompareDir {
                     LOGGER.trace("CUR {}", curKey);
                     totalCnt++;
                     currentCnt++;
-                } else curEntry = null;
+                } else
+                    curEntry = null;
             }
         }
 
         LOGGER.trace("FINISH");
         boolean ret = listener.finish(current, last);
         if (commitAfterFinish) {
-            if (ret) doCommit();
-            else doRollback();
+            if (ret)
+                doCommit();
+            else
+                doRollback();
         }
 
         tk.stop();
@@ -186,23 +200,28 @@ public class CompareDir {
     }
 
     private boolean isPath(String path) {
-        if (pathes == null) return true;
+        if (pathes == null)
+            return true;
         path = path.substring(0, path.lastIndexOf(','));
         if (needAllFolders) {
             for (int i = 0; i < pathes.length; i++)
-                if (path.startsWith(pathesSlash[i]) || path.equals(pathes[i])) return true;
+                if (path.startsWith(pathesSlash[i]) || path.equals(pathes[i]))
+                    return true;
         } else {
             int pos = path.lastIndexOf('/');
             String p = null;
-            if (pos > 0) p = path.substring(0, pos);
+            if (pos > 0)
+                p = path.substring(0, pos);
             for (int i = 0; i < pathes.length; i++)
-                if ((p != null && p.equals(pathes[i])) || path.equals(pathes[i])) return true;
+                if ((p != null && p.equals(pathes[i])) || path.equals(pathes[i]))
+                    return true;
         }
         return false;
     }
 
     public int getProgress() {
-        if (totalSize == 0) return 100;
+        if (totalSize == 0)
+            return 100;
         return totalCnt * 100 / totalSize;
     }
 
@@ -226,9 +245,11 @@ public class CompareDir {
         return updateCnt;
     }
 
-    public void doCommit() {}
+    public void doCommit() {
+    }
 
-    public void doRollback() {}
+    public void doRollback() {
+    }
 
     public boolean isFullRefresh() {
         return fullRefresh;
@@ -245,7 +266,8 @@ public class CompareDir {
     public void setPathes(String[] pathes) {
         this.pathes = pathes;
         pathesSlash = new String[pathes.length];
-        for (int i = 0; i < pathes.length; i++) pathesSlash[i] = pathes[i] + '/';
+        for (int i = 0; i < pathes.length; i++)
+            pathesSlash[i] = pathes[i] + '/';
     }
 
     public boolean isCommitAfterEveryEvent() {
@@ -274,11 +296,9 @@ public class CompareDir {
 
     public static interface Listener {
 
-        public void start(
-                TreeMap<String, CompareDirEntry> pCurrent, TreeMap<String, CompareDirEntry> pLast);
+        public void start(TreeMap<String, CompareDirEntry> pCurrent, TreeMap<String, CompareDirEntry> pLast);
 
-        public boolean finish(
-                TreeMap<String, CompareDirEntry> pCurrent, TreeMap<String, CompareDirEntry> pLast);
+        public boolean finish(TreeMap<String, CompareDirEntry> pCurrent, TreeMap<String, CompareDirEntry> pLast);
 
         public boolean updateObject(String path, CompareDirEntry curVal, CompareDirEntry lastVal);
 

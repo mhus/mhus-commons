@@ -39,14 +39,17 @@ public class ObjectToByte implements Caster<Object, Byte> {
     }
 
     public byte toByte(Object in, byte def, Value<Byte> ret) {
-        if (in == null) return def;
+        if (in == null)
+            return def;
         if (in instanceof Byte) {
-            if (ret != null) ret.setValue((Byte) in);
+            if (ret != null)
+                ret.setValue((Byte) in);
             return ((Byte) in).byteValue();
         }
         if (in instanceof Number) {
             byte r = ((Number) in).byteValue();
-            if (ret != null) ret.setValue(r);
+            if (ret != null)
+                ret.setValue(r);
             return r;
         }
 
@@ -54,27 +57,37 @@ public class ObjectToByte implements Caster<Object, Byte> {
         try {
             if (_in.startsWith("0x") || _in.startsWith("-0x") || _in.startsWith("+0x")) {
                 int start = 2;
-                if (_in.startsWith("-")) start = 3;
+                if (_in.startsWith("-"))
+                    start = 3;
                 int out = 0;
                 for (int i = start; i < _in.length(); i++) {
                     int s = -1;
                     char c = _in.charAt(i);
-                    if (c >= '0' && c <= '9') s = c - '0';
-                    else if (c >= 'a' && c <= 'f') s = c - 'a' + 10;
-                    else if (c >= 'A' && c <= 'F') s = c - 'A' + 10;
+                    if (c >= '0' && c <= '9')
+                        s = c - '0';
+                    else if (c >= 'a' && c <= 'f')
+                        s = c - 'a' + 10;
+                    else if (c >= 'A' && c <= 'F')
+                        s = c - 'A' + 10;
 
-                    if (s == -1) throw new NumberFormatException(_in);
+                    if (s == -1)
+                        throw new NumberFormatException(_in);
                     out = out * 16 + s;
                 }
-                if (_in.startsWith("-")) out = -out;
-                if (out > Byte.MAX_VALUE) out = Byte.MAX_VALUE;
-                if (out < Byte.MIN_VALUE) out = Byte.MIN_VALUE;
-                if (ret != null) ret.setValue((byte) out);
+                if (_in.startsWith("-"))
+                    out = -out;
+                if (out > Byte.MAX_VALUE)
+                    out = Byte.MAX_VALUE;
+                if (out < Byte.MIN_VALUE)
+                    out = Byte.MIN_VALUE;
+                if (ret != null)
+                    ret.setValue((byte) out);
                 return (byte) out;
             }
 
             byte r = Byte.parseByte(_in);
-            if (ret != null) ret.setValue(r);
+            if (ret != null)
+                ret.setValue(r);
             return r;
         } catch (Exception e) {
             LOGGER.trace("Error: {}", _in, e.toString());

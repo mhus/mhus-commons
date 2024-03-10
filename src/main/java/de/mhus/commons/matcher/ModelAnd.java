@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,8 @@ public class ModelAnd extends ModelComposit {
     @Override
     public boolean matches(ModelPart model, IValuesProvider map, String str) {
         for (ModelPart part : components) {
-            if (!part.m(map, str)) return false;
+            if (!part.m(map, str))
+                return false;
         }
         return true;
     }
@@ -35,7 +36,8 @@ public class ModelAnd extends ModelComposit {
     @Override
     protected boolean matches(IValuesProvider map) {
         for (ModelPart part : components) {
-            if (!part.m(map)) return false;
+            if (!part.m(map))
+                return false;
         }
         return true;
     }

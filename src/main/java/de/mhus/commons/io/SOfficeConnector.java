@@ -50,7 +50,8 @@ public class SOfficeConnector {
     private void findVersion() {
         valid = false;
         version = null;
-        if (binary == null || binary.indexOf("soffice") < 0) return;
+        if (binary == null || binary.indexOf("soffice") < 0)
+            return;
         try {
             version = MSystem.execute(binary, "--version").getOutput();
             valid = MString.isSet(version) && version.startsWith("LibreOffice ");
@@ -94,20 +95,26 @@ public class SOfficeConnector {
     /**
      * Convert from in file format to 'format'.
      *
-     * @param format The resulting format and filter, see
-     *     https://ask.libreoffice.org/en/question/2641/convert-to-command-line-parameter/
-     * @param in Input file
-     * @param outDir output directory or null for the same location as the input file
+     * @param format
+     *            The resulting format and filter, see
+     *            https://ask.libreoffice.org/en/question/2641/convert-to-command-line-parameter/
+     * @param in
+     *            Input file
+     * @param outDir
+     *            output directory or null for the same location as the input file
+     *
      * @return Path to the generated file
+     *
      * @throws NotFoundException
      * @throws IOException
      */
-    public String convertTo(String format, String in, String outDir)
-            throws NotFoundException, IOException {
-        if (!valid) throw new NotFoundException("LibreOffice not found");
+    public String convertTo(String format, String in, String outDir) throws NotFoundException, IOException {
+        if (!valid)
+            throw new NotFoundException("LibreOffice not found");
 
         File inFile = new File(in);
-        if (!inFile.exists() || !inFile.isFile()) throw new FileNotFoundException(in);
+        if (!inFile.exists() || !inFile.isFile())
+            throw new FileNotFoundException(in);
 
         if (outDir != null) {
             File outFile = new File(outDir);
@@ -123,23 +130,15 @@ public class SOfficeConnector {
         if (outDir == null)
             res = MSystem.execute(binary, "--headless", "-convert-to", format, in).toArray();
         else
-            res =
-                    MSystem.execute(
-                                    binary,
-                                    "--headless",
-                                    "-convert-to",
-                                    format,
-                                    "-outdir",
-                                    outDir,
-                                    in)
-                            .toArray();
+            res = MSystem.execute(binary, "--headless", "-convert-to", format, "-outdir", outDir, in).toArray();
 
         for (String line : res[0].split("\n")) {
             line = line.trim();
             if (line.startsWith("convert ")) {
                 int p1 = line.indexOf(" -> ");
                 int p2 = line.indexOf(" using", p1);
-                if (p1 > 0 && p2 > 0) return line.substring(p1 + 4, p2);
+                if (p1 > 0 && p2 > 0)
+                    return line.substring(p1 + 4, p2);
             }
         }
 
@@ -151,8 +150,7 @@ public class SOfficeConnector {
     /*
      * This is for testing purposes ... output should be like ...
      *
-     *  LibreOffice 6.0.5.2 54c8cbb85f300ac59db32fe8a675ff7683cd5a16
-     *  /private/tmp/Devices.pdf
+     * LibreOffice 6.0.5.2 54c8cbb85f300ac59db32fe8a675ff7683cd5a16 /private/tmp/Devices.pdf
      *
      */
     public static void main(String args[]) throws NotFoundException, IOException {
@@ -168,8 +166,7 @@ public class SOfficeConnector {
         return version;
     }
 
-    public static void replace(File from, File to, StringPropertyReplacer replacer)
-            throws Exception {
+    public static void replace(File from, File to, StringPropertyReplacer replacer) throws Exception {
         replace(from, to, new StringPropertyRewriter(replacer));
     }
 
@@ -206,8 +203,7 @@ public class SOfficeConnector {
             while (entries.hasMoreElements()) {
                 ZipEntry inNext = entries.nextElement();
                 InputStream isZip = inZip.getInputStream(inNext);
-                if (inNext.getName().equals(SOFFICE_CONTENT)
-                        || inNext.getName().equals(WORD_CONTENT)) {
+                if (inNext.getName().equals(SOFFICE_CONTENT) || inNext.getName().equals(WORD_CONTENT)) {
                     String content = MFile.readFile(isZip);
                     isZip.close();
                     return content;

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,8 +47,10 @@ public class JsonStreamNodeBuilder extends ITreeNodeBuilder {
 
                 while (true) {
                     JsonToken token = jsonParser.nextToken();
-                    if (token == null) break;
-                    if (token == JsonToken.FIELD_NAME) continue;
+                    if (token == null)
+                        break;
+                    if (token == JsonToken.FIELD_NAME)
+                        continue;
                     if (root == null) {
                         // START ARRAY OR OBJECT
                         if (token == JsonToken.START_ARRAY) {
@@ -72,8 +74,7 @@ public class JsonStreamNodeBuilder extends ITreeNodeBuilder {
                         } else if (token == JsonToken.END_OBJECT) {
                             // should not happen
                         } else if (token == JsonToken.END_ARRAY) {
-                            if (ITreeNode.NAMELESS_VALUE.equals(array.getName())
-                                    && array.getParent() != null
+                            if (ITreeNode.NAMELESS_VALUE.equals(array.getName()) && array.getParent() != null
                                     && array.getParent().getParentArray() != null) {
                                 ITreeNode obj = array.getParent();
                                 array = obj.getParentArray();
@@ -83,23 +84,15 @@ public class JsonStreamNodeBuilder extends ITreeNodeBuilder {
                                 array = null;
                             }
                         } else if (token == JsonToken.VALUE_STRING)
-                            array.createObject()
-                                    .setString(
-                                            jsonParser.getCurrentName(),
-                                            jsonParser.getValueAsString());
+                            array.createObject().setString(jsonParser.getCurrentName(), jsonParser.getValueAsString());
                         else if (token == JsonToken.VALUE_FALSE)
                             array.createObject().setBoolean(jsonParser.getCurrentName(), false);
                         else if (token == JsonToken.VALUE_TRUE)
                             array.createObject().setBoolean(jsonParser.getCurrentName(), true);
                         else if (token == JsonToken.VALUE_NUMBER_FLOAT)
-                            array.createObject()
-                                    .setDouble(
-                                            jsonParser.getCurrentName(),
-                                            jsonParser.getDoubleValue());
+                            array.createObject().setDouble(jsonParser.getCurrentName(), jsonParser.getDoubleValue());
                         else if (token == JsonToken.VALUE_NUMBER_INT)
-                            array.createObject()
-                                    .setLong(
-                                            jsonParser.getCurrentName(), jsonParser.getLongValue());
+                            array.createObject().setLong(jsonParser.getCurrentName(), jsonParser.getLongValue());
                     } else if (node != null) {
                         // IN OBJECT
                         if (token == JsonToken.START_ARRAY) {
@@ -117,8 +110,7 @@ public class JsonStreamNodeBuilder extends ITreeNodeBuilder {
                                 array = null;
                             }
                         } else if (token == JsonToken.VALUE_STRING)
-                            node.setString(
-                                    jsonParser.getCurrentName(), jsonParser.getValueAsString());
+                            node.setString(jsonParser.getCurrentName(), jsonParser.getValueAsString());
                         else if (token == JsonToken.END_ARRAY) {
                             // should not happen
                         } else if (token == JsonToken.VALUE_FALSE)
@@ -126,8 +118,7 @@ public class JsonStreamNodeBuilder extends ITreeNodeBuilder {
                         else if (token == JsonToken.VALUE_TRUE)
                             node.setBoolean(jsonParser.getCurrentName(), true);
                         else if (token == JsonToken.VALUE_NUMBER_FLOAT)
-                            node.setDouble(
-                                    jsonParser.getCurrentName(), jsonParser.getDoubleValue());
+                            node.setDouble(jsonParser.getCurrentName(), jsonParser.getDoubleValue());
                         else if (token == JsonToken.VALUE_NUMBER_INT)
                             node.setLong(jsonParser.getCurrentName(), jsonParser.getLongValue());
                     } else {
@@ -136,7 +127,8 @@ public class JsonStreamNodeBuilder extends ITreeNodeBuilder {
                 }
             }
 
-            if (root == null) root = new TreeNode();
+            if (root == null)
+                root = new TreeNode();
             return root;
         } catch (IOException e) {
             throw new MException(RC.STATUS.ERROR, e);
@@ -148,7 +140,8 @@ public class JsonStreamNodeBuilder extends ITreeNodeBuilder {
         try {
 
             JsonGenerator generator = factory.createGenerator(os, JsonEncoding.UTF8);
-            if (pretty) generator.useDefaultPrettyPrinter();
+            if (pretty)
+                generator.useDefaultPrettyPrinter();
             write(node, generator);
             generator.close();
         } catch (IOException e) {
@@ -171,7 +164,8 @@ public class JsonStreamNodeBuilder extends ITreeNodeBuilder {
                 gen.writeStringField(entry.getKey(), (String) entry.getValue());
             else if (entry.getValue() instanceof Date)
                 gen.writeNumberField(entry.getKey(), ((Date) entry.getValue()).getTime());
-            else if (entry.getValue() instanceof NullValue) gen.writeNullField(entry.getKey());
+            else if (entry.getValue() instanceof NullValue)
+                gen.writeNullField(entry.getKey());
             else if (entry.getValue() instanceof Integer)
                 gen.writeNumberField(entry.getKey(), (Integer) entry.getValue());
             else if (entry.getValue() instanceof Long)
@@ -187,7 +181,8 @@ public class JsonStreamNodeBuilder extends ITreeNodeBuilder {
                 gen.writeNumber((BigInteger) entry.getValue());
             } else if (entry.getValue() instanceof BigDecimal)
                 gen.writeNumberField(entry.getKey(), (BigDecimal) entry.getValue());
-            else gen.writeStringField(entry.getKey(), String.valueOf(entry.getValue()));
+            else
+                gen.writeStringField(entry.getKey(), String.valueOf(entry.getValue()));
         }
 
         gen.writeEndObject();

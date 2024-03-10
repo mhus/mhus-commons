@@ -59,18 +59,18 @@ public class MStopWatch {
             if (start != 0 && stop == 0) {
                 stop = System.currentTimeMillis();
 
-                //			try {
-                //				if (MApi.instance().isPersistence()) {
-                //					IConfig persistence =
+                // try {
+                // if (MApi.instance().isPersistence()) {
+                // IConfig persistence =
                 // MApi.instance().getPersistenceManager().sessionScope().getPersistence("de.mhus.lib");
-                //					long uid = MApi.instance().nextUniqueId();
-                //					persistence.setString(getJmxName() + "_" + name + "_" + uid,
+                // long uid = MApi.instance().nextUniqueId();
+                // persistence.setString(getJmxName() + "_" + name + "_" + uid,
                 // getCurrentTimeAsString());
-                //					persistence.save();
-                //				}
-                //			} catch (Throwable t) {
-                //				log().t(t);
-                //			}
+                // persistence.save();
+                // }
+                // } catch (Throwable t) {
+                // log().t(t);
+                // }
 
             }
         }
@@ -78,8 +78,10 @@ public class MStopWatch {
     }
 
     public long getCurrentTime() {
-        if (start == 0) return 0;
-        if (stop == 0) return System.currentTimeMillis() - start;
+        if (start == 0)
+            return 0;
+        if (stop == 0)
+            return System.currentTimeMillis() - start;
         return stop - start;
     }
 
@@ -92,8 +94,10 @@ public class MStopWatch {
     }
 
     public int getStatus() {
-        if (start == 0 && stop == 0) return STATUS_INITIAL;
-        if (stop == 0) return STATUS_RUNNING;
+        if (start == 0 && stop == 0)
+            return STATUS_INITIAL;
+        if (stop == 0)
+            return STATUS_RUNNING;
         return STATUS_STOPPED;
     }
 
@@ -103,14 +107,14 @@ public class MStopWatch {
 
     public String getStatusAsString() {
         switch (getStatus()) {
-            case STATUS_INITIAL:
-                return "initial";
-            case STATUS_RUNNING:
-                return "running";
-            case STATUS_STOPPED:
-                return "stopped";
-            default:
-                return "unknown";
+        case STATUS_INITIAL:
+            return "initial";
+        case STATUS_RUNNING:
+            return "running";
+        case STATUS_STOPPED:
+            return "stopped";
+        default:
+            return "unknown";
         }
     }
 

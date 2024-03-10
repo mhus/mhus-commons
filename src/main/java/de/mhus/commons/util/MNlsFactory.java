@@ -38,7 +38,7 @@ public class MNlsFactory extends MNlsBundle {
 
     public MNlsFactory() {
         this(null);
-        //		forkBase();
+        // forkBase();
     }
 
     public MNlsFactory(ITreeNode config) {
@@ -54,8 +54,10 @@ public class MNlsFactory extends MNlsBundle {
     }
 
     public static String toResourceName(Object owner) {
-        if (owner == null) return null;
-        if (owner instanceof String) return (String) owner;
+        if (owner == null)
+            return null;
+        if (owner instanceof String)
+            return (String) owner;
         return MSystem.getClassName(owner).replace('.', '/');
     }
 
@@ -67,37 +69,31 @@ public class MNlsFactory extends MNlsBundle {
         return load(res, owner, resourceName, locale, true);
     }
 
-    public MNls load(
-            MResourceProvider res,
-            Class<?> owner,
-            String resourceName,
-            String locale,
+    public MNls load(MResourceProvider res, Class<?> owner, String resourceName, String locale,
             boolean searchAlternatives) {
         return load(res, owner, resourceName, locale, searchAlternatives, 0);
     }
 
-    protected MNls load(
-            MResourceProvider res,
-            Class<?> owner,
-            String resourceName,
-            String locale,
-            boolean searchAlternatives,
-            int level) {
-        if (level > 50) return null;
+    protected MNls load(MResourceProvider res, Class<?> owner, String resourceName, String locale,
+            boolean searchAlternatives, int level) {
+        if (level > 50)
+            return null;
         try {
             // if (res == null) res = base(MDirectory.class);
 
             if (resourceName == null) {
                 if (owner.getCanonicalName() != null)
                     resourceName = owner.getCanonicalName().replace('.', '/');
-                else resourceName = owner.getEnclosingClass().getCanonicalName().replace('.', '/');
+                else
+                    resourceName = owner.getEnclosingClass().getCanonicalName().replace('.', '/');
             }
 
             if (res == null) {
                 res = findResourceProvider(owner);
             }
 
-            if (locale == null) locale = getDefaultLocale();
+            if (locale == null)
+                locale = getDefaultLocale();
 
             InputStream is = null;
             Properties properties = new Properties();
@@ -108,21 +104,13 @@ public class MNlsFactory extends MNlsBundle {
             if (searchAlternatives) {
 
                 if (prefix != null && is == null)
-                    is =
-                            res.getInputStream(
-                                    prefix
-                                            + "/"
-                                            + getDefaultLocale()
-                                            + "/"
-                                            + resourceName
-                                            + ".properties");
+                    is = res.getInputStream(prefix + "/" + getDefaultLocale() + "/" + resourceName + ".properties");
                 if (is == null)
-                    is =
-                            res.getInputStream(
-                                    getDefaultLocale() + "/" + resourceName + ".properties");
+                    is = res.getInputStream(getDefaultLocale() + "/" + resourceName + ".properties");
                 if (prefix != null && is == null)
                     is = res.getInputStream(prefix + "/" + resourceName + ".properties");
-                if (is == null) is = res.getInputStream(resourceName + ".properties");
+                if (is == null)
+                    is = res.getInputStream(resourceName + ".properties");
             }
 
             if (is != null) {
@@ -159,8 +147,10 @@ public class MNlsFactory extends MNlsBundle {
     }
 
     protected MResourceProvider findResourceProvider(Class<?> owner) {
-        if (owner != null) return new ClassLoaderResourceProvider(owner.getClassLoader());
-        else return new ClassLoaderResourceProvider();
+        if (owner != null)
+            return new ClassLoaderResourceProvider(owner.getClassLoader());
+        else
+            return new ClassLoaderResourceProvider();
     }
 
     public String getDefaultLocale() {
@@ -179,9 +169,10 @@ public class MNlsFactory extends MNlsBundle {
 
     public synchronized static MNlsFactory lookup(Object owner) {
         if (instance == null)
-            instance= new MNlsFactory();
+            instance = new MNlsFactory();
         return instance;
     }
+
     public static void setFactory(MNlsFactory inst) {
         if (instance != null)
             LOGGER.info("Overload MNlsFactory");

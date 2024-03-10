@@ -54,40 +54,49 @@ public class PropertiesSubset extends AbstractProperties {
 
     @Override
     public void removeProperty(String key) {
-        if (readonly) throw new NotSupportedException();
+        if (readonly)
+            throw new NotSupportedException();
         parent.removeProperty(prefix + key);
     }
 
     @Override
     public void setProperty(String key, Object value) {
-        if (readonly) throw new NotSupportedException();
+        if (readonly)
+            throw new NotSupportedException();
         parent.put(prefix + key, value);
     }
 
     @Override
     public boolean isEditable() {
-        if (readonly) return false;
+        if (readonly)
+            return false;
         return parent.isEditable();
     }
 
     @Override
     public Set<String> keys() {
         HashSet<String> out = new HashSet<>();
-        for (String k : parent.keys()) if (k.startsWith(prefix)) out.add(k);
+        for (String k : parent.keys())
+            if (k.startsWith(prefix))
+                out.add(k);
         return out;
     }
 
     @Override
     public int size() {
         int cnt = 0;
-        for (String k : parent.keys()) if (k.startsWith(prefix)) cnt++;
+        for (String k : parent.keys())
+            if (k.startsWith(prefix))
+                cnt++;
         return cnt;
     }
 
     @Override
     public boolean containsValue(Object value) {
         for (java.util.Map.Entry<String, Object> entry : parent.entrySet()) {
-            if (entry.getKey().startsWith(prefix)) if (value.equals(entry.getValue())) return true;
+            if (entry.getKey().startsWith(prefix))
+                if (value.equals(entry.getValue()))
+                    return true;
         }
         return false;
     }
@@ -96,12 +105,13 @@ public class PropertiesSubset extends AbstractProperties {
     public Collection<Object> values() {
         HashSet<Object> out = new HashSet<>();
         for (java.util.Map.Entry<String, Object> entry : parent.entrySet()) {
-            if (entry.getKey().startsWith(prefix)) out.add(entry.getValue());
+            if (entry.getKey().startsWith(prefix))
+                out.add(entry.getValue());
         }
         return out;
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
     public Set<java.util.Map.Entry<String, Object>> entrySet() {
         HashSet<java.util.Map.Entry<String, Object>> out = new HashSet<>();
@@ -115,7 +125,8 @@ public class PropertiesSubset extends AbstractProperties {
 
     @Override
     public void clear() {
-        for (String key : keys()) remove(key);
+        for (String key : keys())
+            remove(key);
     }
 
     @Override
@@ -125,8 +136,10 @@ public class PropertiesSubset extends AbstractProperties {
         boolean first = true;
         for (String k : parent.keys())
             if (k.startsWith(prefix)) {
-                if (first) first = false;
-                else out.append(", ");
+                if (first)
+                    first = false;
+                else
+                    out.append(", ");
                 out.append(k.substring(len)).append('=').append(parent.get(k));
             }
         out.append(']');

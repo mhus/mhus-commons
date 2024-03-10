@@ -44,13 +44,15 @@ public class MSecurity {
 
     public static Principal getUser(Subject subject) {
         for (Principal p : subject.getPrincipals()) {
-            if (p.getClass().getSimpleName().equals(USER_CLASS)) return p;
+            if (p.getClass().getSimpleName().equals(USER_CLASS))
+                return p;
         }
         return null;
     }
 
     public static boolean hasGroup(Subject subject, String name) {
-        if (name == null) return false;
+        if (name == null)
+            return false;
         for (Principal p : subject.getPrincipals()) {
             if (p.getClass().getSimpleName().equals(GROUP_CLASS) && name.equals(p.getName()))
                 return true;
@@ -59,7 +61,8 @@ public class MSecurity {
     }
 
     public static boolean hasRole(Subject subject, String name) {
-        if (name == null) return false;
+        if (name == null)
+            return false;
         for (Principal p : subject.getPrincipals()) {
             if (p.getClass().getSimpleName().equals(ROLE_CLASS) && name.equals(p.getName()))
                 return true;
@@ -70,7 +73,8 @@ public class MSecurity {
     public static List<Principal> getGroups(Subject subject) {
         LinkedList<Principal> out = new LinkedList<Principal>();
         for (Principal p : subject.getPrincipals()) {
-            if (p.getClass().getSimpleName().equals(GROUP_CLASS)) out.add(p);
+            if (p.getClass().getSimpleName().equals(GROUP_CLASS))
+                out.add(p);
         }
         return out;
     }
@@ -78,37 +82,42 @@ public class MSecurity {
     public static List<Principal> getRoles(Subject subject) {
         LinkedList<Principal> out = new LinkedList<Principal>();
         for (Principal p : subject.getPrincipals()) {
-            if (p.getClass().getSimpleName().equals(ROLE_CLASS)) out.add(p);
+            if (p.getClass().getSimpleName().equals(ROLE_CLASS))
+                out.add(p);
         }
         return out;
     }
 
-    public static void writeKey(File file, Key key, Map<String, Object> parameters)
-            throws IOException {
+    public static void writeKey(File file, Key key, Map<String, Object> parameters) throws IOException {
 
         String type = "";
-        if (key instanceof PrivateKey) type = " PRIVATE";
-        else if (key instanceof PublicKey) type = " PUBLIC";
+        if (key instanceof PrivateKey)
+            type = " PRIVATE";
+        else if (key instanceof PublicKey)
+            type = " PUBLIC";
         type = key.getAlgorithm() + type + " KEY";
         PemBlockModel pem = new PemBlockModel(type, key.getEncoded());
-        if (parameters != null) pem.putAll(parameters);
+        if (parameters != null)
+            pem.putAll(parameters);
         pem.save(file);
     }
 
     public static String keyToString(Key key, Map<String, Object> parameters) throws IOException {
 
         String type = "";
-        if (key instanceof PrivateKey) type = " PRIVATE";
-        else if (key instanceof PublicKey) type = " PUBLIC";
+        if (key instanceof PrivateKey)
+            type = " PRIVATE";
+        else if (key instanceof PublicKey)
+            type = " PUBLIC";
         type = key.getAlgorithm() + type + " KEY";
         PemBlockModel pem = new PemBlockModel(type, key.getEncoded());
-        if (parameters != null) pem.putAll(parameters);
+        if (parameters != null)
+            pem.putAll(parameters);
         return pem.toString();
     }
 
     public static PublicKey readPublicKey(File file, String alorithm, String provider)
-            throws IOException, InvalidKeySpecException, NoSuchAlgorithmException,
-                    NoSuchProviderException {
+            throws IOException, InvalidKeySpecException, NoSuchAlgorithmException, NoSuchProviderException {
 
         PemBlockModel pem = PemBlockModel.load(file);
         byte[] encKey = pem.getBytesBlock();
@@ -119,8 +128,7 @@ public class MSecurity {
     }
 
     public static PublicKey readPublicKey(String textPem, String alorithm, String provider)
-            throws IOException, InvalidKeySpecException, NoSuchAlgorithmException,
-                    NoSuchProviderException {
+            throws IOException, InvalidKeySpecException, NoSuchAlgorithmException, NoSuchProviderException {
 
         PemBlockModel pem = PemBlockModel.loadFromString(textPem);
         byte[] encKey = pem.getBytesBlock();
@@ -131,8 +139,7 @@ public class MSecurity {
     }
 
     public static PrivateKey readPrivateKey(File file, String alorithm, String provider)
-            throws IOException, InvalidKeySpecException, NoSuchAlgorithmException,
-                    NoSuchProviderException {
+            throws IOException, InvalidKeySpecException, NoSuchAlgorithmException, NoSuchProviderException {
 
         PemBlockModel pem = PemBlockModel.load(file);
         byte[] encKey = pem.getBytesBlock();
@@ -143,8 +150,7 @@ public class MSecurity {
     }
 
     public static PrivateKey readPrivateKey(String textPem, String alorithm, String provider)
-            throws IOException, InvalidKeySpecException, NoSuchAlgorithmException,
-                    NoSuchProviderException {
+            throws IOException, InvalidKeySpecException, NoSuchAlgorithmException, NoSuchProviderException {
 
         PemBlockModel pem = PemBlockModel.loadFromString(textPem);
         byte[] encKey = pem.getBytesBlock();
@@ -155,8 +161,7 @@ public class MSecurity {
     }
 
     public static PemBlock readKey(File file)
-            throws IOException, InvalidKeySpecException, NoSuchAlgorithmException,
-                    NoSuchProviderException {
+            throws IOException, InvalidKeySpecException, NoSuchAlgorithmException, NoSuchProviderException {
         PemBlockModel pem = PemBlockModel.load(file);
         return pem;
     }

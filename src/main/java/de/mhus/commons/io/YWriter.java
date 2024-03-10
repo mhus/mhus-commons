@@ -22,22 +22,25 @@ public class YWriter extends Writer {
 
     private Writer[] writers;
 
-    public YWriter(Writer ... pWriters) {
+    public YWriter(Writer... pWriters) {
         writers = pWriters;
     }
 
     @Override
     public void close() throws IOException {
-        for (int i = 0; i < writers.length; i++) writers[i].close();
+        for (int i = 0; i < writers.length; i++)
+            writers[i].close();
     }
 
     @Override
     public void flush() throws IOException {
-        for (int i = 0; i < writers.length; i++) writers[i].flush();
+        for (int i = 0; i < writers.length; i++)
+            writers[i].flush();
     }
 
     @Override
     public void write(char[] cbuf, int off, int len) throws IOException {
-        for (int i = 0; i < writers.length; i++) writers[i].write(cbuf, off, len);
+        for (int i = 0; i < writers.length; i++)
+            writers[i].write(cbuf, off, len);
     }
 }

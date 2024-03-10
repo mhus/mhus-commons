@@ -148,9 +148,7 @@ public class MCastTest extends TestCase {
         int t = (13 * 60 * 60 * 1000 + c.getTimeZone().getRawOffset()) / 1000 / 60 / 60;
         System.out.println(MDate.toIso8601(date));
         System.out.println("   Hour: " + t);
-        assertTrue(
-                MDate.toIso8601(date)
-                        .equals("2020-12-01T10:20:10")); // 13:00 in +3 means 10:00 here in GMT
+        assertTrue(MDate.toIso8601(date).equals("2020-12-01T10:20:10")); // 13:00 in +3 means 10:00 here in GMT
 
         System.out.print("13: ");
         date = MCast.toDate("2020-12-01 13:20:10", null);
@@ -229,11 +227,13 @@ public class MCastTest extends TestCase {
     public void testBinary() throws UnsupportedEncodingException {
 
         byte[] b = new byte[256];
-        for (int i = -127; i < 128; i++) b[i + 127] = (byte) i;
+        for (int i = -127; i < 128; i++)
+            b[i + 127] = (byte) i;
         String str = MCast.toBinaryString(b);
         System.out.println(str);
         b = MCast.fromBinaryString(str);
-        for (int i = -127; i < 128; i++) assertTrue(b[i + 127] == (byte) i);
+        for (int i = -127; i < 128; i++)
+            assertTrue(b[i + 127] == (byte) i);
     }
 
     @Test
@@ -284,7 +284,7 @@ public class MCastTest extends TestCase {
     @Test
     public void testDateTransform() {
         String str = MDate.transform("dd.MM.yyyy", "2016-07-20", null);
-        //		String str = new java.text.SimpleDateFormat("dd.MM.yyyy").format(
+        // String str = new java.text.SimpleDateFormat("dd.MM.yyyy").format(
         // de.mhus.lib.core.MDate.toDate("2016-07-20", null) );
         System.out.println(str);
         assertEquals("20.07.2016", str);

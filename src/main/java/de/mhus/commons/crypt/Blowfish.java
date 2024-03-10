@@ -33,11 +33,11 @@ public class Blowfish {
     }
 
     private static String normalizeKey(String strKey) {
-        if (strKey == null) return "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0";
+        if (strKey == null)
+            return "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0";
         if (strKey.length() < 32)
             strKey = strKey + MString.rep('\0', 32 - strKey.length());
-        else
-        if (strKey.length() > 448)
+        else if (strKey.length() > 448)
             strKey = strKey.substring(0, 448);
         return strKey;
     }
@@ -65,7 +65,8 @@ public class Blowfish {
     }
 
     private static String fixKey(String strKey) {
-        if (strKey.length() == 0) return " ";
+        if (strKey.length() == 0)
+            return " ";
         return strKey;
     }
 }

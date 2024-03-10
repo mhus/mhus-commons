@@ -69,7 +69,8 @@ public abstract class MTimerTask extends TimerTask implements ITimerTask {
     }
 
     @Override
-    public void onFinal(boolean isError) {}
+    public void onFinal(boolean isError) {
+    }
 
     protected abstract void doit() throws Exception;
 
@@ -98,16 +99,18 @@ public abstract class MTimerTask extends TimerTask implements ITimerTask {
     }
 
     public static int getStatus(TimerTask task) {
-        if (task == null) return -1;
+        if (task == null)
+            return -1;
         try {
             Class<? extends TimerTask> clazz = task.getClass();
             Field field = MSystem.getDeclaredField(clazz, "state");
             if (field != null) {
-                if (!field.canAccess(task)) field.setAccessible(true);
+                if (!field.canAccess(task))
+                    field.setAccessible(true);
                 return field.getInt(task);
             }
         } catch (Throwable t) {
-           LOGGER.debug("get status failed for task {}", task, t);
+            LOGGER.debug("get status failed for task {}", task, t);
         }
         return -1;
     }

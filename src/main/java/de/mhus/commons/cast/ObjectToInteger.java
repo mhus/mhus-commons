@@ -23,7 +23,7 @@ import java.util.OptionalInt;
 @Slf4j
 public class ObjectToInteger implements Caster<Object, Integer> {
 
-    //	private final static Log log = Log.getLog(ObjectToInteger.class);
+    // private final static Log log = Log.getLog(ObjectToInteger.class);
 
     @Override
     public Class<? extends Integer> getToClass() {
@@ -41,7 +41,8 @@ public class ObjectToInteger implements Caster<Object, Integer> {
     }
 
     public OptionalInt toInt(Object in) {
-        if (in == null) return OptionalInt.empty();
+        if (in == null)
+            return OptionalInt.empty();
         if (in instanceof Integer) {
             return OptionalInt.of(((Integer) in).intValue());
         }
@@ -54,19 +55,25 @@ public class ObjectToInteger implements Caster<Object, Integer> {
         try {
             if (_in.startsWith("0x") || _in.startsWith("-0x") || _in.startsWith("+0x")) {
                 int start = 2;
-                if (_in.startsWith("-")) start = 3;
+                if (_in.startsWith("-"))
+                    start = 3;
                 int out = 0;
                 for (int i = start; i < _in.length(); i++) {
                     int s = -1;
                     char c = _in.charAt(i);
-                    if (c >= '0' && c <= '9') s = c - '0';
-                    else if (c >= 'a' && c <= 'f') s = c - 'a' + 10;
-                    else if (c >= 'A' && c <= 'F') s = c - 'A' + 10;
+                    if (c >= '0' && c <= '9')
+                        s = c - '0';
+                    else if (c >= 'a' && c <= 'f')
+                        s = c - 'a' + 10;
+                    else if (c >= 'A' && c <= 'F')
+                        s = c - 'A' + 10;
 
-                    if (s == -1) throw new NumberFormatException(_in);
+                    if (s == -1)
+                        throw new NumberFormatException(_in);
                     out = out * 16 + s;
                 }
-                if (_in.startsWith("-")) out = -out;
+                if (_in.startsWith("-"))
+                    out = -out;
                 return OptionalInt.of(out);
             }
 

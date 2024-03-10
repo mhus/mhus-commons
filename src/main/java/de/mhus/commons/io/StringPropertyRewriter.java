@@ -23,8 +23,8 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
 /**
- * Rewrite the incoming stream using the string replacer. The rewriter need to load the full content
- * of the stream in memory twice.
+ * Rewrite the incoming stream using the string replacer. The rewriter need to load the full content of the stream in
+ * memory twice.
  *
  * @author mikehummel
  */

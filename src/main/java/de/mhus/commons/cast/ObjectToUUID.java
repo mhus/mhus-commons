@@ -31,7 +31,8 @@ public class ObjectToUUID implements Caster<Object, UUID> {
 
     @Override
     public UUID cast(Object in, UUID def) {
-        if (in == null) return def;
+        if (in == null)
+            return def;
         try {
             return UUID.fromString(String.valueOf(in));
         } catch (Exception t) {

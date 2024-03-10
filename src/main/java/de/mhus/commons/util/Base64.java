@@ -174,7 +174,8 @@ public class Base64 {
     }
 
     public static String encode(String value) {
-        if (value == null) return "";
+        if (value == null)
+            return "";
         return encode(value.getBytes());
     }
 
@@ -195,7 +196,8 @@ public class Base64 {
     }
 
     public static UUID base64ToUuid(String uuidAsBase) {
-        if (uuidAsBase.length() == 22) uuidAsBase = uuidAsBase + "==";
+        if (uuidAsBase.length() == 22)
+            uuidAsBase = uuidAsBase + "==";
         ByteBuffer byteBuffer = ByteBuffer.wrap(decode(uuidAsBase));
         return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }

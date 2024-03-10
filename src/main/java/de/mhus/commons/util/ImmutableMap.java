@@ -72,19 +72,19 @@ public class ImmutableMap<K, V> implements Map<K, V> {
 
     @Override
     public void putAll(Map<? extends K, ? extends V> m) {
-        //		map.putAll(m);
+        // map.putAll(m);
         throw new NotSupportedException();
     }
 
     @Override
     public V remove(Object key) {
-        //		return map.remove(key);
+        // return map.remove(key);
         throw new NotSupportedException();
     }
 
     @Override
     public void clear() {
-        //		map.clear();
+        // map.clear();
         throw new NotSupportedException();
     }
 
@@ -115,7 +115,7 @@ public class ImmutableMap<K, V> implements Map<K, V> {
 
     @Override
     public V putIfAbsent(K key, V value) {
-        //		return map.putIfAbsent(key, value);
+        // return map.putIfAbsent(key, value);
         throw new NotSupportedException();
     }
 
@@ -126,13 +126,13 @@ public class ImmutableMap<K, V> implements Map<K, V> {
 
     @Override
     public boolean replace(K key, V oldValue, V newValue) {
-        //		return map.replace(key, oldValue, newValue);
+        // return map.replace(key, oldValue, newValue);
         throw new NotSupportedException();
     }
 
     @Override
     public V replace(K key, V value) {
-        //		return map.replace(key, value);
+        // return map.replace(key, value);
         throw new NotSupportedException();
     }
 
@@ -142,8 +142,7 @@ public class ImmutableMap<K, V> implements Map<K, V> {
     }
 
     @Override
-    public V computeIfPresent(
-            K key, BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
+    public V computeIfPresent(K key, BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
         return map.computeIfPresent(key, remappingFunction);
     }
 
@@ -153,20 +152,19 @@ public class ImmutableMap<K, V> implements Map<K, V> {
     }
 
     @Override
-    public V merge(
-            K key, V value, BiFunction<? super V, ? super V, ? extends V> remappingFunction) {
+    public V merge(K key, V value, BiFunction<? super V, ? super V, ? extends V> remappingFunction) {
         return map.merge(key, value, remappingFunction);
     }
 
     @Override
     public void forEach(BiConsumer<? super K, ? super V> action) {
-        //		map.forEach(action);
+        // map.forEach(action);
         throw new NotSupportedException();
     }
 
     @Override
     public void replaceAll(BiFunction<? super K, ? super V, ? extends V> function) {
-        //		map.replaceAll(function);
+        // map.replaceAll(function);
         throw new NotSupportedException();
     }
 

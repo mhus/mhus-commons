@@ -21,8 +21,7 @@ import java.util.Set;
 
 public class MethodAnalyser {
 
-    private static void traverseInterfacesForMethod(
-            Class<?> cls, Set<Class<?>> result, String methodName) {
+    private static void traverseInterfacesForMethod(Class<?> cls, Set<Class<?>> result, String methodName) {
         for (Class<?> c : cls.getInterfaces()) {
             for (Method m : c.getDeclaredMethods()) {
                 if (methodName.equals(m.getName())) {
@@ -40,8 +39,7 @@ public class MethodAnalyser {
         return result;
     }
 
-    private static void traverseMethodsForMethod(
-            Class<?> cls, Set<Method> result, String methodName) {
+    private static void traverseMethodsForMethod(Class<?> cls, Set<Method> result, String methodName) {
         for (Class<?> c : cls.getInterfaces()) {
             for (Method m : c.getDeclaredMethods()) {
                 if (methodName.equals(m.getName())) {

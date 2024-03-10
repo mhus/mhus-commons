@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,13 +37,17 @@ public abstract class ModelPart {
     }
 
     public boolean m(IValuesProvider map, String str) {
-        if (not) return !matches(this, null, str);
-        else return matches(this, null, str);
+        if (not)
+            return !matches(this, null, str);
+        else
+            return matches(this, null, str);
     }
 
     public boolean m(IValuesProvider map) {
-        if (not) return !matches(map);
-        else return matches(map);
+        if (not)
+            return !matches(map);
+        else
+            return matches(map);
     }
 
     public void setParamName(String param) {
@@ -66,8 +70,10 @@ public abstract class ModelPart {
             } catch (MException e) {
                 throw new MRuntimeException(RC.STATUS.ERROR, param, e);
             }
-        } else val = map.get(param);
-        if (val != null) return matches(this, map, String.valueOf(val));
+        } else
+            val = map.get(param);
+        if (val != null)
+            return matches(this, map, String.valueOf(val));
         return false;
     }
 

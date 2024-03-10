@@ -39,15 +39,18 @@ public class ObjectToFloat implements Caster<Object, Float> {
     }
 
     public float toFloat(Object in, float def, Value<Float> ret) {
-        if (in == null) return def;
+        if (in == null)
+            return def;
         if (in instanceof Number) {
             float r = ((Number) in).floatValue();
-            if (ret != null) ret.setValue(r);
+            if (ret != null)
+                ret.setValue(r);
             return r;
         }
         try {
             float r = Float.parseFloat(String.valueOf(in));
-            if (ret != null) ret.setValue(r);
+            if (ret != null)
+                ret.setValue(r);
             return r;
         } catch (Exception e) {
             LOGGER.trace("cast to float failed {}", in, e.toString());

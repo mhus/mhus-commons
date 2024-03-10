@@ -17,7 +17,8 @@ package de.mhus.commons.util;
 
 public class Bits {
 
-    Bits() {}
+    Bits() {
+    }
 
     public static boolean getBoolean(byte abyte0[], int i) {
         return abyte0[i] != 0;
@@ -32,42 +33,28 @@ public class Bits {
     }
 
     public static int getInt(byte abyte0[], int i) {
-        return ((abyte0[i + 3] & 255) << 0)
-                + ((abyte0[i + 2] & 255) << 8)
-                + ((abyte0[i + 1] & 255) << 16)
+        return ((abyte0[i + 3] & 255) << 0) + ((abyte0[i + 2] & 255) << 8) + ((abyte0[i + 1] & 255) << 16)
                 + (abyte0[i + 0] << 24);
     }
 
     public static float getFloat(byte abyte0[], int i) {
-        int j =
-                ((abyte0[i + 3] & 255) << 0)
-                        + ((abyte0[i + 2] & 255) << 8)
-                        + ((abyte0[i + 1] & 255) << 16)
-                        + (abyte0[i + 0] << 24);
+        int j = ((abyte0[i + 3] & 255) << 0) + ((abyte0[i + 2] & 255) << 8) + ((abyte0[i + 1] & 255) << 16)
+                + (abyte0[i + 0] << 24);
         return Float.intBitsToFloat(j);
     }
 
     public static long getLong(byte abyte0[], int i) {
-        return (((long) abyte0[i + 7] & 255L) << 0)
-                + (((long) abyte0[i + 6] & 255L) << 8)
-                + (((long) abyte0[i + 5] & 255L) << 16)
-                + (((long) abyte0[i + 4] & 255L) << 24)
-                + (((long) abyte0[i + 3] & 255L) << 32)
-                + (((long) abyte0[i + 2] & 255L) << 40)
-                + (((long) abyte0[i + 1] & 255L) << 48)
-                + ((long) abyte0[i + 0] << 56);
+        return (((long) abyte0[i + 7] & 255L) << 0) + (((long) abyte0[i + 6] & 255L) << 8)
+                + (((long) abyte0[i + 5] & 255L) << 16) + (((long) abyte0[i + 4] & 255L) << 24)
+                + (((long) abyte0[i + 3] & 255L) << 32) + (((long) abyte0[i + 2] & 255L) << 40)
+                + (((long) abyte0[i + 1] & 255L) << 48) + ((long) abyte0[i + 0] << 56);
     }
 
     public static double getDouble(byte abyte0[], int i) {
-        long l =
-                (((long) abyte0[i + 7] & 255L) << 0)
-                        + (((long) abyte0[i + 6] & 255L) << 8)
-                        + (((long) abyte0[i + 5] & 255L) << 16)
-                        + (((long) abyte0[i + 4] & 255L) << 24)
-                        + (((long) abyte0[i + 3] & 255L) << 32)
-                        + (((long) abyte0[i + 2] & 255L) << 40)
-                        + (((long) abyte0[i + 1] & 255L) << 48)
-                        + ((long) abyte0[i + 0] << 56);
+        long l = (((long) abyte0[i + 7] & 255L) << 0) + (((long) abyte0[i + 6] & 255L) << 8)
+                + (((long) abyte0[i + 5] & 255L) << 16) + (((long) abyte0[i + 4] & 255L) << 24)
+                + (((long) abyte0[i + 3] & 255L) << 32) + (((long) abyte0[i + 2] & 255L) << 40)
+                + (((long) abyte0[i + 1] & 255L) << 48) + ((long) abyte0[i + 0] << 56);
         return Double.longBitsToDouble(l);
     }
 

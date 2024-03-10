@@ -45,7 +45,8 @@ public class CipherEncodeAsync extends OutputStream {
         bufferPos++;
         buffer[bufferPos] = (byte) b;
 
-        if (bufferPos < bufferMin) return;
+        if (bufferPos < bufferMin)
+            return;
 
         if (bufferPos > bufferMax || random.getDouble() > 0.7) {
             flush();
@@ -55,17 +56,20 @@ public class CipherEncodeAsync extends OutputStream {
     @Override
     public void flush() throws IOException {
 
-        if (bufferPos == 0) return;
+        if (bufferPos == 0)
+            return;
 
         buffer[0] = (byte) bufferPos;
         bufferPos++;
 
         // add random
         int rndCnt = Math.min(Math.abs(random.getInt()) + 1, buffer.length - bufferPos);
-        for (int i = 0; i < rndCnt; i++) buffer[bufferPos + i] = random.getByte();
+        for (int i = 0; i < rndCnt; i++)
+            buffer[bufferPos + i] = random.getByte();
 
         byte[] bigEndian = new byte[bufferPos + rndCnt];
-        for (int i = 0; i < bigEndian.length; i++) bigEndian[i] = buffer[bigEndian.length - i - 1];
+        for (int i = 0; i < bigEndian.length; i++)
+            bigEndian[i] = buffer[bigEndian.length - i - 1];
 
         BigInteger org = new BigInteger(1, bigEndian);
         BigInteger enc = MCrypt.encode(key, org);

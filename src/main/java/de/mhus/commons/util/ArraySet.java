@@ -41,7 +41,9 @@ public class ArraySet<T> implements Set<T>, ReadOnly {
 
     @Override
     public boolean contains(Object o) {
-        for (T t : from) if (t.equals(o)) return true;
+        for (T t : from)
+            if (t.equals(o))
+                return true;
         return false;
     }
 

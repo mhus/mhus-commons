@@ -38,7 +38,8 @@ public class CipherDecodeAsync extends InputStream {
         byte[] bigEndian = next.toByteArray();
         int size = MMath.unsignetByteToInt(bigEndian[bigEndian.length - 1]);
         synchronized (buffer) {
-            for (int i = 1; i <= size; i++) buffer.add(bigEndian[bigEndian.length - i - 1]);
+            for (int i = 1; i <= size; i++)
+                buffer.add(bigEndian[bigEndian.length - i - 1]);
         }
     }
 
@@ -46,9 +47,11 @@ public class CipherDecodeAsync extends InputStream {
     public int read() throws IOException {
         while (true) {
             synchronized (buffer) {
-                if (buffer.size() != 0) break;
+                if (buffer.size() != 0)
+                    break;
             }
-            if (closed) return -1;
+            if (closed)
+                return -1;
             MThread.sleep(500);
         }
         synchronized (buffer) {
@@ -65,7 +68,8 @@ public class CipherDecodeAsync extends InputStream {
         synchronized (buffer) {
             byte[] out = new byte[buffer.size()];
             int cnt = 0;
-            for (Byte b : buffer) out[cnt++] = b;
+            for (Byte b : buffer)
+                out[cnt++] = b;
             return out;
         }
     }

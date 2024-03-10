@@ -70,6 +70,7 @@ public class MSystem {
             throw new RuntimeException(e);
         }
     }
+
     public static <T> T newInstance(String clazzName) {
         return newInstance(MService.getService(ClassLoaderProvider.class).getClassLoader(), clazzName);
     }
@@ -104,11 +105,7 @@ public class MSystem {
     }
 
     public enum OS {
-        OTHER,
-        UNIX,
-        WINDOWS,
-        MACOS,
-        SOLARIS
+        OTHER, UNIX, WINDOWS, MACOS, SOLARIS
     }
 
     private static ThreadMXBean tmxb = ManagementFactory.getThreadMXBean();
@@ -133,38 +130,38 @@ public class MSystem {
     public static void ioCleanup() {
 
         if (System.out instanceof ThreadLocalPrinter) {
-            ((ThreadLocalPrinter)System.out).use(null);
+            ((ThreadLocalPrinter) System.out).use(null);
         }
         if (System.err instanceof ThreadLocalPrinter) {
-            ((ThreadLocalPrinter)System.err).use(null);
+            ((ThreadLocalPrinter) System.err).use(null);
         }
         if (System.in instanceof ThreadLocalInputStream) {
-            ((ThreadLocalInputStream)System.in).use(null);
+            ((ThreadLocalInputStream) System.in).use(null);
         }
     }
 
     public static boolean isOutOverlay() {
-        return (System.out instanceof ThreadLocalPrinter) && ((ThreadLocalPrinter)System.out).current() != null;
+        return (System.out instanceof ThreadLocalPrinter) && ((ThreadLocalPrinter) System.out).current() != null;
     }
 
     public static boolean isErrOverlay() {
-        return (System.err instanceof ThreadLocalPrinter) && ((ThreadLocalPrinter)System.err).current() != null;
+        return (System.err instanceof ThreadLocalPrinter) && ((ThreadLocalPrinter) System.err).current() != null;
     }
 
     public static boolean isInOverlay() {
-        return (System.in instanceof ThreadLocalInputStream) && ((ThreadLocalInputStream)System.in).current() != null;
+        return (System.in instanceof ThreadLocalInputStream) && ((ThreadLocalInputStream) System.in).current() != null;
     }
 
     public static OutputStream getOutOverlay() {
-        return (System.out instanceof ThreadLocalPrinter) ? ((ThreadLocalPrinter)System.out).current() : null;
+        return (System.out instanceof ThreadLocalPrinter) ? ((ThreadLocalPrinter) System.out).current() : null;
     }
 
     public static OutputStream getErrOverlay() {
-        return (System.err instanceof ThreadLocalPrinter) ? ((ThreadLocalPrinter)System.err).current() : null;
+        return (System.err instanceof ThreadLocalPrinter) ? ((ThreadLocalPrinter) System.err).current() : null;
     }
 
     public static InputStream getInOverlay() {
-        return (System.in instanceof ThreadLocalInputStream) ? ((ThreadLocalInputStream)System.in).current() : null;
+        return (System.in instanceof ThreadLocalInputStream) ? ((ThreadLocalInputStream) System.in).current() : null;
     }
 
     /**
@@ -173,6 +170,7 @@ public class MSystem {
      * @param newOut
      * @param newErr
      * @param newIn
+     *
      * @return
      */
     public static ICloseable useIO(OutputStream newOut, OutputStream newErr, InputStream newIn) {
@@ -192,23 +190,29 @@ public class MSystem {
             }
         }
 
-        ICloseable closeOut = newOut == null ? null : ((ThreadLocalPrinter)System.out).use(newOut);
-        ICloseable closeErr = newErr == null ? null : ((ThreadLocalPrinter)System.err).use(newOut);
-        ICloseable closeIn  = newIn  == null ? null : ((ThreadLocalInputStream)System.in).use(newIn);
+        ICloseable closeOut = newOut == null ? null : ((ThreadLocalPrinter) System.out).use(newOut);
+        ICloseable closeErr = newErr == null ? null : ((ThreadLocalPrinter) System.err).use(newOut);
+        ICloseable closeIn = newIn == null ? null : ((ThreadLocalInputStream) System.in).use(newIn);
 
         return new ICloseable() {
 
             @Override
             public void close() {
                 try {
-                    if (closeOut != null) closeOut.close();
-                } catch (Throwable t) {}
+                    if (closeOut != null)
+                        closeOut.close();
+                } catch (Throwable t) {
+                }
                 try {
-                    if (closeErr != null) closeErr.close();
-                } catch (Throwable t) {}
+                    if (closeErr != null)
+                        closeErr.close();
+                } catch (Throwable t) {
+                }
                 try {
-                    if (closeIn != null) closeIn.close();
-                } catch (Throwable t) {}
+                    if (closeIn != null)
+                        closeIn.close();
+                } catch (Throwable t) {
+                }
             }
         };
     }
@@ -221,7 +225,8 @@ public class MSystem {
     public static String getHostname() {
         if (hostname == null) {
             String out = System.getenv().get("COMPUTERNAME");
-            if (out == null) out = System.getenv().get("HOSTNAME");
+            if (out == null)
+                out = System.getenv().get("HOSTNAME");
             if (out == null) {
                 RuntimeMXBean rt = ManagementFactory.getRuntimeMXBean();
                 String name = rt.getName();
@@ -244,25 +249,31 @@ public class MSystem {
     }
 
     /**
-     * Load and return a properties file. If the file not exists it will only log the impact and
-     * return a empty properties object.
+     * Load and return a properties file. If the file not exists it will only log the impact and return a empty
+     * properties object.
      *
-     * <p>If the properties object is not null this instance will be used to load the file entries.
+     * <p>
+     * If the properties object is not null this instance will be used to load the file entries.
      *
-     * <p>1. Find by system property {propertyname}.file= 2. Find in {current dir} 3. Find in
-     * {current dir}/config 4. Find in {CONFIGURATION}/config 5. Find in classpath without package
-     * name 6. Find in classpath with package of the owner (if set) 7. throw an error
+     * <p>
+     * 1. Find by system property {propertyname}.file= 2. Find in {current dir} 3. Find in {current dir}/config 4. Find
+     * in {CONFIGURATION}/config 5. Find in classpath without package name 6. Find in classpath with package of the
+     * owner (if set) 7. throw an error
      *
-     * @param owner null or reference object for the class path
-     * @param properties A pre-instanciated properties object
-     * @param propertyFile Name of the properties file, e.g. something.properties
+     * @param owner
+     *            null or reference object for the class path
+     * @param properties
+     *            A pre-instanciated properties object
+     * @param propertyFile
+     *            Name of the properties file, e.g. something.properties
+     *
      * @return The loaded properties instance
      */
-    public static Properties loadProperties(
-            Object owner, Properties properties, String propertyFile) {
+    public static Properties loadProperties(Object owner, Properties properties, String propertyFile) {
         LOGGER.debug("Loading properties {}", propertyFile);
         // get resource
-        if (properties == null) properties = new Properties();
+        if (properties == null)
+            properties = new Properties();
         try {
             URL m_url = locateResource(owner, propertyFile);
             if (m_url == null) {
@@ -281,13 +292,15 @@ public class MSystem {
     }
 
     /**
-     * 1. Find by system property {propertyname}.file= 2. Find in {current dir} 3. Find in {current
-     * dir}/config 4. Find in {CONFIGURATION}/config 5. Find in classpath without package name 6.
-     * Find in classpath with package of the owner (if set) 7. throw an error
+     * 1. Find by system property {propertyname}.file= 2. Find in {current dir} 3. Find in {current dir}/config 4. Find
+     * in {CONFIGURATION}/config 5. Find in classpath without package name 6. Find in classpath with package of the
+     * owner (if set) 7. throw an error
      *
      * @param owner
      * @param fileName
+     *
      * @return the reference to the resource
+     *
      * @throws IOException
      */
     @SuppressWarnings("deprecation")
@@ -298,8 +311,10 @@ public class MSystem {
 
         Class<?> ownerClass = null;
         if (owner != null) {
-            if (owner instanceof Class) ownerClass = (Class<?>) owner;
-            else ownerClass = owner.getClass();
+            if (owner instanceof Class)
+                ownerClass = (Class<?>) owner;
+            else
+                ownerClass = owner.getClass();
         }
 
         String qName = ownerClass.getPackage().getName() + "." + fileName;
@@ -307,32 +322,26 @@ public class MSystem {
         String location = System.getProperty(qName + ".file");
         if (url == null && location != null) {
             File f = new File(location);
-            if (f.exists() && f.isFile()) url = f.toURL();
+            if (f.exists() && f.isFile())
+                url = f.toURL();
             else
-                throw new FileNotFoundException(
-                        "Configured file not found: " + location + " for " + qName);
+                throw new FileNotFoundException("Configured file not found: " + location + " for " + qName);
         }
 
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        if (url == null && loader != null) url = loader.getResource(fileName);
+        if (url == null && loader != null)
+            url = loader.getResource(fileName);
 
         if (ownerClass != null && url == null) {
-            url =
-                    ownerClass.getResource(
-                            "/"
-                                    + ownerClass.getPackage().getName().replaceAll("\\.", "/")
-                                    + "/"
-                                    + fileName);
+            url = ownerClass
+                    .getResource("/" + ownerClass.getPackage().getName().replaceAll("\\.", "/") + "/" + fileName);
         }
         if (ownerClass != null && url == null) {
-            url =
-                    ownerClass.getResource(
-                            ownerClass.getPackage().getName().replaceAll("\\.", "/")
-                                    + "/"
-                                    + fileName);
+            url = ownerClass.getResource(ownerClass.getPackage().getName().replaceAll("\\.", "/") + "/" + fileName);
         }
 
-        if (url != null) return url;
+        if (url != null)
+            return url;
         throw new FileNotFoundException(
                 "Cannot locate resource: " + ownerClass.getPackage().getName() + "/" + fileName);
     }
@@ -345,7 +354,8 @@ public class MSystem {
 
     public static String findCalling(int returns) {
         StackTraceElement[] stack = Thread.currentThread().getStackTrace();
-        if (stack.length > returns) return stack[returns].getClassName();
+        if (stack.length > returns)
+            return stack[returns].getClassName();
         return "?";
     }
 
@@ -353,14 +363,16 @@ public class MSystem {
         StackTraceElement[] stack = Thread.currentThread().getStackTrace();
         for (StackTraceElement step : stack) {
             String n = step.getClassName();
-            if (!n.startsWith("java.lang") && !n.startsWith("de.mhus.lib.core")) return n;
+            if (!n.startsWith("java.lang") && !n.startsWith("de.mhus.lib.core"))
+                return n;
         }
         return "?";
     }
 
     public static String findCallingMethod(int returns) {
         StackTraceElement[] stack = Thread.currentThread().getStackTrace();
-        if (stack.length > returns) return stack[returns].getMethodName();
+        if (stack.length > returns)
+            return stack[returns].getMethodName();
         return "?";
     }
 
@@ -381,7 +393,8 @@ public class MSystem {
      */
     public static String getMainClassName() {
         for (final Map.Entry<String, String> entry : System.getenv().entrySet()) {
-            if (entry.getKey().startsWith("JAVA_MAIN_CLASS")) return entry.getValue();
+            if (entry.getKey().startsWith("JAVA_MAIN_CLASS"))
+                return entry.getValue();
         }
         return null;
     }
@@ -400,18 +413,20 @@ public class MSystem {
      *
      * @param sender
      * @param attributes
+     *
      * @return Stringified attributes
      */
     public static String toString(Object sender, Object... attributes) {
         StringBuilder sb = new StringBuilder();
         sb.append('[');
         if (sender != null)
-            sb.append(sender instanceof String ? sender : sender.getClass().getSimpleName())
-                    .append(':');
+            sb.append(sender instanceof String ? sender : sender.getClass().getSimpleName()).append(':');
         boolean first = true;
         for (Object a : attributes) {
-            if (!first) sb.append(',');
-            else first = false;
+            if (!first)
+                sb.append(',');
+            else
+                first = false;
             MString.serialize(sb, a, null);
         }
         sb.append(']');
@@ -421,14 +436,14 @@ public class MSystem {
     public static <A extends Annotation> A findAnnotation(Class<?> clazz, Class<A> annotation) {
         Class<?> current = clazz;
         while (current != null) {
-            if (current.isAnnotationPresent(annotation)) return current.getAnnotation(annotation);
+            if (current.isAnnotationPresent(annotation))
+                return current.getAnnotation(annotation);
             current = current.getSuperclass();
         }
         return null;
     }
 
-    public static <A extends Annotation> List<A> findAnnotations(
-            Class<?> clazz, Class<A> annotation) {
+    public static <A extends Annotation> List<A> findAnnotations(Class<?> clazz, Class<A> annotation) {
         LinkedList<A> out = new LinkedList<>();
         Class<?> current = clazz;
         while (current != null) {
@@ -440,8 +455,10 @@ public class MSystem {
     }
 
     public static boolean equals(Object a, Object b) {
-        if (a == null && b == null) return true;
-        if (a == null) return false;
+        if (a == null && b == null)
+            return true;
+        if (a == null)
+            return false;
         return a.equals(b);
     }
 
@@ -451,6 +468,7 @@ public class MSystem {
      * @param dir
      * @param script
      * @param timeout
+     *
      * @return The result of execution
      */
     @Deprecated
@@ -494,7 +512,7 @@ public class MSystem {
         }
 
         public String[] toArray() {
-            return new String[] {output, error};
+            return new String[] { output, error };
         }
 
         public Throwable getException() {
@@ -527,56 +545,71 @@ public class MSystem {
      * Returns the id of the object like the original toString() will do
      *
      * @param o
+     *
      * @return the id
      */
     public static String getObjectId(Object o) {
-        if (o == null) return "null";
+        if (o == null)
+            return "null";
         String name = o.getClass().getName();
-        if (name == null) name = getClassName(o);
+        if (name == null)
+            name = getClassName(o);
         return name + "@" + Integer.toHexString(System.identityHashCode(o));
     }
 
     /**
      * Returns the canonical name of the main class.
      *
-     * @param obj Object or class
+     * @param obj
+     *            Object or class
+     *
      * @return The name
      */
     public static String getClassName(Object obj) {
         Class<? extends Object> clazz = getMainClass(obj);
-        if (clazz == null) return "null";
+        if (clazz == null)
+            return "null";
         return clazz.getCanonicalName();
     }
 
     public static String getSimpleName(Object obj) {
         Class<? extends Object> clazz = getMainClass(obj);
-        if (clazz == null) return "null";
+        if (clazz == null)
+            return "null";
         return clazz.getSimpleName();
     }
 
     /**
-     * Returns the class of the object or class or if the class is anonymous the surrounding main
-     * class.
+     * Returns the class of the object or class or if the class is anonymous the surrounding main class.
      *
-     * @param obj object or class
+     * @param obj
+     *            object or class
+     *
      * @return The main class
      */
-    @SuppressWarnings({"unchecked", "rawtypes"})
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public static Class<?> getMainClass(Object obj) {
-        if (obj == null) return null;
+        if (obj == null)
+            return null;
         Class<? extends Object> clazz = obj.getClass();
-        if (obj instanceof Class) clazz = (Class) obj;
-        while (clazz != null && clazz.isAnonymousClass()) clazz = clazz.getEnclosingClass();
-        if (clazz == null) return null;
+        if (obj instanceof Class)
+            clazz = (Class) obj;
+        while (clazz != null && clazz.isAnonymousClass())
+            clazz = clazz.getEnclosingClass();
+        if (clazz == null)
+            return null;
         return clazz;
     }
 
     /**
-     * Return the declared template class for the index. This is only possible if the class itself
-     * extends a templated class and declares the templates with classes.
+     * Return the declared template class for the index. This is only possible if the class itself extends a templated
+     * class and declares the templates with classes.
      *
-     * @param clazz The class to check
-     * @param index Template index, starts at 0
+     * @param clazz
+     *            The class to check
+     * @param index
+     *            Template index, starts at 0
+     *
      * @return The canonical name of the defined template
      */
     // https://stackoverflow.com/questions/3437897/how-to-get-a-class-instance-of-generics-type-t#3437930
@@ -584,7 +617,8 @@ public class MSystem {
         Type mySuperclass = clazz.getGenericSuperclass();
         if (mySuperclass instanceof ParameterizedType) {
             Type[] templates = ((ParameterizedType) mySuperclass).getActualTypeArguments();
-            if (index >= templates.length) return null;
+            if (index >= templates.length)
+                return null;
             Type tType = templates[index];
             String templName = tType.getTypeName();
             return templName;
@@ -595,23 +629,28 @@ public class MSystem {
     /**
      * Compares two objects even if they are null.
      *
-     * <p>compareTo(null, null ) === 0 compareTo("", "" ) === 0 compareTo(null, "" ) === -1
-     * compareTo("", null ) === 1
+     * <p>
+     * compareTo(null, null ) === 0 compareTo("", "" ) === 0 compareTo(null, "" ) === -1 compareTo("", null ) === 1
      *
-     * <p>returns s1.comareTo(s2)
+     * <p>
+     * returns s1.comareTo(s2)
      *
-     * <p>groovy:000> s1 = new Date(); === Wed Jun 28 12:22:35 CEST 2017 groovy:000> s2 = new
-     * Date(); === Wed Jun 28 12:22:40 CEST 2017 groovy:000> groovy:000> s1.compareTo(s2) === -1
-     * groovy:000> s2.compareTo(s1) === 1
+     * <p>
+     * groovy:000> s1 = new Date(); === Wed Jun 28 12:22:35 CEST 2017 groovy:000> s2 = new Date(); === Wed Jun 28
+     * 12:22:40 CEST 2017 groovy:000> groovy:000> s1.compareTo(s2) === -1 groovy:000> s2.compareTo(s1) === 1
      *
      * @param s1
      * @param s2
+     *
      * @return see Comparator
      */
     public static <T extends Comparable<T>> int compareTo(T s1, T s2) {
-        if (s1 == null && s2 == null) return 0;
-        if (s1 == null) return -1;
-        if (s2 == null) return 1;
+        if (s1 == null && s2 == null)
+            return 0;
+        if (s1 == null)
+            return -1;
+        if (s2 == null)
+            return 1;
         return s1.compareTo(s2);
     }
 
@@ -643,10 +682,12 @@ public class MSystem {
      *
      * @param clazz
      * @param name
+     *
      * @return The field or null if not found
      */
     public static Field getDeclaredField(Class<?> clazz, String name) {
-        if (clazz == null || name == null) return null;
+        if (clazz == null || name == null)
+            return null;
         try {
             Field field = clazz.getDeclaredField(name);
             return field;
@@ -656,38 +697,61 @@ public class MSystem {
     }
 
     /**
-     * Load the class for the given type declaration. Also primitive and array declarations are
-     * allowed.
+     * Load the class for the given type declaration. Also primitive and array declarations are allowed.
      *
-     * @param type The type as primitive int, long ... String, Date the class name or as Array with
-     *     pending [].
-     * @param cl The class loader or null to use the thread context class loader.
+     * @param type
+     *            The type as primitive int, long ... String, Date the class name or as Array with pending [].
+     * @param cl
+     *            The class loader or null to use the thread context class loader.
+     *
      * @return The class instance.
+     *
      * @throws ClassNotFoundException
      */
     public static Class<?> loadClass(String type, ClassLoader cl) throws ClassNotFoundException {
-        if (cl == null) cl = Thread.currentThread().getContextClassLoader();
-        if ("int".equals(type)) return int.class;
-        if ("long".equals(type)) return long.class;
-        if ("short".equals(type)) return short.class;
-        if ("double".equals(type)) return double.class;
-        if ("float".equals(type)) return float.class;
-        if ("byte".equals(type)) return byte.class;
-        if ("boolean".equals(type)) return boolean.class;
-        if ("char".equals(type)) return char.class;
-        if ("String".equals(type)) return String.class;
-        if ("Date".equals(type)) return Date.class;
+        if (cl == null)
+            cl = Thread.currentThread().getContextClassLoader();
+        if ("int".equals(type))
+            return int.class;
+        if ("long".equals(type))
+            return long.class;
+        if ("short".equals(type))
+            return short.class;
+        if ("double".equals(type))
+            return double.class;
+        if ("float".equals(type))
+            return float.class;
+        if ("byte".equals(type))
+            return byte.class;
+        if ("boolean".equals(type))
+            return boolean.class;
+        if ("char".equals(type))
+            return char.class;
+        if ("String".equals(type))
+            return String.class;
+        if ("Date".equals(type))
+            return Date.class;
 
-        if ("int[]".equals(type)) return int[].class;
-        if ("long[]".equals(type)) return long[].class;
-        if ("short[]".equals(type)) return short[].class;
-        if ("double[]".equals(type)) return double[].class;
-        if ("float[]".equals(type)) return float[].class;
-        if ("byte[]".equals(type)) return byte[].class;
-        if ("boolean[]".equals(type)) return boolean[].class;
-        if ("char[]".equals(type)) return char[].class;
-        if ("String[]".equals(type)) return String[].class;
-        if ("Date[]".equals(type)) return Date[].class;
+        if ("int[]".equals(type))
+            return int[].class;
+        if ("long[]".equals(type))
+            return long[].class;
+        if ("short[]".equals(type))
+            return short[].class;
+        if ("double[]".equals(type))
+            return double[].class;
+        if ("float[]".equals(type))
+            return float[].class;
+        if ("byte[]".equals(type))
+            return byte[].class;
+        if ("boolean[]".equals(type))
+            return boolean[].class;
+        if ("char[]".equals(type))
+            return char[].class;
+        if ("String[]".equals(type))
+            return String[].class;
+        if ("Date[]".equals(type))
+            return Date[].class;
 
         boolean array = false;
         if (type.endsWith("[]")) {
@@ -706,7 +770,9 @@ public class MSystem {
      * Watch for a defined time of milliseconds all threads and returns the used cpu time.
      *
      * @param sleep
+     *
      * @return List of found values
+     *
      * @throws InterruptedException
      */
     public static List<TopThreadInfo> threadTop(long sleep) throws InterruptedException {
@@ -727,7 +793,8 @@ public class MSystem {
             sumCpu += t.getCpuTime();
             sumUser += t.getUserTime();
         }
-        for (TopThreadInfo t : threads) t.setSumTime(sumUser, sumCpu);
+        for (TopThreadInfo t : threads)
+            t.setSumTime(sumUser, sumCpu);
 
         return threads;
     }
@@ -772,8 +839,10 @@ public class MSystem {
         }
 
         private void setSumTime(long userTime, long cpuTime) {
-            if (cpuTime > 0) this.perCpu = (double) (diffCpu * 100) / (double) cpuTime;
-            if (userTime > 0) this.perUser = (double) (diffUser * 100) / (double) userTime;
+            if (cpuTime > 0)
+                this.perCpu = (double) (diffCpu * 100) / (double) cpuTime;
+            if (userTime > 0)
+                this.perUser = (double) (diffUser * 100) / (double) userTime;
         }
 
         public long getCpuTime() {
@@ -813,7 +882,9 @@ public class MSystem {
      * Executes a command and returns an array of 0 = strOut, 1 = stdErr
      *
      * @param command
+     *
      * @return 0 = strOut, 1 = stdErr
+     *
      * @throws IOException
      */
     public static ScriptResult execute(String... command) throws IOException {
@@ -823,33 +894,33 @@ public class MSystem {
     /**
      * Executes a command and returns an array of 0 = strOut, 1 = stdErr
      *
-     * @param env Environment variables or null if not needed
-     * @param workingDirectory pwd for the process or null if not needed
-     * @param stdin Set StdIn stream or null if not needed
-     * @param redirectErrorStream Set true if error should be redirected to input (error String will
-     *     be null)
+     * @param env
+     *            Environment variables or null if not needed
+     * @param workingDirectory
+     *            pwd for the process or null if not needed
+     * @param stdin
+     *            Set StdIn stream or null if not needed
+     * @param redirectErrorStream
+     *            Set true if error should be redirected to input (error String will be null)
      * @param command
+     *
      * @return 0 = strOut, 1 = stdErr
+     *
      * @throws IOException
      */
-    public static ScriptResult execute(
-            IProperties env,
-            File workingDirectory,
-            InputStream stdin,
-            boolean redirectErrorStream,
-            String... command)
-            throws IOException {
+    public static ScriptResult execute(IProperties env, File workingDirectory, InputStream stdin,
+            boolean redirectErrorStream, String... command) throws IOException {
 
         ProcessBuilder pb = new ProcessBuilder(command);
         pb.redirectErrorStream(redirectErrorStream);
-        if (env != null) env.forEach((k, v) -> pb.environment().put(k, String.valueOf(v)));
-        if (workingDirectory != null) pb.directory(workingDirectory);
+        if (env != null)
+            env.forEach((k, v) -> pb.environment().put(k, String.valueOf(v)));
+        if (workingDirectory != null)
+            pb.directory(workingDirectory);
         Process proc = pb.start();
         BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-        BufferedReader stdError =
-                redirectErrorStream
-                        ? null
-                        : new BufferedReader(new InputStreamReader(proc.getErrorStream()));
+        BufferedReader stdError = redirectErrorStream ? null
+                : new BufferedReader(new InputStreamReader(proc.getErrorStream()));
 
         if (stdin != null) {
             BufferedOutputStream bo = new BufferedOutputStream(proc.getOutputStream());
@@ -864,7 +935,8 @@ public class MSystem {
         }
 
         out.output = MFile.readFile(stdInput);
-        if (!redirectErrorStream) out.error = MFile.readFile(stdError);
+        if (!redirectErrorStream)
+            out.error = MFile.readFile(stdError);
         out.rc = proc.exitValue();
         return out;
     }
@@ -909,92 +981,107 @@ public class MSystem {
     }
 
     /**
-     * Like System.setProperty(). Sets the property with to a value. But this one accepts also null
-     * values and will clear the property in this case.
+     * Like System.setProperty(). Sets the property with to a value. But this one accepts also null values and will
+     * clear the property in this case.
      *
      * @param key
      * @param value
+     *
      * @return Previous value
      */
     public static String setProperty(String key, String value) {
-        if (value == null) return System.clearProperty(key);
-        else return System.setProperty(key, value);
+        if (value == null)
+            return System.clearProperty(key);
+        else
+            return System.setProperty(key, value);
     }
 
     /**
-     * Like System.setProperty(). Sets the property with to a value. But this one accepts also null
-     * values and will clear the property in this case. Key is ownerClass + _ + key
+     * Like System.setProperty(). Sets the property with to a value. But this one accepts also null values and will
+     * clear the property in this case. Key is ownerClass + _ + key
      *
      * @param owner
      * @param key
      * @param value
+     *
      * @return Previous value
      */
     public static String setProperty(Object owner, String key, String value) {
         String name = getOwnerName(owner) + "_" + key;
-        if (value == null) return System.clearProperty(name);
-        else return System.setProperty(name, value);
+        if (value == null)
+            return System.clearProperty(name);
+        else
+            return System.setProperty(name, value);
     }
 
     /**
-     * Load from System.getProperty() or the fallback from Sytsem.getenv and with prefix from owner.
-     * Key is ownerClass + _ + key
+     * Load from System.getProperty() or the fallback from Sytsem.getenv and with prefix from owner. Key is ownerClass +
+     * _ + key
      *
      * @param owner
      * @param key
+     *
      * @return Current value or null
      */
     public static String getProperty(Object owner, String key) {
         String name = getOwnerName(owner) + "_" + key;
         String ret = System.getProperty(getOwnerName(owner) + "_" + key);
-        if (ret != null) return ret;
+        if (ret != null)
+            return ret;
         ret = System.getenv(name);
         return ret;
     }
 
     /**
-     * Load from System.getProperty() or the fallback from Sytsem.getenv and with prefix from owner.
-     * Key is ownerClass + _ + key
+     * Load from System.getProperty() or the fallback from Sytsem.getenv and with prefix from owner. Key is ownerClass +
+     * _ + key
      *
      * @param owner
      * @param key
      * @param def
+     *
      * @return Current value or def
      */
     public static String getProperty(Object owner, String key, String def) {
-        String name =
-                getOwnerName(owner).replace('.', '_').replace('@', '_').replace('$', '_')
-                        + "_"
-                        + key;
+        String name = getOwnerName(owner).replace('.', '_').replace('@', '_').replace('$', '_') + "_" + key;
         String ret = System.getProperty(getOwnerName(owner) + "_" + key);
-        if (ret != null) return ret;
+        if (ret != null)
+            return ret;
         ret = System.getenv(name);
-        if (ret != null) return ret;
+        if (ret != null)
+            return ret;
         return def;
     }
 
     /**
      * Return a unique class name for the class with package, main class name and sub class name.
      *
-     * @param clazz The class to analyze
+     * @param clazz
+     *            The class to analyze
+     *
      * @return The name of the class
      */
     public static String getCanonicalClassName(Class<?> clazz) {
-        if (clazz == null) return "null";
-        if (clazz.isLocalClass()) return clazz.getCanonicalName();
+        if (clazz == null)
+            return "null";
+        if (clazz.isLocalClass())
+            return clazz.getCanonicalName();
 
-        if (clazz.isAnonymousClass()) return clazz.getName();
+        if (clazz.isAnonymousClass())
+            return clazz.getName();
 
         return clazz.getCanonicalName();
     }
 
     public static boolean isLockedByThread(Object value) {
-        if (value == null) return false;
+        if (value == null)
+            return false;
         int objectHash = value.hashCode();
         for (long threadId : tmxb.getAllThreadIds()) {
             ThreadInfo info = tmxb.getThreadInfo(threadId);
             for (LockInfo locks : info.getLockedSynchronizers())
-                if (locks.getIdentityHashCode() == objectHash) return true;
+                if (locks.getIdentityHashCode() == objectHash)
+                    return true;
         }
         return false;
     }
@@ -1021,25 +1108,19 @@ public class MSystem {
             String os = System.getProperty("os.name").toLowerCase();
             if (os.contains("win")) {
                 Process uptimeProc = Runtime.getRuntime().exec("net stats srv");
-                BufferedReader in =
-                        new BufferedReader(new InputStreamReader(uptimeProc.getInputStream()));
+                BufferedReader in = new BufferedReader(new InputStreamReader(uptimeProc.getInputStream()));
                 String line;
                 while ((line = in.readLine()) != null) {
                     if (line.startsWith("Statistics since")) {
-                        SimpleDateFormat format =
-                                new SimpleDateFormat("'Statistics since' MM/dd/yyyy hh:mm:ss a");
+                        SimpleDateFormat format = new SimpleDateFormat("'Statistics since' MM/dd/yyyy hh:mm:ss a");
                         Date boottime = format.parse(line);
                         uptime = System.currentTimeMillis() - boottime.getTime();
                         break;
                     }
                 }
-            } else if (os.contains("mac")
-                    || os.contains("nix")
-                    || os.contains("nux")
-                    || os.contains("aix")) {
+            } else if (os.contains("mac") || os.contains("nix") || os.contains("nux") || os.contains("aix")) {
                 Process uptimeProc = Runtime.getRuntime().exec("uptime");
-                BufferedReader in =
-                        new BufferedReader(new InputStreamReader(uptimeProc.getInputStream()));
+                BufferedReader in = new BufferedReader(new InputStreamReader(uptimeProc.getInputStream()));
                 String line = in.readLine();
                 if (line != null) {
                     Pattern parse = Pattern.compile("((\\d+) days,)? (\\d+):(\\d+)");
@@ -1057,7 +1138,7 @@ public class MSystem {
             }
             return uptime;
         } catch (Exception e) {
-            LOGGER.error("Error",e);
+            LOGGER.error("Error", e);
             return -1;
         }
     }
@@ -1077,45 +1158,59 @@ public class MSystem {
     public static LinkedList<Field> getAttributes(Class<?> clazz) {
         LinkedList<Field> out = new LinkedList<Field>();
         do {
-            for (Field field : clazz.getDeclaredFields()) out.add(field);
+            for (Field field : clazz.getDeclaredFields())
+                out.add(field);
             clazz = clazz.getSuperclass();
         } while (clazz != null);
 
         return out;
     }
 
-    public static List<Method> findMethodsWithAnnotation(
-            Class<?> clazz, Class<? extends Annotation> annotationClass) {
+    public static List<Method> findMethodsWithAnnotation(Class<?> clazz, Class<? extends Annotation> annotationClass) {
         LinkedList<Method> out = new LinkedList<>();
         for (Method method : clazz.getDeclaredMethods()) {
-            if (method.getAnnotation(annotationClass) != null) out.add(method);
+            if (method.getAnnotation(annotationClass) != null)
+                out.add(method);
         }
         return out;
     }
 
-    public static List<Field> findFieldsWithAnnotation(
-            Class<?> clazz, Class<? extends Annotation> annotationClass) {
+    public static List<Field> findFieldsWithAnnotation(Class<?> clazz, Class<? extends Annotation> annotationClass) {
         LinkedList<Field> out = new LinkedList<>();
         for (Field field : clazz.getDeclaredFields()) {
-            if (field.getAnnotation(annotationClass) != null) out.add(field);
+            if (field.getAnnotation(annotationClass) != null)
+                out.add(field);
         }
         return out;
     }
 
     public static Class<?> getClass(ClassLoader cl, String type) throws ClassNotFoundException {
-        if (type == null) return null;
-        if (type.equals("int") || type.equals("integer")) return int.class;
-        if (type.equals("bool") || type.equals("boolean")) return boolean.class;
-        if (type.equals("long")) return long.class;
-        if (type.equals("double")) return double.class;
-        if (type.equals("float")) return float.class;
-        if (type.equals("char") || type.equals("character")) return char.class;
-        if (type.equals("short")) return short.class;
-        if (type.equals("byte")) return byte.class;
-        if (type.equals("string") || type.equals("text")) return String.class;
-        if (type.equals("date")) return Date.class;
-        if (type.equals("map")) return Map.class;
-        if (type.equals("list")) return List.class;
+        if (type == null)
+            return null;
+        if (type.equals("int") || type.equals("integer"))
+            return int.class;
+        if (type.equals("bool") || type.equals("boolean"))
+            return boolean.class;
+        if (type.equals("long"))
+            return long.class;
+        if (type.equals("double"))
+            return double.class;
+        if (type.equals("float"))
+            return float.class;
+        if (type.equals("char") || type.equals("character"))
+            return char.class;
+        if (type.equals("short"))
+            return short.class;
+        if (type.equals("byte"))
+            return byte.class;
+        if (type.equals("string") || type.equals("text"))
+            return String.class;
+        if (type.equals("date"))
+            return Date.class;
+        if (type.equals("map"))
+            return Map.class;
+        if (type.equals("list"))
+            return List.class;
         return cl.loadClass(type);
     }
 
@@ -1124,7 +1219,8 @@ public class MSystem {
     }
 
     public static boolean isPasswordName(String key) {
-        if (key == null) return false;
+        if (key == null)
+            return false;
         String lc = key.toLowerCase();
         return lc.contains("pass") || lc.contains("token"); // password, ? secret ?
     }
@@ -1133,11 +1229,11 @@ public class MSystem {
         return MCast.toString(firstLine, Thread.currentThread().getStackTrace());
     }
 
-    public static int execute(String name, File rootDir, String cmd, ExecuteControl control)
-            throws IOException {
+    public static int execute(String name, File rootDir, String cmd, ExecuteControl control) throws IOException {
 
         ProcessBuilder processBuilder = new ProcessBuilder();
-        if (rootDir != null) processBuilder.directory(rootDir);
+        if (rootDir != null)
+            processBuilder.directory(rootDir);
         if (MSystem.isWindows())
             // Windows
             processBuilder.command("cmd.exe", "/c", cmd);
@@ -1151,27 +1247,23 @@ public class MSystem {
 
             control.stdin(new PrintWriter(new BufferedOutputStream(process.getOutputStream())));
 
-            BufferedReader outReader =
-                    new BufferedReader(new InputStreamReader(process.getInputStream()));
+            BufferedReader outReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 
-            final BufferedReader errReader =
-                    new BufferedReader(new InputStreamReader(process.getErrorStream()));
+            final BufferedReader errReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 
-            Thread errorWriterTask =
-                    new Thread(
-                            new Runnable() {
+            Thread errorWriterTask = new Thread(new Runnable() {
 
-                                @Override
-                                public void run() {
-                                    String line;
-                                    try {
-                                        while ((line = errReader.readLine()) != null) {
-                                            control.stderr(line);
-                                        }
-                                    } catch (Exception t) {
-                                    }
-                                }
-                            });
+                @Override
+                public void run() {
+                    String line;
+                    try {
+                        while ((line = errReader.readLine()) != null) {
+                            control.stderr(line);
+                        }
+                    } catch (Exception t) {
+                    }
+                }
+            });
             errorWriterTask.start();
 
             String line;
@@ -1202,7 +1294,8 @@ public class MSystem {
     public static class DefaultExecuteControl implements ExecuteControl {
 
         @Override
-        public void stdin(PrintWriter writer) {}
+        public void stdin(PrintWriter writer) {
+        }
 
         @Override
         public void stderr(String line) {
@@ -1216,23 +1309,27 @@ public class MSystem {
     }
 
     public static String getOwnerName(Object owner) {
-        if (owner == null) return "?";
-        if (owner instanceof Class) return getCanonicalClassName((Class<?>) owner);
+        if (owner == null)
+            return "?";
+        if (owner instanceof Class)
+            return getCanonicalClassName((Class<?>) owner);
 
-        if (owner instanceof String) return (String) owner;
+        if (owner instanceof String)
+            return (String) owner;
 
         return getCanonicalClassName(owner.getClass());
     }
 
     @SuppressWarnings("unchecked")
-    public static Class<? extends Enum<?>> getEnum(String className, ClassLoader activator)
-            throws Exception {
-        if (activator == null) activator = Thread.currentThread().getContextClassLoader();
+    public static Class<? extends Enum<?>> getEnum(String className, ClassLoader activator) throws Exception {
+        if (activator == null)
+            activator = Thread.currentThread().getContextClassLoader();
         int p = className.lastIndexOf('.');
         if (p > 0) {
             className = className.substring(0, p) + "$" + className.substring(p + 1);
             Class<?> type = activator.loadClass(className);
-            if (type.isEnum()) return (Class<? extends Enum<?>>) type;
+            if (type.isEnum())
+                return (Class<? extends Enum<?>>) type;
         }
         return null;
     }
@@ -1241,7 +1338,8 @@ public class MSystem {
         // try to get version info from JAR file
         ClassLoader cl = owner.getClassLoader();
         URL url = cl.getResource("META-INF/MANIFEST.MF");
-        if (url == null) url = cl.getResource("/META-INF/MANIFEST.MF");
+        if (url == null)
+            url = cl.getResource("/META-INF/MANIFEST.MF");
         if (url != null) {
             try (InputStream is = url.openStream()) {
                 Manifest manifest = new Manifest(is);

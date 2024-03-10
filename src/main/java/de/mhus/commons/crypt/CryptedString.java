@@ -34,7 +34,8 @@ public class CryptedString extends SecureString implements Externalizable {
     private byte[] rand;
     private String pubKeyMd5;
 
-    public CryptedString() {}
+    public CryptedString() {
+    }
 
     public CryptedString(KeyPair key, String secret) {
         try {
@@ -73,7 +74,8 @@ public class CryptedString extends SecureString implements Externalizable {
     }
 
     public String value(KeyPair key) {
-        if (data == null) return null;
+        if (data == null)
+            return null;
         try {
             byte[] r = MBouncy.decryptRsa117(rand, key.getPrivate());
             byte[] d = MBouncy.decryptAes(r, data);
@@ -84,7 +86,8 @@ public class CryptedString extends SecureString implements Externalizable {
     }
 
     public String value(String privKey) {
-        if (data == null) return null;
+        if (data == null)
+            return null;
         try {
             PrivateKey key = MBouncy.getPrivateKey(privKey);
 
@@ -103,7 +106,8 @@ public class CryptedString extends SecureString implements Externalizable {
     @Override
     public void writeExternal(ObjectOutput out) throws IOException {
         out.writeInt(length);
-        if (data == null) out.writeInt(-1);
+        if (data == null)
+            out.writeInt(-1);
         else {
             out.writeInt(data.length);
             out.write(data);
@@ -132,19 +136,21 @@ public class CryptedString extends SecureString implements Externalizable {
 
     @Override
     public String value() {
-        return (rand == null ? "?" : MBouncy.encodeBase64(rand))
-                + "!"
+        return (rand == null ? "?" : MBouncy.encodeBase64(rand)) + "!"
                 + (data == null ? "?" : MBouncy.encodeBase64(data));
     }
 
     public static SecureString create(String pubKey, String secret) {
-        if (MString.isSet(pubKey)) return new CryptedString(pubKey, secret);
+        if (MString.isSet(pubKey))
+            return new CryptedString(pubKey, secret);
         return new SecureString(secret);
     }
 
     public static String value(SecureString string, KeyPair key) {
-        if (string == null) return null;
-        if (!(string instanceof CryptedString)) return string.value();
+        if (string == null)
+            return null;
+        if (!(string instanceof CryptedString))
+            return string.value();
         return ((CryptedString) string).value(key);
     }
 }

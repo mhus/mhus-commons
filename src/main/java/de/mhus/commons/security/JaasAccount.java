@@ -106,12 +106,12 @@ public class JaasAccount implements Account {
             int cnt = 0;
             for (Principal principal : subject.getPrincipals()) {
                 switch (principal.getClass().getSimpleName()) {
-                    case "UserPrincipal":
-                        userName = principal.getName();
-                        break;
-                    case "RolePrincipal":
-                        groups.add(principal.getName());
-                        break;
+                case "UserPrincipal":
+                    userName = principal.getName();
+                    break;
+                case "RolePrincipal":
+                    groups.add(principal.getName());
+                    break;
                 }
                 attr.put(principal.getClass().getSimpleName() + "." + cnt, principal.getName());
                 cnt++;

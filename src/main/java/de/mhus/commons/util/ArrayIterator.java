@@ -49,5 +49,6 @@ public class ArrayIterator<T> implements Iterator<T>, ReadOnly {
     }
 
     @Override
-    public void remove() {}
+    public void remove() {
+    }
 }

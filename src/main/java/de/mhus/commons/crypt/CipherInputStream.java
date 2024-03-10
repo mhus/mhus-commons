@@ -37,7 +37,8 @@ public class CipherInputStream extends InputStream {
     @Override
     public int read() throws IOException {
         int out = is.read();
-        if (out < 0 || cipher == null) return out;
+        if (out < 0 || cipher == null)
+            return out;
         return MMath.unsignetByteToInt(cipher.decode((byte) out));
     }
 

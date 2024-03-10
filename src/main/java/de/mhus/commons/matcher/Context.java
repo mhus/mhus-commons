@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,10 +38,12 @@ public class Context {
             current = next;
             parent = next;
         } else {
-            if (current == null) current = parent;
+            if (current == null)
+                current = parent;
             current.add(next);
         }
-        if (first != null) next.add(first);
+        if (first != null)
+            next.add(first);
         current = next;
         parent = next;
         first = null;

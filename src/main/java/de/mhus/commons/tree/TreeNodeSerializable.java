@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,9 @@ public interface TreeNodeSerializable {
     /**
      * Read the inner state of the object from the given node object.
      *
-     * @param node Node with stored state for this object
+     * @param node
+     *            Node with stored state for this object
+     *
      * @throws Exception
      */
     void readSerializabledNode(ITreeNode node) throws Exception;
@@ -28,7 +30,9 @@ public interface TreeNodeSerializable {
     /**
      * Write the inner state of the object to the given node object.
      *
-     * @param node Node to store the state of this object in
+     * @param node
+     *            Node to store the state of this object in
+     *
      * @throws Exception
      */
     void writeSerializabledNode(ITreeNode node) throws Exception;

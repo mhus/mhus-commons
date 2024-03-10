@@ -34,15 +34,16 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * The class is a parser for program argument lists, like you get in the main(args) method. You can
- * also put a usage definition to the constructor to define the possible methods.
+ * The class is a parser for program argument lists, like you get in the main(args) method. You can also put a usage
+ * definition to the constructor to define the possible methods.
  *
- * <p>The parser will parse all arguments. If a minus is the first character the next argument will
- * be stored under this key. A argument key can be there multiple times. If there no value after the
- * key the key is marked as existing. A value without a key on front of it is stored under the
- * DEFAUTL key.
+ * <p>
+ * The parser will parse all arguments. If a minus is the first character the next argument will be stored under this
+ * key. A argument key can be there multiple times. If there no value after the key the key is marked as existing. A
+ * value without a key on front of it is stored under the DEFAUTL key.
  *
- * <p>The "usage" feature is not finished yet!
+ * <p>
+ * The "usage" feature is not finished yet!
  *
  * @author mhu
  */
@@ -64,7 +65,7 @@ public class MArgs {
         this(args, (Usage[]) null);
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public MArgs(Object pojo, String[] args) {
 
         PojoModel model = MPojo.getAttributesModelFactory().createPojoModel(pojo.getClass());
@@ -74,29 +75,21 @@ public class MArgs {
         CmdDescription cmd = pojo.getClass().getAnnotation(CmdDescription.class);
         if (cmd != null) {
             u.add(new Help(cmd.description()));
-            for (String flag : cmd.flags()) u.add(new Flag(flag, null));
+            for (String flag : cmd.flags())
+                u.add(new Flag(flag, null));
         }
         for (PojoAttribute<?> entry : model) {
             CmdOption cOpt = entry.getAnnotation(CmdOption.class);
             if (cOpt != null) {
-                Option opt =
-                        new Option(
-                                cOpt.shortcut(),
-                                cOpt.name(),
-                                cOpt.multi() ? -1 : cOpt.value() ? 1 : cOpt.valueCnt(),
-                                cOpt.mandatory(),
-                                cOpt.description());
+                Option opt = new Option(cOpt.shortcut(), cOpt.name(),
+                        cOpt.multi() ? -1 : cOpt.value() ? 1 : cOpt.valueCnt(), cOpt.mandatory(), cOpt.description());
                 map.put(entry.getName(), opt);
                 u.add(opt);
             } else {
                 CmdArgument cArg = entry.getAnnotation(CmdArgument.class);
                 if (cArg != null) {
-                    Argument arg =
-                            new Argument(
-                                    cArg.name(),
-                                    cArg.multi() ? -1 : cArg.valueCnt(),
-                                    cArg.mandatory(),
-                                    cArg.description());
+                    Argument arg = new Argument(cArg.name(), cArg.multi() ? -1 : cArg.valueCnt(), cArg.mandatory(),
+                            cArg.description());
                     map.put(entry.getName(), arg);
                     a[cArg.index()] = arg;
                 }
@@ -104,7 +97,8 @@ public class MArgs {
         }
 
         for (Usage entry : a) {
-            if (entry != null) u.add(entry);
+            if (entry != null)
+                u.add(entry);
         }
 
         this.usage = u.toArray(new Usage[u.size()]);
@@ -124,11 +118,16 @@ public class MArgs {
                     value = MCast.toint(values.get(0), 0);
                 else if (type == Long.class || type == long.class)
                     value = MCast.tolong(values.get(0), 0);
-                else if (type == String.class) value = values.get(0);
-                else if (type == String[].class) value = values.toArray(new String[0]);
-                else if (type == Date.class) value = MCast.toDate(values.get(0), null);
-                else if (type == UUID.class) value = UUID.fromString(values.get(0));
-                else if (List.class.isAssignableFrom(type)) value = values;
+                else if (type == String.class)
+                    value = values.get(0);
+                else if (type == String[].class)
+                    value = values.toArray(new String[0]);
+                else if (type == Date.class)
+                    value = MCast.toDate(values.get(0), null);
+                else if (type == UUID.class)
+                    value = UUID.fromString(values.get(0));
+                else if (List.class.isAssignableFrom(type))
+                    value = values;
 
                 attr.set(pojo, value, true);
             } catch (Throwable e) {
@@ -138,15 +137,15 @@ public class MArgs {
     }
 
     /**
-     * Usage: : <param1> : Command description\ncontaining line breaks :: param1 : Parameter
-     * description option1: Option description option2: <param> : Option with mandatory parameter
-     * option3: [param] : Option with optional parameter option4: <param>* : Option allowed multiple
-     * times A line without colon will be printed in the usage as it is. e.g.
+     * Usage: : <param1> : Command description\ncontaining line breaks :: param1 : Parameter description option1: Option
+     * description option2: <param> : Option with mandatory parameter option3: [param] : Option with optional parameter
+     * option4: <param>* : Option allowed multiple times A line without colon will be printed in the usage as it is.
+     * e.g.
      *
-     * <p>:ls [options] [file]*: list directory contents ::file: For each operand that names a file
-     * of a type other than directory, ls displays its name as well as any requested, associated
-     * information. l: List in long format. (See below.) A total sum for all the file sizes is
-     * output on a line before the long listing.
+     * <p>
+     * :ls [options] [file]*: list directory contents ::file: For each operand that names a file of a type other than
+     * directory, ls displays its name as well as any requested, associated information. l: List in long format. (See
+     * below.) A total sum for all the file sizes is output on a line before the long listing.
      *
      * @param args
      * @param pUsage
@@ -168,7 +167,8 @@ public class MArgs {
                     }
                     values.put(u.getIntName(), u);
                 }
-                if (u.getAliasName() != null) values.put(u.getAliasName(), u);
+                if (u.getAliasName() != null)
+                    values.put(u.getAliasName(), u);
             }
         }
 
@@ -202,11 +202,13 @@ public class MArgs {
 
                     Usage opt = values.get("--" + n);
 
-                    if (opt == null) throw new UsageException("unknown operation", n);
+                    if (opt == null)
+                        throw new UsageException("unknown operation", n);
 
                     opt.set();
 
-                    if (opt.hasValue()) current = opt;
+                    if (opt.hasValue())
+                        current = opt;
 
                 } else if (n.startsWith("-") && n.length() > 1) {
                     // it's a new key
@@ -233,20 +235,24 @@ public class MArgs {
                             opt = new Option(p);
                             values.put(opt.getIntName(), opt);
                         }
-                        if (opt == null) throw new UsageException("unknown option", n);
+                        if (opt == null)
+                            throw new UsageException("unknown option", n);
 
                         opt.set();
 
-                        if (opt.hasValue()) current = opt;
+                        if (opt.hasValue())
+                            current = opt;
                     }
                 } else if (current != null) {
                     n = encaps(n);
                     current.add(n);
-                    if (!current.moreValues()) current = null;
+                    if (!current.moreValues())
+                        current = null;
                 } else if (currentArg != null) {
                     n = encaps(n);
                     currentArg.add(n);
-                    if (!currentArg.moreValues()) currentArg = null;
+                    if (!currentArg.moreValues())
+                        currentArg = null;
                 } else {
 
                     Usage arg = values.get("#" + index);
@@ -257,11 +263,13 @@ public class MArgs {
                         values.put(arg.getIntName(), arg);
                     }
 
-                    if (arg == null) throw new UsageException("Argument not supported", index);
+                    if (arg == null)
+                        throw new UsageException("Argument not supported", index);
 
                     n = encaps(n);
                     arg.add(n);
-                    if (arg.hasValue()) currentArg = arg;
+                    if (arg.hasValue())
+                        currentArg = arg;
                     index++;
                 }
             }
@@ -271,7 +279,7 @@ public class MArgs {
         } catch (UsageException e) {
             showHelp = true;
             error = "Usage error: " + e.getMessage();
-            //        	e.printStackTrace();
+            // e.printStackTrace();
         }
     }
 
@@ -280,18 +288,19 @@ public class MArgs {
     }
 
     public void printUsage(PrintStream out) {
-        if (error != null) out.println(error);
+        if (error != null)
+            out.println(error);
         if (usage != null) {
             System.out.println("Usage: ");
-            for (Usage u : usage) u.printUsage(out);
+            for (Usage u : usage)
+                u.printUsage(out);
         } else {
             System.out.println("Unknown usage");
         }
     }
 
     private String encaps(String name) {
-        if (name.startsWith("\"") && name.endsWith("\"")
-                || name.startsWith("'") && name.endsWith("'"))
+        if (name.startsWith("\"") && name.endsWith("\"") || name.startsWith("'") && name.endsWith("'"))
             name = name.substring(1, name.length() - 1);
         return name;
     }
@@ -300,11 +309,13 @@ public class MArgs {
      * Returns true if the options list contains the key and the option is set.
      *
      * @param name
+     *
      * @return if is included
      */
     public boolean hasOption(String name) {
         Usage opt = values.get("-" + name);
-        if (opt == null) return false;
+        if (opt == null)
+            return false;
         return opt.isSet();
     }
 
@@ -312,11 +323,13 @@ public class MArgs {
      * Will always return an option even if it's not configured. In this case the value is null.
      *
      * @param name
+     *
      * @return An Option
      */
     public Option getOption(String name) {
         Usage opt = values.get("-" + name);
-        if (opt == null) opt = new Option(name);
+        if (opt == null)
+            opt = new Option(name);
         return (Option) opt;
     }
 
@@ -324,6 +337,7 @@ public class MArgs {
      * Return the argument from index. The first index is 1 and NOT 0 - like it's printed in usage.
      *
      * @param index
+     *
      * @return The Argument object
      */
     public Argument getArgument(int index) {
@@ -335,12 +349,15 @@ public class MArgs {
      * Return an argument by name.
      *
      * @param name
+     *
      * @return The Argument object
      */
     public Argument getArgument(String name) {
-        if (usage == null) return null;
+        if (usage == null)
+            return null;
         for (Usage u : usage)
-            if (u instanceof Argument && name.equals(u.getName())) return (Argument) u;
+            if (u instanceof Argument && name.equals(u.getName()))
+                return (Argument) u;
         return null;
     }
 
@@ -415,12 +432,7 @@ public class MArgs {
         private String alias;
 
         public Option(String name) {
-            this(
-                    name.length() == 1 ? name.charAt(0) : (char) 0,
-                    name.length() > 1 ? name : null,
-                    -1,
-                    false,
-                    null);
+            this(name.length() == 1 ? name.charAt(0) : (char) 0, name.length() > 1 ? name : null, -1, false, null);
         }
 
         public Option(char name, String alias, int valueCnt, boolean mandatory, String desc) {
@@ -440,7 +452,8 @@ public class MArgs {
 
         @Override
         public String getAliasName() {
-            if (alias == null) return null;
+            if (alias == null)
+                return null;
             return "--" + alias;
         }
 
@@ -452,22 +465,21 @@ public class MArgs {
 
         @Override
         protected void printUsage(PrintStream out) {
-            out.println(
-                    "-"
-                            + name
-                            + (alias != null ? ", --" + alias : "")
-                            + (valueCnt > 0 ? " <value> (" + valueCnt + ")" : "")
-                            + (mandatory ? "*" : ""));
-            if (desc != null) out.println(toDesc(desc));
+            out.println("-" + name + (alias != null ? ", --" + alias : "")
+                    + (valueCnt > 0 ? " <value> (" + valueCnt + ")" : "") + (mandatory ? "*" : ""));
+            if (desc != null)
+                out.println(toDesc(desc));
         }
 
         public String getValue() {
-            if (values.size() == 0) return null;
+            if (values.size() == 0)
+                return null;
             return values.get(0);
         }
 
         public String getValue(String def) {
-            if (values.size() == 0) return def;
+            if (values.size() == 0)
+                return def;
             return values.get(0);
         }
 
@@ -494,7 +506,8 @@ public class MArgs {
             this.desc = desc;
             this.valueCnt = valueCnt;
             this.mandatory = mandatory;
-            if (valueCnt < 0 || valueCnt > 1) hasValue = true;
+            if (valueCnt < 0 || valueCnt > 1)
+                hasValue = true;
         }
 
         private int index;
@@ -517,7 +530,8 @@ public class MArgs {
         @Override
         protected void printUsage(PrintStream out) {
             out.println("Argument #" + index + " " + name + (mandatory ? "*" : ""));
-            if (desc != null) out.println(toDesc(desc));
+            if (desc != null)
+                out.println(toDesc(desc));
         }
 
         @Override
@@ -534,17 +548,20 @@ public class MArgs {
         }
 
         public String getValue() {
-            if (values.size() == 0) return null;
+            if (values.size() == 0)
+                return null;
             return values.get(0);
         }
 
         public String getValue(String def) {
-            if (values.size() == 0) return def;
+            if (values.size() == 0)
+                return def;
             return values.get(0);
         }
 
         public String getValue(int index, String def) {
-            if (values.size() <= index) return def;
+            if (values.size() <= index)
+                return def;
             return values.get(index);
         }
     }
@@ -561,7 +578,8 @@ public class MArgs {
         }
 
         @Override
-        protected void noMoreValues() {}
+        protected void noMoreValues() {
+        }
 
         @Override
         protected void printUsage(PrintStream out) {
@@ -589,7 +607,8 @@ public class MArgs {
         }
 
         @Override
-        protected void noMoreValues() {}
+        protected void noMoreValues() {
+        }
 
         @Override
         protected void printUsage(PrintStream out) {
@@ -614,17 +633,18 @@ public class MArgs {
         LinkedList<Argument> out = new LinkedList<>();
         for (int index = 1; values.containsKey("#" + index); index++) {
             Argument arg = (Argument) values.get("#" + index);
-            if (arg.getValues().size() > 0) out.add(arg);
+            if (arg.getValues().size() > 0)
+                out.add(arg);
         }
         return out;
     }
 
     public Map<String, Option> getOptions() {
         final HashMap<String, Option> out = new HashMap<>();
-        values.forEach(
-                (k, v) -> {
-                    if (k.startsWith("-")) out.put(k, (Option) v);
-                });
+        values.forEach((k, v) -> {
+            if (k.startsWith("-"))
+                out.put(k, (Option) v);
+        });
         return out;
     }
 
@@ -660,8 +680,7 @@ public class MArgs {
         return new Flag(ALLOW_OTHER_OPTIONS, "More options are possible");
     }
 
-    public static Option opt(
-            char name, String alias, int valueCnt, boolean mandatory, String desc) {
+    public static Option opt(char name, String alias, int valueCnt, boolean mandatory, String desc) {
         return new Option(name, alias, valueCnt, mandatory, desc);
     }
 

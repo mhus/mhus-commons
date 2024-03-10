@@ -37,8 +37,7 @@ import java.util.OptionalLong;
 import java.util.UUID;
 
 /**
- * This is a shortcut class to call methods without obfuscating the source code. For some reasons
- * this makes sense.
+ * This is a shortcut class to call methods without obfuscating the source code. For some reasons this makes sense.
  *
  * @author mikehummel
  */
@@ -67,7 +66,7 @@ public class M {
 
     public static final String PROP_DIRTY_TRACE = "mhu.lib.api.trace";
     public static final String PROP_API_FACTORY_CLASS = "mhus.api.factory";
-    //  public static final String PROP_FILE_WATCH = "mhus.config.watch";
+    // public static final String PROP_FILE_WATCH = "mhus.config.watch";
     public static final String PROP_CONFIG_FILE = PROP_PREFIX + "config.file";
 
     public static final int MAX_DEPTH_LEVEL = 20;
@@ -90,8 +89,7 @@ public class M {
     public static final String ADDR_DISPLAY_NAME = "displayName";
 
     public static enum ADDR_SCOPE {
-        PRIVATE,
-        WORK
+        PRIVATE, WORK
     }
 
     public static final String TYPE_DATE = "date";

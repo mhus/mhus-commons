@@ -26,6 +26,7 @@ public interface FileResolver {
      * Returns a list of pathes with the given path. Directories ends with slash.
      *
      * @param path
+     *
      * @return the content
      */
     Set<String> getContent(String path);

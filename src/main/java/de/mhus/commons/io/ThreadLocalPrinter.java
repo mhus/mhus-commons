@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,21 +45,24 @@ public class ThreadLocalPrinter extends PrintStream {
         @Override
         public void write(int b) throws IOException {
             OutputStream out = output.get();
-            if (out == null) out = defaultOutput;
+            if (out == null)
+                out = defaultOutput;
             out.write(b);
         }
 
         @Override
         public void flush() throws IOException {
             OutputStream out = output.get();
-            if (out == null) out = defaultOutput;
+            if (out == null)
+                out = defaultOutput;
             out.flush();
         }
 
         @Override
         public void close() throws IOException {
             OutputStream out = output.get();
-            if (out == null) out = defaultOutput;
+            if (out == null)
+                out = defaultOutput;
             out.close();
         }
     }

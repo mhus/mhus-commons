@@ -24,27 +24,26 @@ import java.io.OutputStream;
 public class StreamBuffer {
 
     private ByteBuffer buffer = new ByteBuffer();
-    private InputStream is =
-            new InputStream() {
+    private InputStream is = new InputStream() {
 
-                @Override
-                public int read() throws IOException {
-                    synchronized (buffer) {
-                        if (buffer.isEmpty()) return -1;
-                        return buffer.shift();
-                    }
-                }
-            };
-    private OutputStream os =
-            new OutputStream() {
+        @Override
+        public int read() throws IOException {
+            synchronized (buffer) {
+                if (buffer.isEmpty())
+                    return -1;
+                return buffer.shift();
+            }
+        }
+    };
+    private OutputStream os = new OutputStream() {
 
-                @Override
-                public void write(int b) throws IOException {
-                    synchronized (buffer) {
-                        buffer.append((byte) b);
-                    }
-                }
-            };
+        @Override
+        public void write(int b) throws IOException {
+            synchronized (buffer) {
+                buffer.append((byte) b);
+            }
+        }
+    };
 
     public InputStream getInputStream() {
         return is;

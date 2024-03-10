@@ -35,8 +35,7 @@ public class SaltOutputStream extends OutputStream {
      * @param maxBlockSize
      * @param addRandomBlocks
      */
-    public SaltOutputStream(
-            OutputStream next, MRandom random, int maxBlockSize, boolean addRandomBlocks) {
+    public SaltOutputStream(OutputStream next, MRandom random, int maxBlockSize, boolean addRandomBlocks) {
         this.next = next;
         this.random = random;
         this.addRandomBlocks = addRandomBlocks;
@@ -52,7 +51,8 @@ public class SaltOutputStream extends OutputStream {
             if (addRandomBlocks) {
                 cnt = MMath.unsignetByteToInt(random.getByte()) % maxBlockSize;
                 next.write(cnt);
-                for (int i = 0; i < cnt; i++) next.write(random.getByte());
+                for (int i = 0; i < cnt; i++)
+                    next.write(random.getByte());
             }
 
             salt = random.getByte();

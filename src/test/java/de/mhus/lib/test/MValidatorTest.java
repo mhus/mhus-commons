@@ -158,12 +158,8 @@ public class MValidatorTest extends TestCase {
 
     @Test
     public void testAZ09() {
-        assertTrue(
-                MValidator.isAZ09(
-                        "abcdefghijklmnopqrszuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"));
-        assertFalse(
-                MValidator.isAZ09(
-                        "abcdefghijklmnopqrszuvwxyz.ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"));
+        assertTrue(MValidator.isAZ09("abcdefghijklmnopqrszuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"));
+        assertFalse(MValidator.isAZ09("abcdefghijklmnopqrszuvwxyz.ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"));
         assertFalse(MValidator.isAZ09(null));
     }
 }

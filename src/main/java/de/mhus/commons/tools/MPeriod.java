@@ -20,14 +20,14 @@ import java.util.Date;
 
 /**
  * @author hummel
- *     <p>To change the template for this generated type comment go to
- *     Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ *         <p>
+ *         To change the template for this generated type comment go to Window&gt;Preferences&gt;Java&gt;Code
+ *         Generation&gt;Code and Comments
  */
 public class MPeriod {
 
     public static final long MONTH_AVERAGE_MILLISECONDS = 2629746000l; // for 10.000 years
-    public static final long YEAR_AVERAGE_MILLISECONDS =
-            MONTH_AVERAGE_MILLISECONDS * 12; // for 10.000 years
+    public static final long YEAR_AVERAGE_MILLISECONDS = MONTH_AVERAGE_MILLISECONDS * 12; // for 10.000 years
     public static final long SECOND_IN_MILLISECONDS = 1000;
     public static final long MINUTE_IN_MILLISECONDS = SECOND_IN_MILLISECONDS * 60;
     public static final long HOUR_IN_MILLISECONDS = MINUTE_IN_MILLISECONDS * 60;
@@ -47,14 +47,15 @@ public class MPeriod {
     public static final int MILLENIUM = 11;
 
     private long days = 0;
-    //	private long months = 0;
-    //	private long years = 0;
+    // private long months = 0;
+    // private long years = 0;
     private long hours = 0;
     private long minutes = 0;
     private long seconds = 0;
     private long millisec = 0;
 
-    public MPeriod() {}
+    public MPeriod() {
+    }
 
     public MPeriod(long millisec) {
         this.millisec = millisec;
@@ -67,7 +68,8 @@ public class MPeriod {
 
     public void parse(String _interval) throws NumberFormatException {
 
-        if (_interval == null) return;
+        if (_interval == null)
+            return;
 
         if (_interval.indexOf(":") > 0) {
 
@@ -90,66 +92,66 @@ public class MPeriod {
             char c = _interval.charAt(i);
             switch (c) {
 
-                    //			case 'y':
-                    //				add(YEAR, Integer.parseInt(buffer.toString()));
-                    //				buffer.setLength(0);
-                    //				break;
-                    //			case 'm':
-                    //				add(MONTH, Integer.parseInt(buffer.toString()));
-                    //				buffer.setLength(0);
-                    //				break;
-                case 'w':
-                    add(WEEK, Integer.parseInt(buffer.toString()));
-                    buffer.setLength(0);
-                    break;
-                case 'd':
-                    add(DAY, Integer.parseInt(buffer.toString()));
-                    buffer.setLength(0);
-                    break;
-                case 'h':
-                    add(HOUR, Integer.parseInt(buffer.toString()));
-                    buffer.setLength(0);
-                    break;
-                case 'M':
-                    add(MINUTE, Integer.parseInt(buffer.toString()));
-                    buffer.setLength(0);
-                    break;
-                case 's':
-                    add(SECOND, Integer.parseInt(buffer.toString()));
-                    buffer.setLength(0);
-                    break;
-                case 'S':
-                    add(MILLISECOND, Integer.parseInt(buffer.toString()));
-                    buffer.setLength(0);
-                    break;
-                case 'm':
-                    add(MONTH, Integer.parseInt(buffer.toString()));
-                    buffer.setLength(0);
-                    break;
-                case 'y':
-                    add(YEAR, Integer.parseInt(buffer.toString()));
-                    buffer.setLength(0);
-                    break;
-                case 'c':
-                    add(CENTURY, Integer.parseInt(buffer.toString()));
-                    buffer.setLength(0);
-                    break;
-                case 'x':
-                    add(MILLENIUM, Integer.parseInt(buffer.toString()));
-                    buffer.setLength(0);
-                    break;
-                case ' ':
-                case '\t':
-                    // ignore
-                    break;
-                case '\n':
-                case '\r':
-                    // finish parsing
-                    optimize();
-                    return;
-                default:
-                    // add to buffer
-                    buffer.append(c);
+            // case 'y':
+            // add(YEAR, Integer.parseInt(buffer.toString()));
+            // buffer.setLength(0);
+            // break;
+            // case 'm':
+            // add(MONTH, Integer.parseInt(buffer.toString()));
+            // buffer.setLength(0);
+            // break;
+            case 'w':
+                add(WEEK, Integer.parseInt(buffer.toString()));
+                buffer.setLength(0);
+                break;
+            case 'd':
+                add(DAY, Integer.parseInt(buffer.toString()));
+                buffer.setLength(0);
+                break;
+            case 'h':
+                add(HOUR, Integer.parseInt(buffer.toString()));
+                buffer.setLength(0);
+                break;
+            case 'M':
+                add(MINUTE, Integer.parseInt(buffer.toString()));
+                buffer.setLength(0);
+                break;
+            case 's':
+                add(SECOND, Integer.parseInt(buffer.toString()));
+                buffer.setLength(0);
+                break;
+            case 'S':
+                add(MILLISECOND, Integer.parseInt(buffer.toString()));
+                buffer.setLength(0);
+                break;
+            case 'm':
+                add(MONTH, Integer.parseInt(buffer.toString()));
+                buffer.setLength(0);
+                break;
+            case 'y':
+                add(YEAR, Integer.parseInt(buffer.toString()));
+                buffer.setLength(0);
+                break;
+            case 'c':
+                add(CENTURY, Integer.parseInt(buffer.toString()));
+                buffer.setLength(0);
+                break;
+            case 'x':
+                add(MILLENIUM, Integer.parseInt(buffer.toString()));
+                buffer.setLength(0);
+                break;
+            case ' ':
+            case '\t':
+                // ignore
+                break;
+            case '\n':
+            case '\r':
+                // finish parsing
+                optimize();
+                return;
+            default:
+                // add to buffer
+                buffer.append(c);
             }
         }
 
@@ -157,46 +159,47 @@ public class MPeriod {
     }
 
     public void add(MPeriod interval) {
-        if (interval == null) return;
+        if (interval == null)
+            return;
         parse(interval.toString());
     }
 
     public void add(int _type, long _value) {
 
         switch (_type) {
-            case YEAR:
-                millisec += _value * YEAR_AVERAGE_MILLISECONDS;
-                break;
-            case MONTH:
-                millisec += _value * MONTH_AVERAGE_MILLISECONDS;
-                break;
-            case WEEK:
-                days += _value * 7;
-                break;
-            case DAY:
-                days += _value;
-                break;
-            case HOUR:
-                hours += _value;
-                break;
-            case MINUTE:
-                minutes += _value;
-                break;
-            case SECOND:
-                seconds += _value;
-                break;
-            case MILLISECOND:
-                millisec += _value;
-                break;
-            case DECADE:
-                millisec += _value * 10 * YEAR_AVERAGE_MILLISECONDS;
-                break;
-            case CENTURY:
-                millisec += _value * 100 * YEAR_AVERAGE_MILLISECONDS;
-                break;
-            case MILLENIUM:
-                millisec += _value * 1000 * YEAR_AVERAGE_MILLISECONDS;
-                break;
+        case YEAR:
+            millisec += _value * YEAR_AVERAGE_MILLISECONDS;
+            break;
+        case MONTH:
+            millisec += _value * MONTH_AVERAGE_MILLISECONDS;
+            break;
+        case WEEK:
+            days += _value * 7;
+            break;
+        case DAY:
+            days += _value;
+            break;
+        case HOUR:
+            hours += _value;
+            break;
+        case MINUTE:
+            minutes += _value;
+            break;
+        case SECOND:
+            seconds += _value;
+            break;
+        case MILLISECOND:
+            millisec += _value;
+            break;
+        case DECADE:
+            millisec += _value * 10 * YEAR_AVERAGE_MILLISECONDS;
+            break;
+        case CENTURY:
+            millisec += _value * 100 * YEAR_AVERAGE_MILLISECONDS;
+            break;
+        case MILLENIUM:
+            millisec += _value * 1000 * YEAR_AVERAGE_MILLISECONDS;
+            break;
         }
     }
 
@@ -219,10 +222,10 @@ public class MPeriod {
             hours = hours % 24;
         }
 
-        //		if (months >= 12) {
-        //			years += months / 12;
-        //			months = months % 12;
-        //		}
+        // if (months >= 12) {
+        // years += months / 12;
+        // months = months % 12;
+        // }
 
         if (millisec <= -1000) {
             seconds += millisec / 1000;
@@ -241,10 +244,10 @@ public class MPeriod {
             hours = -((-hours) % 24);
         }
 
-        //		if (months <= -12) {
-        //			years += months / 12;
-        //			months = -((-months) % 12);
-        //		}
+        // if (months <= -12) {
+        // years += months / 12;
+        // months = -((-months) % 12);
+        // }
 
     }
 
@@ -262,30 +265,32 @@ public class MPeriod {
         _cal.add(Calendar.MINUTE, (int) minutes);
         _cal.add(Calendar.HOUR, (int) hours);
         _cal.add(Calendar.DATE, (int) days);
-        //		_cal.add(Calendar.MONTH, (int)months);
-        //		_cal.add(Calendar.YEAR, (int)years);
+        // _cal.add(Calendar.MONTH, (int)months);
+        // _cal.add(Calendar.YEAR, (int)years);
 
     }
 
     @Override
     public String toString() {
         return "" + days + "d " + hours + "h " + minutes + "M " + seconds + "s " + millisec + "S";
-        //		return "" + years + "y " + months + "m " + weeks + "w " + days + "d "
-        //		+ hours + "h " + minutes + "M " + seconds + "s " + millisec
-        //		+ "S";
+        // return "" + years + "y " + months + "m " + weeks + "w " + days + "d "
+        // + hours + "h " + minutes + "M " + seconds + "s " + millisec
+        // + "S";
     }
 
     /**
-     * Parse a string and returns an interval, possible formats are SECONDs: 123425 SECONDs and
-     * millis: 12345.123 Format: Day Hour:Minutes:SECONDs.Millis or DD HH:MM:ss.SSS or ss, ss.SSS,
-     * MM:ss.SSS, HH:MM:ss.SSS, MM:ss, HH:MM:ss
+     * Parse a string and returns an interval, possible formats are SECONDs: 123425 SECONDs and millis: 12345.123
+     * Format: Day Hour:Minutes:SECONDs.Millis or DD HH:MM:ss.SSS or ss, ss.SSS, MM:ss.SSS, HH:MM:ss.SSS, MM:ss,
+     * HH:MM:ss
      *
      * @param interval
      * @param def
+     *
      * @return milliseconds
      */
     public static long toMilliseconds(String interval, long def) {
-        if (interval == null) return def;
+        if (interval == null)
+            return def;
         try {
             // parse string
             String msec = null;
@@ -304,7 +309,8 @@ public class MPeriod {
                     min = parts[0];
                     sec = parts[1];
                 }
-            } else sec = interval;
+            } else
+                sec = interval;
 
             if (hour != null && hour.indexOf(' ') > 0) {
                 day = MString.beforeIndex(hour, ' ');
@@ -318,15 +324,20 @@ public class MPeriod {
 
             long out = 0;
 
-            if (day != null) out = out + MCast.tolong(day, 0) * DAY_IN_MILLISECONDS;
+            if (day != null)
+                out = out + MCast.tolong(day, 0) * DAY_IN_MILLISECONDS;
 
-            if (hour != null) out = out + MCast.tolong(hour, 0) * HOUR_IN_MILLISECONDS;
+            if (hour != null)
+                out = out + MCast.tolong(hour, 0) * HOUR_IN_MILLISECONDS;
 
-            if (min != null) out = out + MCast.tolong(min, 0) * MINUTE_IN_MILLISECONDS;
+            if (min != null)
+                out = out + MCast.tolong(min, 0) * MINUTE_IN_MILLISECONDS;
 
-            if (sec != null) out = out + MCast.tolong(sec, 0) * SECOND_IN_MILLISECONDS;
+            if (sec != null)
+                out = out + MCast.tolong(sec, 0) * SECOND_IN_MILLISECONDS;
 
-            if (msec != null) out = out + MCast.tolong(msec, 0);
+            if (msec != null)
+                out = out + MCast.tolong(msec, 0);
 
             return out;
 
@@ -356,13 +367,13 @@ public class MPeriod {
         return (int) days;
     }
 
-    //	public int getMonths() {
-    //		return (int)months;
-    //	}
+    // public int getMonths() {
+    // return (int)months;
+    // }
     //
-    //	public int getYears() {
-    //		return (int)years;
-    //	}
+    // public int getYears() {
+    // return (int)years;
+    // }
 
     public long getAllMilliseconds() {
         return (((days * 24 + hours) * 60 + minutes) * 60 + seconds) * 1000 + millisec;
@@ -405,21 +416,16 @@ public class MPeriod {
     }
 
     public static long toTime(String in, long def) {
-        if (in == null) return def;
+        if (in == null)
+            return def;
         in = in.trim().toLowerCase();
-        if (in.endsWith("M")
-                || in.endsWith("min")
-                || in.endsWith("minutes")
-                || in.endsWith("minute"))
+        if (in.endsWith("M") || in.endsWith("min") || in.endsWith("minutes") || in.endsWith("minute"))
             return MCast.tolong(MString.integerPart(in), 0) * MINUTE_IN_MILLISECONDS;
 
         if (in.endsWith("h") || in.endsWith("hour") || in.endsWith("hours"))
             return MCast.tolong(MString.integerPart(in), 0) * HOUR_IN_MILLISECONDS;
 
-        if (in.endsWith("s")
-                || in.endsWith("sec")
-                || in.endsWith("SECOND")
-                || in.endsWith("SECONDs"))
+        if (in.endsWith("s") || in.endsWith("sec") || in.endsWith("SECOND") || in.endsWith("SECONDs"))
             return MCast.tolong(MString.integerPart(in), 0) * SECOND_IN_MILLISECONDS;
 
         if (in.endsWith("d") || in.endsWith("day") || in.endsWith("days"))
@@ -452,18 +458,10 @@ public class MPeriod {
         long months = (msec / MONTH_AVERAGE_MILLISECONDS) % 12;
         long years = msec / YEAR_AVERAGE_MILLISECONDS;
 
-        return (negative ? "-" : "")
-                + (years > 0 ? MCast.toString(years) + "y " : "")
-                + (years > 0 || months > 0 ? MCast.toString(months) + "m " : "")
-                + MCast.toString((int) (days % 365), 2)
-                + ' '
-                + MCast.toString((int) (hours % 24), 2)
-                + ':'
-                + MCast.toString((int) (min % 60), 2)
-                + ':'
-                + MCast.toString((int) (sec % 60), 2)
-                + '.'
-                + MCast.toString((int) (msec % 1000), 3);
+        return (negative ? "-" : "") + (years > 0 ? MCast.toString(years) + "y " : "")
+                + (years > 0 || months > 0 ? MCast.toString(months) + "m " : "") + MCast.toString((int) (days % 365), 2)
+                + ' ' + MCast.toString((int) (hours % 24), 2) + ':' + MCast.toString((int) (min % 60), 2) + ':'
+                + MCast.toString((int) (sec % 60), 2) + '.' + MCast.toString((int) (msec % 1000), 3);
     }
 
     public static String getIntervalAsStringSec(long msec) {
@@ -475,13 +473,8 @@ public class MPeriod {
         long years = msec / YEAR_AVERAGE_MILLISECONDS;
 
         return (years > 0 ? MCast.toString(years) + "y " : "")
-                + (years > 0 || months > 0 ? MCast.toString(months) + "m " : "")
-                + MCast.toString((int) (days % 365), 2)
-                + ' '
-                + MCast.toString((int) (hours % 24), 2)
-                + ':'
-                + MCast.toString((int) (min % 60), 2)
-                + ':'
+                + (years > 0 || months > 0 ? MCast.toString(months) + "m " : "") + MCast.toString((int) (days % 365), 2)
+                + ' ' + MCast.toString((int) (hours % 24), 2) + ':' + MCast.toString((int) (min % 60), 2) + ':'
                 + MCast.toString((int) (sec % 60), 2);
     }
 
@@ -494,11 +487,7 @@ public class MPeriod {
         long years = msec / YEAR_AVERAGE_MILLISECONDS;
 
         return (years > 0 ? MCast.toString(years) + "y " : "")
-                + (years > 0 || months > 0 ? MCast.toString(months) + "m " : "")
-                + MCast.toString((int) (days % 365), 2)
-                + ' '
-                + MCast.toString((int) (hours % 24), 2)
-                + ':'
-                + MCast.toString((int) (min % 60), 2);
+                + (years > 0 || months > 0 ? MCast.toString(months) + "m " : "") + MCast.toString((int) (days % 365), 2)
+                + ' ' + MCast.toString((int) (hours % 24), 2) + ':' + MCast.toString((int) (min % 60), 2);
     }
 }

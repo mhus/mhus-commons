@@ -40,11 +40,8 @@ public class PojoTest extends TestCase {
     public void testFunctionStrategy() throws Exception {
 
         PojoExample example = new PojoExample();
-        PojoModel model =
-                new PojoParser()
-                        .parse(example, new FunctionsStrategy())
-                        .filter(new DefaultFilter())
-                        .getModel();
+        PojoModel model = new PojoParser().parse(example, new FunctionsStrategy()).filter(new DefaultFilter())
+                .getModel();
 
         System.out.println("Attributes: " + MString.join(model.getAttributeNames(), ','));
         System.out.println("Actions: " + MString.join(model.getActionNames(), ','));
@@ -91,16 +88,13 @@ public class PojoTest extends TestCase {
         assertEquals(0, example.getMyInt());
     }
 
-    @SuppressWarnings({"unchecked"})
+    @SuppressWarnings({ "unchecked" })
     @Test
     public void testFunctionUpper() {
 
         PojoExample example = new PojoExample();
-        PojoModel model =
-                new PojoParser()
-                        .parse(example, new FunctionsStrategy(true, false, ".", false))
-                        .filter(new DefaultFilter())
-                        .getModel();
+        PojoModel model = new PojoParser().parse(example, new FunctionsStrategy(true, false, ".", false))
+                .filter(new DefaultFilter()).getModel();
 
         System.out.println("Attributes: " + MString.join(model.getAttributeNames(), ','));
         System.out.println("Actions: " + MString.join(model.getActionNames(), ','));
@@ -118,16 +112,13 @@ public class PojoTest extends TestCase {
         assertNull(myhidden);
     }
 
-    @SuppressWarnings({"unchecked", "unused"})
+    @SuppressWarnings({ "unchecked", "unused" })
     @Test
     public void testAttributeStrategy() throws Exception {
 
         PojoExample example = new PojoExample();
-        PojoModel model =
-                new PojoParser()
-                        .parse(example, new AttributesStrategy())
-                        .filter(new DefaultFilter())
-                        .getModel();
+        PojoModel model = new PojoParser().parse(example, new AttributesStrategy()).filter(new DefaultFilter())
+                .getModel();
 
         System.out.println("Attributes: " + MString.join(model.getAttributeNames(), ','));
         System.out.println("Actions: " + MString.join(model.getActionNames(), ','));
@@ -166,16 +157,12 @@ public class PojoTest extends TestCase {
         assertEquals(0, example.getMyInt());
     }
 
-    @SuppressWarnings({"unchecked", "unused"})
+    @SuppressWarnings({ "unchecked", "unused" })
     @Test
     public void testDefaultStrategy() throws Exception {
 
         PojoExample example = new PojoExample();
-        PojoModel model =
-                new PojoParser()
-                        .parse(example, new DefaultStrategy())
-                        .filter(new DefaultFilter())
-                        .getModel();
+        PojoModel model = new PojoParser().parse(example, new DefaultStrategy()).filter(new DefaultFilter()).getModel();
 
         System.out.println("Attributes: " + MString.join(model.getAttributeNames(), ','));
         System.out.println("Actions: " + MString.join(model.getActionNames(), ','));

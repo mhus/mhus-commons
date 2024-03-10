@@ -35,7 +35,8 @@ public class Raw implements Serializable {
         this.value = value;
     }
 
-    public Raw() {}
+    public Raw() {
+    }
 
     @Override
     public String toString() {
@@ -43,12 +44,12 @@ public class Raw implements Serializable {
     }
 
     private void writeObject(ObjectOutputStream out) throws IOException {
-        //		out.writeUTF(value);
+        // out.writeUTF(value);
         out.writeObject(value);
     }
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        //		value = in.readUTF();
+        // value = in.readUTF();
         value = (String) in.readObject();
     }
 }

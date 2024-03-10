@@ -19,7 +19,8 @@ import de.mhus.commons.lang.Valueable;
 
 public class LongValue implements Valueable<Long> {
 
-    public LongValue() {}
+    public LongValue() {
+    }
 
     public LongValue(long initial) {
         value = initial;
@@ -34,8 +35,10 @@ public class LongValue implements Valueable<Long> {
 
     @Override
     public boolean equals(Object in) {
-        if (in == null) return false;
-        if (in instanceof Number) return ((Number) in).longValue() == value;
+        if (in == null)
+            return false;
+        if (in instanceof Number)
+            return ((Number) in).longValue() == value;
         return false;
     }
 

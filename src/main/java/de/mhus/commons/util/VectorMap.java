@@ -23,7 +23,8 @@ public class VectorMap<K1, K2, V> extends HashMap<K1, HashMap<K2, V>> {
 
     public V get(K1 k1, K2 k2) {
         HashMap<K2, V> map = get(k1, false);
-        if (map == null) return null;
+        if (map == null)
+            return null;
         return map.get(k2);
     }
 
@@ -41,7 +42,8 @@ public class VectorMap<K1, K2, V> extends HashMap<K1, HashMap<K2, V>> {
     public V removeValue(K1 k1, K2 k2) {
         synchronized (this) {
             HashMap<K2, V> map = get(k1, false);
-            if (map == null) return null;
+            if (map == null)
+                return null;
             V out = map.remove(k2);
             if (map.size() == 0) {
                 remove(k1); // cleanup
@@ -52,7 +54,8 @@ public class VectorMap<K1, K2, V> extends HashMap<K1, HashMap<K2, V>> {
 
     public boolean containsKey(K1 k1, K2 k2) {
         HashMap<K2, V> map = get(k1, false);
-        if (map == null) return false;
+        if (map == null)
+            return false;
         return map.containsKey(k2);
     }
 

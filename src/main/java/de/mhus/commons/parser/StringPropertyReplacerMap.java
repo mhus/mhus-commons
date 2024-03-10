@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,8 +23,7 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-public class StringPropertyReplacerMap extends StringPropertyReplacer
-        implements Map<String, String> {
+public class StringPropertyReplacerMap extends StringPropertyReplacer implements Map<String, String> {
 
     private HashMap<String, String> map = new HashMap<>();
 
@@ -134,29 +133,23 @@ public class StringPropertyReplacerMap extends StringPropertyReplacer
     }
 
     @Override
-    public String computeIfAbsent(
-            String key, Function<? super String, ? extends String> mappingFunction) {
+    public String computeIfAbsent(String key, Function<? super String, ? extends String> mappingFunction) {
         return map.computeIfAbsent(key, mappingFunction);
     }
 
     @Override
-    public String computeIfPresent(
-            String key,
+    public String computeIfPresent(String key,
             BiFunction<? super String, ? super String, ? extends String> remappingFunction) {
         return map.computeIfPresent(key, remappingFunction);
     }
 
     @Override
-    public String compute(
-            String key,
-            BiFunction<? super String, ? super String, ? extends String> remappingFunction) {
+    public String compute(String key, BiFunction<? super String, ? super String, ? extends String> remappingFunction) {
         return map.compute(key, remappingFunction);
     }
 
     @Override
-    public String merge(
-            String key,
-            String value,
+    public String merge(String key, String value,
             BiFunction<? super String, ? super String, ? extends String> remappingFunction) {
         return map.merge(key, value, remappingFunction);
     }

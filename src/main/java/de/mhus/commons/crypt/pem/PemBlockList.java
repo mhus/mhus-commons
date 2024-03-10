@@ -27,13 +27,15 @@ public class PemBlockList extends LinkedList<PemBlock> {
 
     private static final long serialVersionUID = 1L;
 
-    public PemBlockList() {}
+    public PemBlockList() {
+    }
 
     public PemBlockList(String string) {
         while (true) {
             try {
                 int p = string.indexOf("-----BEGIN ");
-                if (p < 0) break;
+                if (p < 0)
+                    break;
                 PemBlockModel next = new PemBlockModel().parse(string);
                 add(next);
                 string = next.getRest();
@@ -58,8 +60,10 @@ public class PemBlockList extends LinkedList<PemBlock> {
         StringBuilder b = new StringBuilder();
         int cnt = 0;
         for (PemBlock block : this) {
-            if (cnt >= offset + len) break;
-            if (cnt >= offset) b.append(block);
+            if (cnt >= offset + len)
+                break;
+            if (cnt >= offset)
+                b.append(block);
             // b.append('\n');
             cnt++;
         }

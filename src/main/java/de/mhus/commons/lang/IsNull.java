@@ -15,4 +15,5 @@
  */
 package de.mhus.commons.lang;
 
-public interface IsNull {}
+public interface IsNull {
+}

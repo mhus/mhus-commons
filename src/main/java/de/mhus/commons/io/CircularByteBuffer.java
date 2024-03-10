@@ -65,17 +65,20 @@ public class CircularByteBuffer extends AbstractByteBuffer {
         }
         length--;
         byte b = buf[nextGet++];
-        if (nextGet >= size) nextGet = 0;
+        if (nextGet >= size)
+            nextGet = 0;
         return b;
     }
 
     @Override
     public void put(byte b) throws BufferOverflowException {
-        if (isFull()) throw new BufferOverflowException();
+        if (isFull())
+            throw new BufferOverflowException();
 
         length++;
         buf[nextPut++] = b;
-        if (nextPut >= size) nextPut = 0;
+        if (nextPut >= size)
+            nextPut = 0;
     }
 
     /**

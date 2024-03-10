@@ -69,7 +69,7 @@ public class MExceptionTest extends TestCase {
             assertEquals("[400,\"test\",\"nr1\",\"nr2\",\"nr3\"]", e.getMessage());
         }
         try {
-            throw new ErrorException("test", "nr1", new Object[] {"nr2", "nr3"});
+            throw new ErrorException("test", "nr1", new Object[] { "nr2", "nr3" });
         } catch (Throwable t) {
             System.out.println(t);
             assertTrue(t instanceof ErrorException);
@@ -78,7 +78,7 @@ public class MExceptionTest extends TestCase {
             assertEquals("[400,\"test\",\"nr1\",\"[nr2, nr3]\"]", e.getMessage());
         }
         try {
-            throw new ErrorException("test", "nr1", new int[] {2, 3});
+            throw new ErrorException("test", "nr1", new int[] { 2, 3 });
         } catch (Throwable t) {
             System.out.println(t);
             assertTrue(t instanceof ErrorException);
@@ -132,8 +132,7 @@ public class MExceptionTest extends TestCase {
             assertEquals("[404,\"test\",\"nr1\"]", t.getCause().getMessage());
         }
         try {
-            throw new ErrorException(
-                    RC.CAUSE.ENCAPSULATE, "error1", new NotFoundException("test", "nr1"));
+            throw new ErrorException(RC.CAUSE.ENCAPSULATE, "error1", new NotFoundException("test", "nr1"));
         } catch (Throwable t) {
             System.out.println(t);
             assertTrue(t instanceof ErrorException);
@@ -207,7 +206,7 @@ public class MExceptionTest extends TestCase {
             assertEquals("[400,\"test\",\"nr1\",\"nr2\",\"nr3\"]", e.getMessage());
         }
         try {
-            throw new ErrorRuntimeException("test", "nr1", new Object[] {"nr2", "nr3"});
+            throw new ErrorRuntimeException("test", "nr1", new Object[] { "nr2", "nr3" });
         } catch (Throwable t) {
             System.out.println(t);
             assertTrue(t instanceof ErrorRuntimeException);
@@ -216,7 +215,7 @@ public class MExceptionTest extends TestCase {
             assertEquals("[400,\"test\",\"nr1\",\"[nr2, nr3]\"]", e.getMessage());
         }
         try {
-            throw new ErrorRuntimeException("test", "nr1", new int[] {2, 3});
+            throw new ErrorRuntimeException("test", "nr1", new int[] { 2, 3 });
         } catch (Throwable t) {
             System.out.println(t);
             assertTrue(t instanceof ErrorRuntimeException);
@@ -243,8 +242,7 @@ public class MExceptionTest extends TestCase {
             assertEquals("[400,\"error1\"]", e.getMessage());
         }
         try {
-            throw new ErrorRuntimeException(
-                    RC.CAUSE.ADAPT, "error1", new NotFoundException("test", "nr1"));
+            throw new ErrorRuntimeException(RC.CAUSE.ADAPT, "error1", new NotFoundException("test", "nr1"));
         } catch (Throwable t) {
             System.out.println(t);
             assertTrue(t instanceof ErrorRuntimeException);
@@ -253,8 +251,7 @@ public class MExceptionTest extends TestCase {
             assertEquals("[404,\"test\",\"nr1\"]", e.getMessage());
         }
         try {
-            throw new ErrorRuntimeException(
-                    RC.CAUSE.APPEND, "error1", new NotFoundException("test", "nr1"));
+            throw new ErrorRuntimeException(RC.CAUSE.APPEND, "error1", new NotFoundException("test", "nr1"));
         } catch (Throwable t) {
             System.out.println(t);
             assertTrue(t instanceof ErrorRuntimeException);

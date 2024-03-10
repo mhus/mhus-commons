@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,38 +35,38 @@ public interface IReadProperties extends Iterable<Entry<String, Object>> {
 
     boolean getBoolean(String name, boolean def);
 
-    //    boolean getBooleanOrCreate(String name, Function<String, Boolean> def);
+    // boolean getBooleanOrCreate(String name, Function<String, Boolean> def);
 
     OptionalBoolean getBoolean(String name);
 
     int getInt(String name, int def);
 
-    //    int getIntOrCreate(String name, Function<String, Integer> def);
+    // int getIntOrCreate(String name, Function<String, Integer> def);
 
     long getLong(String name, long def);
 
-    //    long getLongOrCreate(String name, Function<String, Long> def);
+    // long getLongOrCreate(String name, Function<String, Long> def);
 
     float getFloat(String name, float def);
 
-    //    float getFloatOrCreate(String name, Function<String, Float> def);
+    // float getFloatOrCreate(String name, Function<String, Float> def);
 
     double getDouble(String name, double def);
 
-    //    double getDoubleOrCreate(String name, Function<String, Double> def);
+    // double getDoubleOrCreate(String name, Function<String, Double> def);
 
     Optional<Calendar> getCalendar(String name);
 
-    //    Calendar getCalendarOrCreate(String name, Function<String, Calendar> def) throws
+    // Calendar getCalendarOrCreate(String name, Function<String, Calendar> def) throws
     // MException;
 
     Optional<Date> getDate(String name);
 
-    //    Date getDateOrCreate(String name, Function<String, Date> def);
+    // Date getDateOrCreate(String name, Function<String, Date> def);
 
     Number getNumber(String name, Number def);
 
-    //    Number getNumberOrCreate(String name, Function<String, Number> def);
+    // Number getNumberOrCreate(String name, Function<String, Number> def);
 
     boolean isProperty(String name);
 

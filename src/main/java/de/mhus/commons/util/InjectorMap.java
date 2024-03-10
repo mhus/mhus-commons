@@ -24,9 +24,11 @@ public class InjectorMap implements Injector {
 
     @Override
     public void doInject(Object obj) throws Exception {
-        if (obj == null) return;
+        if (obj == null)
+            return;
         for (Map.Entry<Class<?>, Injector> i : injectors.entrySet()) {
-            if (i.getKey().isInstance(obj)) i.getValue().doInject(obj);
+            if (i.getKey().isInstance(obj))
+                i.getValue().doInject(obj);
         }
     }
 

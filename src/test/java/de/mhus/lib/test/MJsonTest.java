@@ -38,12 +38,11 @@ public class MJsonTest extends TestCase {
 
     @Test
     public void testSerializerTransformations() {
-        TransformHelper helper =
-                new TransformHelper() {
-                    {
-                        strategy = new SerializerTransformer();
-                    }
-                };
+        TransformHelper helper = new TransformHelper() {
+            {
+                strategy = new SerializerTransformer();
+            }
+        };
 
         {
             JsonNode j = MJson.pojoToJson(true, helper);
@@ -113,7 +112,7 @@ public class MJsonTest extends TestCase {
         }
 
         {
-            Object u = new byte[] {0, 1, 2};
+            Object u = new byte[] { 0, 1, 2 };
             JsonNode j = MJson.pojoToJson(u, helper);
             System.out.println(j);
             Object v = MJson.jsonToPojo(j, helper);
@@ -123,15 +122,14 @@ public class MJsonTest extends TestCase {
         }
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void testJacksonTransformations() {
-        TransformHelper helper =
-                new TransformHelper() {
-                    {
-                        strategy = new JacksonTransformer();
-                    }
-                };
+        TransformHelper helper = new TransformHelper() {
+            {
+                strategy = new JacksonTransformer();
+            }
+        };
 
         {
             Object u = new MJsonObject("aloa");
@@ -162,12 +160,11 @@ public class MJsonTest extends TestCase {
 
     @Test
     public void testSimpleTransformations() {
-        TransformHelper helper =
-                new TransformHelper() {
-                    {
-                        strategy = new SimpleObjectTransformer();
-                    }
-                };
+        TransformHelper helper = new TransformHelper() {
+            {
+                strategy = new SimpleObjectTransformer();
+            }
+        };
 
         {
             Object u = new MJsonObject("aloa");

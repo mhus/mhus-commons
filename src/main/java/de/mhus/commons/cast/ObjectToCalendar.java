@@ -28,13 +28,16 @@ import java.util.TimeZone;
 /**
  * Accepted formats:
  *
- * <p>now, jetzt integer as timestamp &lt;&lt;date&gt;&gt;[[ |_|T]&lt;&lt;time&gt;&gt;] date: yyyy-mm-dd dd.mm.yyyy
- * yyyy-mm-dd dd.mm.yyyy dd/mm/yyyy mm/dd/yyyy + locale == US time: MM:HH:ss[.SSS][Z][zone]
- * MM-HH-ss[.SSS][Z][zone] MM:HH am/pm[Z][zone] Jan 1, 2000 1:00 am[Z][zone]
+ * <p>
+ * now, jetzt integer as timestamp &lt;&lt;date&gt;&gt;[[ |_|T]&lt;&lt;time&gt;&gt;] date: yyyy-mm-dd dd.mm.yyyy
+ * yyyy-mm-dd dd.mm.yyyy dd/mm/yyyy mm/dd/yyyy + locale == US time: MM:HH:ss[.SSS][Z][zone] MM-HH-ss[.SSS][Z][zone]
+ * MM:HH am/pm[Z][zone] Jan 1, 2000 1:00 am[Z][zone]
  *
- * <p>Currently Not Accepted:
+ * <p>
+ * Currently Not Accepted:
  *
- * <p>1. Januar 2000 13:00:00
+ * <p>
+ * 1. Januar 2000 13:00:00
  *
  * @author mikehummel
  */
@@ -96,8 +99,10 @@ public class ObjectToCalendar implements Caster<Object, Calendar> {
     }
 
     public Calendar cast(Object in, Calendar def, Locale locale) {
-        if (in == null) return def;
-        if (in instanceof Calendar) return (Calendar) in;
+        if (in == null)
+            return def;
+        if (in instanceof Calendar)
+            return (Calendar) in;
         if (in instanceof Date) {
             Calendar c = Calendar.getInstance();
             c.setTime((Date) in);
@@ -106,7 +111,8 @@ public class ObjectToCalendar implements Caster<Object, Calendar> {
         try {
             String ins = MCast.toString(in);
             Calendar ret = toCalendar(ins, locale);
-            if (ret == null) return def;
+            if (ret == null)
+                return def;
             return ret;
         } catch (Exception t) {
             return def;
@@ -114,7 +120,8 @@ public class ObjectToCalendar implements Caster<Object, Calendar> {
     }
 
     public static Calendar toCalendar(String in, Locale locale) {
-        if (in == null) return null;
+        if (in == null)
+            return null;
 
         try {
 
@@ -130,9 +137,12 @@ public class ObjectToCalendar implements Caster<Object, Calendar> {
 
             // check if date and time
             char sep = '?';
-            if (MString.isIndex(date, '_')) sep = '_';
-            else if (MString.isIndex(date, ' ')) sep = ' ';
-            else if (MString.isIndex(date, 'T')) sep = 'T';
+            if (MString.isIndex(date, '_'))
+                sep = '_';
+            else if (MString.isIndex(date, ' '))
+                sep = ' ';
+            else if (MString.isIndex(date, 'T'))
+                sep = 'T';
 
             // read DE: '1. Januar 2000 13:00:00'
             int spacePos = date.indexOf(' ');
@@ -140,18 +150,22 @@ public class ObjectToCalendar implements Caster<Object, Calendar> {
                 String part = date.substring(spacePos).trim();
                 if (part.length() > 0 && MString.isAlphabeticalAscii(part.charAt(0))) {
                     String dayStr = date.substring(0, spacePos);
-                    if (dayStr.endsWith(".")) dayStr = dayStr.substring(0, dayStr.length() - 1);
+                    if (dayStr.endsWith("."))
+                        dayStr = dayStr.substring(0, dayStr.length() - 1);
                     int day = MCast.toint(dayStr, 0);
-                    if (day <= 0 || day > 31) return null;
+                    if (day <= 0 || day > 31)
+                        return null;
                     spacePos = part.indexOf(' ');
                     String monthStr = part;
                     if (spacePos > 0) {
                         monthStr = part.substring(0, spacePos);
                         date = part.substring(spacePos);
-                    } else date = "";
+                    } else
+                        date = "";
                     monthStr = monthStr.trim();
                     int month = toMonth(monthStr);
-                    if (month < 0 || month > 11) return null;
+                    if (month < 0 || month > 11)
+                        return null;
 
                     date = date.trim();
                     int year = c.get(Calendar.YEAR);
@@ -161,9 +175,11 @@ public class ObjectToCalendar implements Caster<Object, Calendar> {
                         if (spacePos > 0) {
                             yearStr = date.substring(0, spacePos);
                             date = date.substring(spacePos);
-                        } else date = "";
+                        } else
+                            date = "";
                         year = MCast.toint(yearStr, 0);
-                        if (year <= 0) return null;
+                        if (year <= 0)
+                            return null;
                     }
                     c.set(year, month, day);
 
@@ -204,7 +220,8 @@ public class ObjectToCalendar implements Caster<Object, Calendar> {
                 parseTime(c, time);
             }
 
-            if (retOk) return c;
+            if (retOk)
+                return c;
 
             // parse the date
             if (date.indexOf('-') > 0) {
@@ -241,15 +258,9 @@ public class ObjectToCalendar implements Caster<Object, Calendar> {
                         parts = date.split("/");
                         if (parts.length == 3) {
                             if (Locale.US.equals(locale)) {
-                                c.set(
-                                        Integer.parseInt(parts[2]),
-                                        toMonth(parts[0]),
-                                        Integer.parseInt(parts[1]));
+                                c.set(Integer.parseInt(parts[2]), toMonth(parts[0]), Integer.parseInt(parts[1]));
                             } else {
-                                c.set(
-                                        Integer.parseInt(parts[2]),
-                                        toMonth(parts[1]),
-                                        Integer.parseInt(parts[0]));
+                                c.set(Integer.parseInt(parts[2]), toMonth(parts[1]), Integer.parseInt(parts[0]));
                             }
                         }
                         if (parts.length == 2) {
@@ -259,10 +270,10 @@ public class ObjectToCalendar implements Caster<Object, Calendar> {
                     }
                 }
 
-                //			if (zone != null) {
-                //				TimeZone tz = TimeZone.getTimeZone(zone);
-                //				c.setTimeZone(tz);
-                //			}
+                // if (zone != null) {
+                // TimeZone tz = TimeZone.getTimeZone(zone);
+                // c.setTimeZone(tz);
+                // }
 
                 return c;
             } else if (date.indexOf('.') > 0) {
@@ -283,7 +294,8 @@ public class ObjectToCalendar implements Caster<Object, Calendar> {
                     int month = Integer.parseInt(parts[0]) - 1;
                     c.set(year, month, 1);
                     return c;
-                } else return null;
+                } else
+                    return null;
             } else if (date.indexOf('/') > 0) {
                 String[] parts = date.split("/");
                 if (Locale.US.equals(locale)) {
@@ -303,7 +315,8 @@ public class ObjectToCalendar implements Caster<Object, Calendar> {
                         int month = Integer.parseInt(parts[0]) - 1;
                         c.set(year, month, 1);
                         return c;
-                    } else return null;
+                    } else
+                        return null;
                 } else {
                     // france or UK 31/12/2000
                     if (parts.length == 3) {
@@ -321,7 +334,8 @@ public class ObjectToCalendar implements Caster<Object, Calendar> {
                         int month = Integer.parseInt(parts[0]) - 1;
                         c.set(year, month, 1);
                         return c;
-                    } else return null;
+                    } else
+                        return null;
                 }
             }
 
@@ -354,9 +368,12 @@ public class ObjectToCalendar implements Caster<Object, Calendar> {
 
         // zone
         char sep2 = '?';
-        if (MString.isIndex(time, ' ')) sep2 = ' ';
-        else if (MString.isIndex(time, '_')) sep2 = '_';
-        else if (MString.isIndex(time, 'Z')) sep2 = 'Z';
+        if (MString.isIndex(time, ' '))
+            sep2 = ' ';
+        else if (MString.isIndex(time, '_'))
+            sep2 = '_';
+        else if (MString.isIndex(time, 'Z'))
+            sep2 = 'Z';
 
         if (sep2 == ' ') {
             zone = MString.afterIndex(time, sep2).trim();
@@ -382,16 +399,20 @@ public class ObjectToCalendar implements Caster<Object, Calendar> {
         time = time.trim();
         if (time.length() > 0) {
             String sep3 = null;
-            if (MString.isIndex(time, ':')) sep3 = "\\:";
-            else if (MString.isIndex(time, '-')) sep3 = "-";
-            else if (MString.isIndex(time, '.')) sep3 = "\\.";
+            if (MString.isIndex(time, ':'))
+                sep3 = "\\:";
+            else if (MString.isIndex(time, '-'))
+                sep3 = "-";
+            else if (MString.isIndex(time, '.'))
+                sep3 = "\\.";
 
             // parse time
             String[] parts = time.split(sep3);
             if (parts.length > 1) {
                 hour = toint(parts[0], 0);
                 min = toint(parts[1], 0);
-                if (parts.length > 2) sec = toint(parts[2], 0);
+                if (parts.length > 2)
+                    sec = toint(parts[2], 0);
             }
 
             if (apm != null) {
@@ -402,9 +423,11 @@ public class ObjectToCalendar implements Caster<Object, Calendar> {
                     millies = 0;
                     zone = "";
                 } else if (apm.equals("am")) {
-                    if (hour == 12) hour = 0;
+                    if (hour == 12)
+                        hour = 0;
                 } else if (apm.equals("pm")) {
-                    if (hour != 12) hour = hour + 12;
+                    if (hour != 12)
+                        hour = hour + 12;
                 }
             }
             c.set(Calendar.HOUR_OF_DAY, hour);
@@ -413,7 +436,8 @@ public class ObjectToCalendar implements Caster<Object, Calendar> {
 
             if (zone != null && zone.length() > 0) {
                 // https://www.timeanddate.com/time/gmt-utc-time.html
-                if (zone.startsWith("-") || zone.startsWith("+")) zone = "GMT" + zone;
+                if (zone.startsWith("-") || zone.startsWith("+"))
+                    zone = "GMT" + zone;
                 TimeZone tz = TimeZone.getTimeZone(zone);
                 c.setTimeZone(tz);
             }
@@ -423,23 +447,28 @@ public class ObjectToCalendar implements Caster<Object, Calendar> {
     /**
      * Return the value of the month 0 = Januar
      *
-     * @param in name or number of the month 1 or 'jan' or 'jnuary' is 0
+     * @param in
+     *            name or number of the month 1 or 'jan' or 'jnuary' is 0
+     *
      * @return string as integer 0=jan, 11=dec or -1 if not found
      */
     public static int toMonth(String in) {
         try {
             int out = Integer.parseInt(in);
-            if (out > 0 && out < 13) return out - 1;
+            if (out > 0 && out < 13)
+                return out - 1;
         } catch (Exception t) {
         }
         in = in.toLowerCase().trim();
         Integer nr = monthCatalog.get(in);
-        if (nr == null) return -1;
+        if (nr == null)
+            return -1;
         return nr;
     }
 
     private static int toint(String in, int def) {
-        if (in == null) return def;
+        if (in == null)
+            return def;
         try {
             return Integer.parseInt(in);
         } catch (NumberFormatException nfe) {

@@ -33,7 +33,8 @@ public class ObjectToSqlDate implements Caster<Object, Date> {
 
     @Override
     public Date cast(Object in, Date def) {
-        if (in == null) return def;
+        if (in == null)
+            return def;
         try {
             String ins = MCast.toString(in);
             return MCast.toSqlDate(MCast.toDate(ins, def));

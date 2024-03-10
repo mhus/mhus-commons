@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,7 +39,8 @@ public class MPassword {
 
     private static final String CFG_DEFAULT = MSystem.getEnv(MPassword.class, "default", ROT13AND5);
 
-    private MPassword() {}
+    private MPassword() {
+    }
 
     public static IPassword get() {
         return MService.getService(IPassword.class);
@@ -66,7 +67,8 @@ public class MPassword {
     }
 
     public static boolean isEncoded(String plain) {
-        if (plain == null) return false;
+        if (plain == null)
+            return false;
         return plain.startsWith(PREFIX);
     }
 
@@ -75,15 +77,21 @@ public class MPassword {
     }
 
     public static String decode(String encoded, String secret) {
-        if (encoded == null) return null;
-        if (!isEncoded(encoded)) return encoded;
+        if (encoded == null)
+            return null;
+        if (!isEncoded(encoded))
+            return encoded;
         // legacy
-        if (encoded.startsWith(PREFIX_ROT13)) return get().decode(ROT13AND5, encoded, secret);
-        if (encoded.startsWith(PREFIX_DUMMY)) return get().decode(DUMMY, encoded, secret);
-        if (encoded.startsWith(PREFIX_SPECIAL1)) return get().decode(SPECIAL1, encoded, secret);
+        if (encoded.startsWith(PREFIX_ROT13))
+            return get().decode(ROT13AND5, encoded, secret);
+        if (encoded.startsWith(PREFIX_DUMMY))
+            return get().decode(DUMMY, encoded, secret);
+        if (encoded.startsWith(PREFIX_SPECIAL1))
+            return get().decode(SPECIAL1, encoded, secret);
         // END legacy
         int pos = encoded.indexOf(SEPARATOR, 1);
-        if (pos == -1) return encoded;
+        if (pos == -1)
+            return encoded;
         String method = encoded.substring(1, pos);
         encoded = encoded.substring(pos + 1);
         return get().decode(method, encoded, secret);
@@ -94,17 +102,21 @@ public class MPassword {
     }
 
     public static boolean validate(String plain, String encoded, String secret) {
-        if (encoded == null) return false;
-        if (!isEncoded(encoded)) return encoded.equals(plain);
+        if (encoded == null)
+            return false;
+        if (!isEncoded(encoded))
+            return encoded.equals(plain);
         // legacy
         if (encoded.startsWith(PREFIX_ROT13))
             return get().validate(ROT13AND5, plain, encoded, secret);
-        if (encoded.startsWith(PREFIX_DUMMY)) return get().validate(DUMMY, plain, encoded, secret);
+        if (encoded.startsWith(PREFIX_DUMMY))
+            return get().validate(DUMMY, plain, encoded, secret);
         if (encoded.startsWith(PREFIX_SPECIAL1))
             return get().validate(SPECIAL1, plain, encoded, secret);
         // END legacy
         int pos = encoded.indexOf(SEPARATOR, 1);
-        if (pos == -1) return encoded.equals(plain);
+        if (pos == -1)
+            return encoded.equals(plain);
         ;
         String method = encoded.substring(1, pos);
         encoded = encoded.substring(pos + 1);

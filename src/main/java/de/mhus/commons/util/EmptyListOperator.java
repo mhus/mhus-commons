@@ -52,11 +52,14 @@ public class EmptyListOperator<E> implements ListIterator<E>, ReadOnly {
     }
 
     @Override
-    public void remove() {}
+    public void remove() {
+    }
 
     @Override
-    public void set(E e) {}
+    public void set(E e) {
+    }
 
     @Override
-    public void add(E e) {}
+    public void add(E e) {
+    }
 }

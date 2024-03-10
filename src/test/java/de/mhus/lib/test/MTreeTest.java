@@ -52,10 +52,10 @@ public class MTreeTest extends TestCase {
         System.out.println(props);
         assertTrue(props.containsKey("utf8key_u_\u2022"));
         assertTrue(props.containsKey("test1\u00b0"));
-        //        assertTrue(props.containsKey("utf8key•"));
+        // assertTrue(props.containsKey("utf8key•"));
         assertEquals("360\u2022", props.getString("utf8key_u_\u2022").get());
         assertEquals("test\u00b0", props.getString("test1\u00b0").get());
-        //        assertEquals("360\u2022", props.getString("utf8key\u2022"));
+        // assertEquals("360\u2022", props.getString("utf8key\u2022"));
     }
 
     @Test
@@ -141,8 +141,7 @@ public class MTreeTest extends TestCase {
     @Test
     public void testXml() throws Exception {
 
-        String xml =
-                "<start test1='wow' test2='alf'><sub test1='wow1' test2='alf1'/><sub test1='wow2' test2='alf2'/><sub test1='wow3' test2='alf3'/></start>";
+        String xml = "<start test1='wow' test2='alf'><sub test1='wow1' test2='alf1'/><sub test1='wow2' test2='alf2'/><sub test1='wow3' test2='alf3'/></start>";
         {
             Document doc = MXml.loadXml(xml);
 
@@ -169,20 +168,9 @@ public class MTreeTest extends TestCase {
 
     @Test
     public void testYaml() throws Exception {
-        String yaml =
-                "test1: wow\n"
-                        + "test2: alf\n"
-                        + "sub:\n"
-                        + "- test1: wow1\n"
-                        + "  test2: alf1\n"
-                        + "- test1: wow2\n"
-                        + "  test2: alf2\n"
-                        + "- test1: wow3\n"
-                        + "  test2: alf3\n"
-                        + "projects:\n"
-                        + "- properties:\n"
-                        + "    name: name\n"
-                        + "    url: http://test.de";
+        String yaml = "test1: wow\n" + "test2: alf\n" + "sub:\n" + "- test1: wow1\n" + "  test2: alf1\n"
+                + "- test1: wow2\n" + "  test2: alf2\n" + "- test1: wow3\n" + "  test2: alf3\n" + "projects:\n"
+                + "- properties:\n" + "    name: name\n" + "    url: http://test.de";
 
         {
             ITreeNode c = ITreeNode.readFromYamlString(yaml);
@@ -210,16 +198,9 @@ public class MTreeTest extends TestCase {
     @Test
     public void testJsonStream() throws Exception {
 
-        String json =
-                MString.replaceAll(
-                        "{'test1':'wow','test2':'alf','boolon':true,'booloff':false,"
-                                + "'sub': [  "
-                                + "{'test1':'wow1','test2':'alf1'} , "
-                                + "{'test1':'wow2','test2':'alf2'} , "
-                                + "{'test1':'wow3','test2':'alf3'}  "
-                                + "] }",
-                        "'",
-                        "\"");
+        String json = MString.replaceAll("{'test1':'wow','test2':'alf','boolon':true,'booloff':false," + "'sub': [  "
+                + "{'test1':'wow1','test2':'alf1'} , " + "{'test1':'wow2','test2':'alf2'} , "
+                + "{'test1':'wow3','test2':'alf3'}  " + "] }", "'", "\"");
         {
             ITreeNode c = ITreeNode.readFromJsonString(json);
             validateTree(c, true);
@@ -262,31 +243,31 @@ public class MTreeTest extends TestCase {
         validateTree(c, true);
     }
 
-    //    @Test
-    //    public void testClone() throws Exception {
+    // @Test
+    // public void testClone() throws Exception {
     //
-    //        String xml =
-    //                "<start test1='wow' test2='alf'><sub test1='wow1' test2='alf1'/><sub
+    // String xml =
+    // "<start test1='wow' test2='alf'><sub test1='wow1' test2='alf1'/><sub
     // test1='wow2' test2='alf2'/><sub test1='wow3' test2='alf3'/></start>";
-    //        Document doc = MXml.loadXml(xml);
+    // Document doc = MXml.loadXml(xml);
     //
-    //        IConfig src = IConfig.createFromXml(doc.getDocumentElement());
+    // IConfig src = IConfig.createFromXml(doc.getDocumentElement());
     //
-    //        IConfig tar1 = new IConfig();
-    //        JsonConfig tar2 = new JsonConfig();
-    //        XmlConfig tar3 = new XmlConfig();
+    // IConfig tar1 = new IConfig();
+    // JsonConfig tar2 = new JsonConfig();
+    // XmlConfig tar3 = new XmlConfig();
     //
-    //        builder.cloneConfig(src, tar1);
-    //        builder.cloneConfig(src, tar2);
-    //        builder.cloneConfig(src, tar3);
+    // builder.cloneConfig(src, tar1);
+    // builder.cloneConfig(src, tar2);
+    // builder.cloneConfig(src, tar3);
     //
-    //        derTeschd(src, true);
-    //        derTeschd(tar1, true);
-    //        derTeschd(tar2, true);
-    //        derTeschd(tar3, true);
-    //    }
+    // derTeschd(src, true);
+    // derTeschd(tar1, true);
+    // derTeschd(tar2, true);
+    // derTeschd(tar3, true);
+    // }
 
-//    @Test
+    // @Test
     private void validateTree(ITreeNode c, boolean testsub) throws MException {
         System.out.println(MSystem.findCallingMethod(3) + ": " + c);
         assertEquals("wow", c.getString("test1", "no"));
@@ -295,7 +276,8 @@ public class MTreeTest extends TestCase {
 
         assertNull(c.getObject("test4").orElse(null));
 
-        if (!testsub) return;
+        if (!testsub)
+            return;
 
         // sub config tests
 
@@ -335,10 +317,10 @@ public class MTreeTest extends TestCase {
         assertEquals("alf4", sub.getString("test2", "no"));
         assertEquals("no", sub.getString("test3", "no"));
 
-        //		assertEquals( 2, c.moveConfig(sub, WritableResourceNode.MOVE_UP) );
-        //		assertEquals( 3, c.moveConfig(sub, WritableResourceNode.MOVE_DOWN) );
-        //		assertEquals( 0, c.moveConfig(sub, WritableResourceNode.MOVE_FIRST) );
-        //		assertEquals( 3, c.moveConfig(sub, WritableResourceNode.MOVE_LAST) );
+        // assertEquals( 2, c.moveConfig(sub, WritableResourceNode.MOVE_UP) );
+        // assertEquals( 3, c.moveConfig(sub, WritableResourceNode.MOVE_DOWN) );
+        // assertEquals( 0, c.moveConfig(sub, WritableResourceNode.MOVE_FIRST) );
+        // assertEquals( 3, c.moveConfig(sub, WritableResourceNode.MOVE_LAST) );
 
     }
 }

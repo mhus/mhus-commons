@@ -31,7 +31,8 @@ public class FileListIterator implements Iterator<File>, Iterable<File> {
     private final FlatteningIterator<File> flatteningIterator;
 
     @Override
-    public void remove() {}
+    public void remove() {
+    }
 
     public FileListIterator(File file, FileFilter filter) {
         this.flatteningIterator = new FlatteningIterator<File>(new FileIterator(file, filter));
@@ -52,8 +53,8 @@ public class FileListIterator implements Iterator<File>, Iterable<File> {
     }
 
     /**
-     * Iterator to iterate over all the files contained in a directory. It returns a File object for
-     * non directories or a new FileIterator obejct for directories.
+     * Iterator to iterate over all the files contained in a directory. It returns a File object for non directories or
+     * a new FileIterator obejct for directories.
      */
     private static class FileIterator implements Iterator<Object> {
         private final Iterator<File> files;
@@ -65,14 +66,17 @@ public class FileListIterator implements Iterator<File>, Iterable<File> {
         }
 
         @Override
-        public void remove() {}
+        public void remove() {
+        }
 
         @Override
         public Object next() {
             File next = this.files.next();
 
-            if (next.isDirectory()) return new FileIterator(next, this.filter);
-            else return next;
+            if (next.isDirectory())
+                return new FileIterator(next, this.filter);
+            else
+                return next;
         }
 
         @Override

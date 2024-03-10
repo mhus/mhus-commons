@@ -40,7 +40,8 @@ public class UserFieldValuesRewriter implements StreamRewriter {
     @Override
     public InputStream rewriteContent(String file, InputStream in) throws Exception {
 
-        if (!file.equals(SOfficeConnector.SOFFICE_CONTENT)) return in;
+        if (!file.equals(SOfficeConnector.SOFFICE_CONTENT))
+            return in;
 
         Document content = MXml.loadXml(in);
 

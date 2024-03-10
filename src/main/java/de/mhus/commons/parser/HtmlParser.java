@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,7 +35,8 @@ public class HtmlParser {
     private Listener listener = null;
     private boolean trim = false;
 
-    public HtmlParser() {}
+    public HtmlParser() {
+    }
 
     /**
      * Creates a new instance of Parser
@@ -69,60 +70,59 @@ public class HtmlParser {
             while (true) {
 
                 int i = is.read(one);
-                if (i != 1) break;
+                if (i != 1)
+                    break;
 
                 char c = one[0];
                 // System.out.println( "Char: " + c );
 
                 switch (type) {
-                    case TEXT:
-                        if (c == '<') {
-                            type = TAG;
-                            trim(text);
-                            if (text.length() > 0
-                                    && !listener.foundText(MXml.decode(text.toString())))
-                                return false;
-                            text = new StringBuilder();
-                        } else {
-                            text.append(c);
-                        }
-                        break;
-                    case TAG:
-                        if (c == '>') {
-                            type = TEXT;
-                            String tag = text.toString().trim();
-                            // System.out.println( "Tag: [" + tag + "] Length: " +
-                            // tag.length() );
-                            if (tag.length() > 0) {
-                                if (tag.startsWith("!--") && tag.endsWith("--")) {
-                                    // System.out.println( "Send Note: " +
-                                    // tag.substring( 3, tag.length()-2 ) );
-                                    if (!listener.foundNote(tag.substring(3, tag.length() - 2)))
-                                        return false;
-                                } else if (tag.startsWith("?") && tag.endsWith("?")) {
-                                    if (!listener.foundProcessorInstruction(
-                                            tag.substring(1, tag.length() - 1).trim()))
-                                        return false;
-                                } else if (tag.startsWith("/")) {
-                                    if (!listener.foundTagClose(tag.substring(1).trim()))
-                                        return false;
-                                } else if (tag.endsWith("/")) {
-                                    String tagx = tag.substring(0, tag.length() - 1).trim();
-                                    if (!listener.foundSingleTag(
-                                            getTagName(tagx), getTagParams(tagx))) return false;
-                                } else {
-                                    if (!listener.foundTagOpen(getTagName(tag), getTagParams(tag)))
-                                        return false;
-                                }
+                case TEXT:
+                    if (c == '<') {
+                        type = TAG;
+                        trim(text);
+                        if (text.length() > 0 && !listener.foundText(MXml.decode(text.toString())))
+                            return false;
+                        text = new StringBuilder();
+                    } else {
+                        text.append(c);
+                    }
+                    break;
+                case TAG:
+                    if (c == '>') {
+                        type = TEXT;
+                        String tag = text.toString().trim();
+                        // System.out.println( "Tag: [" + tag + "] Length: " +
+                        // tag.length() );
+                        if (tag.length() > 0) {
+                            if (tag.startsWith("!--") && tag.endsWith("--")) {
+                                // System.out.println( "Send Note: " +
+                                // tag.substring( 3, tag.length()-2 ) );
+                                if (!listener.foundNote(tag.substring(3, tag.length() - 2)))
+                                    return false;
+                            } else if (tag.startsWith("?") && tag.endsWith("?")) {
+                                if (!listener.foundProcessorInstruction(tag.substring(1, tag.length() - 1).trim()))
+                                    return false;
+                            } else if (tag.startsWith("/")) {
+                                if (!listener.foundTagClose(tag.substring(1).trim()))
+                                    return false;
+                            } else if (tag.endsWith("/")) {
+                                String tagx = tag.substring(0, tag.length() - 1).trim();
+                                if (!listener.foundSingleTag(getTagName(tagx), getTagParams(tagx)))
+                                    return false;
                             } else {
-                                System.err.println("Tag without name");
-                                return true;
+                                if (!listener.foundTagOpen(getTagName(tag), getTagParams(tag)))
+                                    return false;
                             }
-                            text = new StringBuilder();
                         } else {
-                            text.append(c);
+                            System.err.println("Tag without name");
+                            return true;
                         }
-                        break;
+                        text = new StringBuilder();
+                    } else {
+                        text.append(c);
+                    }
+                    break;
                 }
             }
 
@@ -141,14 +141,17 @@ public class HtmlParser {
     }
 
     protected void trim(StringBuilder text) {
-        if (!trim) return;
-        while (text.length() > 0 && MString.isWhitespace(text.charAt(0))) text.deleteCharAt(0);
+        if (!trim)
+            return;
+        while (text.length() > 0 && MString.isWhitespace(text.charAt(0)))
+            text.deleteCharAt(0);
         while (text.length() > 0 && MString.isWhitespace(text.charAt(text.length() - 1)))
             text.deleteCharAt(text.length() - 1);
     }
 
     /**
      * @param tag
+     *
      * @return
      */
     private String getTagName(String tag) {
@@ -172,7 +175,8 @@ public class HtmlParser {
 
         while (tagx.length() != 0) {
             int pos = tagx.indexOf('=');
-            if (pos < 0) return out;
+            if (pos < 0)
+                return out;
 
             String key = tagx.substring(0, pos).trim();
             tagx = tagx.substring(pos + 1);
@@ -180,16 +184,22 @@ public class HtmlParser {
             int pos1 = tagx.indexOf('"');
             int pos2 = tagx.indexOf('\'');
 
-            if (pos1 < 0) pos = pos2;
-            else if (pos2 < 0) pos = pos1;
-            else if (pos2 < pos1) pos = pos2;
-            else pos = pos1;
+            if (pos1 < 0)
+                pos = pos2;
+            else if (pos2 < 0)
+                pos = pos1;
+            else if (pos2 < pos1)
+                pos = pos2;
+            else
+                pos = pos1;
 
-            if (pos < 0) return out;
+            if (pos < 0)
+                return out;
             tagx = tagx.substring(pos + 1);
 
             pos = tagx.indexOf(pos == pos1 ? '"' : '\'');
-            if (pos < 0) return out;
+            if (pos < 0)
+                return out;
             out.put(MXml.decode(key), MXml.decode(tagx.substring(0, pos)));
             tagx = tagx.substring(pos + 1);
         }

@@ -45,6 +45,7 @@ public class InjectorList implements Injector, Iterable<Injector> {
 
     @Override
     public void doInject(Object obj) throws Exception {
-        for (Injector i : list) i.doInject(obj);
+        for (Injector i : list)
+            i.doInject(obj);
     }
 }

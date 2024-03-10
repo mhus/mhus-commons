@@ -25,6 +25,7 @@ import java.util.ListIterator;
  * A list with one single element. The list is unmodifiable.
  *
  * @author mikehummel
+ *
  * @param <E>
  */
 public class SingleList<E> implements List<E> {
@@ -57,14 +58,15 @@ public class SingleList<E> implements List<E> {
 
     @Override
     public Object[] toArray() {
-        return new Object[] {element};
+        return new Object[] { element };
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public <T> T[] toArray(T[] a) {
         T[] out = a;
-        if (out.length != 1) out = (T[]) Array.newInstance(a.getClass(), 1);
+        if (out.length != 1)
+            out = (T[]) Array.newInstance(a.getClass(), 1);
         out[0] = (T) element;
         return out;
     }
@@ -81,7 +83,9 @@ public class SingleList<E> implements List<E> {
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        for (Object i : c) if (!element.equals(i)) return false;
+        for (Object i : c)
+            if (!element.equals(i))
+                return false;
         return true;
     }
 
@@ -112,7 +116,8 @@ public class SingleList<E> implements List<E> {
 
     @Override
     public E get(int index) {
-        if (index == 0) return element;
+        if (index == 0)
+            return element;
         return null;
     }
 
@@ -133,7 +138,8 @@ public class SingleList<E> implements List<E> {
 
     @Override
     public int indexOf(Object o) {
-        if (element.equals(o)) return 0;
+        if (element.equals(o))
+            return 0;
         return -1;
     }
 
@@ -154,7 +160,8 @@ public class SingleList<E> implements List<E> {
 
     @Override
     public List<E> subList(int fromIndex, int toIndex) {
-        if (fromIndex == toIndex) return new EmptyList<>();
+        if (fromIndex == toIndex)
+            return new EmptyList<>();
         return this;
     }
 }

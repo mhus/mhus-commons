@@ -22,10 +22,7 @@ import java.io.InputStream;
 public interface FileChecker {
 
     enum SUSPICIOUS {
-        UNKNOWN,
-        NO,
-        MAYBE,
-        YES
+        UNKNOWN, NO, MAYBE, YES
     }
 
     boolean isFileType(File in) throws IOException;

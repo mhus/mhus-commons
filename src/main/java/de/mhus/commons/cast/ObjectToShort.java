@@ -39,14 +39,17 @@ public class ObjectToShort implements Caster<Object, Short> {
     }
 
     public short toShort(Object in, short def, Value<Short> ret) {
-        if (in == null) return def;
+        if (in == null)
+            return def;
         if (in instanceof Short) {
-            if (ret != null) ret.setValue((Short) in);
+            if (ret != null)
+                ret.setValue((Short) in);
             return ((Short) in).shortValue();
         }
         if (in instanceof Number) {
             short r = ((Number) in).shortValue();
-            if (ret != null) ret.setValue(r);
+            if (ret != null)
+                ret.setValue(r);
             return r;
         }
 
@@ -54,28 +57,38 @@ public class ObjectToShort implements Caster<Object, Short> {
         try {
             if (_in.startsWith("0x") || _in.startsWith("-0x") || _in.startsWith("+0x")) {
                 int start = 2;
-                if (_in.startsWith("-")) start = 3;
+                if (_in.startsWith("-"))
+                    start = 3;
                 int out = 0;
                 for (int i = start; i < _in.length(); i++) {
                     int s = -1;
                     char c = _in.charAt(i);
-                    if (c >= '0' && c <= '9') s = c - '0';
-                    else if (c >= 'a' && c <= 'f') s = c - 'a' + 10;
-                    else if (c >= 'A' && c <= 'F') s = c - 'A' + 10;
+                    if (c >= '0' && c <= '9')
+                        s = c - '0';
+                    else if (c >= 'a' && c <= 'f')
+                        s = c - 'a' + 10;
+                    else if (c >= 'A' && c <= 'F')
+                        s = c - 'A' + 10;
 
-                    if (s == -1) throw new NumberFormatException(_in);
+                    if (s == -1)
+                        throw new NumberFormatException(_in);
 
                     out = out * (short) 16 + (short) s;
                 }
-                if (_in.startsWith("-")) out = -out;
-                if (out > Short.MAX_VALUE) out = Short.MAX_VALUE;
-                if (out < Short.MIN_VALUE) out = Short.MIN_VALUE;
-                if (ret != null) ret.setValue((short) out);
+                if (_in.startsWith("-"))
+                    out = -out;
+                if (out > Short.MAX_VALUE)
+                    out = Short.MAX_VALUE;
+                if (out < Short.MIN_VALUE)
+                    out = Short.MIN_VALUE;
+                if (ret != null)
+                    ret.setValue((short) out);
                 return (short) out;
             }
 
             short r = Short.parseShort(_in);
-            if (ret != null) ret.setValue(r);
+            if (ret != null)
+                ret.setValue(r);
             return r;
         } catch (Exception e) {
             LOGGER.trace("Error: {}", _in, e.toString());

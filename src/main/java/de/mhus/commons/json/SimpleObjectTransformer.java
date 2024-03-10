@@ -36,8 +36,7 @@ public class SimpleObjectTransformer extends TransformStrategy {
 
     @SuppressWarnings("unchecked")
     @Override
-    public Object jsonToPojo(JsonNode from, Class<?> type, TransformHelper helper)
-            throws NotSupportedException {
+    public Object jsonToPojo(JsonNode from, Class<?> type, TransformHelper helper) throws NotSupportedException {
 
         Object to;
         try {
@@ -81,7 +80,8 @@ public class SimpleObjectTransformer extends TransformStrategy {
                     attr.set(to, json.asBoolean(false), helper.isForce());
                 else if (aType == Integer.class || aType == int.class)
                     attr.set(to, json.asInt(0), helper.isForce());
-                else if (aType == String.class) attr.set(to, json.asText(), helper.isForce());
+                else if (aType == String.class)
+                    attr.set(to, json.asText(), helper.isForce());
                 else if (aType == UUID.class)
                     try {
                         attr.set(to, UUID.fromString(json.asText()), helper.isForce());
@@ -92,7 +92,8 @@ public class SimpleObjectTransformer extends TransformStrategy {
                     Object[] cons = aType.getEnumConstants();
                     int ord = json.asInt(0);
                     Object c = cons.length > 0 ? cons[0] : null;
-                    if (ord >= 0 && ord < cons.length) c = cons[ord];
+                    if (ord >= 0 && ord < cons.length)
+                        c = cons[ord];
                     attr.set(to, c, helper.isForce());
                 } else if (aType == Date.class) {
                     try {
@@ -103,7 +104,7 @@ public class SimpleObjectTransformer extends TransformStrategy {
                 } else if (Map.class.isAssignableFrom(aType)) {
 
                     HashMap<String, Object> map = new HashMap<>();
-                    for (Iterator<String> iter = json.fieldNames(); iter.hasNext(); ) {
+                    for (Iterator<String> iter = json.fieldNames(); iter.hasNext();) {
                         String n = iter.next();
                         map.put(n, MJson.getValue(json.get(name), helper));
                     }
@@ -132,10 +133,7 @@ public class SimpleObjectTransformer extends TransformStrategy {
                             Object obj = jsonToPojo(i, aType, helper);
                             l.add(obj);
                         }
-                        attr.set(
-                                to,
-                                l.toArray((Object[]) Array.newInstance(aType, l.size())),
-                                helper.isForce());
+                        attr.set(to, l.toArray((Object[]) Array.newInstance(aType, l.size())), helper.isForce());
                     } catch (IllegalArgumentException e) {
                         attr.set(to, null, helper.isForce());
                     }
@@ -198,18 +196,24 @@ public class SimpleObjectTransformer extends TransformStrategy {
             try {
                 Object value = attr.get(from);
                 String name = attr.getName();
-                if (value == null) to.put(name, (String) null);
-                else if (value instanceof Boolean) to.put(name, (boolean) value);
-                else if (value instanceof Integer) to.put(name, (int) value);
-                else if (value instanceof String) to.put(name, (String) value);
+                if (value == null)
+                    to.put(name, (String) null);
+                else if (value instanceof Boolean)
+                    to.put(name, (boolean) value);
+                else if (value instanceof Integer)
+                    to.put(name, (int) value);
+                else if (value instanceof String)
+                    to.put(name, (String) value);
                 else if (value.getClass().isEnum()) {
                     to.put(name, ((Enum<?>) value).ordinal());
                     to.put(name + "_", ((Enum<?>) value).name());
-                } else if (value instanceof Date) to.put(name, ((Date) value).getTime());
+                } else if (value instanceof Date)
+                    to.put(name, ((Date) value).getTime());
                 else if (value instanceof String[]) {
                     ArrayNode array = to.arrayNode();
                     to.set(name, array);
-                    for (String i : (String[]) value) array.add(i);
+                    for (String i : (String[]) value)
+                        array.add(i);
                 } else if (value instanceof Object[]) {
                     ArrayNode array = to.arrayNode();
                     to.set(name, array);
@@ -238,10 +242,7 @@ public class SimpleObjectTransformer extends TransformStrategy {
                 } else {
                     if (!helper.checkLevel()) {
                         throw new NotSupportedException(
-                                "too deep:"
-                                        + attr.getName()
-                                        + " "
-                                        + value.getClass().getSimpleName());
+                                "too deep:" + attr.getName() + " " + value.getClass().getSimpleName());
                     }
                     JsonNode sub = pojoToJson(value, helper.incLevel());
                     to.set(attr.getName(), sub);

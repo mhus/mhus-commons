@@ -34,7 +34,7 @@ public class Rfc1738Test extends TestCase {
 
     @Test
     public void testArrays() {
-        String[] s = new String[] {"abc", "def", "123454"};
+        String[] s = new String[] { "abc", "def", "123454" };
         String[] d = MUri.explodeArray(MUri.implodeArray(s));
         assertTrue(Arrays.equals(s, d));
 

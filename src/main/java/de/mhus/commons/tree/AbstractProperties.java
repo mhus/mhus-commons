@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,22 +41,23 @@ public abstract class AbstractProperties implements IProperties {
      * Overwrite this function to provide values in string format.
      *
      * @param key
+     *
      * @return null if the property not exists or the property value.
      */
     @Override
     public abstract Object getProperty(String key);
 
-    //	@Deprecated
-    //	public boolean getProperty(String name, boolean def) {
-    //		return getBoolean(name, def);
-    //	}
+    // @Deprecated
+    // public boolean getProperty(String name, boolean def) {
+    // return getBoolean(name, def);
+    // }
     //
-    //	@Deprecated
-    //	public String getProperty(String name, String def) {
-    //		Object out = getProperty(name);
-    //		if (out == null) return def;
-    //		return String.valueOf(out);
-    //	}
+    // @Deprecated
+    // public String getProperty(String name, String def) {
+    // Object out = getProperty(name);
+    // if (out == null) return def;
+    // return String.valueOf(out);
+    // }
 
     @Override
     public String getString(String key, String def) {
@@ -66,14 +67,16 @@ public abstract class AbstractProperties implements IProperties {
         } catch (Exception e) {
             return def;
         }
-        if (out == null) return def;
+        if (out == null)
+            return def;
         return String.valueOf(out);
     }
 
     @Override
     public Optional<String> getString(String key) {
         Object out = getProperty(key);
-        if (out == null) Optional.empty();
+        if (out == null)
+            Optional.empty();
         return Optional.ofNullable(MString.valueOf(out));
     }
 
@@ -91,7 +94,8 @@ public abstract class AbstractProperties implements IProperties {
     @Override
     public OptionalBoolean getBoolean(String key) {
         Object out = getProperty(key);
-        if (out == null) Optional.empty();
+        if (out == null)
+            Optional.empty();
         return MCast.toboolean(out);
     }
 
@@ -201,7 +205,8 @@ public abstract class AbstractProperties implements IProperties {
             removeProperty(key);
             return;
         }
-        if (value instanceof Integer) setInt(key, (Integer) value);
+        if (value instanceof Integer)
+            setInt(key, (Integer) value);
         else if (value instanceof Long) {
             setLong(key, (Long) value);
         } else if (value instanceof Float) {
@@ -209,15 +214,16 @@ public abstract class AbstractProperties implements IProperties {
         } else if (value instanceof Double) {
             setDouble(key, (Double) value);
         } else
-            throw new MRuntimeException(
-                    RC.SYNTAX_ERROR, "Unknown number class", key, value.getClass());
+            throw new MRuntimeException(RC.SYNTAX_ERROR, "Unknown number class", key, value.getClass());
     }
 
     @Override
     public Number getNumber(String key, Number def) {
         Object out = getProperty(key);
-        if (out == null) return def;
-        if (out instanceof Number) return (Number) out;
+        if (out == null)
+            return def;
+        if (out instanceof Number)
+            return (Number) out;
         try {
             return MCast.todouble(out, 0);
         } catch (NumberFormatException e) {
@@ -229,6 +235,7 @@ public abstract class AbstractProperties implements IProperties {
      * Return true if the property exists.
      *
      * @param key
+     *
      * @return if exists
      */
     @Override
@@ -355,13 +362,15 @@ public abstract class AbstractProperties implements IProperties {
 
     @Override
     public boolean containsKey(Object key) {
-        if (key == null) return false;
+        if (key == null)
+            return false;
         return isProperty(String.valueOf(key));
     }
 
     @Override
     public Object get(Object key) {
-        if (key == null) return null;
+        if (key == null)
+            return null;
         return getProperty(String.valueOf(key));
     }
 
@@ -374,7 +383,8 @@ public abstract class AbstractProperties implements IProperties {
 
     @Override
     public Object remove(Object key) {
-        if (key == null) return null;
+        if (key == null)
+            return null;
         Object current = get(key);
         removeProperty(String.valueOf(key));
         return current;
@@ -383,28 +393,34 @@ public abstract class AbstractProperties implements IProperties {
     @Override
     public void putAll(Map<? extends String, ? extends Object> m) {
         for (Entry<? extends String, ? extends Object> e : m.entrySet())
-            if (e.getValue() instanceof IsNull) remove(e.getKey());
-            else put(e.getKey(), e.getValue());
+            if (e.getValue() instanceof IsNull)
+                remove(e.getKey());
+            else
+                put(e.getKey(), e.getValue());
     }
 
     public void putMap(Map<?, ?> m) {
         for (Entry<?, ?> e : m.entrySet())
-            if (e.getValue() instanceof IsNull) remove(e.getKey());
-            else put(String.valueOf(e.getKey()), e.getValue());
+            if (e.getValue() instanceof IsNull)
+                remove(e.getKey());
+            else
+                put(String.valueOf(e.getKey()), e.getValue());
     }
 
     public void putReadProperties(IReadProperties m) {
         for (Entry<? extends String, ? extends Object> e : m.entrySet())
-            if (e.getValue() instanceof IsNull) remove(e.getKey());
-            else put(e.getKey(), e.getValue());
+            if (e.getValue() instanceof IsNull)
+                remove(e.getKey());
+            else
+                put(e.getKey(), e.getValue());
     }
 
-    //	@Override
-    //	public void clear() {
+    // @Override
+    // public void clear() {
     //
-    //		for (String name : keys())
-    //			removeProperty(name);
-    //	}
+    // for (String name : keys())
+    // removeProperty(name);
+    // }
 
     @Override
     public Set<String> keySet() {
@@ -414,7 +430,8 @@ public abstract class AbstractProperties implements IProperties {
     @Override
     public String getFormatted(String key, String def, Object... values) {
         String format = getString(key, def);
-        if (format == null) return def; // probably null
+        if (format == null)
+            return def; // probably null
         return String.format(format, values);
     }
 
@@ -426,7 +443,8 @@ public abstract class AbstractProperties implements IProperties {
         } catch (Exception e) {
             return def.apply(name);
         }
-        if (out == null) return def.apply(name);
+        if (out == null)
+            return def.apply(name);
         return String.valueOf(out);
     }
 }

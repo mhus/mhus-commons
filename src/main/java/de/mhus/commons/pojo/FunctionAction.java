@@ -27,8 +27,7 @@ public class FunctionAction implements PojoAction {
     private String name;
     private FunctionAttribute<Object> parent;
 
-    public FunctionAction(
-            Class<?> clazz, Method action, String name, FunctionAttribute<Object> parent) {
+    public FunctionAction(Class<?> clazz, Method action, String name, FunctionAttribute<Object> parent) {
         this.clazz = clazz;
         this.action = action;
         this.name = name;
@@ -56,12 +55,14 @@ public class FunctionAction implements PojoAction {
     public <A extends Annotation> A getAnnotation(Class<? extends A> annotationClass) {
 
         A out = action.getAnnotation(annotationClass);
-        if (out != null) return out;
+        if (out != null)
+            return out;
 
         Set<Method> res = MethodAnalyser.getMethodsForMethod(clazz, action.getName());
         for (Method m2 : res) {
             out = m2.getAnnotation(annotationClass);
-            if (out != null) return out;
+            if (out != null)
+                return out;
         }
 
         return null;

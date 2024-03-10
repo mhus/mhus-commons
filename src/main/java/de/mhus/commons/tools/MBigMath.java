@@ -24,20 +24,15 @@ import java.util.LinkedList;
 
 public class MBigMath {
 
-    public static final char[] BASE_62_CHARS = {
-        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
-        'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
-        'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
-    };
-    public static final char[] BASE_91_CHARS = {
-        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
-        'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
-        'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '±', '§', '!', '@', '#', '$', '%', '^', '&', '*',
-        '(', ')', '_', '+', '=', '{', '[', '}', ']', ';', '|', '~', '`', '<', ',', '>', '.', '?',
-        '/'
-    };
+    public static final char[] BASE_62_CHARS = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd',
+            'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y',
+            'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
+            'U', 'V', 'W', 'X', 'Y', 'Z' };
+    public static final char[] BASE_91_CHARS = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd',
+            'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y',
+            'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
+            'U', 'V', 'W', 'X', 'Y', 'Z', '±', '§', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', '=',
+            '{', '[', '}', ']', ';', '|', '~', '`', '<', ',', '>', '.', '?', '/' };
     public static final BigInteger TWO = BigInteger.valueOf(2);
     public static final BigInteger SIXTY_TWO = BigInteger.valueOf(62);
     public static final BigInteger NINE_ONE = BigInteger.valueOf(91);
@@ -55,11 +50,12 @@ public class MBigMath {
      * @param base
      * @param pow
      * @param mod
+     *
      * @return the pow
+     *
      * @throws IOException
      */
-    public static BigInteger binaryPow(BigInteger base, BigInteger pow, BigInteger mod)
-            throws IOException {
+    public static BigInteger binaryPow(BigInteger base, BigInteger pow, BigInteger mod) throws IOException {
 
         if (mod.subtract(BigInteger.ONE).pow(2).compareTo(base) > 1) {
             throw new IOException("modulo is too big");
@@ -68,7 +64,8 @@ public class MBigMath {
         base = base.mod(mod);
 
         while (pow.compareTo(BigInteger.ZERO) == 1) {
-            if (pow.mod(TWO).equals(BigInteger.ONE)) res = res.multiply(base).mod(mod);
+            if (pow.mod(TWO).equals(BigInteger.ONE))
+                res = res.multiply(base).mod(mod);
             pow = pow.shiftRight(1);
             base = base.multiply(base).mod(mod);
         }
@@ -81,6 +78,7 @@ public class MBigMath {
      * @param base
      * @param pow
      * @param mod
+     *
      * @return the pow
      */
     public static BigInteger dividePow(BigInteger base, BigInteger pow, BigInteger mod) {
@@ -104,18 +102,20 @@ public class MBigMath {
             res = dividePow(base, half, level + 1);
             res = res.multiply(res);
         }
-        if (odd) res = res.multiply(base);
+        if (odd)
+            res = res.multiply(base);
 
         return res;
     }
 
     /**
-     * Calculate the pow with modulo using the simple mathematics straight forward method. Do not
-     * use this method! Use the binaryPow for good performance.
+     * Calculate the pow with modulo using the simple mathematics straight forward method. Do not use this method! Use
+     * the binaryPow for good performance.
      *
      * @param base
      * @param pow
      * @param mod
+     *
      * @return the pow
      */
     public static BigInteger straightPow(BigInteger base, BigInteger pow, BigInteger mod) {
@@ -139,13 +139,14 @@ public class MBigMath {
      *
      * @param b
      * @param dp
+     *
      * @return log 10
      */
     // http://everything2.com/index.pl?node_id=946812
     public static BigDecimal log10(BigDecimal b, int dp) {
         final int NUM_OF_DIGITS = dp + 2; // need to add one to get the right number of dp
-        //  and then add one again to get the next number
-        //  so I can round it correctly.
+        // and then add one again to get the next number
+        // so I can round it correctly.
 
         MathContext mc = new MathContext(NUM_OF_DIGITS, RoundingMode.HALF_EVEN);
 
@@ -153,8 +154,10 @@ public class MBigMath {
         // log(-x) -> exception
         // log(1) == 0 exactly;
         // log of a number lessthan one = -log(1/x)
-        if (b.signum() <= 0) throw new ArithmeticException("log of a negative number! (or zero)");
-        else if (b.compareTo(BigDecimal.ONE) == 0) return BigDecimal.ZERO;
+        if (b.signum() <= 0)
+            throw new ArithmeticException("log of a negative number! (or zero)");
+        else if (b.compareTo(BigDecimal.ONE) == 0)
+            return BigDecimal.ZERO;
         else if (b.compareTo(BigDecimal.ONE) < 0)
             return (log10((BigDecimal.ONE).divide(b, mc), dp)).negate();
 
@@ -177,10 +180,7 @@ public class MBigMath {
         BigDecimal ans = new BigDecimal(sb.toString());
 
         // Round the number to the correct number of decimal places.
-        ans =
-                ans.round(
-                        new MathContext(
-                                ans.precision() - ans.scale() + dp, RoundingMode.HALF_EVEN));
+        ans = ans.round(new MathContext(ans.precision() - ans.scale() + dp, RoundingMode.HALF_EVEN));
         return ans;
     }
 
@@ -189,6 +189,7 @@ public class MBigMath {
      *
      * @param e
      * @param z
+     *
      * @return D
      */
     public static BigInteger computeDfromE(BigInteger e, BigInteger z) {
@@ -235,6 +236,7 @@ public class MBigMath {
      * Private utility method used to compute the square root of a BigDecimal.
      *
      * @author Luciano Culacciatti
+     *
      * @url http://www.codeproject.com/Tips/257031/Implementing-SqrtRoot-in-BigDecimal
      */
     private static BigDecimal sqrtNewtonRaphson(BigDecimal c, BigDecimal xn, BigDecimal precision) {
@@ -255,8 +257,11 @@ public class MBigMath {
      * Uses Newton Raphson to compute the square root of a BigDecimal.
      *
      * @author Luciano Culacciatti
+     *
      * @param c
+     *
      * @return square root
+     *
      * @url http://www.codeproject.com/Tips/257031/Implementing-SqrtRoot-in-BigDecimal
      */
     public static BigDecimal bigSqrt(BigDecimal c) {
@@ -266,7 +271,8 @@ public class MBigMath {
     public static String toBase62(BigInteger in) {
         StringBuilder out = new StringBuilder();
         boolean negative = false;
-        if (in.signum() == 0) return "0";
+        if (in.signum() == 0)
+            return "0";
         if (in.signum() == -1) {
             negative = true;
             in = in.negate();
@@ -276,7 +282,8 @@ public class MBigMath {
             out.insert(0, BASE_62_CHARS[m]);
             in = in.divide(SIXTY_TWO);
         }
-        if (negative) out.insert(0, '-');
+        if (negative)
+            out.insert(0, '-');
         return out.toString();
     }
 
@@ -310,14 +317,16 @@ public class MBigMath {
             out = out.multiply(SIXTY_TWO).add(BigInteger.valueOf(m));
         }
 
-        if (negative) out = out.negate();
+        if (negative)
+            out = out.negate();
         return out;
     }
 
     public static String toBase62(BigInteger[] in) {
         StringBuilder out = new StringBuilder();
         for (int i = 0; i < in.length; i++) {
-            if (i != 0) out.append(':');
+            if (i != 0)
+                out.append(':');
             out.append(toBase62(in[i]));
         }
         return out.toString();
@@ -331,7 +340,8 @@ public class MBigMath {
             int pos = in.indexOf(':');
             if (pos >= 0) {
                 in = in.substring(pos + 1);
-            } else break;
+            } else
+                break;
         }
         return out.toArray(new BigInteger[out.size()]);
     }
@@ -341,7 +351,8 @@ public class MBigMath {
     public static String toBase91(BigInteger in) {
         StringBuilder out = new StringBuilder();
         boolean negative = false;
-        if (in.signum() == 0) return "0";
+        if (in.signum() == 0)
+            return "0";
         if (in.signum() == -1) {
             negative = true;
             in = in.negate();
@@ -351,7 +362,8 @@ public class MBigMath {
             out.insert(0, BASE_91_CHARS[m]);
             in = in.divide(NINE_ONE);
         }
-        if (negative) out.insert(0, '-');
+        if (negative)
+            out.insert(0, '-');
         return out.toString();
     }
 
@@ -377,42 +389,71 @@ public class MBigMath {
             } else if (c >= 'A' && c <= 'Z') {
                 m = c - 'A' + 36;
             } else
-            //  0: '0','1','2','3','4','5','6','7','8','9',
+            // 0: '0','1','2','3','4','5','6','7','8','9',
             // 10:
             // 'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
             // 36:
             // 'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
             // 62: '±','§','!','@','#','$','%','^','&','*','(',')','_','+','=',
             // 77: '{','[','}',']',';','|','~','`','<',',','>','.','?','/'
-            if (c == '±') m = 62;
-            else if (c == '§') m = 63;
-            else if (c == '!') m = 64;
-            else if (c == '@') m = 65;
-            else if (c == '#') m = 66;
-            else if (c == '$') m = 67;
-            else if (c == '%') m = 68;
-            else if (c == '^') m = 69;
-            else if (c == '&') m = 70;
-            else if (c == '*') m = 71;
-            else if (c == '(') m = 72;
-            else if (c == ')') m = 73;
-            else if (c == '_') m = 74;
-            else if (c == '+') m = 75;
-            else if (c == '=') m = 76;
-            else if (c == '{') m = 77;
-            else if (c == '[') m = 78;
-            else if (c == '}') m = 79;
-            else if (c == ']') m = 80;
-            else if (c == ';') m = 81;
-            else if (c == '|') m = 82;
-            else if (c == '~') m = 83;
-            else if (c == '`') m = 84;
-            else if (c == '<') m = 85;
-            else if (c == ',') m = 86;
-            else if (c == '>') m = 87;
-            else if (c == '.') m = 88;
-            else if (c == '?') m = 89;
-            else if (c == '/') m = 90;
+            if (c == '±')
+                m = 62;
+            else if (c == '§')
+                m = 63;
+            else if (c == '!')
+                m = 64;
+            else if (c == '@')
+                m = 65;
+            else if (c == '#')
+                m = 66;
+            else if (c == '$')
+                m = 67;
+            else if (c == '%')
+                m = 68;
+            else if (c == '^')
+                m = 69;
+            else if (c == '&')
+                m = 70;
+            else if (c == '*')
+                m = 71;
+            else if (c == '(')
+                m = 72;
+            else if (c == ')')
+                m = 73;
+            else if (c == '_')
+                m = 74;
+            else if (c == '+')
+                m = 75;
+            else if (c == '=')
+                m = 76;
+            else if (c == '{')
+                m = 77;
+            else if (c == '[')
+                m = 78;
+            else if (c == '}')
+                m = 79;
+            else if (c == ']')
+                m = 80;
+            else if (c == ';')
+                m = 81;
+            else if (c == '|')
+                m = 82;
+            else if (c == '~')
+                m = 83;
+            else if (c == '`')
+                m = 84;
+            else if (c == '<')
+                m = 85;
+            else if (c == ',')
+                m = 86;
+            else if (c == '>')
+                m = 87;
+            else if (c == '.')
+                m = 88;
+            else if (c == '?')
+                m = 89;
+            else if (c == '/')
+                m = 90;
             else if (ignoreWhitespace && (c == '\n' || c == '\r' || c == '\t' || c == ' ')) {
                 // ignore if requested
                 continue;
@@ -422,14 +463,16 @@ public class MBigMath {
             out = out.multiply(NINE_ONE).add(BigInteger.valueOf(m));
         }
 
-        if (negative) out = out.negate();
+        if (negative)
+            out = out.negate();
         return out;
     }
 
     public static String toBase91(BigInteger[] in) {
         StringBuilder out = new StringBuilder();
         for (int i = 0; i < in.length; i++) {
-            if (i != 0) out.append(':');
+            if (i != 0)
+                out.append(':');
             out.append(toBase91(in[i]));
         }
         return out.toString();
@@ -443,20 +486,25 @@ public class MBigMath {
             int pos = in.indexOf(':');
             if (pos >= 0) {
                 in = in.substring(pos + 1);
-            } else break;
+            } else
+                break;
         }
         return out.toArray(new BigInteger[out.size()]);
     }
 
     public static BigDecimal min(BigDecimal a, BigDecimal b) {
-        if (a == null) return b;
-        if (b == null) return a;
+        if (a == null)
+            return b;
+        if (b == null)
+            return a;
         return a.compareTo(b) > 0 ? b : a;
     }
 
     public static BigDecimal max(BigDecimal a, BigDecimal b) {
-        if (a == null) return b;
-        if (b == null) return a;
+        if (a == null)
+            return b;
+        if (b == null)
+            return a;
         return a.compareTo(b) > 0 ? a : b;
     }
 }

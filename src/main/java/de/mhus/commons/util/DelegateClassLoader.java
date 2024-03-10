@@ -25,7 +25,8 @@ public class DelegateClassLoader extends ClassLoader {
 
     private LinkedList<Package> list = new LinkedList<Package>();
 
-    public DelegateClassLoader() {}
+    public DelegateClassLoader() {
+    }
 
     public DelegateClassLoader(ClassLoader parent) {
         super(parent);
@@ -48,7 +49,8 @@ public class DelegateClassLoader extends ClassLoader {
         synchronized (list) {
             for (Package p : list) {
                 Class<?> clazz = p.loadClass(name, resolve);
-                if (clazz != null) return clazz;
+                if (clazz != null)
+                    return clazz;
             }
         }
         return super.loadClass(name, resolve);
@@ -92,7 +94,8 @@ public class DelegateClassLoader extends ClassLoader {
         synchronized (list) {
             for (Package p : list) {
                 URL out = p.getResource(name);
-                if (out != null) return out;
+                if (out != null)
+                    return out;
             }
         }
         return super.getResource(name);
@@ -103,7 +106,8 @@ public class DelegateClassLoader extends ClassLoader {
         synchronized (list) {
             for (Package p : list) {
                 InputStream out = p.getResourceAsStream(name);
-                if (out != null) return out;
+                if (out != null)
+                    return out;
             }
         }
         return super.getResourceAsStream(name);
@@ -114,7 +118,8 @@ public class DelegateClassLoader extends ClassLoader {
         synchronized (list) {
             for (Package p : list) {
                 Enumeration<URL> out = p.getResources(name);
-                if (out != null) return out;
+                if (out != null)
+                    return out;
             }
         }
         return super.getResources(name);

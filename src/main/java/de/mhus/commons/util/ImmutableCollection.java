@@ -31,7 +31,8 @@ public class ImmutableCollection<E> implements Collection<E> {
         return false;
     }
 
-    public void add(int index, E element) {}
+    public void add(int index, E element) {
+    }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
@@ -43,7 +44,8 @@ public class ImmutableCollection<E> implements Collection<E> {
     }
 
     @Override
-    public void clear() {}
+    public void clear() {
+    }
 
     @Override
     public boolean contains(Object o) {

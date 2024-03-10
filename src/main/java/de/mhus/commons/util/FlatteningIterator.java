@@ -24,19 +24,25 @@ import java.util.Stack;
 /**
  * An iterator that 'flattens out' collections, iterators, arrays, etc.
  *
- * <p>That is it will iterate out their contents in order, descending into any iterators, iterables
- * or arrays provided to it.
+ * <p>
+ * That is it will iterate out their contents in order, descending into any iterators, iterables or arrays provided to
+ * it.
  *
- * <p>An example (not valid Java for brevity - some type declarations are ommitted):
+ * <p>
+ * An example (not valid Java for brevity - some type declarations are ommitted):
  *
- * <p>new FlattingIterator({1, 2, 3}, {{1, 2}, {3}}, new ArrayList({1, 2, 3}))
+ * <p>
+ * new FlattingIterator({1, 2, 3}, {{1, 2}, {3}}, new ArrayList({1, 2, 3}))
  *
- * <p>Will iterate through the sequence 1, 2, 3, 1, 2, 3, 1, 2, 3.
+ * <p>
+ * Will iterate through the sequence 1, 2, 3, 1, 2, 3, 1, 2, 3.
  *
- * <p>Note that this implements a non-generic version of the Iterator interface so may be cast
- * appropriately - it's very hard to give this class an appropriate generic type.
+ * <p>
+ * Note that this implements a non-generic version of the Iterator interface so may be cast appropriately - it's very
+ * hard to give this class an appropriate generic type.
  *
  * @author david
+ *
  * @param <E>
  */
 public class FlatteningIterator<E> implements Iterator<E> {
@@ -47,8 +53,8 @@ public class FlatteningIterator<E> implements Iterator<E> {
     private final Object blank = new Object();
 
     /*
-     * This stack stores all the iterators found so far. The head of the stack
-     * is the iterator which we are currently progressing through
+     * This stack stores all the iterators found so far. The head of the stack is the iterator which we are currently
+     * progressing through
      */
     private final Stack<Iterator<?>> iterators = new Stack<Iterator<?>>();
 
@@ -81,21 +87,22 @@ public class FlatteningIterator<E> implements Iterator<E> {
                 } else if (next instanceof Array) {
                     iterators.push(Arrays.asList((Array) next).iterator());
                     moveToNext();
-                } else this.next = next;
+                } else
+                    this.next = next;
             }
         }
     }
 
     /**
-     * Returns the next element in our iteration, throwing a NoSuchElementException if none is
-     * found.
+     * Returns the next element in our iteration, throwing a NoSuchElementException if none is found.
      */
     @Override
     @SuppressWarnings("unchecked")
     public E next() {
         moveToNext();
 
-        if (this.next == blank) throw new NoSuchElementException();
+        if (this.next == blank)
+            throw new NoSuchElementException();
         else {
             Object next = this.next;
             this.next = blank;
@@ -104,9 +111,8 @@ public class FlatteningIterator<E> implements Iterator<E> {
     }
 
     /**
-     * Returns if there are any objects left to iterate over. This method can change the internal
-     * state of the object when it is called, but repeated calls to it will not have any additional
-     * side effects.
+     * Returns if there are any objects left to iterate over. This method can change the internal state of the object
+     * when it is called, but repeated calls to it will not have any additional side effects.
      */
     @Override
     public boolean hasNext() {

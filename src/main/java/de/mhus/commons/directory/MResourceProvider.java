@@ -20,4 +20,5 @@ import de.mhus.commons.tree.TreeNode;
 import de.mhus.commons.services.IService;
 
 @DefaultImplementation(ClassLoaderResourceProvider.class)
-public abstract class MResourceProvider extends TreeNode implements IResourceProvider, IService {}
+public abstract class MResourceProvider extends TreeNode implements IResourceProvider, IService {
+}

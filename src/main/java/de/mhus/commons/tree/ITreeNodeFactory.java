@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,8 +40,11 @@ public interface ITreeNodeFactory extends IService {
     /**
      * This will search a file with different file extensions
      *
-     * @param path Path to file without file extension
+     * @param path
+     *            Path to file without file extension
+     *
      * @return The node object or null
+     *
      * @throws MException
      */
     default ITreeNode find(String path) throws MException {
@@ -53,34 +56,43 @@ public interface ITreeNodeFactory extends IService {
      * This will search a file with different file extensions
      *
      * @param parent
-     * @param name Name of file without file extension
+     * @param name
+     *            Name of file without file extension
+     *
      * @return The node object or null
+     *
      * @throws MException
      */
     default ITreeNode find(File parent, String name) throws MException {
         {
             File f = new File(parent, name + ".xml");
-            if (f.exists() && f.isFile()) read(f);
+            if (f.exists() && f.isFile())
+                read(f);
         }
         {
             File f = new File(parent, name + ".json");
-            if (f.exists() && f.isFile()) read(f);
+            if (f.exists() && f.isFile())
+                read(f);
         }
         {
             File f = new File(parent, name + ".yaml");
-            if (f.exists() && f.isFile()) read(f);
+            if (f.exists() && f.isFile())
+                read(f);
         }
         {
             File f = new File(parent, name + ".yml");
-            if (f.exists() && f.isFile()) read(f);
+            if (f.exists() && f.isFile())
+                read(f);
         }
         {
             File f = new File(parent, name + ".properties");
-            if (f.exists() && f.isFile()) read(f);
+            if (f.exists() && f.isFile())
+                read(f);
         }
         {
             File f = new File(parent, name);
-            if (f.exists() && f.isDirectory()) read(f);
+            if (f.exists() && f.isDirectory())
+                read(f);
         }
         return null;
     }

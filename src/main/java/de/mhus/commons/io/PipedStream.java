@@ -61,14 +61,15 @@ public class PipedStream implements Closeable {
         @Override
         public void write(int b) throws IOException {
 
-            //            if (closed) throw new EOFException();
+            // if (closed) throw new EOFException();
             long start = System.currentTimeMillis();
             while (byteBuffer.isNearlyFull()) {
                 MThread.sleep(200);
-                if (MPeriod.isTimeOut(start, writeTimeout)) throw new IOException("write timeout");
+                if (MPeriod.isTimeOut(start, writeTimeout))
+                    throw new IOException("write timeout");
             }
             synchronized (PipedStream.this) {
-                //                System.out.println("Write: " + (char)b + " (" + b + ")");
+                // System.out.println("Write: " + (char)b + " (" + b + ")");
                 byteBuffer.putInt(b);
             }
         }
@@ -81,13 +82,15 @@ public class PipedStream implements Closeable {
 
             long start = System.currentTimeMillis();
             while (byteBuffer.isEmpty()) {
-                if (closed) return -1; // EOFException ?
+                if (closed)
+                    return -1; // EOFException ?
                 MThread.sleep(200);
-                if (MPeriod.isTimeOut(start, readTimeout)) throw new IOException("read timeout");
+                if (MPeriod.isTimeOut(start, readTimeout))
+                    throw new IOException("read timeout");
             }
             synchronized (PipedStream.this) {
                 byte o = byteBuffer.get();
-                //               System.err.println("Read: " + (char)o + "(" + o + ")");
+                // System.err.println("Read: " + (char)o + "(" + o + ")");
                 return o;
             }
         }

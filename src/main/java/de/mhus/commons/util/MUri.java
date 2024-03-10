@@ -31,11 +31,11 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 
 /**
- * The class encodes/decodes strings in rfc1738 format and provide helpers to handle with URI / URL
- * and URN.
+ * The class encodes/decodes strings in rfc1738 format and provide helpers to handle with URI / URL and URN.
  *
- * <p>German resource for URI and URL: http://t3n.de/news/url-uri-unterschiede-516483/
- * https://tools.ietf.org/html/rfc3986 https://tools.ietf.org/html/rfc1738
+ * <p>
+ * German resource for URI and URL: http://t3n.de/news/url-uri-unterschiede-516483/ https://tools.ietf.org/html/rfc3986
+ * https://tools.ietf.org/html/rfc1738
  *
  * @author jesus
  */
@@ -49,17 +49,21 @@ public abstract class MUri implements Serializable {
     public static final String SCHEME_FILE = "file";
     public static final String SCHEME_SFPT = "sftp";
 
-    public MUri() {}
+    public MUri() {
+    }
 
     /**
      * Decode a string with rfc1738 spec.
      *
-     * @param encoded encoded string
+     * @param encoded
+     *            encoded string
+     *
      * @return decoded string
      */
     public static String decode(String encoded) {
 
-        if (encoded == null) return "";
+        if (encoded == null)
+            return "";
 
         try {
             return URLDecoder.decode(encoded, MString.CHARSET_DEFAULT);
@@ -80,23 +84,31 @@ public abstract class MUri implements Serializable {
                 if (c == '%') {
                     mode = 1;
                     buffer = 0;
-                } else if (c == '+') sb.append(' ');
-                else sb.append(c);
+                } else if (c == '+')
+                    sb.append(' ');
+                else
+                    sb.append(c);
 
             } else if (mode == 1) {
 
-                if (c >= '0' && c <= '9') buffer = c - '0';
-                else if (c >= 'A' && c <= 'F') buffer = c + 10 - 'A';
-                else if (c >= 'a' && c <= 'f') buffer = c + 10 - 'a';
+                if (c >= '0' && c <= '9')
+                    buffer = c - '0';
+                else if (c >= 'A' && c <= 'F')
+                    buffer = c + 10 - 'A';
+                else if (c >= 'a' && c <= 'f')
+                    buffer = c + 10 - 'a';
 
                 mode = 2;
             } else if (mode == 2) {
 
                 buffer = buffer * 16;
 
-                if (c >= '0' && c <= '9') buffer += c - '0';
-                else if (c >= 'A' && c <= 'F') buffer += c + 10 - 'A';
-                else if (c >= 'a' && c <= 'f') buffer += c + 10 - 'a';
+                if (c >= '0' && c <= '9')
+                    buffer += c - '0';
+                else if (c >= 'A' && c <= 'F')
+                    buffer += c + 10 - 'A';
+                else if (c >= 'a' && c <= 'f')
+                    buffer += c + 10 - 'a';
 
                 sb.append((char) buffer);
                 mode = 0;
@@ -109,11 +121,14 @@ public abstract class MUri implements Serializable {
     /**
      * encode a string in rfc1738 spec
      *
-     * @param decoded decoded string
+     * @param decoded
+     *            decoded string
+     *
      * @return encoded string
      */
     public static String encode(String decoded) {
-        if (decoded == null) return "";
+        if (decoded == null)
+            return "";
         try {
             return URLEncoder.encode(decoded, MString.CHARSET_DEFAULT); // as default charset
         } catch (UnsupportedEncodingException e) {
@@ -126,7 +141,9 @@ public abstract class MUri implements Serializable {
     /**
      * encode a UTF8 string in rfc1738 spec
      *
-     * @param decoded decoded string
+     * @param decoded
+     *            decoded string
+     *
      * @return encoded string
      */
     public static String encodeNoUTF8(String decoded) {
@@ -137,17 +154,14 @@ public abstract class MUri implements Serializable {
 
             char c = decoded.charAt(i);
 
-            //			if (c == '%' || c == '&' || c == '=' || c == '+' || c == '\n'
-            //					|| c == '\r' || c == '?' || c == ' ' )
-            if (!(c >= 'A' && c <= 'Z'
-                    || c >= 'a' && c <= 'z'
-                    || c >= '0' && c <= '9'
-                    || c == ','
-                    || c == '.')) {
+            // if (c == '%' || c == '&' || c == '=' || c == '+' || c == '\n'
+            // || c == '\r' || c == '?' || c == ' ' )
+            if (!(c >= 'A' && c <= 'Z' || c >= 'a' && c <= 'z' || c >= '0' && c <= '9' || c == ',' || c == '.')) {
 
                 encodeNoUTF8(sb, c);
 
-            } else sb.append(c);
+            } else
+                sb.append(c);
         }
 
         return sb.toString();
@@ -172,28 +186,35 @@ public abstract class MUri implements Serializable {
 
         int cc = decodedChar;
         buffer = cc / 16;
-        if (buffer < 10) sb.append((char) ((int) '0' + buffer));
-        else sb.append((char) ((int) 'A' - 10 + buffer));
+        if (buffer < 10)
+            sb.append((char) ((int) '0' + buffer));
+        else
+            sb.append((char) ((int) 'A' - 10 + buffer));
 
         buffer = cc % 16;
-        if (buffer < 10) sb.append((char) ((int) '0' + buffer));
-        else sb.append((char) ((int) 'A' - 10 + buffer));
+        if (buffer < 10)
+            sb.append((char) ((int) '0' + buffer));
+        else
+            sb.append((char) ((int) 'A' - 10 + buffer));
     }
 
     /**
      * Transform the elements of an array to a string using the rfc1738 sprec.
      *
      * @param in
+     *
      * @return encoded string
      */
     public static String implodeArray(String... in) {
 
-        if (in == null) return "";
+        if (in == null)
+            return "";
 
         StringBuilder sb = new StringBuilder();
         boolean first = true;
         for (String i : in) {
-            if (!first) sb.append('&');
+            if (!first)
+                sb.append('&');
             sb.append(encode(i));
             first = false;
         }
@@ -201,21 +222,23 @@ public abstract class MUri implements Serializable {
     }
 
     /**
-     * Transform the array into a key value list, the even elements are 'keys', followed by the odd
-     * 'value'.
+     * Transform the array into a key value list, the even elements are 'keys', followed by the odd 'value'.
      *
      * @param in
+     *
      * @return encoded string
      */
     public static String implodeKeyValues(String... in) {
 
-        if (in == null) return "";
+        if (in == null)
+            return "";
 
         StringBuilder sb = new StringBuilder();
         boolean first = true;
         boolean key = true;
         for (String i : in) {
-            if (!first && key) sb.append('&');
+            if (!first && key)
+                sb.append('&');
             sb.append(encode(i));
             first = false;
 
@@ -233,24 +256,29 @@ public abstract class MUri implements Serializable {
      * Transforms a encoded array of strings back.
      *
      * @param in
+     *
      * @return decoded parts
      */
     public static String[] explodeArray(String in) {
 
-        if (in == null || in.length() == 0) return new String[0];
+        if (in == null || in.length() == 0)
+            return new String[0];
 
         String[] out = in.split("&");
-        for (int i = 0; i < out.length; i++) out[i] = decode(out[i]);
+        for (int i = 0; i < out.length; i++)
+            out[i] = decode(out[i]);
 
         return out;
     }
 
     public static String[] explodeArray(String in, char split) {
 
-        if (in == null || in.length() == 0) return new String[0];
+        if (in == null || in.length() == 0)
+            return new String[0];
 
         String[] out = MString.split(in, String.valueOf(split));
-        for (int i = 0; i < out.length; i++) out[i] = decode(out[i]);
+        for (int i = 0; i < out.length; i++)
+            out[i] = decode(out[i]);
 
         return out;
     }
@@ -259,11 +287,13 @@ public abstract class MUri implements Serializable {
      * Transforms a list encoded map of attributes back.
      *
      * @param encodedQuery
+     *
      * @return decoded parts
      */
     public static Map<String, String> explode(String encodedQuery) {
 
-        if (encodedQuery == null) return new TreeMap<String, String>();
+        if (encodedQuery == null)
+            return new TreeMap<String, String>();
 
         TreeMap<String, String> out = new TreeMap<String, String>();
 
@@ -274,9 +304,11 @@ public abstract class MUri implements Serializable {
             String[] kv = obj[i].split("=");
 
             if (kv.length == 2) {
-                if (kv[1] == null) kv[1] = "";
+                if (kv[1] == null)
+                    kv[1] = "";
                 out.put(decode(kv[0]), decode(kv[1]));
-            } else if (kv.length == 1) out.put(decode(kv[0]), "");
+            } else if (kv.length == 1)
+                out.put(decode(kv[0]), "");
         }
 
         return out;
@@ -286,23 +318,26 @@ public abstract class MUri implements Serializable {
      * Encode a list of attributes in a single string
      *
      * @param query
+     *
      * @return encoded string
      */
     public static String implode(Map<String, String> query) {
 
-        if (query == null) return "";
+        if (query == null)
+            return "";
 
         StringBuilder sb = new StringBuilder();
 
         boolean first = true;
 
-        for (Iterator<String> e = query.keySet().iterator(); e.hasNext(); ) {
+        for (Iterator<String> e = query.keySet().iterator(); e.hasNext();) {
 
             String key = e.next();
             String value = query.get(key);
 
             if (value != null) {
-                if (!first) sb.append('&');
+                if (!first)
+                    sb.append('&');
                 sb.append(encode(key));
                 sb.append('=');
                 sb.append(encode(value));
@@ -317,23 +352,26 @@ public abstract class MUri implements Serializable {
      * Encode a list of attributes in a single string
      *
      * @param query
+     *
      * @return encoded string
      */
     public static String implode(IProperties query) {
 
-        if (query == null) return "";
+        if (query == null)
+            return "";
 
         StringBuilder sb = new StringBuilder();
 
         boolean first = true;
 
-        for (Iterator<String> e = query.keys().iterator(); e.hasNext(); ) {
+        for (Iterator<String> e = query.keys().iterator(); e.hasNext();) {
 
             String key = e.next();
             String value = query.getString(key, null);
 
             if (value != null) {
-                if (!first) sb.append('&');
+                if (!first)
+                    sb.append('&');
                 sb.append(encode(key));
                 sb.append('=');
                 sb.append(encode(value));
@@ -354,8 +392,10 @@ public abstract class MUri implements Serializable {
             pos = url.indexOf("?" + name);
         }
         if (pos < 0) {
-            if (url.contains("?")) url = url + "&";
-            else url = url + "?";
+            if (url.contains("?"))
+                url = url + "&";
+            else
+                url = url + "?";
             url = url + name + value;
         } else {
             int pos2 = url.indexOf("&", pos + 1);
@@ -403,64 +443,79 @@ public abstract class MUri implements Serializable {
 
         if (getUsername() != null) {
             out.append("//").append(getUsername());
-            if (getPassword() != null) out.append(':').append(getPassword());
+            if (getPassword() != null)
+                out.append(':').append(getPassword());
             out.append("@");
-            if (getLocation() != null) out.append(getLocation());
-        } else if (getLocation() != null) out.append("//").append(getLocation());
+            if (getLocation() != null)
+                out.append(getLocation());
+        } else if (getLocation() != null)
+            out.append("//").append(getLocation());
 
         if (MString.isSet(getPath()) && getLocation() != null && !getPath().startsWith("/"))
             out.append('/');
-        if (MString.isSet(getPath())) out.append(getPath());
+        if (MString.isSet(getPath()))
+            out.append(getPath());
 
-        if (getParams() != null) for (String p : getParams()) out.append(';').append(encode(p));
+        if (getParams() != null)
+            for (String p : getParams())
+                out.append(';').append(encode(p));
 
         if (getQuery() != null) {
             out.append('?');
             boolean first = true;
             for (Entry<String, String> entry : getQuery().entrySet()) {
-                if (first) first = false;
-                else out.append('&');
+                if (first)
+                    first = false;
+                else
+                    out.append('&');
                 out.append(encode(entry.getKey())).append('=').append(encode(entry.getValue()));
             }
         }
 
-        if (getFragment() != null) out.append('#').append(getFragment());
+        if (getFragment() != null)
+            out.append('#').append(getFragment());
 
         return out.toString();
     }
 
     /**
-     * Returns the name of the file in a path name. Using the OS specific separator.
-     * '/dir/subdir/file.ext' will return 'file.ext'. This function use only slash as directory
-     * separator. If you have a real os filepath and need to use the system directory separator use
-     * MFile.getFileName()
+     * Returns the name of the file in a path name. Using the OS specific separator. '/dir/subdir/file.ext' will return
+     * 'file.ext'. This function use only slash as directory separator. If you have a real os filepath and need to use
+     * the system directory separator use MFile.getFileName()
      *
      * @param path
+     *
      * @return the file name
      */
     public static String getFileName(String path) {
-        if (path == null) return null;
+        if (path == null)
+            return null;
 
-        if (MString.isIndex(path, "/")) path = MString.afterLastIndex(path, "/");
+        if (MString.isIndex(path, "/"))
+            path = MString.afterLastIndex(path, "/");
 
         return path;
     }
 
     /**
-     * Returns the directory without file name or current directory. '/dir/subdir/file' will return
-     * '/dir/subdir'. This function use only slash as directory separator. If you have a real os
-     * filepath and need to use the system directory separator use MFile.getFileDirectory()
+     * Returns the directory without file name or current directory. '/dir/subdir/file' will return '/dir/subdir'. This
+     * function use only slash as directory separator. If you have a real os filepath and need to use the system
+     * directory separator use MFile.getFileDirectory()
      *
      * @param path
+     *
      * @return The previous directory name or null
      */
     public static String getFileDirectory(String path) {
-        if (path == null) return null;
+        if (path == null)
+            return null;
 
         if (MString.isIndex(path, "/")) {
             String ret = MString.beforeLastIndex(path, "/");
-            while (ret.endsWith("/")) ret = ret.substring(0, ret.length() - 1);
-            if (ret.length() == 0) return null;
+            while (ret.endsWith("/"))
+                ret = ret.substring(0, ret.length() - 1);
+            if (ret.length() == 0)
+                return null;
             return ret;
         }
         return null;

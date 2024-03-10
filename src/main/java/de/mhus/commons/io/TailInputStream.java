@@ -36,7 +36,8 @@ public class TailInputStream extends InputStream {
     @Override
     public int read() throws IOException {
 
-        if (closed) throw new EOFException();
+        if (closed)
+            throw new EOFException();
 
         long size = file.length();
         while (size == pos) {
@@ -45,8 +46,10 @@ public class TailInputStream extends InputStream {
             } catch (InterruptedException e) {
                 throw new EOFException();
             }
-            if (Thread.currentThread().isInterrupted()) throw new EOFException();
-            if (closed) throw new EOFException();
+            if (Thread.currentThread().isInterrupted())
+                throw new EOFException();
+            if (closed)
+                throw new EOFException();
             size = file.length();
         }
         if (size < pos) {
@@ -58,34 +61,39 @@ public class TailInputStream extends InputStream {
             is = new FileInputStream(file);
         }
         int ret = is.read();
-        if (ret >= 0) pos++;
+        if (ret >= 0)
+            pos++;
         return ret;
     }
 
     public long delta() {
         long size = file.length();
-        if (size > pos) return size - pos;
+        if (size > pos)
+            return size - pos;
         return size;
     }
 
     @Override
     public int available() {
         long size = delta();
-        if (size > Integer.MAX_VALUE) return Integer.MAX_VALUE;
+        if (size > Integer.MAX_VALUE)
+            return Integer.MAX_VALUE;
         return (int) size;
     }
 
     @Override
     public void close() throws IOException {
         closed = true;
-        if (is != null) is.close();
+        if (is != null)
+            is.close();
         super.close();
     }
 
     public void clean() throws IOException {
         this.pos = file.length();
         try {
-            if (is != null) is.close();
+            if (is != null)
+                is.close();
         } catch (Exception t) {
         }
         is = new FileInputStream(file);

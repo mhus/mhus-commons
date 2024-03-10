@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,23 +32,8 @@ public abstract class Console extends PrintStream implements Adaptable {
 
     // https://en.wikipedia.org/wiki/ANSI_escape_code
     public enum COLOR {
-        UNKNOWN,
-        WHITE,
-        BLACK,
-        RED,
-        GREEN,
-        BLUE,
-        YELLOW,
-        MAGENTA,
-        CYAN,
-        BRIGHT_WHITE,
-        BRIGHT_BLACK,
-        BRIGHT_RED,
-        BRIGHT_GREEN,
-        BRIGHT_BLUE,
-        BRIGHT_YELLOW,
-        BRIGHT_MAGENTA,
-        BRIGHT_CYAN
+        UNKNOWN, WHITE, BLACK, RED, GREEN, BLUE, YELLOW, MAGENTA, CYAN, BRIGHT_WHITE, BRIGHT_BLACK, BRIGHT_RED,
+        BRIGHT_GREEN, BRIGHT_BLUE, BRIGHT_YELLOW, BRIGHT_MAGENTA, BRIGHT_CYAN
     };
 
     public static int DEFAULT_WIDTH = 200;
@@ -64,14 +49,13 @@ public abstract class Console extends PrintStream implements Adaptable {
         super(out);
     }
 
-    public Console(PrintStream out, boolean flush, String charset)
-            throws UnsupportedEncodingException {
+    public Console(PrintStream out, boolean flush, String charset) throws UnsupportedEncodingException {
         super(out, flush, charset);
     }
 
     /**
-     * Factory to return the correct implementation of console. If a console already exists, the
-     * existing console will be terminated and a new one will be created.
+     * Factory to return the correct implementation of console. If a console already exists, the existing console will
+     * be terminated and a new one will be created.
      *
      * @return a new console object
      */
@@ -80,11 +64,14 @@ public abstract class Console extends PrintStream implements Adaptable {
     }
 
     /**
-     * Factory to return the correct implementation of console. If a console already exists, the
-     * existing console will be terminated and a new one will be created.
+     * Factory to return the correct implementation of console. If a console already exists, the existing console will
+     * be terminated and a new one will be created.
      *
-     * @param in Input stream to use
-     * @param out Output stream to use
+     * @param in
+     *            Input stream to use
+     * @param out
+     *            Output stream to use
+     *
      * @return a new console object
      */
     public static Console create(InputStream in, PrintStream out) {
@@ -111,9 +98,8 @@ public abstract class Console extends PrintStream implements Adaptable {
     public abstract String readLine(String prompt, LinkedList<String> history);
 
     /**
-     * Returns the next character from input stream of the console. In some cases check for ALT key
-     * pressed and return character + 1000, see JLine ConsoleReader In case of error a value lesser
-     * 0 will be returned.
+     * Returns the next character from input stream of the console. In some cases check for ALT key pressed and return
+     * character + 1000, see JLine ConsoleReader In case of error a value lesser 0 will be returned.
      *
      * @return pressed key
      */
@@ -181,28 +167,31 @@ public abstract class Console extends PrintStream implements Adaptable {
     @Override
     @SuppressWarnings("unchecked")
     public <T> T adaptTo(Class<? extends T> clazz) {
-        if (clazz == OutputStream.class) return (T) this;
+        if (clazz == OutputStream.class)
+            return (T) this;
         if (clazz == InputStream.class)
-            return (T)
-                    new InputStream() {
-                        @Override
-                        public int read() throws IOException {
-                            return Console.this.read();
-                        }
-                    };
+            return (T) new InputStream() {
+                @Override
+                public int read() throws IOException {
+                    return Console.this.read();
+                }
+            };
         throw new NotSupportedException("Can't adapt to", clazz);
     }
 
     public void printLine(char c) {
-        for (int i = 0; i < getWidth(); i++) print(c);
+        for (int i = 0; i < getWidth(); i++)
+            print(c);
         println();
     }
 
     /** Will clear the console content */
-    public void clearTerminal() {}
+    public void clearTerminal() {
+    }
 
     /** Will reset the current configuration. For ANSI \033c */
-    public void resetTerminal() {}
+    public void resetTerminal() {
+    }
 
     /** Will reset the console instance in this framework. */
     public static void resetConsole() {
@@ -219,8 +208,10 @@ public abstract class Console extends PrintStream implements Adaptable {
     }
 
     public static synchronized void set(Console console) {
-        if (console == null) consoles.remove();
-        else consoles.set(console);
+        if (console == null)
+            consoles.remove();
+        else
+            consoles.set(console);
     }
 
     public static boolean isInitialized() {
@@ -232,47 +223,56 @@ public abstract class Console extends PrintStream implements Adaptable {
         return false;
     }
 
-    public void setWidth(int w) {}
+    public void setWidth(int w) {
+    }
 
-    public void setHeight(int h) {}
+    public void setHeight(int h) {
+    }
 
-    public static char askQuestion(
-            String question, char[] answers, boolean toLower, boolean acceptEnter)
+    public static char askQuestion(String question, char[] answers, boolean toLower, boolean acceptEnter)
             throws IOException {
-        if (answers == null || answers.length == 0) return '\0';
+        if (answers == null || answers.length == 0)
+            return '\0';
         while (true) {
             get().print(question);
             get().print(" (");
             boolean first = true;
             for (char x : answers) {
-                if (!first) get().print('/');
+                if (!first)
+                    get().print('/');
                 get().print(x);
                 first = false;
             }
             get().print(") ");
             get().flush();
-            //            String line = get().readLine();
-            //            if (line == null) throw new IOException("Can't read from console");
-            //            if (line.length() == 0) {
-            //                if (acceptEnter) return '\n';
-            //                continue;
-            //            }
-            //            char c = line.charAt(0);
+            // String line = get().readLine();
+            // if (line == null) throw new IOException("Can't read from console");
+            // if (line.length() == 0) {
+            // if (acceptEnter) return '\n';
+            // continue;
+            // }
+            // char c = line.charAt(0);
             int key = get().read();
-            if (key < 0) throw new IOException("Can't read from console");
+            if (key < 0)
+                throw new IOException("Can't read from console");
             get().println((char) key);
             if (key == '\r') {
-                if (acceptEnter) return '\r';
+                if (acceptEnter)
+                    return '\r';
                 continue;
             }
             char c = (char) key;
-            if (toLower) c = Character.toLowerCase(c);
+            if (toLower)
+                c = Character.toLowerCase(c);
             for (char x : answers) {
-                if (toLower) x = Character.toLowerCase(x);
-                if (c == x) return c;
+                if (toLower)
+                    x = Character.toLowerCase(x);
+                if (c == x)
+                    return c;
             }
         }
     }
 
-    public void beep() {}
+    public void beep() {
+    }
 }

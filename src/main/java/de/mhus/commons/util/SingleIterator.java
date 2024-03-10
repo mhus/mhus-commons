@@ -41,7 +41,8 @@ public class SingleIterator<E> implements Iterator<E>, ListIterator<E>, ReadOnly
     }
 
     @Override
-    public void remove() {}
+    public void remove() {
+    }
 
     @Override
     public boolean hasPrevious() {
@@ -64,8 +65,10 @@ public class SingleIterator<E> implements Iterator<E>, ListIterator<E>, ReadOnly
     }
 
     @Override
-    public void set(E e) {}
+    public void set(E e) {
+    }
 
     @Override
-    public void add(E e) {}
+    public void add(E e) {
+    }
 }

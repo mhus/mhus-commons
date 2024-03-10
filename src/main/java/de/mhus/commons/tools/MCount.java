@@ -48,10 +48,12 @@ public class MCount implements Closeable {
     }
 
     public void inc() {
-        if (isClosed) return;
+        if (isClosed)
+            return;
         cnt++;
         lastTime = System.currentTimeMillis();
-        if (startTime == 0) startTime = lastTime;
+        if (startTime == 0)
+            startTime = lastTime;
     }
 
     public long getValue() {
@@ -59,7 +61,8 @@ public class MCount implements Closeable {
     }
 
     public double getHitsPerSecond() {
-        if (startTime == 0 || lastTime == 0 || cnt == 0) return 0;
+        if (startTime == 0 || lastTime == 0 || cnt == 0)
+            return 0;
         return (double) cnt / (double) ((lastTime - startTime) / 1000);
     }
 
@@ -76,18 +79,15 @@ public class MCount implements Closeable {
     }
 
     public String getStatusAsString() {
-        if (startTime == 0 || lastTime == 0 || cnt == 0) return "unused";
-        return MDate.toIsoDateTime(getFirstHitTime())
-                + " - "
-                + MDate.toIsoDateTime(getLastHitTime())
-                + ","
-                + getHitsPerSecond()
-                + " hits/sec,"
-                + cnt;
+        if (startTime == 0 || lastTime == 0 || cnt == 0)
+            return "unused";
+        return MDate.toIsoDateTime(getFirstHitTime()) + " - " + MDate.toIsoDateTime(getLastHitTime()) + ","
+                + getHitsPerSecond() + " hits/sec," + cnt;
     }
 
     public void close() {
-        if (isClosed) return;
+        if (isClosed)
+            return;
         isClosed = true;
         LOGGER.debug("close {} {} {}", name, cnt, getHitsPerSecond());
     }

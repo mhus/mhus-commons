@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +32,8 @@ public class ParseReader {
     }
 
     private void nextCurrent() throws IOException {
-        if (closed) return;
+        if (closed)
+            return;
         int read = str.read();
         pos++;
         if (read == -1) {
@@ -42,7 +43,8 @@ public class ParseReader {
     }
 
     public char character() throws EOFException {
-        if (closed) throw new EOFException();
+        if (closed)
+            throw new EOFException();
         return current;
     }
 

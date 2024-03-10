@@ -44,11 +44,7 @@ public class FunctionsStrategy implements PojoStrategy {
         this(true, true, ".", actionsOnly);
     }
 
-    public FunctionsStrategy(
-            boolean embedded,
-            boolean toLower,
-            String embedGlue,
-            boolean actionsOnly,
+    public FunctionsStrategy(boolean embedded, boolean toLower, String embedGlue, boolean actionsOnly,
             @SuppressWarnings("unchecked") Class<? extends Annotation>... annotationMarker) {
         this.embedded = embedded;
         this.toLower = toLower;
@@ -63,28 +59,28 @@ public class FunctionsStrategy implements PojoStrategy {
     }
 
     @SuppressWarnings("unchecked")
-    protected void parse(
-            String prefix,
-            FunctionAttribute<Object> parent,
-            PojoParser parser,
-            Class<?> clazz,
-            PojoModelImpl model,
-            int level) {
+    protected void parse(String prefix, FunctionAttribute<Object> parent, PojoParser parser, Class<?> clazz,
+            PojoModelImpl model, int level) {
 
-        if (level > 10) return; // logging ?
+        if (level > 10)
+            return; // logging ?
 
         for (Method m : MSystem.getMethods(clazz)) {
 
             // ignore static methods
-            if (Modifier.isStatic(m.getModifiers())) continue;
+            if (Modifier.isStatic(m.getModifiers()))
+                continue;
 
             try {
                 String mName = m.getName();
                 Public desc = m.getAnnotation(Public.class);
-                if (!allowPublic) desc = null;
+                if (!allowPublic)
+                    desc = null;
                 String s = (toLower ? mName.toLowerCase() : mName);
-                if (s.startsWith("get") || s.startsWith("set")) s = s.substring(3);
-                else if (s.startsWith("is")) s = s.substring(2);
+                if (s.startsWith("get") || s.startsWith("set"))
+                    s = s.substring(3);
+                else if (s.startsWith("is"))
+                    s = s.substring(2);
                 if (desc != null && desc.name().length() > 0) {
                     s = desc.name();
                     s = (toLower ? s.toLowerCase() : s);
@@ -118,43 +114,39 @@ public class FunctionsStrategy implements PojoStrategy {
                     } catch (NoSuchMethodException nsme) {
                     }
                 } else {
-                    //					log().d("field is not a getter/setter", mName);
+                    // log().d("field is not a getter/setter", mName);
                     // it's an action
                     FunctionAction action = new FunctionAction(clazz, m, name, parent);
                     model.addAction(action);
                     continue;
                 }
 
-                //				if (getter == null) {
-                //					log().d("getter not found",mName);
-                //					continue;
-                //				}
+                // if (getter == null) {
+                // log().d("getter not found",mName);
+                // continue;
+                // }
 
-                //				Class<?> ret = getter.getReturnType();
-                //				if (ret == void.class) {
-                //					log().d("Value type is void - ignore");
-                //					continue;
-                //				}
+                // Class<?> ret = getter.getReturnType();
+                // if (ret == void.class) {
+                // log().d("Value type is void - ignore");
+                // continue;
+                // }
 
                 if (!actionsOnly && (isEmbedded(getter, setter) || isMarker(getter, setter))) {
 
                     if (desc != null) {
-                        if (!desc.writable()) setter = null;
-                        if (!desc.readable()) getter = null;
+                        if (!desc.writable())
+                            setter = null;
+                        if (!desc.readable())
+                            getter = null;
                     }
-                    @SuppressWarnings({"rawtypes"})
-                    FunctionAttribute attr =
-                            new FunctionAttribute(clazz, getter, setter, name, parent);
+                    @SuppressWarnings({ "rawtypes" })
+                    FunctionAttribute attr = new FunctionAttribute(clazz, getter, setter, name, parent);
                     if (isEmbedded(getter, setter)) {
-                        parse(
-                                prefix + name + embedGlue,
-                                attr,
-                                parser,
-                                attr.getType(),
-                                model,
-                                level + 1);
+                        parse(prefix + name + embedGlue, attr, parser, attr.getType(), model, level + 1);
                     } else {
-                        if (!model.hasAttribute(name)) model.addAttribute(attr);
+                        if (!model.hasAttribute(name))
+                            model.addAttribute(attr);
                     }
                 }
             } catch (Exception e) {
@@ -164,22 +156,27 @@ public class FunctionsStrategy implements PojoStrategy {
     }
 
     private boolean isEmbedded(Method getter, Method setter) {
-        if (!embedded) return false;
+        if (!embedded)
+            return false;
         if (getter != null) {
-            if (getter.isAnnotationPresent(Embedded.class)) return true;
+            if (getter.isAnnotationPresent(Embedded.class))
+                return true;
         }
         return false;
     }
 
     private boolean isMarker(Method getter, Method setter) {
-        if (annotationMarker == null || annotationMarker.length == 0) return true;
+        if (annotationMarker == null || annotationMarker.length == 0)
+            return true;
         if (getter != null) {
             for (Class<? extends Annotation> a : annotationMarker)
-                if (getter.isAnnotationPresent(a)) return true;
+                if (getter.isAnnotationPresent(a))
+                    return true;
         }
         if (setter != null) {
             for (Class<? extends Annotation> a : annotationMarker)
-                if (setter.isAnnotationPresent(a)) return true;
+                if (setter.isAnnotationPresent(a))
+                    return true;
         }
         return false;
     }

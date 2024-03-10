@@ -41,15 +41,18 @@ public class LocalClassLoader extends ClassLoader {
     @Override
     protected Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
         Class<?> clazz = localClasses.get(name);
-        if (clazz != null) return clazz;
+        if (clazz != null)
+            return clazz;
 
         byte[] code = localCode.get(name);
         if (code != null) {
             clazz = defineClass(name, code, 0, code.length);
-            if (resolve) resolveClass(clazz);
+            if (resolve)
+                resolveClass(clazz);
             localClasses.put(name, clazz);
         }
-        if (clazz != null) return clazz;
+        if (clazz != null)
+            return clazz;
 
         return super.loadClass(name, resolve);
     }
@@ -57,7 +60,8 @@ public class LocalClassLoader extends ClassLoader {
     @Override
     protected Class<?> findClass(String name) throws ClassNotFoundException {
         Class<?> clazz = localClasses.get(name);
-        if (clazz != null) return clazz;
+        if (clazz != null)
+            return clazz;
 
         byte[] code = localCode.get(name);
         if (code != null) {
@@ -65,7 +69,8 @@ public class LocalClassLoader extends ClassLoader {
             resolveClass(clazz);
             localClasses.put(name, clazz);
         }
-        if (clazz != null) return clazz;
+        if (clazz != null)
+            return clazz;
 
         return super.findClass(name);
     }
@@ -75,10 +80,12 @@ public class LocalClassLoader extends ClassLoader {
      *
      * @param name
      * @param code
+     *
      * @throws AlreadyBoundException
      */
     public void addClassCode(String name, byte[] code) throws AlreadyBoundException {
-        if (localClasses.containsKey(name)) throw new AlreadyBoundException(name);
+        if (localClasses.containsKey(name))
+            throw new AlreadyBoundException(name);
         localCode.put(name, Arrays.copyOf(code, code.length));
     }
 

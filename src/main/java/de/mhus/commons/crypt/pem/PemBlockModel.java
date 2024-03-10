@@ -36,7 +36,8 @@ public class PemBlockModel extends MProperties implements PemBlock {
 
     private static final int BLOCK_WIDTH = 50;
 
-    public PemBlockModel() {}
+    public PemBlockModel() {
+    }
 
     public PemBlockModel(String name) {
         setName(name);
@@ -64,12 +65,14 @@ public class PemBlockModel extends MProperties implements PemBlock {
 
         // find start
         int p = block.indexOf("-----BEGIN ");
-        if (p < 0) throw new ParseException("start of block not found");
+        if (p < 0)
+            throw new ParseException("start of block not found");
 
         block = block.substring(p + 11);
         // get name
         p = block.indexOf("-----");
-        if (p < 0) throw new ParseException("end of header not found");
+        if (p < 0)
+            throw new ParseException("end of header not found");
         String n = block.substring(0, p);
         if (n.contains("\n") || n.contains("\r"))
             throw new ParseException("name contains line break", n);
@@ -79,7 +82,8 @@ public class PemBlockModel extends MProperties implements PemBlock {
         // find end
         String endMark = "-----END " + getName() + "-----";
         p = block.indexOf(endMark);
-        if (p < 0) throw new ParseException("end of block not found", getName());
+        if (p < 0)
+            throw new ParseException("end of block not found", getName());
 
         rest = block.substring(p + endMark.length()).trim();
         block = block.substring(0, p).trim(); // remove line break
@@ -104,7 +108,7 @@ public class PemBlockModel extends MProperties implements PemBlock {
                 } else {
                     int pp = line.indexOf(':');
                     if (pp < 0) {
-                        //	throw new ParseException("Parameter key not identified",line);
+                        // throw new ParseException("Parameter key not identified",line);
                         // start of the block
                         params = false;
                         blockOrg = line;
@@ -115,12 +119,13 @@ public class PemBlockModel extends MProperties implements PemBlock {
                     }
                 }
             } else {
-                //				if (line.length() == 0)
-                //					break; // end of block
+                // if (line.length() == 0)
+                // break; // end of block
                 blockOrg = blockOrg + line;
             }
 
-            if (p < 0) break; // end of block
+            if (p < 0)
+                break; // end of block
         }
 
         // decode unicode
@@ -168,7 +173,8 @@ public class PemBlockModel extends MProperties implements PemBlock {
             sb.append(key).append(": ");
             int len = key.length() + 2;
             String value = String.valueOf(item.getValue());
-            if (len + value.length() <= BLOCK_WIDTH) sb.append(item.getValue()).append('\n');
+            if (len + value.length() <= BLOCK_WIDTH)
+                sb.append(item.getValue()).append('\n');
             else {
                 sb.append(value.substring(0, BLOCK_WIDTH - len)).append('\n');
                 len = BLOCK_WIDTH - len;
@@ -207,14 +213,14 @@ public class PemBlockModel extends MProperties implements PemBlock {
 
     @SuppressWarnings("unchecked")
     public <T extends PemBlockModel> T setBlock(byte[] bytes) {
-        //		setBlock(Base64.encode(bytes));
+        // setBlock(Base64.encode(bytes));
         setBlock(Base64.getEncoder().encodeToString(bytes));
         return (T) this;
     }
 
     @Override
     public byte[] getBytesBlock() {
-        //		return Base64.decode(getBlock());
+        // return Base64.decode(getBlock());
         return Base64.getDecoder().decode(block);
     }
 

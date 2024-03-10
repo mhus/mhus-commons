@@ -26,11 +26,9 @@ public class DefaultStrategy implements PojoStrategy {
         this(true, ".", null);
     }
 
-    public DefaultStrategy(
-            boolean embedded, String embedGlue, Class<? extends Annotation>[] annotationMarker) {
+    public DefaultStrategy(boolean embedded, String embedGlue, Class<? extends Annotation>[] annotationMarker) {
         attributeStrategy = new AttributesStrategy(embedded, true, embedGlue, annotationMarker);
-        functionsStrategy =
-                new FunctionsStrategy(embedded, true, embedGlue, false, annotationMarker);
+        functionsStrategy = new FunctionsStrategy(embedded, true, embedGlue, false, annotationMarker);
     }
 
     @Override

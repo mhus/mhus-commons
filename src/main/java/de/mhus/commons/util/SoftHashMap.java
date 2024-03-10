@@ -32,14 +32,16 @@ public class SoftHashMap<K, V> implements Map<K, V>, Cloneable, Serializable {
     private HashMap<K, SoftReference<V>> map = new HashMap<>();
     private long lastCleanup;
 
-    public SoftHashMap() {}
+    public SoftHashMap() {
+    }
 
     private SoftHashMap(HashMap<K, SoftReference<V>> map) {
         this.map = map;
     }
 
     private void periodicCleanup() {
-        if (System.currentTimeMillis() - lastCleanup < 1000 * 60) return;
+        if (System.currentTimeMillis() - lastCleanup < 1000 * 60)
+            return;
         cleanup();
     }
 
@@ -48,7 +50,8 @@ public class SoftHashMap<K, V> implements Map<K, V>, Cloneable, Serializable {
             Iterator<Entry<K, SoftReference<V>>> iter = map.entrySet().iterator();
             while (iter.hasNext()) {
                 java.util.Map.Entry<K, SoftReference<V>> entry = iter.next();
-                if (entry.getValue() == null || entry.getValue().get() == null) iter.remove();
+                if (entry.getValue() == null || entry.getValue().get() == null)
+                    iter.remove();
             }
             lastCleanup = System.currentTimeMillis();
         }
@@ -82,7 +85,8 @@ public class SoftHashMap<K, V> implements Map<K, V>, Cloneable, Serializable {
         periodicCleanup();
         synchronized (map) {
             SoftReference<V> s = map.get(key);
-            if (s == null) return null;
+            if (s == null)
+                return null;
             V v = s.get();
             if (v == null) {
                 map.remove(key);
@@ -119,7 +123,8 @@ public class SoftHashMap<K, V> implements Map<K, V>, Cloneable, Serializable {
         periodicCleanup();
         synchronized (map) {
             SoftReference<V> s = map.put(key, new SoftReference<V>(value));
-            if (s == null) return null;
+            if (s == null)
+                return null;
             return s.get();
         }
     }
@@ -135,7 +140,8 @@ public class SoftHashMap<K, V> implements Map<K, V>, Cloneable, Serializable {
         periodicCleanup();
         synchronized (map) {
             SoftReference<V> s = map.remove(key);
-            if (s == null) return null;
+            if (s == null)
+                return null;
             return s.get();
         }
     }
@@ -155,7 +161,7 @@ public class SoftHashMap<K, V> implements Map<K, V>, Cloneable, Serializable {
         }
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
     public Object clone() {
         cleanup();

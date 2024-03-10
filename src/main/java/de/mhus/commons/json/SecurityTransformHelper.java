@@ -36,18 +36,19 @@ public class SecurityTransformHelper extends TransformHelper {
 
     @Override
     public void log(String string, Throwable t) {
-        if (log != null) log.trace(string, t);
+        if (log != null)
+            log.trace(string, t);
     }
 
     @Override
     public void log(String msg) {
-        if (log != null) log.trace(msg);
+        if (log != null)
+            log.trace(msg);
     }
 
     @Override
-    public Object createObject(Class<?> type)
-            throws InstantiationException, IllegalAccessException, IllegalArgumentException,
-                    InvocationTargetException, NoSuchMethodException, SecurityException {
+    public Object createObject(Class<?> type) throws InstantiationException, IllegalAccessException,
+            IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
         if (!checkSecurityForClass(type.getCanonicalName()))
             throw new IllegalAccessException(type.getCanonicalName());
         return super.createObject(type);
@@ -55,16 +56,20 @@ public class SecurityTransformHelper extends TransformHelper {
 
     @Override
     public Class<?> getType(String cName) throws IllegalAccessException {
-        if (!checkSecurityForClass(cName)) throw new IllegalAccessException(cName);
+        if (!checkSecurityForClass(cName))
+            throw new IllegalAccessException(cName);
         return super.getType(cName);
     }
 
     public boolean checkSecurityForClass(String type) {
-        if (rules == null) return true;
+        if (rules == null)
+            return true;
         synchronized (rules) {
             for (Rule rule : rules) {
-                if (rule.isAllowed(type)) return true;
-                if (rule.isDenied(type)) return false;
+                if (rule.isAllowed(type))
+                    return true;
+                if (rule.isDenied(type))
+                    return false;
             }
         }
         return false;
@@ -72,7 +77,8 @@ public class SecurityTransformHelper extends TransformHelper {
 
     @Override
     public ClassLoader getClassLoader() {
-        if (loader != null) return loader;
+        if (loader != null)
+            return loader;
         return super.getClassLoader();
     }
 
@@ -81,24 +87,26 @@ public class SecurityTransformHelper extends TransformHelper {
     }
 
     public void addRule(Rule rule) {
-        if (rules == null) rules = new LinkedList<>();
+        if (rules == null)
+            rules = new LinkedList<>();
         synchronized (rules) {
             rules.add(rule);
         }
     }
 
     public List<Rule> getRules() {
-        if (rules == null) rules = new LinkedList<>();
+        if (rules == null)
+            rules = new LinkedList<>();
         return rules;
     }
 
     public abstract static class Rule {
 
         public abstract boolean isDenied(String type);
-        //			return false;
+        // return false;
 
         public abstract boolean isAllowed(String type);
-        //			return false;
+        // return false;
 
     }
 

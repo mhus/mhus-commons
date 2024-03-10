@@ -22,8 +22,7 @@ import de.mhus.commons.errors.NotSupportedException;
 public class JacksonTransformer extends TransformStrategy {
 
     @Override
-    public Object jsonToPojo(JsonNode node, Class<?> type, TransformHelper helper)
-            throws NotSupportedException {
+    public Object jsonToPojo(JsonNode node, Class<?> type, TransformHelper helper) throws NotSupportedException {
 
         try {
             return MJson.getMapper().readerFor(type).readValue(node);

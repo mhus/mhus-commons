@@ -29,7 +29,8 @@ public abstract class MNlsBundle implements IService {
     private MNls defaultNls;
     private HashMap<String, Object> cache = new HashMap<>();
 
-    public MNlsBundle() {}
+    public MNlsBundle() {
+    }
 
     public MNlsBundle(String path) {
         setPath(path);
@@ -40,33 +41,41 @@ public abstract class MNlsBundle implements IService {
     }
 
     public MNls getNls(Locale locale) {
-        if (locale == null) return getDefaultNls();
+        if (locale == null)
+            return getDefaultNls();
         String tag = locale.toLanguageTag();
         MNls out = getNls(tag);
-        if (out != null) return out;
+        if (out != null)
+            return out;
         tag = locale.getLanguage();
         out = getNls(tag);
-        if (out != null) return out;
+        if (out != null)
+            return out;
         return getDefaultNls();
     }
 
     public synchronized MNls getDefaultNls() {
-        if (defaultNls != null) return defaultNls;
+        if (defaultNls != null)
+            return defaultNls;
         defaultNls = getNls("");
-        if (defaultNls == null) defaultNls = new MNls();
+        if (defaultNls == null)
+            defaultNls = new MNls();
         return defaultNls;
     }
 
     public synchronized MNls getNls(String locale) {
         Object out = cache.get(locale);
         if (out != null) {
-            if (out instanceof MNls) return (MNls) out;
+            if (out instanceof MNls)
+                return (MNls) out;
             return null;
         }
         out = createNls(locale);
-        if (out == null || !(out instanceof MNls) || ((MNls) out).size() == 0) out = new Object();
+        if (out == null || !(out instanceof MNls) || ((MNls) out).size() == 0)
+            out = new Object();
         cache.put(locale, out);
-        if (out instanceof MNls) return (MNls) out;
+        if (out instanceof MNls)
+            return (MNls) out;
         return null;
     }
 
@@ -74,6 +83,7 @@ public abstract class MNlsBundle implements IService {
      * Create a NLS for the given path and locale or return null.
      *
      * @param locale
+     *
      * @return the nls object
      */
     public abstract MNls createNls(String locale);

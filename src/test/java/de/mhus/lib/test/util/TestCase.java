@@ -42,7 +42,8 @@ public class TestCase {
         Optional<Class<?>> clazz = testInfo.getTestClass();
         if (clazz.isPresent())
             System.out.println("START TEST FOR " + clazz.get().getCanonicalName());
-        else System.out.println("START TEST FOR UNKNOWN");
+        else
+            System.out.println("START TEST FOR UNKNOWN");
         out = System.out;
         err = System.err;
         in = System.in;
@@ -53,11 +54,15 @@ public class TestCase {
     @BeforeEach
     public void beforeEach(TestInfo testInfo) throws SkipTestException {
 
-        if (out != null) System.setOut(out);
-        if (err != null) System.setErr(err);
-        if (in != null) System.setIn(in);
+        if (out != null)
+            System.setOut(out);
+        if (err != null)
+            System.setErr(err);
+        if (in != null)
+            System.setIn(in);
 
-        if (skipTest) throw new SkipTestException();
+        if (skipTest)
+            throw new SkipTestException();
 
         System.out.println();
         System.out.println("--------------------------------------------------");
@@ -77,9 +82,12 @@ public class TestCase {
     public void afterEach(TestInfo testInfo) {
         timer.stop();
 
-        if (out != null) System.setOut(out);
-        if (err != null) System.setErr(err);
-        if (in != null) System.setIn(in);
+        if (out != null)
+            System.setOut(out);
+        if (err != null)
+            System.setErr(err);
+        if (in != null)
+            System.setIn(in);
 
         System.out.println();
         System.out.println("--------------------------------------------------");

@@ -1,3 +1,18 @@
+/**
+ * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.mhus.commons.lang;
 
 import de.mhus.commons.util.ObjectStream;
@@ -12,7 +27,6 @@ import java.util.stream.Stream;
 public final class OptionalBoolean {
 
     private static final OptionalBoolean EMPTY = new OptionalBoolean();
-
 
     private final boolean isPresent;
     private final boolean value;
@@ -86,7 +100,7 @@ public final class OptionalBoolean {
         return value;
     }
 
-    public<X extends Throwable> boolean orElseThrow(Supplier<? extends X> exceptionSupplier) throws X {
+    public <X extends Throwable> boolean orElseThrow(Supplier<? extends X> exceptionSupplier) throws X {
         if (isPresent) {
             return value;
         } else {
@@ -100,10 +114,8 @@ public final class OptionalBoolean {
             return true;
         }
 
-        return obj instanceof OptionalBoolean other
-                && (isPresent && other.isPresent
-                ? Boolean.compare(value, other.value) == 0
-                : isPresent == other.isPresent);
+        return obj instanceof OptionalBoolean other && (isPresent && other.isPresent
+                ? Boolean.compare(value, other.value) == 0 : isPresent == other.isPresent);
     }
 
     @Override
@@ -113,9 +125,7 @@ public final class OptionalBoolean {
 
     @Override
     public String toString() {
-        return isPresent
-                ? ("OptionalBoolean[" + value + "]")
-                : "OptionalBoolean.empty";
+        return isPresent ? ("OptionalBoolean[" + value + "]") : "OptionalBoolean.empty";
     }
 
     public interface BooleanConsumer {
@@ -124,7 +134,10 @@ public final class OptionalBoolean {
 
         default BooleanConsumer andThen(BooleanConsumer after) {
             Objects.requireNonNull(after);
-            return (boolean t) -> { accept(t); after.accept(t); };
+            return (boolean t) -> {
+                accept(t);
+                after.accept(t);
+            };
         }
     }
 

@@ -64,8 +64,7 @@ public class MJson {
         os.close();
     }
 
-    public static void save(JsonNode json, Writer w)
-            throws JsonGenerationException, JsonMappingException, IOException {
+    public static void save(JsonNode json, Writer w) throws JsonGenerationException, JsonMappingException, IOException {
         mapper.writeValue(w, json);
     }
 
@@ -122,8 +121,7 @@ public class MJson {
         mapper.writeValue(out, value);
     }
 
-    public static String write(Object value)
-            throws JsonGenerationException, JsonMappingException, IOException {
+    public static String write(Object value) throws JsonGenerationException, JsonMappingException, IOException {
         return mapper.writeValueAsString(value);
     }
 
@@ -132,8 +130,7 @@ public class MJson {
         return mapper.readValue(r, type);
     }
 
-    public static <T> T read(Reader r, Class<T> type)
-            throws JsonParseException, JsonMappingException, IOException {
+    public static <T> T read(Reader r, Class<T> type) throws JsonParseException, JsonMappingException, IOException {
         return mapper.readValue(r, type);
     }
 
@@ -159,15 +156,20 @@ public class MJson {
      * locate and return a json node inside a structure.
      *
      * @param parent
-     * @param path slash separated path
+     * @param path
+     *            slash separated path
+     *
      * @return requested node
      */
     public static JsonNode getByPath(JsonNode parent, String path) {
-        if (path == null || parent == null) return null;
+        if (path == null || parent == null)
+            return null;
         JsonNode cur = parent;
         for (String part : path.split("/")) {
-            if (MString.isSet(part)) cur = cur.get(part);
-            if (cur == null) return null;
+            if (MString.isSet(part))
+                cur = cur.get(part);
+            if (cur == null)
+                return null;
         }
         return cur;
     }
@@ -176,14 +178,17 @@ public class MJson {
      * Search a node by path and return the value of the node.
      *
      * @param parent
-     * @param path see getByPath
+     * @param path
+     *            see getByPath
      * @param def
+     *
      * @return the value
      */
     @SuppressWarnings("unchecked")
     public static <T> T getValue(JsonNode parent, String path, T def) {
         Object out = getValue(parent, path);
-        if (out == null) return def;
+        if (out == null)
+            return def;
         return (T) MCast.toType(out, def.getClass(), def);
     }
 
@@ -193,7 +198,8 @@ public class MJson {
     }
 
     public static Object getValue(JsonNode node) {
-        if (node == null) return null;
+        if (node == null)
+            return null;
         return getValue(node, (TransformHelper) null);
     }
 
@@ -202,9 +208,11 @@ public class MJson {
     }
 
     private static void setValues(ObjectNode node, Map<?, ?> map, int level) {
-        if (level > M.MAX_DEPTH_LEVEL) throw new MaxDepthReached();
+        if (level > M.MAX_DEPTH_LEVEL)
+            throw new MaxDepthReached();
         level++;
-        if (map == null) return;
+        if (map == null)
+            return;
         for (Map.Entry<?, ?> e : map.entrySet())
             setValue(node, String.valueOf(e.getKey()), e.getValue(), level);
     }
@@ -214,7 +222,8 @@ public class MJson {
     }
 
     private static void setValue(ObjectNode node, String name, Object value, int level) {
-        if (level > M.MAX_DEPTH_LEVEL) throw new MaxDepthReached();
+        if (level > M.MAX_DEPTH_LEVEL)
+            throw new MaxDepthReached();
         level++;
         if (value == null || value instanceof NullValue) {
             node.putNull(name);
@@ -282,7 +291,8 @@ public class MJson {
     }
 
     private static void setValues(ArrayNode array, Object[] value, int level) {
-        if (level > M.MAX_DEPTH_LEVEL) throw new MaxDepthReached();
+        if (level > M.MAX_DEPTH_LEVEL)
+            throw new MaxDepthReached();
         level++;
         for (Object obj : value) {
             if (obj == null || obj instanceof NullValue) {
@@ -325,7 +335,8 @@ public class MJson {
     }
 
     private static void setValues(ArrayNode array, Collection<?> value, int level) {
-        if (level > M.MAX_DEPTH_LEVEL) throw new MaxDepthReached();
+        if (level > M.MAX_DEPTH_LEVEL)
+            throw new MaxDepthReached();
         level++;
         for (Object obj : value) {
             if (obj == null || obj instanceof NullValue) {
@@ -365,88 +376,93 @@ public class MJson {
 
     public static Object getValue(JsonNode node, TransformHelper helper) {
         Object out = null;
-        if (node == null) return null;
+        if (node == null)
+            return null;
         try {
             switch (node.getNodeType()) {
-                case ARRAY:
-                    LinkedList<Object> l = new LinkedList<>();
-                    for (JsonNode n : node) {
-                        l.add(getValue(n, helper));
-                    }
-                    out = l;
+            case ARRAY:
+                LinkedList<Object> l = new LinkedList<>();
+                for (JsonNode n : node) {
+                    l.add(getValue(n, helper));
+                }
+                out = l;
+                break;
+            case BINARY:
+                out = node.binaryValue();
+                break;
+            case BOOLEAN:
+                out = node.booleanValue();
+                break;
+            case MISSING:
+                out = node.asText();
+                break;
+            case NULL:
+                out = null;
+                break;
+            case NUMBER:
+                switch (node.numberType()) {
+                case BIG_DECIMAL:
+                    out = node.numberValue();
                     break;
-                case BINARY:
-                    out = node.binaryValue();
+                case BIG_INTEGER:
+                    out = node.numberValue();
                     break;
-                case BOOLEAN:
-                    out = node.booleanValue();
+                case DOUBLE:
+                    out = node.numberValue().doubleValue();
                     break;
-                case MISSING:
-                    out = node.asText();
+                case FLOAT:
+                    out = node.numberValue().floatValue();
                     break;
-                case NULL:
-                    out = null;
+                case INT:
+                    out = node.numberValue().intValue();
                     break;
-                case NUMBER:
-                    switch (node.numberType()) {
-                        case BIG_DECIMAL:
-                            out = node.numberValue();
-                            break;
-                        case BIG_INTEGER:
-                            out = node.numberValue();
-                            break;
-                        case DOUBLE:
-                            out = node.numberValue().doubleValue();
-                            break;
-                        case FLOAT:
-                            out = node.numberValue().floatValue();
-                            break;
-                        case INT:
-                            out = node.numberValue().intValue();
-                            break;
-                        case LONG:
-                            out = node.numberValue().longValue();
-                            break;
-                        default:
-                            out = node.numberValue();
-                            break;
-                    }
-                    break;
-                case OBJECT:
-                    HashMap<String, Object> m = new HashMap<>();
-                    for (Iterator<String> i = node.fieldNames(); i.hasNext(); ) {
-                        String name = i.next();
-                        m.put(name, getValue(node.get(name), helper));
-                    }
-                    break;
-                case POJO:
-                    out = node.asText();
-                    break;
-                case STRING:
-                    out = node.textValue();
+                case LONG:
+                    out = node.numberValue().longValue();
                     break;
                 default:
+                    out = node.numberValue();
                     break;
+                }
+                break;
+            case OBJECT:
+                HashMap<String, Object> m = new HashMap<>();
+                for (Iterator<String> i = node.fieldNames(); i.hasNext();) {
+                    String name = i.next();
+                    m.put(name, getValue(node.get(name), helper));
+                }
+                break;
+            case POJO:
+                out = node.asText();
+                break;
+            case STRING:
+                out = node.textValue();
+                break;
+            default:
+                break;
             }
         } catch (IOException e) {
         }
         return out;
     }
+
     /**
      * Search a node and returns the text value.
      *
      * @param parent
      * @param path
      * @param def
+     *
      * @return the value
      */
     public static String getText(JsonNode parent, String path, String def) {
         JsonNode node = getByPath(parent, path);
-        if (node == null) return def;
+        if (node == null)
+            return def;
         if (node.isTextual()) {
             String out = null;
             out = node.textValue();
-            if (out == null) out = def;
+            if (out == null)
+                out = def;
             return out;
         }
         return node.asText();
@@ -456,30 +472,34 @@ public class MJson {
      * Transform a object via pojo framework to a json structure.
      *
      * @param from
+     *
      * @param to
+     *
      * @return
+     *
      * @throws IOException
      */
-    //	public static void pojoToJson(Object from, ObjectNode to) throws IOException {
-    //		pojoToJson(from, to, null);
-    //	}
+    // public static void pojoToJson(Object from, ObjectNode to) throws IOException {
+    // pojoToJson(from, to, null);
+    // }
 
     public static JsonNode pojoToJson(Object from) {
         return pojoToJson(from, null);
     }
 
-    //	public static void pojoToJson(Object from, ObjectNode to, TransformHelper helper) throws
+    // public static void pojoToJson(Object from, ObjectNode to, TransformHelper helper) throws
     // IOException {
-    //		if (helper == null) helper = DEFAULT_HELPER;
-    //		JsonNode x = pojoToJson( mapper.writeValueAsString(from), helper );
-    //		to.put("_object", x);
-    //		helper.postToJson(from, to);
-    //	}
+    // if (helper == null) helper = DEFAULT_HELPER;
+    // JsonNode x = pojoToJson( mapper.writeValueAsString(from), helper );
+    // to.put("_object", x);
+    // helper.postToJson(from, to);
+    // }
 
     /**
      * Transform a json structure into an object
      *
      * @param from
+     *
      * @return the object
      */
     public static Object jsonToPojo(JsonNode from) {
@@ -495,14 +515,16 @@ public class MJson {
     }
 
     public static JsonNode pojoToJson(Object from, TransformHelper helper) {
-        if (helper == null) helper = new TransformHelper();
+        if (helper == null)
+            helper = new TransformHelper();
         JsonNode to = helper.getStrategy().pojoToJson(from, helper);
         helper.postToJson(from, to);
         return to;
     }
 
     public static Object jsonToPojo(JsonNode from, Class<?> type, TransformHelper helper) {
-        if (helper == null) helper = new TransformHelper();
+        if (helper == null)
+            helper = new TransformHelper();
         Object to = helper.getStrategy().jsonToPojo(from, type, helper);
         helper.postToPojo(from, to);
         return to;
@@ -517,36 +539,35 @@ public class MJson {
     }
 
     public static String encode(String in) {
-        if (in == null) return null;
-        if (in.indexOf('\\') < 0 && in.indexOf('"') < 0) return in;
+        if (in == null)
+            return null;
+        if (in.indexOf('\\') < 0 && in.indexOf('"') < 0)
+            return in;
 
         in = in.replace("\\", "\\\\");
         in = in.replace("\"", "\\\"");
-        //		in = in.replaceAll("\\\\\\\\", "\\\\");
-        //		in = in.replaceAll("\"", "\\\"");
+        // in = in.replaceAll("\\\\\\\\", "\\\\");
+        // in = in.replaceAll("\"", "\\\"");
 
         return in;
     }
 
     public static String encodeValue(Object in) {
-        if (in == null) return "null";
-        if (in instanceof Integer
-                || in instanceof Long
-                || in instanceof Byte
-                || in instanceof Short
-                || in instanceof Double
-                || in instanceof Float) return String.valueOf(in).replace(',', '.');
-        if (in instanceof Date) return String.valueOf(((Date) in).getTime());
+        if (in == null)
+            return "null";
+        if (in instanceof Integer || in instanceof Long || in instanceof Byte || in instanceof Short
+                || in instanceof Double || in instanceof Float)
+            return String.valueOf(in).replace(',', '.');
+        if (in instanceof Date)
+            return String.valueOf(((Date) in).getTime());
         return '"' + encode(String.valueOf(in)) + '"';
     }
 
-    public static String toString(JsonNode to)
-            throws JsonGenerationException, JsonMappingException, IOException {
+    public static String toString(JsonNode to) throws JsonGenerationException, JsonMappingException, IOException {
         return mapper.writeValueAsString(to);
     }
 
-    public static String toPrettyString(JsonNode to)
-            throws JsonGenerationException, JsonMappingException, IOException {
+    public static String toPrettyString(JsonNode to) throws JsonGenerationException, JsonMappingException, IOException {
         return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(to);
     }
 }

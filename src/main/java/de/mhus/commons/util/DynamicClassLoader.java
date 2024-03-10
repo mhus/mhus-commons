@@ -29,7 +29,8 @@ import java.util.List;
 /**
  * This class loader is a distributor. You can dynamically change the list of child loaders.
  *
- * <p>The class loader is thread safe.
+ * <p>
+ * The class loader is thread safe.
  *
  * @author mikehummel
  */
@@ -37,9 +38,7 @@ import java.util.List;
 public class DynamicClassLoader extends ClassLoader {
 
     public enum RESULT {
-        NEXT,
-        OWN,
-        FORWARD
+        NEXT, OWN, FORWARD
     };
 
     protected String name = null;
@@ -74,7 +73,8 @@ public class DynamicClassLoader extends ClassLoader {
     public void addRule(Rule rule) {
         LinkedList<Rule> list = new LinkedList<Rule>();
         if (rules != null) {
-            for (Rule r : rules) list.add(r);
+            for (Rule r : rules)
+                list.add(r);
         }
         list.add(rule);
         setRules(list);
@@ -92,18 +92,20 @@ public class DynamicClassLoader extends ClassLoader {
             for (Rule rule : rules) {
                 RESULT res = rule.check(name);
                 switch (res) {
-                    case OWN:
-                        return findAndOwnClass(name);
-                    case FORWARD:
-                        return super.findClass(name);
-                    default:
-                        break;
+                case OWN:
+                    return findAndOwnClass(name);
+                case FORWARD:
+                    return super.findClass(name);
+                default:
+                    break;
                 }
             }
         }
 
-        if (defaultRule == RESULT.OWN) return findAndOwnClass(name);
-        if (defaultRule == RESULT.FORWARD) return super.findClass(name);
+        if (defaultRule == RESULT.OWN)
+            return findAndOwnClass(name);
+        if (defaultRule == RESULT.FORWARD)
+            return super.findClass(name);
 
         String resName = name.replaceAll("\\.", "/") + ".class";
         for (MResourceProvider cl : classLoaders) {
@@ -147,11 +149,11 @@ public class DynamicClassLoader extends ClassLoader {
 
             ByteArrayOutputStream stream = new ByteArrayOutputStream(1024);
             byte buffer[] = new byte[1024];
-            //			int i = 0;
+            // int i = 0;
             do {
                 int j = is.read(buffer, 0, buffer.length);
                 if (j >= 0) {
-                    //					i += j;
+                    // i += j;
                     stream.write(buffer, 0, j);
                 } else {
                     break;
@@ -199,49 +201,49 @@ public class DynamicClassLoader extends ClassLoader {
         classLoaders.add(index, element);
     }
 
-    //	public void doSetupFromConfig(IConfig config) {
+    // public void doSetupFromConfig(IConfig config) {
     //
-    //		for (IConfig sub : config.getConfigBundle("resource")) {
-    //			if (sub.isProperty("jar")) {
-    //				String jar = sub.getExtracted("jar");
-    //				log.d("add loader for jar",this,jar);
-    //				try {
-    //					ZipResourceProvider loader = new ZipResourceProvider(new File(jar));
-    //					add(loader);
-    //				} catch (Exception e) {
-    //					log.w("can't load jar",this,jar);
-    //				}
-    //			} else
-    //			if (sub.isProperty("path")) {
-    //				String path = sub.getExtracted("path");
-    //				log.d("add loader for path",this,path);
-    //				try {
-    //					PathResourceProvider loader = new PathResourceProvider(new File(path));
-    //					add(loader);
-    //				} catch (Exception e) {
-    //					log.w("can't load path",this,path);
-    //				}
+    // for (IConfig sub : config.getConfigBundle("resource")) {
+    // if (sub.isProperty("jar")) {
+    // String jar = sub.getExtracted("jar");
+    // log.d("add loader for jar",this,jar);
+    // try {
+    // ZipResourceProvider loader = new ZipResourceProvider(new File(jar));
+    // add(loader);
+    // } catch (Exception e) {
+    // log.w("can't load jar",this,jar);
+    // }
+    // } else
+    // if (sub.isProperty("path")) {
+    // String path = sub.getExtracted("path");
+    // log.d("add loader for path",this,path);
+    // try {
+    // PathResourceProvider loader = new PathResourceProvider(new File(path));
+    // add(loader);
+    // } catch (Exception e) {
+    // log.w("can't load path",this,path);
+    // }
     //
-    //			}
-    //		}
+    // }
+    // }
 
     //
-    //		IConfig cRules = config.getConfig("rules");
-    //		if (cRules != null) {
+    // IConfig cRules = config.getConfig("rules");
+    // if (cRules != null) {
     //
-    //			String def = cRules.getExtracted("default","OWN").toUpperCase();
-    //			log.d("default rule",this,def);
-    //			setDefaultRule(RESULT.valueOf(def));
+    // String def = cRules.getExtracted("default","OWN").toUpperCase();
+    // log.d("default rule",this,def);
+    // setDefaultRule(RESULT.valueOf(def));
     //
-    //			LinkedList<Rule> r = new LinkedList<DynamicClassLoader.Rule>();
-    //			for (IConfig sub : cRules.getConfigBundle("rule")) {
-    //				log.d("add rule",this,sub.getExtracted("pattern"),sub.getExtracted("result","FORWARD"));
-    //				r.add(new Rule(sub.getExtracted("pattern"),
+    // LinkedList<Rule> r = new LinkedList<DynamicClassLoader.Rule>();
+    // for (IConfig sub : cRules.getConfigBundle("rule")) {
+    // log.d("add rule",this,sub.getExtracted("pattern"),sub.getExtracted("result","FORWARD"));
+    // r.add(new Rule(sub.getExtracted("pattern"),
     // RESULT.valueOf(sub.getExtracted("result","FORWARD").toUpperCase()) ));
-    //			}
-    //			setRules(r);
-    //		}
-    //	}
+    // }
+    // setRules(r);
+    // }
+    // }
 
     public static class Rule {
 
@@ -254,7 +256,8 @@ public class DynamicClassLoader extends ClassLoader {
         }
 
         public RESULT check(String name) {
-            if (MString.compareFsLikePattern(name, pattern)) return result;
+            if (MString.compareFsLikePattern(name, pattern))
+                return result;
             return RESULT.NEXT;
         }
     }

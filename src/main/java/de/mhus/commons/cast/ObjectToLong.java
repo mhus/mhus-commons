@@ -39,7 +39,8 @@ public class ObjectToLong implements Caster<Object, Long> {
     }
 
     public OptionalLong toLong(Object in) {
-        if (in == null) return OptionalLong.empty();
+        if (in == null)
+            return OptionalLong.empty();
         if (in instanceof Number) {
             long r = ((Number) in).longValue();
             return OptionalLong.of(r);
@@ -50,19 +51,25 @@ public class ObjectToLong implements Caster<Object, Long> {
 
             if (ins.startsWith("0x") || ins.startsWith("-0x") || ins.startsWith("+0x")) {
                 int start = 2;
-                if (ins.startsWith("-")) start = 3;
+                if (ins.startsWith("-"))
+                    start = 3;
                 long out = 0;
                 for (int i = start; i < ins.length(); i++) {
                     int s = -1;
                     char c = ins.charAt(i);
-                    if (c >= '0' && c <= '9') s = c - '0';
-                    else if (c >= 'a' && c <= 'f') s = c - 'a' + 10;
-                    else if (c >= 'A' && c <= 'F') s = c - 'A' + 10;
+                    if (c >= '0' && c <= '9')
+                        s = c - '0';
+                    else if (c >= 'a' && c <= 'f')
+                        s = c - 'a' + 10;
+                    else if (c >= 'A' && c <= 'F')
+                        s = c - 'A' + 10;
 
-                    if (s == -1) throw new NumberFormatException(ins);
+                    if (s == -1)
+                        throw new NumberFormatException(ins);
                     out = out * 16 + s;
                 }
-                if (ins.startsWith("-")) out = -out;
+                if (ins.startsWith("-"))
+                    out = -out;
                 return OptionalLong.of(out);
             }
 

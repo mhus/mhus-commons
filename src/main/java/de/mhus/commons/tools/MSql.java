@@ -28,16 +28,20 @@ import java.sql.Types;
 public class MSql {
 
     /**
-     * Prepare a string to use it in a sql query. It will also append the quots. A null string will
-     * be represented as one space of NULL
+     * Prepare a string to use it in a sql query. It will also append the quots. A null string will be represented as
+     * one space of NULL
      *
      * @param string
-     * @param notNull Set to true will return a single space instead of the string NULL
+     * @param notNull
+     *            Set to true will return a single space instead of the string NULL
+     *
      * @return encoded string
      */
     public static String encode(String string, boolean notNull) {
-        if (string == null) return (notNull ? "' '" : "NULL");
-        if (string.indexOf('\'') < 0) return '\'' + string + '\'';
+        if (string == null)
+            return (notNull ? "' '" : "NULL");
+        if (string.indexOf('\'') < 0)
+            return '\'' + string + '\'';
         return '\'' + string.replaceAll("'", "''") + '\'';
     }
 
@@ -45,11 +49,14 @@ public class MSql {
      * Escape all single quots to double single quots.
      *
      * @param in
+     *
      * @return escaped string
      */
     public static String escape(String in) {
-        if (in == null) return "";
-        if (in.indexOf('\'') < 0) return in;
+        if (in == null)
+            return "";
+        if (in.indexOf('\'') < 0)
+            return in;
         return in.replaceAll("'", "''");
     }
 
@@ -57,11 +64,14 @@ public class MSql {
      * Remove all double single quots.
      *
      * @param in
+     *
      * @return unescaped string
      */
     public static String unescape(String in) {
-        if (in == null) return "";
-        if (in.indexOf('\'') < 0) return in;
+        if (in == null)
+            return "";
+        if (in.indexOf('\'') < 0)
+            return in;
         return in.replaceAll("''", "'");
     }
 
@@ -70,12 +80,16 @@ public class MSql {
      *
      * @param in
      * @param truncateSize
+     *
      * @return escaped string
      */
     public static String escape(String in, int truncateSize) {
-        if (in == null) return null;
-        if (in.length() > truncateSize) in = in.substring(0, truncateSize);
-        if (in.indexOf('\'') < 0) return in;
+        if (in == null)
+            return null;
+        if (in.length() > truncateSize)
+            in = in.substring(0, truncateSize);
+        if (in.indexOf('\'') < 0)
+            return in;
         return in.replaceAll("'", "''");
     }
 
@@ -84,6 +98,7 @@ public class MSql {
      *
      * @param sth
      * @param sql
+     *
      * @throws SQLException
      */
     public static void executeUpdateQueries(Statement sth, String sql) throws SQLException {
@@ -95,12 +110,13 @@ public class MSql {
     }
 
     /**
-     * used to prepare SQL string literals by doubling each embedded ' and wrapping in ' at each
-     * end. Further quoting is required to use the results in Java String literals. If you use
-     * PreparedStatement, then this method is not needed. The ' quoting is automatically handled for
-     * you.
+     * used to prepare SQL string literals by doubling each embedded ' and wrapping in ' at each end. Further quoting is
+     * required to use the results in Java String literals. If you use PreparedStatement, then this method is not
+     * needed. The ' quoting is automatically handled for you.
      *
-     * @param sql Raw SQL string literal
+     * @param sql
+     *            Raw SQL string literal
+     *
      * @return sql String literal enclosed in '
      */
     public static String quoteSQL(String sql) {
@@ -121,8 +137,11 @@ public class MSql {
     /**
      * Removes all non standard characters. Currently do not validate keywords.
      *
-     * @param in The string to validate
-     * @param con Optional the sql connection to validate keywords. null is possible.
+     * @param in
+     *            The string to validate
+     * @param con
+     *            Optional the sql connection to validate keywords. null is possible.
+     *
      * @return normalized string
      */
     public static String toSqlLabel(String in, Connection con) {
@@ -136,7 +155,8 @@ public class MSql {
             }
         }
 
-        if (!error) return in;
+        if (!error)
+            return in;
 
         StringBuilder out = new StringBuilder();
         for (int i = 0; i < in.length(); i++) {
@@ -144,10 +164,7 @@ public class MSql {
             if (i == 0 && c >= '0' && c <= '9') {
                 out.append('_');
             }
-            if (!(c >= 'a' && c <= 'z'
-                    || c >= 'A' && c <= 'Z'
-                    || c >= '0' && c <= '9'
-                    || c == '_')) {
+            if (!(c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z' || c >= '0' && c <= '9' || c == '_')) {
                 out.append('_');
             } else {
                 out.append(c);
@@ -156,63 +173,63 @@ public class MSql {
         return out.toString();
     }
 
-    public static void fillProperties(ResultSet res, MProperties prop)
-            throws SQLException, MException {
+    public static void fillProperties(ResultSet res, MProperties prop) throws SQLException, MException {
         fillProperties(res, prop, null);
     }
 
     public static void fillProperties(ResultSet res, MProperties prop, SqlTranslator translator)
             throws SQLException, MException {
         ResultSetMetaData meta = res.getMetaData();
-        if (translator == null) translator = new SqlTranslator();
+        if (translator == null)
+            translator = new SqlTranslator();
         for (int i = 1; i < meta.getColumnCount(); i++) {
             String name = meta.getColumnName(i);
             int type = meta.getColumnType(i);
 
             switch (type) {
-                case Types.CHAR:
-                case Types.VARCHAR:
-                case Types.LONGVARCHAR:
-                    translator.toString(res, prop, name, i, type);
-                    break;
+            case Types.CHAR:
+            case Types.VARCHAR:
+            case Types.LONGVARCHAR:
+                translator.toString(res, prop, name, i, type);
+                break;
 
-                case Types.NUMERIC:
-                case Types.DECIMAL:
-                case Types.TINYINT:
-                case Types.SMALLINT:
-                case Types.REAL:
-                    translator.toNumber(res, prop, name, i, type);
-                    break;
+            case Types.NUMERIC:
+            case Types.DECIMAL:
+            case Types.TINYINT:
+            case Types.SMALLINT:
+            case Types.REAL:
+                translator.toNumber(res, prop, name, i, type);
+                break;
 
-                case Types.BIT:
-                    translator.toBoolean(res, prop, name, i, type);
-                    break;
+            case Types.BIT:
+                translator.toBoolean(res, prop, name, i, type);
+                break;
 
-                case Types.INTEGER:
-                    translator.toInt(res, prop, name, i, type);
-                    break;
+            case Types.INTEGER:
+                translator.toInt(res, prop, name, i, type);
+                break;
 
-                case Types.BIGINT:
-                    translator.toLong(res, prop, name, i, type);
-                    break;
+            case Types.BIGINT:
+                translator.toLong(res, prop, name, i, type);
+                break;
 
-                case Types.FLOAT:
-                case Types.DOUBLE:
-                    translator.toDouble(res, prop, name, i, type);
-                    break;
+            case Types.FLOAT:
+            case Types.DOUBLE:
+                translator.toDouble(res, prop, name, i, type);
+                break;
 
-                case Types.BINARY:
-                case Types.VARBINARY:
-                case Types.LONGVARBINARY:
-                case Types.CLOB:
-                    translator.toBinary(res, prop, name, i, type);
-                    break;
+            case Types.BINARY:
+            case Types.VARBINARY:
+            case Types.LONGVARBINARY:
+            case Types.CLOB:
+                translator.toBinary(res, prop, name, i, type);
+                break;
 
-                case Types.DATE:
-                case Types.TIME:
-                case Types.TIMESTAMP:
-                    translator.toDate(res, prop, name, i, type);
-                    break;
+            case Types.DATE:
+            case Types.TIME:
+            case Types.TIMESTAMP:
+                translator.toDate(res, prop, name, i, type);
+                break;
             }
         }
     }
@@ -230,7 +247,8 @@ public class MSql {
         }
 
         public void toBinary(ResultSet res, MProperties prop, String name, int i, int type)
-                throws MException, SQLException {}
+                throws MException, SQLException {
+        }
 
         public void toDouble(ResultSet res, MProperties prop, String name, int i, int type)
                 throws MException, SQLException {
@@ -259,11 +277,14 @@ public class MSql {
     }
 
     /**
-     * Validate the name as a column name. If the name contains not allowed characters the method
-     * will throw a sql exception. Use this method to deny sql injection for column names.
+     * Validate the name as a column name. If the name contains not allowed characters the method will throw a sql
+     * exception. Use this method to deny sql injection for column names.
      *
-     * @param name The name of the column
+     * @param name
+     *            The name of the column
+     *
      * @return The name. The method can be used in line.
+     *
      * @throws SQLException
      */
     public static String column(String name) throws SQLException {
@@ -276,13 +297,16 @@ public class MSql {
     }
 
     /**
-     * Returns true if a column exists in the result set. The function is linear do not use it in
-     * every iteration of an result set. Try to cache the result. Be aware of case sensitive / not
-     * sensitive database implementations.
+     * Returns true if a column exists in the result set. The function is linear do not use it in every iteration of an
+     * result set. Try to cache the result. Be aware of case sensitive / not sensitive database implementations.
      *
-     * @param rs Result Set to check
-     * @param column Name of the column to that should exists
+     * @param rs
+     *            Result Set to check
+     * @param column
+     *            Name of the column to that should exists
+     *
      * @return true if the column exists in the result set.
+     *
      * @throws SQLException
      */
     public static boolean hasColumn(ResultSet rs, String column) throws SQLException {

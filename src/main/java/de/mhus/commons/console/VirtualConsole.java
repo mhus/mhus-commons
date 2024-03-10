@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,9 +37,9 @@ public class VirtualConsole extends Console {
     private boolean bold;
     protected boolean echo;
 
-    //	private PipedInputStream inPipe = new PipedInputStream();
-    //	private PipedOutputStream outPipe = new PipedOutputStream();
-    //	private TextReader reader = new TextReader(inPipe);
+    // private PipedInputStream inPipe = new PipedInputStream();
+    // private PipedOutputStream outPipe = new PipedOutputStream();
+    // private TextReader reader = new TextReader(inPipe);
 
     private PipedStream piped = new PipedStream();
     private TextReader reader = new TextReader(piped.getIn());
@@ -64,12 +64,15 @@ public class VirtualConsole extends Console {
         x = 0;
         y = 0;
         buffer = new Props[height][width];
-        for (int y = 0; y < height; y++) for (int x = 0; x < width; x++) buffer[y][x] = new Props();
+        for (int y = 0; y < height; y++)
+            for (int x = 0; x < width; x++)
+                buffer[y][x] = new Props();
     }
 
     @Override
     public String readLine(String prompt, LinkedList<String> history) {
-        if (prompt != null) print(prompt);
+        if (prompt != null)
+            print(prompt);
         return reader.readLine();
     }
 
@@ -112,11 +115,13 @@ public class VirtualConsole extends Console {
     public void resize(int width, int height) {
         Props[][] newBuffer = new Props[height][width];
         for (int y = 0; y < height; y++)
-            for (int x = 0; x < width; x++) newBuffer[y][x] = new Props();
+            for (int x = 0; x < width; x++)
+                newBuffer[y][x] = new Props();
 
         for (int y = 0; y < this.height; y++)
             for (int x = 0; x < this.width; x++)
-                if (y < height && x < width) newBuffer[y][x] = buffer[y][x];
+                if (y < height && x < width)
+                    newBuffer[y][x] = buffer[y][x];
 
         buffer = newBuffer;
         this.width = width;
@@ -206,17 +211,20 @@ public class VirtualConsole extends Console {
         StringBuilder out = new StringBuilder();
 
         out.append("+");
-        for (int x = 0; x < width; x++) out.append("-");
+        for (int x = 0; x < width; x++)
+            out.append("-");
         out.append("+\n");
 
         for (int y = 0; y < height; y++) {
             out.append("|");
-            for (int x = 0; x < width; x++) out.append(buffer[y][x].c);
+            for (int x = 0; x < width; x++)
+                out.append(buffer[y][x].c);
             out.append("|\n");
         }
 
         out.append("+");
-        for (int x = 0; x < width; x++) out.append("-");
+        for (int x = 0; x < width; x++)
+            out.append("-");
         out.append("+");
 
         return out.toString();
@@ -239,14 +247,16 @@ public class VirtualConsole extends Console {
     }
 
     protected void fillInputBuffer(char c) throws IOException {
-        if (!quiet) writeChar(c);
-        //		outPipe.write(c);
+        if (!quiet)
+            writeChar(c);
+        // outPipe.write(c);
         piped.getOut().write(c);
     }
 
     protected void writeChar(char c) {
 
-        if (echo) System.out.print(c);
+        if (echo)
+            System.out.print(c);
 
         // for secure
         x = x % width;
@@ -255,7 +265,8 @@ public class VirtualConsole extends Console {
         if (c == '\r') {
             x = 0;
         } else if (c == '\t') {
-            while (x % 7 == 0) writeChar(' ');
+            while (x % 7 == 0)
+                writeChar(' ');
         } else if (c == '\n') {
             x = 0;
             if (y >= height - 1) {
@@ -294,13 +305,15 @@ public class VirtualConsole extends Console {
 
     private void scrollLineUp() {
         // swap buffer
-        for (int i = 0; i < height - 1; i++) buffer[i] = buffer[i + 1];
-        //			for (int j = 0; j < WIDTH; j++)
-        //				buffer[i][j] = buffer[i+1][j];
+        for (int i = 0; i < height - 1; i++)
+            buffer[i] = buffer[i + 1];
+        // for (int j = 0; j < WIDTH; j++)
+        // buffer[i][j] = buffer[i+1][j];
 
         // new line
         buffer[height - 1] = new Props[width];
-        for (int i = 0; i < width; i++) buffer[height - 1][i] = new Props();
+        for (int i = 0; i < width; i++)
+            buffer[height - 1][i] = new Props();
     }
 
     private class VirtualOutStream extends OutputStream {

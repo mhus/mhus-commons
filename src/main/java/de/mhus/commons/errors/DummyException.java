@@ -31,7 +31,8 @@ public class DummyException extends MRuntimeException {
 
     @Override
     public StackTraceElement[] getStackTrace() {
-        if (stackTrace != null) return stackTrace;
+        if (stackTrace != null)
+            return stackTrace;
         return super.getStackTrace();
     }
 }

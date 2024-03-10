@@ -34,7 +34,8 @@ public class Ace {
 
     protected String rights;
 
-    public Ace() {}
+    public Ace() {
+    }
 
     public Ace(String rights) {
         this.rights = rights;

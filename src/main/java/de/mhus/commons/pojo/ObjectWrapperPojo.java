@@ -27,7 +27,8 @@ public class ObjectWrapperPojo<T> {
     private T object;
     private byte[] stream;
 
-    public ObjectWrapperPojo() {}
+    public ObjectWrapperPojo() {
+    }
 
     public ObjectWrapperPojo(T object) {
         this.object = object;
@@ -38,8 +39,7 @@ public class ObjectWrapperPojo<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public synchronized T pojoGetObject(ClassLoader classLoader)
-            throws IOException, ClassNotFoundException {
+    public synchronized T pojoGetObject(ClassLoader classLoader) throws IOException, ClassNotFoundException {
         if (object == null && stream != null) {
 
             ByteArrayInputStream in = new ByteArrayInputStream(stream);

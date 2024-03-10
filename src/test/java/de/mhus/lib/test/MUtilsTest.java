@@ -52,7 +52,8 @@ public class MUtilsTest extends TestCase {
     @Test
     public void testByteStream() throws IOException {
         StreamBuffer stream = new StreamBuffer();
-        for (int i = 0; i < 10000; i++) stream.getOutputStream().write((byte) (i % 100));
+        for (int i = 0; i < 10000; i++)
+            stream.getOutputStream().write((byte) (i % 100));
         assertEquals(10000, stream.size());
 
         for (int i = 0; i < 10000; i++) {
@@ -63,7 +64,8 @@ public class MUtilsTest extends TestCase {
         assertEquals(0, stream.size());
 
         // again
-        for (int i = 0; i < 10000; i++) stream.getOutputStream().write((byte) (i % 100));
+        for (int i = 0; i < 10000; i++)
+            stream.getOutputStream().write((byte) (i % 100));
         assertEquals(10000, stream.size());
 
         for (int i = 0; i < 10000; i++) {

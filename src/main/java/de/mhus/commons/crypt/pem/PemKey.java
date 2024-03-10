@@ -65,9 +65,10 @@ public class PemKey extends PemBlockModel implements PemPriv, PemPub {
         sb.append('\n');
 
         if (secret) {
-            //			sb.append( Block.encodeSecret(getEncodedBlock()) );
+            // sb.append( Block.encodeSecret(getEncodedBlock()) );
             sb.append("?");
-        } else sb.append(getEncodedBlock());
+        } else
+            sb.append(getEncodedBlock());
         sb.append("\n\n");
         sb.append("-----END ").append(getName()).append("-----\n");
         return sb.toString();

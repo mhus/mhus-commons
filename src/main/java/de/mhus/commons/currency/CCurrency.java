@@ -30,21 +30,10 @@ public class CCurrency implements Externalizable {
     public static final String SCHEME_FIAT_PREFIX = "fiat-";
 
     public enum CRYPTO_CURRENCY {
-        UNKNOWN("?", ""),
-        BTC("Bitcoin", "bitcoin"),
-        LTC("Litecoin", "litecoin"),
-        NMC("Namecoin", "namecoin"),
-        BCH("Bitcoin Cash", "bitcoincash"),
-        XRP("Ripple", "ripple"),
-        DASH("Dash", "dash"),
-        XMR("Monero", "monero"),
-        XLM("Stellar", "stellar"),
-        ETH("Ethereum", "ethereum"),
-        ETC("Ethereum Classic", "ethereumclassic"),
-        ZEC("Zcash", "zcash"),
-        EOS("EOS.IO", "eos"),
-        NEO("NEO", "neo"),
-        USDT("USD Tether", "usdtether"),
+        UNKNOWN("?", ""), BTC("Bitcoin", "bitcoin"), LTC("Litecoin", "litecoin"), NMC("Namecoin", "namecoin"),
+        BCH("Bitcoin Cash", "bitcoincash"), XRP("Ripple", "ripple"), DASH("Dash", "dash"), XMR("Monero", "monero"),
+        XLM("Stellar", "stellar"), ETH("Ethereum", "ethereum"), ETC("Ethereum Classic", "ethereumclassic"),
+        ZEC("Zcash", "zcash"), EOS("EOS.IO", "eos"), NEO("NEO", "neo"), USDT("USD Tether", "usdtether"),
         EURT("EUR Tether", "eurtether");
 
         private String title;
@@ -58,7 +47,8 @@ public class CCurrency implements Externalizable {
         private final CCurrency currency = new CCurrency(this.name(), this.getScheme());
 
         public CCurrency toCurrency() {
-            if (this == UNKNOWN) return null;
+            if (this == UNKNOWN)
+                return null;
             return currency;
         }
 
@@ -72,18 +62,9 @@ public class CCurrency implements Externalizable {
     };
 
     public enum FIAT_CURRENCY {
-        UNKNOWN("?"),
-        USD("US Dollar"),
-        EUR("Euro"),
-        JPY("Japanese Yen"),
-        GBR("British Pound"),
-        CHF("Swiss Franc"),
-        CAD("Canadian Dollar"),
-        AUD("Australian Dollar"),
-        HKD("Hong Kong Dollar"),
-        CNY("Chinese Yuan Renminbi"),
-        INR("Indian Rupee"),
-        RUB("Russian Ruble");
+        UNKNOWN("?"), USD("US Dollar"), EUR("Euro"), JPY("Japanese Yen"), GBR("British Pound"), CHF("Swiss Franc"),
+        CAD("Canadian Dollar"), AUD("Australian Dollar"), HKD("Hong Kong Dollar"), CNY("Chinese Yuan Renminbi"),
+        INR("Indian Rupee"), RUB("Russian Ruble");
 
         private String title;
         private String scheme;
@@ -96,7 +77,8 @@ public class CCurrency implements Externalizable {
         private final CCurrency currency = new CCurrency(this.name(), getScheme());
 
         public CCurrency toCurrency() {
-            if (this == UNKNOWN) return null;
+            if (this == UNKNOWN)
+                return null;
             return currency;
         }
 
@@ -124,16 +106,20 @@ public class CCurrency implements Externalizable {
     private String scheme;
 
     public CCurrency(String in) {
-        if (in == null) throw new NullPointerException("Currency name can't be null");
+        if (in == null)
+            throw new NullPointerException("Currency name can't be null");
         name = in.trim().toUpperCase();
-        if (scheme == null) scheme = ""; // not null!
+        if (scheme == null)
+            scheme = ""; // not null!
         this.scheme = getSchemeForCurrency(in);
     }
 
     public CCurrency(String in, String scheme) {
-        if (in == null) throw new NullPointerException("Currency name can't be null");
+        if (in == null)
+            throw new NullPointerException("Currency name can't be null");
         name = in.trim().toUpperCase();
-        if (scheme == null) scheme = ""; // not null!
+        if (scheme == null)
+            scheme = ""; // not null!
         this.scheme = scheme.trim().toLowerCase();
     }
 
@@ -144,7 +130,8 @@ public class CCurrency implements Externalizable {
 
     @Override
     public boolean equals(Object in) {
-        if (in == null) return false;
+        if (in == null)
+            return false;
         return name.equals(in.toString());
     }
 
@@ -194,11 +181,13 @@ public class CCurrency implements Externalizable {
     }
 
     public static CCurrency getCurrenctyForName(String name) {
-        if (name == null) return UNKNOWN;
+        if (name == null)
+            return UNKNOWN;
         name = name.trim();
         // find by scheme
         CCurrency s = schemeMapping.get(name.toLowerCase());
-        if (s != null) return s;
+        if (s != null)
+            return s;
 
         // test name
         String currency = name.toUpperCase();

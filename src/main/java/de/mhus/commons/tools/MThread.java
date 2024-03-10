@@ -25,8 +25,9 @@ import java.util.function.Consumer;
 
 /**
  * @author hummel
- *     <p>To change the template for this generated type comment go to
- *     Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ *         <p>
+ *         To change the template for this generated type comment go to Window&gt;Preferences&gt;Java&gt;Code
+ *         Generation&gt;Code and Comments
  */
 @Slf4j
 public class MThread {
@@ -45,25 +46,30 @@ public class MThread {
     }
 
     /**
-     * Sleeps _millisec milliseconds. On Interruption it will throw an InterruptedException. If
-     * thread is already interrupted, it will throw the exception directly.
+     * Sleeps _millisec milliseconds. On Interruption it will throw an InterruptedException. If thread is already
+     * interrupted, it will throw the exception directly.
      *
-     * <p>This can be used in loops if a interrupt should be able to stop the loop.
+     * <p>
+     * This can be used in loops if a interrupt should be able to stop the loop.
      *
      * @param _millisec
-     * @throws InterruptedException on interrupt
+     *
+     * @throws InterruptedException
+     *             on interrupt
      */
     public static void sleepInLoop(long _millisec) throws InterruptedException {
-        if (Thread.interrupted()) throw new InterruptedException();
+        if (Thread.interrupted())
+            throw new InterruptedException();
         Thread.sleep(_millisec);
     }
 
     /**
-     * Sleeps _millisec milliseconds. On Interruption it will print a debug stack trace but not
-     * break. It will leave the Thread.interrupted state to false see
+     * Sleeps _millisec milliseconds. On Interruption it will print a debug stack trace but not break. It will leave the
+     * Thread.interrupted state to false see
      * https://docs.oracle.com/javase/tutorial/essential/concurrency/interrupt.html
      *
      * @param _millisec
+     *
      * @return true if the thread was interrupted in the sleep time
      */
     public static boolean sleepForSure(long _millisec) {
@@ -82,37 +88,40 @@ public class MThread {
                 LOGGER.debug("Error", e);
                 long done = System.currentTimeMillis() - start;
                 _millisec = _millisec - done;
-                if (_millisec <= 0) return interrupted;
+                if (_millisec <= 0)
+                    return interrupted;
             }
         }
     }
 
     /**
-     * Try every 200ms to get the value. If the provider throws an error or return null the try will
-     * be repeated. If the time out is reached a TimeoutRuntimeException will be thrown.
+     * Try every 200ms to get the value. If the provider throws an error or return null the try will be repeated. If the
+     * time out is reached a TimeoutRuntimeException will be thrown.
      *
      * @param provider
      * @param timeout
      * @param nullAllowed
+     *
      * @return The requested value
      */
-    public static <T> T getWithTimeout(
-            final ValueProvider<T> provider, long timeout, boolean nullAllowed) {
+    public static <T> T getWithTimeout(final ValueProvider<T> provider, long timeout, boolean nullAllowed) {
         long start = System.currentTimeMillis();
         while (true) {
             try {
                 T val = provider.getValue();
-                if (nullAllowed || val != null) return val;
+                if (nullAllowed || val != null)
+                    return val;
             } catch (Throwable t) {
             }
-            if (System.currentTimeMillis() - start > timeout) throw new TimeoutRuntimeException();
+            if (System.currentTimeMillis() - start > timeout)
+                throw new TimeoutRuntimeException();
             sleep(200);
         }
     }
 
     /**
-     * Wait for the checker to return true or throw an TimeoutRuntimeException on timeout. A
-     * exception in the checker will be ignored.
+     * Wait for the checker to return true or throw an TimeoutRuntimeException on timeout. A exception in the checker
+     * will be ignored.
      *
      * @param checker
      * @param timeout
@@ -121,10 +130,12 @@ public class MThread {
         long start = System.currentTimeMillis();
         while (true) {
             try {
-                if (checker.check()) return;
+                if (checker.check())
+                    return;
             } catch (Throwable t) {
             }
-            if (System.currentTimeMillis() - start > timeout) throw new TimeoutRuntimeException();
+            if (System.currentTimeMillis() - start > timeout)
+                throw new TimeoutRuntimeException();
             sleep(200);
         }
     }
@@ -134,17 +145,21 @@ public class MThread {
      *
      * @param checker
      * @param timeout
-     * @throws Exception Thrown if checker throws an exception
+     *
+     * @throws Exception
+     *             Thrown if checker throws an exception
      */
     public static void waitForWithException(final Checker checker, long timeout) throws Exception {
         long start = System.currentTimeMillis();
         while (true) {
             try {
-                if (checker.check()) return;
+                if (checker.check())
+                    return;
             } catch (Throwable t) {
                 throw t;
             }
-            if (System.currentTimeMillis() - start > timeout) throw new TimeoutRuntimeException();
+            if (System.currentTimeMillis() - start > timeout)
+                throw new TimeoutRuntimeException();
             sleep(200);
         }
     }
@@ -152,42 +167,40 @@ public class MThread {
     /**
      * Check if the thread was interrupted an throws the InterruptedException exception.
      *
-     * @throws InterruptedException Throw if the thread was interrupted in the meantime.
+     * @throws InterruptedException
+     *             Throw if the thread was interrupted in the meantime.
      */
     public static void checkInterruptedException() throws InterruptedException {
-        if (Thread.interrupted()) throw new InterruptedException();
+        if (Thread.interrupted())
+            throw new InterruptedException();
     }
 
     public static void run(Runnable task) {
-        new Thread(
-                        new Runnable() {
+        new Thread(new Runnable() {
 
-                            @Override
-                            public void run() {
-                                try {
-                                    task.run();
-                                } catch (Throwable t) {
-                                    t.printStackTrace();
-                                }
-                            }
-                        })
-                .start();
+            @Override
+            public void run() {
+                try {
+                    task.run();
+                } catch (Throwable t) {
+                    t.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     public static void run(Consumer<Thread> consumer) {
-        new Thread(
-                        new Runnable() {
+        new Thread(new Runnable() {
 
-                            @Override
-                            public void run() {
-                                try {
-                                    consumer.accept(Thread.currentThread());
-                                } catch (Throwable t) {
-                                    t.printStackTrace();
-                                }
-                            }
-                        })
-                .start();
+            @Override
+            public void run() {
+                try {
+                    consumer.accept(Thread.currentThread());
+                } catch (Throwable t) {
+                    t.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     public static void cleanup() {

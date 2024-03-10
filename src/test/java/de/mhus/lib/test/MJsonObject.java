@@ -19,7 +19,8 @@ public class MJsonObject {
 
     public String string;
 
-    public MJsonObject() {}
+    public MJsonObject() {
+    }
 
     public MJsonObject(String string) {
         this.string = string;

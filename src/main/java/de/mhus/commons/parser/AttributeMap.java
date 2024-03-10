@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,10 +22,12 @@ public class AttributeMap extends HashMap<String, Object> {
     /** */
     private static final long serialVersionUID = 8679000665603785877L;
 
-    public AttributeMap() {}
+    public AttributeMap() {
+    }
 
     public AttributeMap(Object... entries) {
-        if (entries == null) return;
+        if (entries == null)
+            return;
         for (int i = 0; i < entries.length; i += 2) {
             put(String.valueOf(entries[i]), entries[i + 1]);
         }

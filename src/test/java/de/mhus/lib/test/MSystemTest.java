@@ -36,7 +36,7 @@ public class MSystemTest extends TestCase {
     public void testManifest() throws NotFoundException {
         Manifest manifest = MSystem.getManifest(MSystem.class);
         assertNotNull(manifest);
-        String manifestVersion = manifest.getMainAttributes().getValue( "Manifest-Version");
+        String manifestVersion = manifest.getMainAttributes().getValue("Manifest-Version");
         System.out.println(manifestVersion);
         if (manifestVersion == null)
             System.out.println("Manifest-Version not found"); // could happen if running from IDE
@@ -49,9 +49,8 @@ public class MSystemTest extends TestCase {
         Class<?> testy = StringValue.class;
 
         assertEquals("java.lang.String", MSystem.getTemplateCanonicalName(testy, 0));
-        assertEquals(
-                "java.lang.Integer",
-                MSystem.getTemplateCanonicalName((new Template<Integer>() {}).getClass(), 0));
+        assertEquals("java.lang.Integer", MSystem.getTemplateCanonicalName((new Template<Integer>() {
+        }).getClass(), 0));
 
         assertNull(MSystem.getTemplateCanonicalName(testy, 1));
         assertNull(MSystem.getTemplateCanonicalName(new Template<Integer>().getClass(), 0));
@@ -69,12 +68,11 @@ public class MSystemTest extends TestCase {
             assertEquals("java.util.Map.Entry", name);
         }
         {
-            String name =
-                    MSystem.getCanonicalClassName(
-                            new Runnable() {
-                                @Override
-                                public void run() {}
-                            }.getClass());
+            String name = MSystem.getCanonicalClassName(new Runnable() {
+                @Override
+                public void run() {
+                }
+            }.getClass());
             assertEquals("de.mhus.lib.test.MSystemTest$2", name);
         }
     }

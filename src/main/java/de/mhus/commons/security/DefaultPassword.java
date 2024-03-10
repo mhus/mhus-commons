@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,7 +39,8 @@ public class DefaultPassword implements IPassword {
     }
 
     protected final synchronized void init() {
-        if (encodings != null) return;
+        if (encodings != null)
+            return;
         encodings = new HashMap<>();
         encodings.put(MPassword.ROT13, new Rot13Encoder());
         encodings.put(MPassword.ROT13AND5, new Rot13And5Encoder());
@@ -47,44 +48,52 @@ public class DefaultPassword implements IPassword {
         encodings.put(MPassword.MD5, new Md5Encoder());
 
         Map<String, IPasswordEncoder> map = MService.getService(IPasswordEncoderFactory.class).get();
-        if (map != null) map.forEach((k, v) -> encodings.put(k.toLowerCase(), v));
+        if (map != null)
+            map.forEach((k, v) -> encodings.put(k.toLowerCase(), v));
 
         additionalEncodings(encodings);
 
         keys = Collections.unmodifiableCollection(encodings.keySet());
     }
 
-    protected void additionalEncodings(Map<String, IPasswordEncoder> encodings2) {}
+    protected void additionalEncodings(Map<String, IPasswordEncoder> encodings2) {
+    }
 
     @Override
     public String encode(String method, String plain, String secret) {
-        if (plain == null) return null;
+        if (plain == null)
+            return null;
         init();
 
         IPasswordEncoder encoder = encodings.get(method.toLowerCase());
-        if (encoder == null) throw new NotSupportedException("method {1} not found", method);
+        if (encoder == null)
+            throw new NotSupportedException("method {1} not found", method);
 
         return encoder.encode(plain, secret);
     }
 
     @Override
     public String decode(String method, String encoded, String secret) {
-        if (encoded == null) return null;
+        if (encoded == null)
+            return null;
         init();
 
         IPasswordEncoder encoder = encodings.get(method.toLowerCase());
-        if (encoder == null) throw new NotSupportedException("method {1} not found", method);
+        if (encoder == null)
+            throw new NotSupportedException("method {1} not found", method);
 
         return encoder.decode(encoded, secret);
     }
 
     @Override
     public boolean validate(String method, String plain, String encoded, String secret) {
-        if (plain == null) return false;
+        if (plain == null)
+            return false;
         init();
 
         IPasswordEncoder encoder = encodings.get(method.toLowerCase());
-        if (encoder == null) throw new NotSupportedException("method {1} not found", method);
+        if (encoder == null)
+            throw new NotSupportedException("method {1} not found", method);
 
         return encoder.validate(plain, encoded, secret);
     }

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ public class Rot13 {
      * Encode characters +13 and Numbers +5
      *
      * @param in
+     *
      * @return
      */
     public static String encode13And5(String in) {
@@ -31,6 +32,7 @@ public class Rot13 {
      * Decode characters +13 and Numbers +5
      *
      * @param in
+     *
      * @return
      */
     public static String decode13And5(String in) {
@@ -43,13 +45,16 @@ public class Rot13 {
             // convert char if required
             if ((chr >= 'A') && (chr <= 'Z')) {
                 chr += 13;
-                if (chr > 'Z') chr -= 26;
+                if (chr > 'Z')
+                    chr -= 26;
             } else if ((chr >= 'a') && (chr <= 'z')) {
                 chr += 13;
-                if (chr > 'z') chr -= 26;
+                if (chr > 'z')
+                    chr -= 26;
             } else if ((chr >= '0') && (chr <= '9')) {
                 chr += 5;
-                if (chr > '9') chr -= 10;
+                if (chr > '9')
+                    chr -= 10;
             }
 
             // and return it to sender
@@ -63,6 +68,7 @@ public class Rot13 {
      * Encode characters +13
      *
      * @param in
+     *
      * @return
      */
     public static String encode13(String in) {
@@ -73,6 +79,7 @@ public class Rot13 {
      * Decode characters +13
      *
      * @param in
+     *
      * @return
      */
     public static String decode13(String in) {
@@ -85,10 +92,12 @@ public class Rot13 {
             // convert char if required
             if ((chr >= 'A') && (chr <= 'Z')) {
                 chr += 13;
-                if (chr > 'Z') chr -= 26;
+                if (chr > 'Z')
+                    chr -= 26;
             } else if ((chr >= 'a') && (chr <= 'z')) {
                 chr += 13;
-                if (chr > 'z') chr -= 26;
+                if (chr > 'z')
+                    chr -= 26;
             }
 
             // and return it to sender

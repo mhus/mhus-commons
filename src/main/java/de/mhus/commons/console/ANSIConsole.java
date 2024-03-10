@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -55,20 +55,20 @@ public class ANSIConsole extends Console {
     public static final int KEY_F2 = 81;
     public static final int KEY_F3 = 82;
     public static final int KEY_F4 = 83;
-    //	public static final int KEY_F5=84;
-    //	public static final int KEY_F6=85;
-    //	public static final int KEY_F7=86;
-    //	public static final int KEY_F8=87;
-    //	public static final int KEY_F9=88;
-    //	public static final int KEY_F10=89;
-    //	public static final int KEY_F11=90;
+    // public static final int KEY_F5=84;
+    // public static final int KEY_F6=85;
+    // public static final int KEY_F7=86;
+    // public static final int KEY_F8=87;
+    // public static final int KEY_F9=88;
+    // public static final int KEY_F10=89;
+    // public static final int KEY_F11=90;
 
     protected COLOR foreground;
     protected COLOR background;
     protected boolean blink;
     protected boolean bold;
-    //	protected int width = DEFAULT_WIDTH;
-    //	protected int height = DEFAULT_HEIGHT;
+    // protected int width = DEFAULT_WIDTH;
+    // protected int height = DEFAULT_HEIGHT;
     protected LineReaderImpl reader;
 
     protected int width = 0;
@@ -89,13 +89,15 @@ public class ANSIConsole extends Console {
     @Override
     @SuppressWarnings("unchecked")
     public <T> T adaptTo(Class<? extends T> clazz) {
-        if (clazz == LineReader.class || clazz == LineReaderImpl.class) return (T) reader;
+        if (clazz == LineReader.class || clazz == LineReaderImpl.class)
+            return (T) reader;
         return super.adaptTo(clazz);
     }
 
     protected void loadSettings() {
         term = System.getenv("TERM");
-        if (term == null) term = "";
+        if (term == null)
+            term = "";
         int w = reader.getTerminal().getWidth();
         int h = reader.getTerminal().getHeight();
         if (w == 80 && h == 24) { // default size if size can't be recognized
@@ -109,8 +111,7 @@ public class ANSIConsole extends Console {
         }
     }
 
-    public ANSIConsole(InputStream in, PrintStream out, boolean flush, String charset)
-            throws IOException {
+    public ANSIConsole(InputStream in, PrintStream out, boolean flush, String charset) throws IOException {
         super(out, flush, charset);
         reader = new LineReaderImpl(TerminalBuilder.builder().streams(in, out).build());
         loadSettings();
@@ -131,17 +132,19 @@ public class ANSIConsole extends Console {
     public String readLine(String prompt, LinkedList<String> history) {
         try {
             reader.getHistory().purge();
-            if (history != null) history.forEach(i -> reader.getHistory().add(i));
+            if (history != null)
+                history.forEach(i -> reader.getHistory().add(i));
             String ret = reader.readLine(prompt);
             if (history != null && MString.isSetTrim(ret) && !ret.startsWith(" ")) {
-                if (history.size() == 0 || !history.getLast().equals(ret)) history.add(ret);
+                if (history.size() == 0 || !history.getLast().equals(ret))
+                    history.add(ret);
             }
             return ret;
         } catch (Exception e) {
             LOGGER.trace("Error", e);
         }
         return null;
-        //		return System.console().readLine();
+        // return System.console().readLine();
     }
 
     @Override
@@ -160,20 +163,20 @@ public class ANSIConsole extends Console {
             int first = read();
             if (first == 1091) {
                 int second = read();
-                //				if (second == )
+                // if (second == )
 
                 switch (second) {
-                    case KEY_SPECIAL_DOWN:
-                    case KEY_SPECIAL_LEFT:
-                    case KEY_SPECIAL_RIGHT:
-                    case KEY_SPECIAL_UP:
-                        return new ConsoleKey((byte) 0, true, (char) second);
-                    case KEY_F1:
-                    case KEY_F2:
-                    case KEY_F3:
-                    case KEY_F4:
-                        return new ConsoleKey((byte) 0, true, (char) (second - 79));
-                    default:
+                case KEY_SPECIAL_DOWN:
+                case KEY_SPECIAL_LEFT:
+                case KEY_SPECIAL_RIGHT:
+                case KEY_SPECIAL_UP:
+                    return new ConsoleKey((byte) 0, true, (char) second);
+                case KEY_F1:
+                case KEY_F2:
+                case KEY_F3:
+                case KEY_F4:
+                    return new ConsoleKey((byte) 0, true, (char) (second - 79));
+                default:
                 }
                 continue;
             }
@@ -188,13 +191,15 @@ public class ANSIConsole extends Console {
 
     @Override
     public int getWidth() {
-        if (width > 0) return width;
+        if (width > 0)
+            return width;
         return reader.getTerminal().getWidth();
     }
 
     @Override
     public int getHeight() {
-        if (height > 0) return height;
+        if (height > 0)
+            return height;
         return reader.getTerminal().getHeight();
     }
 
@@ -226,7 +231,8 @@ public class ANSIConsole extends Console {
     public boolean isSupportColor() {
         // method not found return reader.getTerminal().getAnsiSupport();
         boolean ret = reader.getTerminal().getType().equals("ansi");
-        if (ret) return true;
+        if (ret)
+            return true;
         return term.contains("color");
     }
 
@@ -273,7 +279,8 @@ public class ANSIConsole extends Console {
     }
 
     private void updateAttributes() {
-        if (isSupportColor()) print(ansiAttributes(blink, bold));
+        if (isSupportColor())
+            print(ansiAttributes(blink, bold));
     }
 
     public static String ansiAttributes(boolean blink, boolean bold) {
@@ -303,83 +310,83 @@ public class ANSIConsole extends Console {
 
     public static String ansiFGColorValue(COLOR col) {
         switch (col) {
-            case BLACK:
-                return "30";
-            case BLUE:
-                return "34";
-            case GREEN:
-                return "32";
-            case RED:
-                return "31";
-            case WHITE:
-                return "37";
-            case YELLOW:
-                return "33";
-            case CYAN:
-                return "36";
-            case MAGENTA:
-                return "35";
+        case BLACK:
+            return "30";
+        case BLUE:
+            return "34";
+        case GREEN:
+            return "32";
+        case RED:
+            return "31";
+        case WHITE:
+            return "37";
+        case YELLOW:
+            return "33";
+        case CYAN:
+            return "36";
+        case MAGENTA:
+            return "35";
 
-            case BRIGHT_BLACK:
-                return "90";
-            case BRIGHT_BLUE:
-                return "94";
-            case BRIGHT_GREEN:
-                return "92";
-            case BRIGHT_RED:
-                return "91";
-            case BRIGHT_WHITE:
-                return "97";
-            case BRIGHT_YELLOW:
-                return "93";
-            case BRIGHT_CYAN:
-                return "96";
-            case BRIGHT_MAGENTA:
-                return "95";
+        case BRIGHT_BLACK:
+            return "90";
+        case BRIGHT_BLUE:
+            return "94";
+        case BRIGHT_GREEN:
+            return "92";
+        case BRIGHT_RED:
+            return "91";
+        case BRIGHT_WHITE:
+            return "97";
+        case BRIGHT_YELLOW:
+            return "93";
+        case BRIGHT_CYAN:
+            return "96";
+        case BRIGHT_MAGENTA:
+            return "95";
 
-            default:
-                return "37";
+        default:
+            return "37";
         }
     }
 
     public static String ansiBGColorValue(COLOR col) {
         switch (col) {
-            case BLACK:
-                return "40";
-            case BLUE:
-                return "44";
-            case GREEN:
-                return "42";
-            case RED:
-                return "41";
-            case WHITE:
-                return "47";
-            case YELLOW:
-                return "43";
-            case CYAN:
-                return "46";
-            case MAGENTA:
-                return "45";
+        case BLACK:
+            return "40";
+        case BLUE:
+            return "44";
+        case GREEN:
+            return "42";
+        case RED:
+            return "41";
+        case WHITE:
+            return "47";
+        case YELLOW:
+            return "43";
+        case CYAN:
+            return "46";
+        case MAGENTA:
+            return "45";
 
-            case BRIGHT_BLACK:
-                return "100";
-            case BRIGHT_BLUE:
-                return "104";
-            case BRIGHT_GREEN:
-                return "102";
-            case BRIGHT_RED:
-                return "101";
-            case BRIGHT_WHITE:
-                return "107";
-            case BRIGHT_YELLOW:
-                return "103";
-            case BRIGHT_CYAN:
-                return "106";
-            case BRIGHT_MAGENTA:
-                return "105";
+        case BRIGHT_BLACK:
+            return "100";
+        case BRIGHT_BLUE:
+            return "104";
+        case BRIGHT_GREEN:
+            return "102";
+        case BRIGHT_RED:
+            return "101";
+        case BRIGHT_WHITE:
+            return "107";
+        case BRIGHT_YELLOW:
+            return "103";
+        case BRIGHT_CYAN:
+            return "106";
+        case BRIGHT_MAGENTA:
+            return "105";
 
-            default:
-                return "47";
+        default:
+            return "47";
         }
     }
 
@@ -398,7 +405,7 @@ public class ANSIConsole extends Console {
 
     @Override
     public void clearTerminal() {
-        //      print("\033[H\033[2J");
+        // print("\033[H\033[2J");
         print(ansiClear());
     }
 
@@ -423,12 +430,8 @@ public class ANSIConsole extends Console {
 
     public static String[] getRawAnsiSettings() throws IOException {
         Terminal terminal = TerminalBuilder.terminal();
-        return new String[] {
-            "Width: " + terminal.getWidth(),
-            "Height: " + terminal.getHeight(),
-            "Ansi: " + terminal.getType().equals("ansi"),
-            "Echo: " + terminal.echo()
-        };
+        return new String[] { "Width: " + terminal.getWidth(), "Height: " + terminal.getHeight(),
+                "Ansi: " + terminal.getType().equals("ansi"), "Echo: " + terminal.echo() };
     }
 
     @Override

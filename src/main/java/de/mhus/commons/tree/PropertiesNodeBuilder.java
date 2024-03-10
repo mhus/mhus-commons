@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,8 +39,7 @@ import java.util.Map.Entry;
 
 public class PropertiesNodeBuilder extends ITreeNodeBuilder {
 
-    protected static final int CFG_MAX_LEVEL =
-            MSystem.getEnv(PropertiesNodeBuilder.class,"maxLevel", 100);
+    protected static final int CFG_MAX_LEVEL = MSystem.getEnv(PropertiesNodeBuilder.class, "maxLevel", 100);
 
     @Override
     public ITreeNode read(InputStream is) throws MException {
@@ -74,7 +73,8 @@ public class PropertiesNodeBuilder extends ITreeNodeBuilder {
 
     protected void readFromCollection(ITreeNode node, String key, Collection<?> col, int level) {
         level++;
-        if (level > CFG_MAX_LEVEL) throw new TooDeepStructuresException();
+        if (level > CFG_MAX_LEVEL)
+            throw new TooDeepStructuresException();
 
         TreeNodeList arr = node.createArray(key);
         for (Object item : col) {
@@ -85,7 +85,8 @@ public class PropertiesNodeBuilder extends ITreeNodeBuilder {
 
     protected ITreeNode readFromMap(Map<?, ?> map, int level) {
         level++;
-        if (level > CFG_MAX_LEVEL) throw new TooDeepStructuresException();
+        if (level > CFG_MAX_LEVEL)
+            throw new TooDeepStructuresException();
 
         ITreeNode node = new TreeNode();
         for (Entry<?, ?> entry : map.entrySet()) {
@@ -93,11 +94,8 @@ public class PropertiesNodeBuilder extends ITreeNodeBuilder {
             Object val = entry.getValue();
             if (val == null || val instanceof NullValue) {
                 // null object or ignore ?
-            } else if (val instanceof String
-                    || val.getClass().isPrimitive()
-                    || val instanceof Number
-                    || val instanceof Date
-                    || val instanceof Boolean) {
+            } else if (val instanceof String || val.getClass().isPrimitive() || val instanceof Number
+                    || val instanceof Date || val instanceof Boolean) {
                 node.put(key, val);
             } else {
                 ITreeNode obj = readObject(val, level);
@@ -107,7 +105,8 @@ public class PropertiesNodeBuilder extends ITreeNodeBuilder {
                         node.put(ITreeNode.HELPER_VALUE + key, node.get(ITreeNode.HELPER_VALUE));
                 } else if (obj.isObject(ITreeNode.NAMELESS_VALUE)) {
                     node.addObject(key, obj.getObject(ITreeNode.NAMELESS_VALUE).orElse(null));
-                } else node.addObject(key, obj);
+                } else
+                    node.addObject(key, obj);
             }
         }
         return node;
@@ -119,7 +118,8 @@ public class PropertiesNodeBuilder extends ITreeNodeBuilder {
 
     protected ITreeNode readObject(Object item, int level) {
         level++;
-        if (level > CFG_MAX_LEVEL) throw new TooDeepStructuresException();
+        if (level > CFG_MAX_LEVEL)
+            throw new TooDeepStructuresException();
 
         if (item == null) {
             TreeNode obj = new TreeNode();
@@ -138,11 +138,8 @@ public class PropertiesNodeBuilder extends ITreeNodeBuilder {
         } else if (item instanceof Map) {
             ITreeNode obj = readFromMap((Map<?, ?>) item, level);
             return obj;
-        } else if (item instanceof String
-                || item.getClass().isPrimitive()
-                || item instanceof Number
-                || item instanceof Date
-                || item instanceof Boolean) {
+        } else if (item instanceof String || item.getClass().isPrimitive() || item instanceof Number
+                || item instanceof Date || item instanceof Boolean) {
             TreeNode obj = new TreeNode();
             obj.put(ITreeNode.NAMELESS_VALUE, item);
             return obj;
@@ -154,8 +151,7 @@ public class PropertiesNodeBuilder extends ITreeNodeBuilder {
         } else if (item.getClass().isArray()) {
             TreeNode obj = new TreeNode();
             obj.setString(ITreeNode.CLASS, item.getClass().getCanonicalName());
-            readFromCollection(
-                    obj, ITreeNode.NAMELESS_VALUE, MCollection.toList(((Object[]) item)), level);
+            readFromCollection(obj, ITreeNode.NAMELESS_VALUE, MCollection.toList(((Object[]) item)), level);
             return obj;
         } else if (item instanceof Collection) {
             TreeNode obj = new TreeNode();

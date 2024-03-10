@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,13 +41,8 @@ public class CmdConsole extends SimpleConsole {
         }
     }
     /*
-    Status for device CON:
-    ----------------------
-    Lines: 300
-    Columns: 80
-    Keyboard rate: 31
-    Keyboard delay: 1
-    Code page: 437
+     * Status for device CON: ---------------------- Lines: 300 Columns: 80 Keyboard rate: 31 Keyboard delay: 1 Code
+     * page: 437
      */
 
     public String[] getRawSettings() throws IOException {

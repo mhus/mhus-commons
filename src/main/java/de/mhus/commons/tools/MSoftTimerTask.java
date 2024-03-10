@@ -53,7 +53,8 @@ public class MSoftTimerTask extends TimerTask implements Named {
         t.printStackTrace();
     }
 
-    protected void onFinal(boolean isError) {}
+    protected void onFinal(boolean isError) {
+    }
 
     protected void doit() throws Exception {
         if (task == null) {

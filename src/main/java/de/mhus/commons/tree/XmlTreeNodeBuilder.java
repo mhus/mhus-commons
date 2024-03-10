@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,24 +47,22 @@ public class XmlTreeNodeBuilder extends ITreeNodeBuilder {
         try {
             Document doc = MXml.createDocument("inode");
             Element element = doc.getDocumentElement();
-            element.setAttributeNS(
-                    "http://www.w3.org/2000/xmlns/",
-                    "xmlns:node",
+            element.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:node",
                     "http://www.mhus.de/schemas/node.html");
             write(doc, element, node, 0);
             MXml.saveXml(doc, os);
-        } catch (ParserConfigurationException
-                | TransformerFactoryConfigurationError
-                | TransformerException e) {
+        } catch (ParserConfigurationException | TransformerFactoryConfigurationError | TransformerException e) {
             throw new MException(RC.STATUS.ERROR, e);
         }
     }
 
     private void write(Document doc, Element element, ITreeNode node, int level) {
-        if (level > 100) throw new TooDeepStructuresException();
+        if (level > 100)
+            throw new TooDeepStructuresException();
 
         for (String key : node.getPropertyKeys()) {
-            if (key.startsWith("node:")) continue;
+            if (key.startsWith("node:"))
+                continue;
             element.setAttribute(key, node.getString(key, ""));
         }
         for (String key : node.getObjectKeys()) {
@@ -86,7 +84,8 @@ public class XmlTreeNodeBuilder extends ITreeNodeBuilder {
 
     public ITreeNode readFromElement(Element element) throws MException {
         // first must be an object
-        if (element.hasAttribute("xmlns:node")) element.removeAttribute("xmlns:node");
+        if (element.hasAttribute("xmlns:node"))
+            element.removeAttribute("xmlns:node");
         ITreeNode node = new TreeNode();
         read(node, element, 0);
         return node;
@@ -94,10 +93,12 @@ public class XmlTreeNodeBuilder extends ITreeNodeBuilder {
 
     private void read(ITreeNode node, Element element, int level) {
 
-        if (level > 100) throw new TooDeepStructuresException();
+        if (level > 100)
+            throw new TooDeepStructuresException();
 
         for (String key : MXml.getAttributeNames(element)) {
-            if (key.startsWith("node:")) continue;
+            if (key.startsWith("node:"))
+                continue;
             node.put(key, element.getAttribute(key));
         }
         org.w3c.dom.NodeList children = element.getChildNodes();
@@ -120,7 +121,8 @@ public class XmlTreeNodeBuilder extends ITreeNodeBuilder {
             } else if (node.isObject(key) && !"object".equals(itemE.getAttribute("node:type"))) {
                 ITreeNode firstC = node.getObject(key).orElse(null);
                 TreeNodeList arrayC = node.createArray(key);
-                if (firstC != null) arrayC.add(firstC);
+                if (firstC != null)
+                    arrayC.add(firstC);
                 ITreeNode itemC = arrayC.createObject();
                 read(itemC, itemE, level + 1);
             } else {

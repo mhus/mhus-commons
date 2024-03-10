@@ -39,10 +39,7 @@ public class AttributesStrategy implements PojoStrategy {
         this(true, true, ".", null);
     }
 
-    public AttributesStrategy(
-            boolean embedded,
-            boolean toLower,
-            String embedGlue,
+    public AttributesStrategy(boolean embedded, boolean toLower, String embedGlue,
             Class<? extends Annotation>[] annotationMarker) {
         this.embedded = embedded;
         this.toLower = toLower;
@@ -52,8 +49,10 @@ public class AttributesStrategy implements PojoStrategy {
 
     @Override
     public void parseObject(PojoParser parser, Object pojo, PojoModelImpl model) {
-        if (pojo instanceof Class) parse(parser, (Class<?>) pojo, model);
-        else parseObject(parser, pojo.getClass(), model);
+        if (pojo instanceof Class)
+            parse(parser, (Class<?>) pojo, model);
+        else
+            parseObject(parser, pojo.getClass(), model);
     }
 
     @Override
@@ -62,17 +61,14 @@ public class AttributesStrategy implements PojoStrategy {
     }
 
     @SuppressWarnings("deprecation")
-    protected void parse(
-            String prefix,
-            Attribute<Object> parent,
-            PojoParser parser,
-            Class<?> clazz,
+    protected void parse(String prefix, Attribute<Object> parent, PojoParser parser, Class<?> clazz,
             PojoModelImpl model) {
 
         for (Field field : MSystem.getAttributes(clazz)) {
 
             // ignore static fields
-            if (Modifier.isStatic(field.getModifiers())) continue;
+            if (Modifier.isStatic(field.getModifiers()))
+                continue;
 
             // in this case we need to try accessibility without an object, we only have a class
             // structure
@@ -80,50 +76,53 @@ public class AttributesStrategy implements PojoStrategy {
                 try {
                     field.setAccessible(true);
                 } catch (Throwable t) {
-                    LOGGER.debug(
-                                    "setAccessible {} {}",
-                                    field.getDeclaringClass().getCanonicalName(),
-                                    field.getName(),
-                                    t);
+                    LOGGER.debug("setAccessible {} {}", field.getDeclaringClass().getCanonicalName(), field.getName(),
+                            t);
                 }
             }
 
             if (field.isAccessible() && (isMarker(field) || isEmbedded(field))) {
                 Public desc = field.getAnnotation(Public.class);
-                if (!allowPublic) desc = null;
+                if (!allowPublic)
+                    desc = null;
                 String name = field.getName();
                 boolean readable = true;
                 boolean writable = true;
                 if (desc != null) {
-                    if (desc.name().length() > 0) name = desc.name();
+                    if (desc.name().length() > 0)
+                        name = desc.name();
                     readable = desc.readable();
                     writable = desc.writable();
                 }
                 // final is in every case not writable
-                if (Modifier.isFinal(field.getModifiers())) writable = false;
+                if (Modifier.isFinal(field.getModifiers()))
+                    writable = false;
 
                 String s = (toLower ? name.toLowerCase() : name);
                 name = prefix + s;
-                Attribute<Object> attr =
-                        new Attribute<Object>(name, parent, field, readable, writable);
+                Attribute<Object> attr = new Attribute<Object>(name, parent, field, readable, writable);
                 if (isEmbedded(field)) {
                     parse(name + embedGlue, attr, parser, attr.getType(), model);
                 } else {
-                    if (!model.hasAttribute(name)) model.addAttribute(attr);
+                    if (!model.hasAttribute(name))
+                        model.addAttribute(attr);
                 }
             }
         }
     }
 
     protected boolean isEmbedded(Field field) {
-        if (!embedded) return false;
+        if (!embedded)
+            return false;
         return field.isAnnotationPresent(Embedded.class);
     }
 
     protected boolean isMarker(Field field) {
-        if (annotationMarker == null) return true;
+        if (annotationMarker == null)
+            return true;
         for (Class<? extends Annotation> a : annotationMarker)
-            if (field.isAnnotationPresent(a)) return true;
+            if (field.isAnnotationPresent(a))
+                return true;
         return false;
     }
 
@@ -144,12 +143,7 @@ public class AttributesStrategy implements PojoStrategy {
         private boolean readable;
         private boolean writable;
 
-        public Attribute(
-                String name,
-                Attribute<Object> parent,
-                Field field,
-                boolean readable,
-                boolean writable) {
+        public Attribute(String name, Attribute<Object> parent, Field field, boolean readable, boolean writable) {
             this.name = name;
             this.field = field;
             this.parent = parent;
@@ -160,10 +154,12 @@ public class AttributesStrategy implements PojoStrategy {
         @SuppressWarnings("unchecked")
         @Override
         public T get(Object pojo) throws IOException {
-            if (!readable) throw new IOException("field is write only: " + name);
+            if (!readable)
+                throw new IOException("field is write only: " + name);
             try {
                 pojo = PojoParser.checkParent(parent, pojo);
-                if (!field.canAccess(pojo)) field.setAccessible(true);
+                if (!field.canAccess(pojo))
+                    field.setAccessible(true);
                 return (T) field.get(pojo);
             } catch (Exception e) {
                 throw new IOException(field.getName(), e);
@@ -173,10 +169,12 @@ public class AttributesStrategy implements PojoStrategy {
         @SuppressWarnings("unchecked")
         @Override
         public void set(Object pojo, T value, boolean force) throws IOException {
-            if (!force && !writable) throw new IOException("field is read only: " + name);
+            if (!force && !writable)
+                throw new IOException("field is read only: " + name);
             try {
                 pojo = PojoParser.checkParent(parent, pojo);
-                if (!field.canAccess(pojo)) field.setAccessible(true);
+                if (!field.canAccess(pojo))
+                    field.setAccessible(true);
 
                 value = (T) MCast.toType(value, getType(), null);
                 if (getType().isPrimitive() && value == null) {

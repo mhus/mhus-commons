@@ -108,10 +108,12 @@ public class ClassLoaderResourceProvider extends MResourceProvider {
         }
 
         @Override
-        public void removeProperty(String key) {}
+        public void removeProperty(String key) {
+        }
 
         @Override
-        public void setProperty(String key, Object value) {}
+        public void setProperty(String key, Object value) {
+        }
 
         @Override
         public boolean isEditable() {
@@ -131,7 +133,8 @@ public class ClassLoaderResourceProvider extends MResourceProvider {
 
     @Override
     public InputStream getInputStream(String key) {
-        if (key == null) return loader.getResourceAsStream(key);
+        if (key == null)
+            return loader.getResourceAsStream(key);
         return null;
     }
 

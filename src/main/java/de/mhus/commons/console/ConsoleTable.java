@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -97,8 +97,10 @@ public class ConsoleTable {
     }
 
     public void setFull(boolean showAll) {
-        if (showAll) setMaxColSize(0);
-        else fitToConsole();
+        if (showAll)
+            setMaxColSize(0);
+        else
+            fitToConsole();
     }
 
     public Row addRow() {
@@ -120,10 +122,11 @@ public class ConsoleTable {
 
     @SuppressWarnings("rawtypes")
     protected String[] splitInLines(Object v) {
-        if (v == null) return new String[] {""};
+        if (v == null)
+            return new String[] { "" };
         if (multiLine) {
             if (v instanceof Map) {
-                @SuppressWarnings({"unchecked"})
+                @SuppressWarnings({ "unchecked" })
                 Map<Object, Object> m = (Map) v;
                 LinkedList<String> out = new LinkedList<>();
                 for (Map.Entry<Object, Object> entry : m.entrySet())
@@ -132,29 +135,34 @@ public class ConsoleTable {
             }
             if (v instanceof Collection) {
                 LinkedList<String> out = new LinkedList<>();
-                for (Object entry : ((Collection) v)) out.add(String.valueOf(entry));
+                for (Object entry : ((Collection) v))
+                    out.add(String.valueOf(entry));
                 return out.toArray(new String[out.size()]);
             }
             if (v instanceof Throwable) {
                 LinkedList<String> out = new LinkedList<>();
                 Throwable t = (Throwable) v;
-                if (maxColSize > 0) out.addAll(MString.splitCollection(t.toString(), maxColSize));
-                else out.add(t.toString());
-                for (StackTraceElement st : t.getStackTrace()) out.add("  at " + st);
+                if (maxColSize > 0)
+                    out.addAll(MString.splitCollection(t.toString(), maxColSize));
+                else
+                    out.add(t.toString());
+                for (StackTraceElement st : t.getStackTrace())
+                    out.add("  at " + st);
                 return out.toArray(new String[out.size()]);
             }
             if (v.getClass().isArray()) {
                 Object[] a = (Object[]) v;
                 String[] out = new String[a.length];
-                for (int i = 0; i < a.length; i++) out[i] = MString.toString(a[i]);
+                for (int i = 0; i < a.length; i++)
+                    out[i] = MString.toString(a[i]);
                 return out;
             }
             if (v instanceof Date) {
-                return new String[] {MDate.toIso8601((Date) v)};
+                return new String[] { MDate.toIso8601((Date) v) };
             }
             return String.valueOf(v).split("\n");
         }
-        return new String[] {String.valueOf(v)};
+        return new String[] { String.valueOf(v) };
     }
 
     public List<Column> getHeader() {
@@ -164,7 +172,8 @@ public class ConsoleTable {
     public void setHeaderValues(String... values) {
         List<Column> row = getHeader();
         row.clear();
-        for (String v : values) row.add(new Column(v));
+        for (String v : values)
+            row.add(new Column(v));
     }
 
     public void print() {
@@ -177,12 +186,15 @@ public class ConsoleTable {
 
         String headerLine = getHeaderRow();
         out.println(headerLine);
-        if (cellSpacer) out.println(underline());
+        if (cellSpacer)
+            out.println(underline());
         boolean first = true;
         for (List<String[]> row : content) {
-            if (!first && lineSpacer) out.println();
+            if (!first && lineSpacer)
+                out.println();
             int rowHeight = getRowHeight(row);
-            for (int l = 0; l < rowHeight; l++) out.println(getRow(row, l));
+            for (int l = 0; l < rowHeight; l++)
+                out.println(getRow(row, l));
             first = false;
         }
     }
@@ -191,20 +203,25 @@ public class ConsoleTable {
         updateHeaderSizes();
         String headerLine = getHeaderRow();
         out.println(headerLine);
-        if (cellSpacer) out.println(underline());
+        if (cellSpacer)
+            out.println(underline());
         boolean first = true;
         for (List<String[]> row : content) {
-            if (!first && lineSpacer) out.println();
+            if (!first && lineSpacer)
+                out.println();
             int rowHeight = getRowHeight(row);
-            for (int l = 0; l < rowHeight; l++) out.println(getRow(row, l));
+            for (int l = 0; l < rowHeight; l++)
+                out.println(getRow(row, l));
             first = false;
         }
     }
 
     private int getRowHeight(List<String[]> row) {
-        if (!multiLine) return 1;
+        if (!multiLine)
+            return 1;
         int height = 1;
-        for (String[] cell : row) height = Math.max(height, cell.length);
+        for (String[] cell : row)
+            height = Math.max(height, cell.length);
         return height;
     }
 
@@ -217,18 +234,18 @@ public class ConsoleTable {
         if (acceptHorizontalLine) {
             if (row.size() == 1) {
                 String[] row0 = row.get(0);
-                if (row0 != null
-                        && row0.length == 1
-                        && row0[0] != null
-                        && row0[0].equals(SEPARATOR_LINE)) return underline();
+                if (row0 != null && row0.length == 1 && row0[0] != null && row0[0].equals(SEPARATOR_LINE))
+                    return underline();
             }
         }
         StringBuilder line = new StringBuilder();
         int c = 0;
         for (String[] cells : row) {
-            if (c > header.size()) continue;
+            if (c > header.size())
+                continue;
             Column h = header.get(c);
-            if (h.width == 0) continue;
+            if (h.width == 0)
+                continue;
 
             String cell = getCellLine(cells, cellLine);
             cell = cell.replaceAll("\n", "");
@@ -236,14 +253,17 @@ public class ConsoleTable {
                 cell = MString.truncateNice(cell, h.width);
             }
             if (cellSpacer) {
-                if (h.width > 0) line.append(String.format("%-" + h.width + "s", cell));
-            } else line.append(cell);
+                if (h.width > 0)
+                    line.append(String.format("%-" + h.width + "s", cell));
+            } else
+                line.append(cell);
 
             if (c + 1 < row.size()) {
                 line.append(colSeparator);
             }
 
-            if (h.last) break;
+            if (h.last)
+                break;
             c++;
         }
         return line.toString();
@@ -259,8 +279,10 @@ public class ConsoleTable {
             }
             cell = cell.replaceAll("\n", "");
             if (cellSpacer) {
-                if (h.width > 0) line.append(String.format("%-" + h.width + "s", cell));
-            } else line.append(cell);
+                if (h.width > 0)
+                    line.append(String.format("%-" + h.width + "s", cell));
+            } else
+                line.append(cell);
 
             if (!h.last) {
                 line.append(colSeparator);
@@ -273,22 +295,25 @@ public class ConsoleTable {
         if (!multiLine) {
             if (line == 0) {
                 return MString.join(cells, ' ');
-            } else return "";
+            } else
+                return "";
         }
-        if (cells == null || line < 0 || line >= cells.length) return "";
+        if (cells == null || line < 0 || line >= cells.length)
+            return "";
         return cells[line];
     }
 
     private void updateHeaderSizes() {
         tableWidth = 0;
-        if (header.size() == 0) return;
+        if (header.size() == 0)
+            return;
 
         // check headers
-        header.forEach(
-                h -> {
-                    if (h.title == null) h.title = "";
-                    h.last = false;
-                });
+        header.forEach(h -> {
+            if (h.title == null)
+                h.title = "";
+            h.last = false;
+        });
         header.get(header.size() - 1).last = true;
 
         // initial header width
@@ -300,7 +325,8 @@ public class ConsoleTable {
         for (List<String[]> row : content) {
             int c = 0;
             for (String[] cells : row) {
-                if (c >= header.size()) continue;
+                if (c >= header.size())
+                    continue;
                 Column h = header.get(c);
                 for (String cellContent : cells) {
                     int cellSize = cellContent != null ? cellContent.length() : 0;
@@ -313,51 +339,52 @@ public class ConsoleTable {
         // recalculate using guidelines
         Value<Integer> weight = new Value<>(0);
         Value<Integer> weightWidth = new Value<>(0);
-        header.forEach(
-                h -> {
-                    // find width
-                    int width = h.contentWidth;
-                    if (h.minWidth > 0) width = Math.max(width, h.minWidth);
+        header.forEach(h -> {
+            // find width
+            int width = h.contentWidth;
+            if (h.minWidth > 0)
+                width = Math.max(width, h.minWidth);
 
-                    if (h.maxWidth > 0) width = Math.min(width, h.maxWidth);
-                    else if (maxColSize > 0) width = Math.min(width, maxColSize);
+            if (h.maxWidth > 0)
+                width = Math.min(width, h.maxWidth);
+            else if (maxColSize > 0)
+                width = Math.min(width, maxColSize);
 
-                    if (maxTableWidth > 0 && h.weight > 0) {
-                        weight.setValue(weight.getValue() + h.weight);
-                        weightWidth.setValue(weightWidth.getValue() + width);
-                    }
-                    tableWidth += width;
-                    if (!h.last && colSeparator != null) tableWidth += colSeparator.length();
+            if (maxTableWidth > 0 && h.weight > 0) {
+                weight.setValue(weight.getValue() + h.weight);
+                weightWidth.setValue(weightWidth.getValue() + width);
+            }
+            tableWidth += width;
+            if (!h.last && colSeparator != null)
+                tableWidth += colSeparator.length();
 
-                    h.width = width;
-                });
+            h.width = width;
+        });
 
         if (weight.getValue() > 0) {
             final int delta = maxTableWidth - (tableWidth - weightWidth.getValue());
             if (delta > 0) {
-                header.forEach(
-                        h -> {
-                            if (h.weight > 0) {
-                                // find width
-                                int width = h.contentWidth;
-                                tableWidth -= width;
-                                width = delta * h.weight / weight.getValue();
-                                tableWidth += width;
-                                h.width = width;
-                            }
-                        });
+                header.forEach(h -> {
+                    if (h.weight > 0) {
+                        // find width
+                        int width = h.contentWidth;
+                        tableWidth -= width;
+                        width = delta * h.weight / weight.getValue();
+                        tableWidth += width;
+                        h.width = width;
+                    }
+                });
             }
         } else if (maxTableWidth > 0 && tableWidth > maxTableWidth) {
             int max = maxTableWidth / header.size();
-            header.forEach(
-                    h -> {
-                        int min = Math.max(10, h.minWidth);
-                        int d = Math.max(max, min);
-                        if (h.width > d) {
-                            tableWidth = tableWidth + d - h.width;
-                            h.width = d;
-                        }
-                    });
+            header.forEach(h -> {
+                int min = Math.max(10, h.minWidth);
+                int d = Math.max(max, min);
+                if (h.width > d) {
+                    tableWidth = tableWidth + d - h.width;
+                    h.width = d;
+                }
+            });
         }
 
         if (maxTableWidth > 0 && tableWidth > maxTableWidth) {
@@ -417,12 +444,12 @@ public class ConsoleTable {
         return sw.toString();
     }
 
-    public static ConsoleTable fromJdbcResult(ResultSet res, Console console, String tblOpt)
-            throws SQLException {
+    public static ConsoleTable fromJdbcResult(ResultSet res, Console console, String tblOpt) throws SQLException {
         ResultSetMetaData resMeta = res.getMetaData();
         ConsoleTable out = new ConsoleTable(console, tblOpt);
         String[] h = new String[resMeta.getColumnCount()];
-        for (int i = 0; i < resMeta.getColumnCount(); i++) h[i] = resMeta.getColumnName(i + 1);
+        for (int i = 0; i < resMeta.getColumnCount(); i++)
+            h[i] = resMeta.getColumnName(i + 1);
 
         out.setHeaderValues(h);
         while (res.next()) {
@@ -438,10 +465,12 @@ public class ConsoleTable {
         updateHeaderSizes();
         String[] out = new String[content.size() + i];
 
-        if (showHeader) out[0] = getHeaderRow();
+        if (showHeader)
+            out[0] = getHeaderRow();
         for (List<String[]> row : content) {
             int rowHeight = getRowHeight(row);
-            for (int l = 0; l < rowHeight; l++) out[i] = getRow(row, l);
+            for (int l = 0; l < rowHeight; l++)
+                out[i] = getRow(row, l);
             i++;
         }
         return out;
@@ -450,10 +479,12 @@ public class ConsoleTable {
     public String[][] toStringMatrix(boolean showHeader) {
         int i = showHeader ? 1 : 0;
         String[][] out = new String[content.size() + i][];
-        if (showHeader) out[0] = getHeaderRowArray();
+        if (showHeader)
+            out[0] = getHeaderRowArray();
         for (List<String[]> row : content) {
             int rowHeight = getRowHeight(row);
-            for (int l = 0; l < rowHeight; l++) out[i] = getRowArray(row, l);
+            for (int l = 0; l < rowHeight; l++)
+                out[i] = getRowArray(row, l);
             i++;
         }
         return out;
@@ -461,13 +492,15 @@ public class ConsoleTable {
 
     private String[] getRowArray(List<String[]> row, int line) {
         String[] out = new String[row.size()];
-        for (int i = 0; i < row.size(); i++) out[i] = getCellLine(row.get(i), line);
+        for (int i = 0; i < row.size(); i++)
+            out[i] = getCellLine(row.get(i), line);
         return out;
     }
 
     private String[] getHeaderRowArray() {
         String[] out = new String[header.size()];
-        for (int i = 0; i < out.length; i++) out[i] = header.get(i).title;
+        for (int i = 0; i < out.length; i++)
+            out[i] = header.get(i).title;
         return out;
     }
 
@@ -540,7 +573,8 @@ public class ConsoleTable {
     }
 
     public void removeFirstRow() {
-        if (content.size() == 0) return;
+        if (content.size() == 0)
+            return;
         content.remove(0);
     }
 
@@ -571,18 +605,17 @@ public class ConsoleTable {
     }
 
     public void sort(final int col, final Comparator<String> comparator) {
-        content.sort(
-                new Comparator<List<String[]>>() {
+        content.sort(new Comparator<List<String[]>>() {
 
-                    @Override
-                    public int compare(List<String[]> o1, List<String[]> o2) {
-                        String[] a1 = o1.get(col);
-                        String[] a2 = o2.get(col);
-                        String l1 = MString.join(a1, '\n');
-                        String l2 = MString.join(a2, '\n');
-                        return comparator.compare(l1, l2);
-                    }
-                });
+            @Override
+            public int compare(List<String[]> o1, List<String[]> o2) {
+                String[] a1 = o1.get(col);
+                String[] a2 = o2.get(col);
+                String l1 = MString.join(a1, '\n');
+                String l2 = MString.join(a2, '\n');
+                return comparator.compare(l1, l2);
+            }
+        });
     }
 
     public void clear() {

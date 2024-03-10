@@ -68,11 +68,7 @@ public class MMathTest extends TestCase {
                 if (b != r) {
                     System.out.println(b + " -> " + l + " -> " + r);
                     System.out.println(
-                            MCast.toBitsString(b)
-                                    + " -> "
-                                    + MCast.toBitsString(l)
-                                    + " -> "
-                                    + MCast.toBitsString(r));
+                            MCast.toBitsString(b) + " -> " + MCast.toBitsString(l) + " -> " + MCast.toBitsString(r));
                 }
                 assertEquals(b, r);
             }
@@ -88,11 +84,7 @@ public class MMathTest extends TestCase {
                 if (b != r) {
                     System.out.println(b + " -> " + l + " -> " + r);
                     System.out.println(
-                            MCast.toBitsString(b)
-                                    + " -> "
-                                    + MCast.toBitsString(l)
-                                    + " -> "
-                                    + MCast.toBitsString(r));
+                            MCast.toBitsString(b) + " -> " + MCast.toBitsString(l) + " -> " + MCast.toBitsString(r));
                 }
                 assertEquals(b, r);
             }
@@ -106,35 +98,40 @@ public class MMathTest extends TestCase {
                 int i = Integer.MIN_VALUE;
                 int l = MMath.rotl(i, d);
                 int r = MMath.rotr(l, d);
-                if (i != r) System.out.println(i + " -> " + l + " -> " + r);
+                if (i != r)
+                    System.out.println(i + " -> " + l + " -> " + r);
                 assertEquals(i, r);
             }
             {
                 int i = Integer.MAX_VALUE;
                 int l = MMath.rotl(i, d);
                 int r = MMath.rotr(l, d);
-                if (i != r) System.out.println(i + " -> " + l + " -> " + r);
+                if (i != r)
+                    System.out.println(i + " -> " + l + " -> " + r);
                 assertEquals(i, r);
             }
             {
                 int i = 1;
                 int l = MMath.rotl(i, d);
                 int r = MMath.rotr(l, d);
-                if (i != r) System.out.println(i + " -> " + l + " -> " + r);
+                if (i != r)
+                    System.out.println(i + " -> " + l + " -> " + r);
                 assertEquals(i, r);
             }
             {
                 int i = -1;
                 int l = MMath.rotl(i, d);
                 int r = MMath.rotr(l, d);
-                if (i != r) System.out.println(i + " -> " + l + " -> " + r);
+                if (i != r)
+                    System.out.println(i + " -> " + l + " -> " + r);
                 assertEquals(i, r);
             }
             {
                 int i = 0;
                 int l = MMath.rotl(i, d);
                 int r = MMath.rotr(l, d);
-                if (i != r) System.out.println(i + " -> " + l + " -> " + r);
+                if (i != r)
+                    System.out.println(i + " -> " + l + " -> " + r);
                 assertEquals(i, r);
             }
         }

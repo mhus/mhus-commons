@@ -77,7 +77,8 @@ public class ParameterDefinition implements Externalizable {
     }
 
     private void loadProperties() {
-        if (type == null) type = "";
+        if (type == null)
+            type = "";
         type = properties.getString("type", type);
 
         mandatory = properties.getBoolean("mandatory", mandatory);
@@ -116,41 +117,42 @@ public class ParameterDefinition implements Externalizable {
 
     public Object transform(Object object) throws MException {
         switch (type) {
-            case "int":
-            case "integer":
-                return MCast.toint(object, MCast.toint(def, 0));
-            case "long":
-                return MCast.tolong(object, MCast.tolong(def, 0));
-            case "bool":
-            case "boolean":
-                return MCast.toboolean(object, MCast.toboolean(def, false));
-            case "datestring":
-                {
-                    Date date = MCast.toDate(object, MCast.toDate(def, null));
-                    if (date == null) return "";
-                    return new SimpleDateFormat(format).format(date);
-                }
-            case "date":
-                {
-                    Date date = MCast.toDate(object, MCast.toDate(def, null));
-                    if (date == null) return "";
-                    return date;
-                }
-            case "enum":
-                {
-                    String[] parts = def.split(",");
-                    String val = String.valueOf(object).toLowerCase();
-                    for (String p : parts) if (val.equals(p.toLowerCase())) return p;
-                    if (isMandatory()) throw new MException(RC.USAGE, "field is mandatory", name);
-                    return "";
-                }
-            case "string":
-            case "text":
-                {
-                    return String.valueOf(object);
-                }
-            default:
-                LOGGER.debug("Unknown Type {} {}", name, type);
+        case "int":
+        case "integer":
+            return MCast.toint(object, MCast.toint(def, 0));
+        case "long":
+            return MCast.tolong(object, MCast.tolong(def, 0));
+        case "bool":
+        case "boolean":
+            return MCast.toboolean(object, MCast.toboolean(def, false));
+        case "datestring": {
+            Date date = MCast.toDate(object, MCast.toDate(def, null));
+            if (date == null)
+                return "";
+            return new SimpleDateFormat(format).format(date);
+        }
+        case "date": {
+            Date date = MCast.toDate(object, MCast.toDate(def, null));
+            if (date == null)
+                return "";
+            return date;
+        }
+        case "enum": {
+            String[] parts = def.split(",");
+            String val = String.valueOf(object).toLowerCase();
+            for (String p : parts)
+                if (val.equals(p.toLowerCase()))
+                    return p;
+            if (isMandatory())
+                throw new MException(RC.USAGE, "field is mandatory", name);
+            return "";
+        }
+        case "string":
+        case "text": {
+            return String.valueOf(object);
+        }
+        default:
+            LOGGER.debug("Unknown Type {} {}", name, type);
         }
         return object;
     }
@@ -162,38 +164,39 @@ public class ParameterDefinition implements Externalizable {
 
     public boolean validate(Object v) {
         switch (type) {
-            case "int":
-            case "integer":
-                return MValidator.isInteger(v);
-            case "long":
-                return MValidator.isLong(v);
-            case "bool":
-            case "boolean":
-                return MValidator.isBoolean(v);
-            case "datestring":
-                {
-                    Date date = MCast.toDate(v, MCast.toDate(def, null));
-                    if (date == null) return false;
+        case "int":
+        case "integer":
+            return MValidator.isInteger(v);
+        case "long":
+            return MValidator.isLong(v);
+        case "bool":
+        case "boolean":
+            return MValidator.isBoolean(v);
+        case "datestring": {
+            Date date = MCast.toDate(v, MCast.toDate(def, null));
+            if (date == null)
+                return false;
+            return true;
+        }
+        case "date": {
+            Date date = MCast.toDate(v, MCast.toDate(def, null));
+            if (date == null)
+                return false;
+            return true;
+        }
+        case "enum": {
+            String[] parts = def.split(",");
+            String val = String.valueOf(v).toLowerCase();
+            for (String p : parts)
+                if (val.equals(p.toLowerCase()))
                     return true;
-                }
-            case "date":
-                {
-                    Date date = MCast.toDate(v, MCast.toDate(def, null));
-                    if (date == null) return false;
-                    return true;
-                }
-            case "enum":
-                {
-                    String[] parts = def.split(",");
-                    String val = String.valueOf(v).toLowerCase();
-                    for (String p : parts) if (val.equals(p.toLowerCase())) return true;
-                    return false;
-                }
-            case "string":
-            case "text":
-                return true;
-            default:
-                LOGGER.debug("Unknown Type {} {}", name, type);
+            return false;
+        }
+        case "string":
+        case "text":
+            return true;
+        default:
+            LOGGER.debug("Unknown Type {} {}", name, type);
         }
         return true;
     }

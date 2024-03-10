@@ -27,12 +27,11 @@ import java.security.PublicKey;
 
 public class PemUtil {
 
-    public static PemPriv signPrivFromString(String str)
-            throws Exception, NotSupportedException, IOException {
+    public static PemPriv signPrivFromString(String str) throws Exception, NotSupportedException, IOException {
 
         if (isPemBlock(str)) {
             PemBlockModel block = new PemBlockModel().parse(str);
-            //			return new PemKey(PemBlock.BLOCK_CIPHER).set(PemBlock.METHOD,
+            // return new PemKey(PemBlock.BLOCK_CIPHER).set(PemBlock.METHOD,
             // block.getString(PemBlock.METHOD,"")).setBlock(block.getEncodedBlock());
             return new PemKey(block);
         }
@@ -42,12 +41,11 @@ public class PemUtil {
         return new PemKey(PemBlock.BLOCK_SIGN).set(PemBlock.METHOD, name).setBlock(key);
     }
 
-    public static PemPub signPubFromString(String str)
-            throws NotSupportedException, IOException, ParseException {
+    public static PemPub signPubFromString(String str) throws NotSupportedException, IOException, ParseException {
 
         if (isPemBlock(str)) {
             PemBlockModel block = new PemBlockModel().parse(str);
-            //			return new PemKey(PemBlock.BLOCK_CIPHER).set(PemBlock.METHOD,
+            // return new PemKey(PemBlock.BLOCK_CIPHER).set(PemBlock.METHOD,
             // block.getString(PemBlock.METHOD,"")).setBlock(block.getEncodedBlock());
             return new PemKey(block);
         }
@@ -57,12 +55,11 @@ public class PemUtil {
         return new PemKey(PemBlock.BLOCK_SIGN).set(PemBlock.METHOD, name).setBlock(key);
     }
 
-    public static PemPriv cipherPrivFromString(String str)
-            throws ParseException, NotSupportedException, IOException {
+    public static PemPriv cipherPrivFromString(String str) throws ParseException, NotSupportedException, IOException {
 
         if (isPemBlock(str)) {
             PemBlockModel block = new PemBlockModel().parse(str);
-            //			return new PemKey(PemBlock.BLOCK_CIPHER).set(PemBlock.METHOD,
+            // return new PemKey(PemBlock.BLOCK_CIPHER).set(PemBlock.METHOD,
             // block.getString(PemBlock.METHOD,"")).setBlock(block.getEncodedBlock());
             return new PemKey(block);
         }
@@ -73,19 +70,19 @@ public class PemUtil {
     }
 
     public static boolean isPemBlock(String text) {
-        if (text == null) return false;
+        if (text == null)
+            return false;
 
         int p1 = text.indexOf("-----BEGIN ");
         int p2 = text.indexOf("-----END ");
         return text.indexOf("\n") >= 0 && p1 >= 0 && p2 > 0 && p2 > p1;
     }
 
-    public static PemPub cipherPubFromString(String str)
-            throws ParseException, NotSupportedException, IOException {
+    public static PemPub cipherPubFromString(String str) throws ParseException, NotSupportedException, IOException {
 
         if (isPemBlock(str)) {
             PemBlockModel block = new PemBlockModel().parse(str);
-            //			return new PemKey(PemBlock.BLOCK_CIPHER).set(PemBlock.METHOD,
+            // return new PemKey(PemBlock.BLOCK_CIPHER).set(PemBlock.METHOD,
             // block.getString(PemBlock.METHOD,"")).setBlock(block.getEncodedBlock());
             return new PemKey(block);
         }
@@ -156,13 +153,12 @@ public class PemUtil {
     }
 
     public static byte[] decrypt(PemBlock block, SecureString passphrase) throws Exception {
-        return decrypt(
-                block.getBytesBlock(), block.getString(PemBlock.ENCRYPTED, null), passphrase);
+        return decrypt(block.getBytesBlock(), block.getString(PemBlock.ENCRYPTED, null), passphrase);
     }
 
-    public static byte[] decrypt(byte[] encoded, String algorithm, SecureString passphrase)
-            throws Exception {
-        if (encoded == null || MString.isEmpty(algorithm) || passphrase == null) return encoded;
+    public static byte[] decrypt(byte[] encoded, String algorithm, SecureString passphrase) throws Exception {
+        if (encoded == null || MString.isEmpty(algorithm) || passphrase == null)
+            return encoded;
         algorithm = algorithm.toLowerCase();
         if (algorithm.equals(PemBlock.ENC_BLOWFISH)) {
             return Blowfish.decrypt(encoded, passphrase.value());

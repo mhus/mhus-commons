@@ -58,7 +58,8 @@ public class JaasAccessControl implements AccessControl {
     @Override
     public boolean hasGroup(String role) {
         Subject subject = (Subject) session.get(SUBJECT_ATTR);
-        if (subject == null) return false;
+        if (subject == null)
+            return false;
 
         return MSecurity.hasRole(subject, role);
     }
@@ -66,7 +67,8 @@ public class JaasAccessControl implements AccessControl {
     @Override
     public String getName() {
         Subject subject = (Subject) session.get(SUBJECT_ATTR);
-        if (subject == null) return "?";
+        if (subject == null)
+            return "?";
         return MSecurity.getUser(subject).getName();
     }
 

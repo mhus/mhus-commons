@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,10 +26,7 @@ import java.util.Map;
 import java.util.Properties;
 
 public interface IProperties
-        extends IReadProperties,
-                Map<String, Object>,
-                Serializable,
-                Iterable<Map.Entry<String, Object>> {
+        extends IReadProperties, Map<String, Object>, Serializable, Iterable<Map.Entry<String, Object>> {
 
     void setProperty(String name, Object value);
 
@@ -64,6 +61,7 @@ public interface IProperties
      * Creates an MProperties object and fills in the keys and values in alternating order.
      *
      * @param keysAndValues
+     *
      * @return In every case a properties object
      */
     public static MProperties to(Object... keysAndValues) {
@@ -81,23 +79,27 @@ public interface IProperties
      * Creates an MProperties object and fills in the keys and values in alternating order.
      *
      * @param keysAndValues
+     *
      * @return In every case a properties object
      */
     public static MProperties to(String... keysAndValues) {
         MProperties out = new MProperties();
         if (keysAndValues != null) {
             for (int i = 0; i < keysAndValues.length; i += 2) {
-                if (i + 1 < keysAndValues.length) out.put(keysAndValues[i], keysAndValues[i + 1]);
+                if (i + 1 < keysAndValues.length)
+                    out.put(keysAndValues[i], keysAndValues[i + 1]);
             }
         }
         return out;
     }
 
     /**
-     * This will handle the strings like options. Means a string without separator will handled as
-     * key and set to true. e.g. val1&amp;val2&amp;a=b will be val1=true, val2=true, a=b
+     * This will handle the strings like options. Means a string without separator will handled as key and set to true.
+     * e.g. val1&amp;val2&amp;a=b will be val1=true, val2=true, a=b
      *
-     * @param properties Rfc1738 (Url Encode) encoded string
+     * @param properties
+     *            Rfc1738 (Url Encode) encoded string
+     *
      * @return The MProperties
      */
     public static MProperties explodeToOptions(String properties) {
@@ -105,10 +107,11 @@ public interface IProperties
     }
 
     /**
-     * This will handle the strings like options. Means a string without separator will handled as
-     * key and set to true. e.g. [val1, val2, a=b] will be val1=true, val2=true, a=b
+     * This will handle the strings like options. Means a string without separator will handled as key and set to true.
+     * e.g. [val1, val2, a=b] will be val1=true, val2=true, a=b
      *
      * @param properties
+     *
      * @return The MProperties
      */
     public static MProperties explodeToOptions(String[] properties) {
@@ -116,11 +119,12 @@ public interface IProperties
     }
 
     /**
-     * This will handle the strings like properties. Means a string without separator will be stored
-     * as value with an increasing key as integer, e.g. val1&amp;val2&amp;a=b will be 0=val1,
-     * 1=val2, a=b
+     * This will handle the strings like properties. Means a string without separator will be stored as value with an
+     * increasing key as integer, e.g. val1&amp;val2&amp;a=b will be 0=val1, 1=val2, a=b
      *
-     * @param properties Rfc1738 (Url Encoded) encoded string
+     * @param properties
+     *            Rfc1738 (Url Encoded) encoded string
+     *
      * @return The MProperties
      */
     public static MProperties explodeToMProperties(String properties) {
@@ -131,6 +135,7 @@ public interface IProperties
      * This will transfer the property to a string using Rfc1738 url encoding
      *
      * @param properties
+     *
      * @return The String
      */
     public static String implode(IProperties properties) {
@@ -138,29 +143,32 @@ public interface IProperties
     }
 
     /**
-     * This will handle the strings like properties. Means a string without separator will be stored
-     * as value with an increasing key as integer, e.g. [val1, val2, a=b] will be 0=val1, 1=val2,
-     * a=b
+     * This will handle the strings like properties. Means a string without separator will be stored as value with an
+     * increasing key as integer, e.g. [val1, val2, a=b] will be 0=val1, 1=val2, a=b
      *
      * @param properties
+     *
      * @return The MProperties
      */
     public static MProperties explodeToMProperties(String[] properties) {
-        if (properties == null) return new MProperties();
+        if (properties == null)
+            return new MProperties();
         return explodeToMProperties(properties, '=', ':', 0, properties.length);
     }
 
     public static MProperties explodeToMProperties(String[] properties, int offset, int length) {
-        if (properties == null) return new MProperties();
+        if (properties == null)
+            return new MProperties();
         return explodeToMProperties(properties, '=', ':', offset, length);
     }
 
     /**
-     * This will handle the strings like options. Means a string without separator will handled as
-     * key and set to true. e.g. [val1, val2, a=b] will be val1=true, val2=true, a=b
+     * This will handle the strings like options. Means a string without separator will handled as key and set to true.
+     * e.g. [val1, val2, a=b] will be val1=true, val2=true, a=b
      *
      * @param properties
      * @param separator
+     *
      * @return The MProperties
      */
     public static MProperties explodeToOptions(String[] properties, char separator) {
@@ -181,40 +189,41 @@ public interface IProperties
     }
 
     /**
-     * This will handle the strings like properties. Means a string without separator will be stored
-     * as value with an increasing key as integer, e.g. [val1, val2, a=b] will be 0=val1, 1=val2,
-     * a=b
+     * This will handle the strings like properties. Means a string without separator will be stored as value with an
+     * increasing key as integer, e.g. [val1, val2, a=b] will be 0=val1, 1=val2, a=b
      *
      * @param properties
      * @param keySeparator
      * @param typeSeparator
+     *
      * @return The MProperties
      */
-    public static MProperties explodeToMProperties(
-            String[] properties, char keySeparator, char typeSeparator) {
+    public static MProperties explodeToMProperties(String[] properties, char keySeparator, char typeSeparator) {
         return explodeToMProperties(properties, keySeparator, typeSeparator, 0, Integer.MAX_VALUE);
     }
 
-    public static MProperties explodeToMProperties(
-            String[] properties, char keySeparator, char typeSeparator, int offset, int length) {
+    public static MProperties explodeToMProperties(String[] properties, char keySeparator, char typeSeparator,
+            int offset, int length) {
         MProperties p = new MProperties();
         if (properties != null) {
             for (int i = 0; i < length; i++) {
                 int pos = i + offset;
-                if (pos >= properties.length) break;
+                if (pos >= properties.length)
+                    break;
                 String item = properties[pos];
-                if (item != null) appendToMap(p, item, keySeparator, typeSeparator);
+                if (item != null)
+                    appendToMap(p, item, keySeparator, typeSeparator);
             }
         }
         return p;
     }
 
     /**
-     * This will handle the strings like properties. Means a string without separator will be stored
-     * as value with an increasing key as integer, e.g. [val1, val2, a=b] will be 0=val1, 1=val2,
-     * a=b
+     * This will handle the strings like properties. Means a string without separator will be stored as value with an
+     * increasing key as integer, e.g. [val1, val2, a=b] will be 0=val1, 1=val2, a=b
      *
      * @param properties
+     *
      * @return The Properties
      */
     public static Properties explodeToProperties(String[] properties) {
@@ -230,28 +239,33 @@ public interface IProperties
     }
 
     /**
-     * In this scenario we separate between functional parameters (starting with one underscore) and
-     * data. Using this method functional parameters can be cascaded over multiple levels.
+     * In this scenario we separate between functional parameters (starting with one underscore) and data. Using this
+     * method functional parameters can be cascaded over multiple levels.
      *
-     * <p>Will remove all parameters starting with underscore and not two underscore and remove one
-     * underscore from thoos with more underscores.
+     * <p>
+     * Will remove all parameters starting with underscore and not two underscore and remove one underscore from thoos
+     * with more underscores.
      *
-     * <p>_test will be removed __test will be _test
+     * <p>
+     * _test will be removed __test will be _test
      *
-     * <p>after update
+     * <p>
+     * after update
      *
      * @param in
      */
     public static <V> void updateFunctional(Map<String, V> in) {
         in.keySet().removeIf(k -> isFunctional(k));
         for (String key : new LinkedList<>(in.keySet()))
-            if (key.startsWith("_")) in.put(key.substring(1), in.remove(key));
+            if (key.startsWith("_"))
+                in.put(key.substring(1), in.remove(key));
     }
 
     /**
      * Return true if key starts with underscore but not with two underscores.
      *
      * @param key
+     *
      * @return true if actual internal
      */
     public static boolean isFunctional(String key) {
@@ -259,14 +273,18 @@ public interface IProperties
     }
 
     public static IProperties toIProperties(IReadProperties properties) {
-        if (properties == null) return null;
-        if (properties instanceof IProperties) return (IProperties) properties;
+        if (properties == null)
+            return null;
+        if (properties instanceof IProperties)
+            return (IProperties) properties;
         return new MProperties(properties);
     }
 
     public static MProperties toMProperties(IReadProperties properties) {
-        if (properties == null) return null;
-        if (properties instanceof MProperties) return (MProperties) properties;
+        if (properties == null)
+            return null;
+        if (properties instanceof MProperties)
+            return (MProperties) properties;
         return new MProperties(properties);
     }
 
@@ -275,9 +293,9 @@ public interface IProperties
     }
 
     @SuppressWarnings("unchecked")
-    public static void appendToMap(
-            Map<?, ?> p, String para, char keySeparator, char typeSeparator) {
-        if (para == null) return;
+    public static void appendToMap(Map<?, ?> p, String para, char keySeparator, char typeSeparator) {
+        if (para == null)
+            return;
         int pos = para.indexOf(keySeparator);
         if (pos < 0) {
             String t = "text";
@@ -289,7 +307,8 @@ public interface IProperties
                 }
             }
             Object obj = MCast.toType(para, t, null);
-            if (obj != null) ((Map<Object, Object>) p).put(ITreeNode.NAMELESS_VALUE, para);
+            if (obj != null)
+                ((Map<Object, Object>) p).put(ITreeNode.NAMELESS_VALUE, para);
             return;
         }
         String k = para.substring(0, pos).trim();
@@ -303,43 +322,51 @@ public interface IProperties
             }
         }
         Object obj = MCast.toType(v, t, null);
-        if (obj != null) ((Map<Object, Object>) p).put(k, obj);
+        if (obj != null)
+            ((Map<Object, Object>) p).put(k, obj);
     }
 
     /**
-     * Extract the keys starting with prefix in a new HashMap. Will return an empty map if prefix or
-     * map is null.
+     * Extract the keys starting with prefix in a new HashMap. Will return an empty map if prefix or map is null.
      *
-     * @param prefix Prefix of the key to extract
-     * @param map Map of all entries
+     * @param prefix
+     *            Prefix of the key to extract
+     * @param map
+     *            Map of all entries
+     *
      * @return Extracted subset
      */
     static IProperties subset(String prefix, Map<String, ?> map) {
         MProperties out = new MProperties();
-        if (prefix == null || map == null) return out;
-        map.forEach(
-                (k, v) -> {
-                    if (k.startsWith(prefix)) out.put(k, v);
-                });
+        if (prefix == null || map == null)
+            return out;
+        map.forEach((k, v) -> {
+            if (k.startsWith(prefix))
+                out.put(k, v);
+        });
         return out;
     }
 
     /**
-     * Extract the keys starting with prefix in a new HashMap. It removes the prefix from the keys.
-     * Will return an empty map if prefix or map is null.
+     * Extract the keys starting with prefix in a new HashMap. It removes the prefix from the keys. Will return an empty
+     * map if prefix or map is null.
      *
-     * @param prefix Prefix of the key to extract
-     * @param map Map of all entries
+     * @param prefix
+     *            Prefix of the key to extract
+     * @param map
+     *            Map of all entries
+     *
      * @return Extracted subset
      */
     static IProperties subsetCrop(String prefix, Map<String, ?> map) {
         MProperties out = new MProperties();
-        if (prefix == null || map == null) return out;
+        if (prefix == null || map == null)
+            return out;
         int l = prefix.length();
-        map.forEach(
-                (k, v) -> {
-                    if (k.startsWith(prefix)) out.put(k.substring(l), v);
-                });
+        map.forEach((k, v) -> {
+            if (k.startsWith(prefix))
+                out.put(k.substring(l), v);
+        });
         return out;
     }
 }

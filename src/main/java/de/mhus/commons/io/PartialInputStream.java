@@ -42,7 +42,8 @@ public class PartialInputStream extends InputStream {
 
     @Override
     public int read() throws IOException {
-        if (max >= 0 && cnt >= max) return -1;
+        if (max >= 0 && cnt >= max)
+            return -1;
         cnt++;
         if (delimiter != null) {
             int ret = src.read();

@@ -25,7 +25,8 @@ public class WeakList<E> extends AbstractList<E> {
 
     private LinkedList<WeakReference<E>> items = new LinkedList<>();
 
-    public WeakList() {}
+    public WeakList() {
+    }
 
     public WeakList(Collection<E> c) {
         addAll(0, c);
@@ -67,11 +68,11 @@ public class WeakList<E> extends AbstractList<E> {
 
     private AbstractList<E> toList() {
         final LinkedList<E> out = new LinkedList<>();
-        items.forEach(
-                i -> {
-                    E v = i.get();
-                    if (v != null) out.add(v);
-                });
+        items.forEach(i -> {
+            E v = i.get();
+            if (v != null)
+                out.add(v);
+        });
         return out;
     }
 }

@@ -53,113 +53,81 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CryptTest extends TestCase {
 
-    static final String key2048 =
-            "-----BEGIN RSA PRIVATE KEY-----\n"
-                    + "MIIEowIBAAKCAQEAoUyyHPciq+UhB8CEb/1YIeO7/hmbQL3kxaxHRFWZzZVjsD09\n"
-                    + "KPqwHwHJ9xpBGg7K+4K8nuEVR2SrCO8KNNqhqqLkIjO1v9kn65grflfeP0MdRmZu\n"
-                    + "58FpXiurb0yapwJVqCynTnXK6yUmgAMWRC3SvXnChsr0U8lLfkvsQ3cTAhrR0z1L\n"
-                    + "/R02d2geZnBj+mu1fMomjVccEbHnmOL2+/PkkhtUkQiClKPz63w7xd9fvF8cFnhV\n"
-                    + "E3FqUHEu6J2G2cnhN86C8U4eU1kb0eWCnSzzGVLtUsIf1tlt5TaNyWDy5RdYw49s\n"
-                    + "kqoqKvmXEhcc65oBphDLgFg1FfypqO1ojUXhBQIDAQABAoIBAAUDckHOOKipHYa1\n"
-                    + "KCim8jdTccNrHlU70cGHIkvwcTBfpVKUBLOiXxkHoDRq/30E2rBIlv5FNrkaWuqT\n"
-                    + "K3kLFp1MJNUfUFXfNQtwlmF97619s4o9otLXQyQnLVPvSJtKSklI4gZhSOZYKEMw\n"
-                    + "VV/XIMa84xv3cPKtvgf16ikKqW+WQy97IKGMLhbrEhbKDdmY5mcvpLQ0OM2Btmjp\n"
-                    + "rgs5SEavWoNrIzHqgQ6xNB13oJxPtDCfWo1GkHFpsGSp5jzvsQQHZMVMGxera6+l\n"
-                    + "kq5EhK2XA3r7zf3b9dGCYUNqU4HNd2WU3AbTOi1omaPkKITeJ78U2wmc/QDb3S3c\n"
-                    + "dYq7fF0CgYEAy6pINWueYqES4OBq4fv+g6D9zVD9eEE05z1yj7Bay+Fa/kvx5E4m\n"
-                    + "Y8nWJ/EDOBBOCJRq1Ebshr8UEuJIDbR8D0E8N63+L0nOqLppj6L/eEtajXVlqf5J\n"
-                    + "pb0+Oo/jW6sn4m4guvrPLn36r1bzXiFp9wKZjUVIqlGwIiz8XxhyjgcCgYEAyr96\n"
-                    + "CcpTAzRRV+7RBV446fYvJJjbNcHYYKvcHMg6BfgOOwbsUHnNvzwiJJZujntkFZp9\n"
-                    + "tYDZIGW85fCuVnrlxGzn52PgqZE0kZ9OaeLG74sGMJx6H2x8uEMXRQyM7s48OYBB\n"
-                    + "X9GCIWyNah6zFsJPomyYiDHB7E9P6u14tx16VZMCgYEAwJiD9niR6+U0bBHtIU1i\n"
-                    + "7ukUec+IEute8vnp1zXHdxviJ657zhGVPjKFYXoKOD86++QWbi2vyPDzM7RmvQcb\n"
-                    + "dnWTU3gncmKSmn7GCn3yprhjpngJLst4q9IdAdZGA88ERZ0tOISr3eRmZt+L/00L\n"
-                    + "3vnHaY/GWsIrFPaDpg4BbosCgYAz2wlhm6fjt+veK6y2TMUNwfOIzreyZiPrhclE\n"
-                    + "a0m74RfyrPCgHKcs9DpfVUJtms2cYOkqFQxzptHLleVhJQnDVX9yxS7e786cODyc\n"
-                    + "BG6RMeOhZ0Qs6Vh04GQBOxaItaLdqhoOYc2AsvzwWW3Asm4fwtq4atGImTh9g8NO\n"
-                    + "QnHZlQKBgGcp17bbPD43khFDRvcyHwtguMrKdGxMav+c+jEUtVjsY6meb+EWnUwM\n"
-                    + "VU2hmZcHNJacp5XQd/GyWqqGkzm9kMV4z5hfiIElhgRg2h3fkpUoVoytNlL4p5kU\n"
-                    + "btvEfCueGxAFk2OtpGn5akKIpITtF/lVxbTN0yFqhEuaL+pSubW5\n"
-                    + "-----END RSA PRIVATE KEY-----";
+    static final String key2048 = "-----BEGIN RSA PRIVATE KEY-----\n"
+            + "MIIEowIBAAKCAQEAoUyyHPciq+UhB8CEb/1YIeO7/hmbQL3kxaxHRFWZzZVjsD09\n"
+            + "KPqwHwHJ9xpBGg7K+4K8nuEVR2SrCO8KNNqhqqLkIjO1v9kn65grflfeP0MdRmZu\n"
+            + "58FpXiurb0yapwJVqCynTnXK6yUmgAMWRC3SvXnChsr0U8lLfkvsQ3cTAhrR0z1L\n"
+            + "/R02d2geZnBj+mu1fMomjVccEbHnmOL2+/PkkhtUkQiClKPz63w7xd9fvF8cFnhV\n"
+            + "E3FqUHEu6J2G2cnhN86C8U4eU1kb0eWCnSzzGVLtUsIf1tlt5TaNyWDy5RdYw49s\n"
+            + "kqoqKvmXEhcc65oBphDLgFg1FfypqO1ojUXhBQIDAQABAoIBAAUDckHOOKipHYa1\n"
+            + "KCim8jdTccNrHlU70cGHIkvwcTBfpVKUBLOiXxkHoDRq/30E2rBIlv5FNrkaWuqT\n"
+            + "K3kLFp1MJNUfUFXfNQtwlmF97619s4o9otLXQyQnLVPvSJtKSklI4gZhSOZYKEMw\n"
+            + "VV/XIMa84xv3cPKtvgf16ikKqW+WQy97IKGMLhbrEhbKDdmY5mcvpLQ0OM2Btmjp\n"
+            + "rgs5SEavWoNrIzHqgQ6xNB13oJxPtDCfWo1GkHFpsGSp5jzvsQQHZMVMGxera6+l\n"
+            + "kq5EhK2XA3r7zf3b9dGCYUNqU4HNd2WU3AbTOi1omaPkKITeJ78U2wmc/QDb3S3c\n"
+            + "dYq7fF0CgYEAy6pINWueYqES4OBq4fv+g6D9zVD9eEE05z1yj7Bay+Fa/kvx5E4m\n"
+            + "Y8nWJ/EDOBBOCJRq1Ebshr8UEuJIDbR8D0E8N63+L0nOqLppj6L/eEtajXVlqf5J\n"
+            + "pb0+Oo/jW6sn4m4guvrPLn36r1bzXiFp9wKZjUVIqlGwIiz8XxhyjgcCgYEAyr96\n"
+            + "CcpTAzRRV+7RBV446fYvJJjbNcHYYKvcHMg6BfgOOwbsUHnNvzwiJJZujntkFZp9\n"
+            + "tYDZIGW85fCuVnrlxGzn52PgqZE0kZ9OaeLG74sGMJx6H2x8uEMXRQyM7s48OYBB\n"
+            + "X9GCIWyNah6zFsJPomyYiDHB7E9P6u14tx16VZMCgYEAwJiD9niR6+U0bBHtIU1i\n"
+            + "7ukUec+IEute8vnp1zXHdxviJ657zhGVPjKFYXoKOD86++QWbi2vyPDzM7RmvQcb\n"
+            + "dnWTU3gncmKSmn7GCn3yprhjpngJLst4q9IdAdZGA88ERZ0tOISr3eRmZt+L/00L\n"
+            + "3vnHaY/GWsIrFPaDpg4BbosCgYAz2wlhm6fjt+veK6y2TMUNwfOIzreyZiPrhclE\n"
+            + "a0m74RfyrPCgHKcs9DpfVUJtms2cYOkqFQxzptHLleVhJQnDVX9yxS7e786cODyc\n"
+            + "BG6RMeOhZ0Qs6Vh04GQBOxaItaLdqhoOYc2AsvzwWW3Asm4fwtq4atGImTh9g8NO\n"
+            + "QnHZlQKBgGcp17bbPD43khFDRvcyHwtguMrKdGxMav+c+jEUtVjsY6meb+EWnUwM\n"
+            + "VU2hmZcHNJacp5XQd/GyWqqGkzm9kMV4z5hfiIElhgRg2h3fkpUoVoytNlL4p5kU\n"
+            + "btvEfCueGxAFk2OtpGn5akKIpITtF/lVxbTN0yFqhEuaL+pSubW5\n" + "-----END RSA PRIVATE KEY-----";
 
-    static final String key256 =
-            "-----BEGIN RSA PRIVATE KEY-----\n"
-                    + "MIGtAgEAAiEAxVq56rE81vq5AdHUW1A080fbJ9VMswMEQhq6eNZMeckCAwEAAQIh\n"
-                    + "AJPB8I5Zcm6WOuu02OQg8fKdgJTYP9r7BMLre6vaoJ5dAhEA85mCJpzJUAcM9t91\n"
-                    + "5QkVzwIRAM9mkZCsW9GtzhHmRiVIdOcCEQCm5WSjWcYfW0VJmt4mNmxHAhEAs9cA\n"
-                    + "yi5qv/qyAZtnn9SgaQIRAJNnH1i7zc7VZ4Zk0udBLLY=\n"
-                    + "-----END RSA PRIVATE KEY-----";
+    static final String key256 = "-----BEGIN RSA PRIVATE KEY-----\n"
+            + "MIGtAgEAAiEAxVq56rE81vq5AdHUW1A080fbJ9VMswMEQhq6eNZMeckCAwEAAQIh\n"
+            + "AJPB8I5Zcm6WOuu02OQg8fKdgJTYP9r7BMLre6vaoJ5dAhEA85mCJpzJUAcM9t91\n"
+            + "5QkVzwIRAM9mkZCsW9GtzhHmRiVIdOcCEQCm5WSjWcYfW0VJmt4mNmxHAhEAs9cA\n"
+            + "yi5qv/qyAZtnn9SgaQIRAJNnH1i7zc7VZ4Zk0udBLLY=\n" + "-----END RSA PRIVATE KEY-----";
 
-    String t1PublicKey =
-            "-----BEGIN PUBLIC KEY-----\n"
-                    + "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCKp+9XIfeKAB\n"
-                    + "s4JTfsduqba+8U9MZUAWdakYEeI8AJ95TPcMnjku5E8xLOh5s8\n"
-                    + "soaS99H+1GffaI4nin3okBVuO4a0mYR8O7JpDbWCOc0G3UEkQQ\n"
-                    + "R+LEjS5bCqKwg41W+sLIeFDaLirZDkVKg5zsjy/s/BufjtVI4U\n"
-                    + "Bqv/PIl0kQIDAQAB"
-                    + "\n"
-                    + "-----END PUBLIC KEY-----";
-    String t1PrivateKey =
-            "-----BEGIN PRIVATE KEY-----\n"
-                    + "MIICeAIBADANBgkqhkiG9w0BAQEFAASCAmIwggJeAgEAAoGBAI\n"
-                    + "qn71ch94oAGzglN+x26ptr7xT0xlQBZ1qRgR4jwAn3lM9wyeOS\n"
-                    + "7kTzEs6HmzyyhpL30f7UZ99ojieKfeiQFW47hrSZhHw7smkNtY\n"
-                    + "I5zQbdQSRBBH4sSNLlsKorCDjVb6wsh4UNouKtkORUqDnOyPL+\n"
-                    + "z8G5+O1UjhQGq/88iXSRAgMBAAECgYBnFtD2QYTgD5AtQE7B+v\n"
-                    + "AXOjp5pDvIvXpwdfo/xGjFgFQdn0gbcWTB0s/Kyjv69ujjYGm7\n"
-                    + "Q4UvL3dxoqBWRroHKkKveqt8tmSZO37fOLQeHvaFZw5s5UN+wJ\n"
-                    + "7r3FpsG350gjyNVUXtukNxHSHZdc4n+WvYkavtxNtLux4hGqmd\n"
-                    + "oQJBAOqcSkiwuFyoYecywfWjkpnEHZq3aZriMjEEjLZ3gC2koz\n"
-                    + "MPuFo+96Tlz3VQe6KT9TLAw2ktko9BgAt7SEIbCp0CQQCXTBtq\n"
-                    + "oQ7a5xoojygrQxa1Iv5nPAwshkmYk4uh/SCRH/13AkMnxyMs+h\n"
-                    + "T8KRB7Sk1f2dBWFm9vb1BEZf+ScWWFAkEA45np6ukegi2MhTnV\n"
-                    + "txMQFwKOYdlLp0mHvcwXIrF99UnCVbgLdemeYCfegoYo20lE2A\n"
-                    + "7vxGrEwxudOAZKzG7ldQJBAJcLsENfz4jTN9ZONXgbXkwwR3Oh\n"
-                    + "CzZYSpk8lCaAo0a/fTiW1Zycvo1kjhbAmGe94klTFx8a/t1tb+\n"
-                    + "EZQ3FcLFECQQCpI9sVRmPGZqJlwiU8ozKyqnW5KyC9Z44w9aPK\n"
-                    + "W8WugXXci5tEbicnibZKp7lJc1KfA1M0naCwUdiroWW6QfFM"
-                    + "\n"
-                    + "-----END PRIVATE KEY-----";
+    String t1PublicKey = "-----BEGIN PUBLIC KEY-----\n" + "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCKp+9XIfeKAB\n"
+            + "s4JTfsduqba+8U9MZUAWdakYEeI8AJ95TPcMnjku5E8xLOh5s8\n"
+            + "soaS99H+1GffaI4nin3okBVuO4a0mYR8O7JpDbWCOc0G3UEkQQ\n"
+            + "R+LEjS5bCqKwg41W+sLIeFDaLirZDkVKg5zsjy/s/BufjtVI4U\n" + "Bqv/PIl0kQIDAQAB" + "\n"
+            + "-----END PUBLIC KEY-----";
+    String t1PrivateKey = "-----BEGIN PRIVATE KEY-----\n" + "MIICeAIBADANBgkqhkiG9w0BAQEFAASCAmIwggJeAgEAAoGBAI\n"
+            + "qn71ch94oAGzglN+x26ptr7xT0xlQBZ1qRgR4jwAn3lM9wyeOS\n"
+            + "7kTzEs6HmzyyhpL30f7UZ99ojieKfeiQFW47hrSZhHw7smkNtY\n"
+            + "I5zQbdQSRBBH4sSNLlsKorCDjVb6wsh4UNouKtkORUqDnOyPL+\n"
+            + "z8G5+O1UjhQGq/88iXSRAgMBAAECgYBnFtD2QYTgD5AtQE7B+v\n"
+            + "AXOjp5pDvIvXpwdfo/xGjFgFQdn0gbcWTB0s/Kyjv69ujjYGm7\n"
+            + "Q4UvL3dxoqBWRroHKkKveqt8tmSZO37fOLQeHvaFZw5s5UN+wJ\n"
+            + "7r3FpsG350gjyNVUXtukNxHSHZdc4n+WvYkavtxNtLux4hGqmd\n"
+            + "oQJBAOqcSkiwuFyoYecywfWjkpnEHZq3aZriMjEEjLZ3gC2koz\n"
+            + "MPuFo+96Tlz3VQe6KT9TLAw2ktko9BgAt7SEIbCp0CQQCXTBtq\n"
+            + "oQ7a5xoojygrQxa1Iv5nPAwshkmYk4uh/SCRH/13AkMnxyMs+h\n"
+            + "T8KRB7Sk1f2dBWFm9vb1BEZf+ScWWFAkEA45np6ukegi2MhTnV\n"
+            + "txMQFwKOYdlLp0mHvcwXIrF99UnCVbgLdemeYCfegoYo20lE2A\n"
+            + "7vxGrEwxudOAZKzG7ldQJBAJcLsENfz4jTN9ZONXgbXkwwR3Oh\n"
+            + "CzZYSpk8lCaAo0a/fTiW1Zycvo1kjhbAmGe94klTFx8a/t1tb+\n"
+            + "EZQ3FcLFECQQCpI9sVRmPGZqJlwiU8ozKyqnW5KyC9Z44w9aPK\n"
+            + "W8WugXXci5tEbicnibZKp7lJc1KfA1M0naCwUdiroWW6QfFM" + "\n" + "-----END PRIVATE KEY-----";
 
-    String t1Secret =
-            "Vom Eise befreit sind Strom und Bäche\n"
-                    + "Durch des Frühlings holden, belebenden Blick,\n"
-                    + "Im Tale grünet Hoffnungsglück;\n"
-                    + "Der alte Winter, in seiner Schwäche,\n"
-                    + "Zog sich in rauhe Berge zurück.\n"
-                    + "Von dort her sendet er, fliehend, nur\n"
-                    + "Ohnmächtige Schauer körnigen Eises\n"
-                    + "In Streifen über die grünende Flur.\n"
-                    + "Aber die Sonne duldet kein Weißes,\n"
-                    + "Überall regt sich Bildung und Streben,\n"
-                    + "Alles will sie mit Farben beleben;\n"
-                    + "Doch an Blumen fehlts im Revier,\n"
-                    + "Sie nimmt geputzte Menschen dafür.\n"
-                    + "Kehre dich um, von diesen Höhen\n"
-                    + "Nach der Stadt zurück zu sehen!\n"
-                    + "Aus dem hohlen finstern Tor\n"
-                    + "Dringt ein buntes Gewimmel hervor.\n"
-                    + "Jeder sonnt sich heute so gern.\n"
-                    + "Sie feiern die Auferstehung des Herrn,\n"
-                    + "Denn sie sind selber auferstanden:\n"
-                    + "Aus niedriger Häuser dumpfen Gemächern,\n"
-                    + "Aus Handwerks- und Gewerbesbanden,\n"
-                    + "Aus dem Druck von Giebeln und Dächern,\n"
-                    + "Aus der Straßen quetschender Enge,\n"
-                    + "Aus der Kirchen ehrwürdiger Nacht\n"
-                    + "Sind sie alle ans Licht gebracht.\n"
-                    + "Sieh nur, sieh! wie behend sich die Menge\n"
-                    + "Durch die Gärten und Felder zerschlägt,\n"
-                    + "Wie der Fluß in Breit und Länge\n"
-                    + "So manchen lustigen Nachen bewegt,\n"
-                    + "Und, bis zum Sinken überladen,\n"
-                    + "Entfernt sich dieser letzte Kahn.\n"
-                    + "Selbst von des Berges fernen Pfaden\n"
-                    + "Blinken uns farbige Kleider an.\n"
-                    + "Ich höre schon des Dorfs Getümmel,\n"
-                    + "Hier ist des Volkes wahrer Himmel,\n"
-                    + "Zufrieden jauchzet groß und klein:\n"
-                    + "Hier bin ich Mensch, hier darf ichs sein!";
+    String t1Secret = "Vom Eise befreit sind Strom und Bäche\n" + "Durch des Frühlings holden, belebenden Blick,\n"
+            + "Im Tale grünet Hoffnungsglück;\n" + "Der alte Winter, in seiner Schwäche,\n"
+            + "Zog sich in rauhe Berge zurück.\n" + "Von dort her sendet er, fliehend, nur\n"
+            + "Ohnmächtige Schauer körnigen Eises\n" + "In Streifen über die grünende Flur.\n"
+            + "Aber die Sonne duldet kein Weißes,\n" + "Überall regt sich Bildung und Streben,\n"
+            + "Alles will sie mit Farben beleben;\n" + "Doch an Blumen fehlts im Revier,\n"
+            + "Sie nimmt geputzte Menschen dafür.\n" + "Kehre dich um, von diesen Höhen\n"
+            + "Nach der Stadt zurück zu sehen!\n" + "Aus dem hohlen finstern Tor\n"
+            + "Dringt ein buntes Gewimmel hervor.\n" + "Jeder sonnt sich heute so gern.\n"
+            + "Sie feiern die Auferstehung des Herrn,\n" + "Denn sie sind selber auferstanden:\n"
+            + "Aus niedriger Häuser dumpfen Gemächern,\n" + "Aus Handwerks- und Gewerbesbanden,\n"
+            + "Aus dem Druck von Giebeln und Dächern,\n" + "Aus der Straßen quetschender Enge,\n"
+            + "Aus der Kirchen ehrwürdiger Nacht\n" + "Sind sie alle ans Licht gebracht.\n"
+            + "Sieh nur, sieh! wie behend sich die Menge\n" + "Durch die Gärten und Felder zerschlägt,\n"
+            + "Wie der Fluß in Breit und Länge\n" + "So manchen lustigen Nachen bewegt,\n"
+            + "Und, bis zum Sinken überladen,\n" + "Entfernt sich dieser letzte Kahn.\n"
+            + "Selbst von des Berges fernen Pfaden\n" + "Blinken uns farbige Kleider an.\n"
+            + "Ich höre schon des Dorfs Getümmel,\n" + "Hier ist des Volkes wahrer Himmel,\n"
+            + "Zufrieden jauchzet groß und klein:\n" + "Hier bin ich Mensch, hier darf ichs sein!";
 
     @Test
     public void testTest1BC() throws Exception {
@@ -171,9 +139,7 @@ public class CryptTest extends TestCase {
         byte[] secure = MBouncy.encryptRsa(MString.toBytes(t1Secret), publKey);
         System.out.println(Base64.encode(secure));
 
-        String secret =
-                MString.byteToString(
-                        MBouncy.decryptRsa(secure, privKey, MBouncy.RSA_KEY_SIZE.B1024));
+        String secret = MString.byteToString(MBouncy.decryptRsa(secure, privKey, MBouncy.RSA_KEY_SIZE.B1024));
 
         assertEquals(t1Secret, secret);
     }
@@ -191,9 +157,8 @@ public class CryptTest extends TestCase {
         System.out.println(">>> testEnDeCode");
         {
             AsyncKey pair256 = MCrypt.loadPrivateRsaKey(key256);
-            byte[] org =
-                    MString.toBytes(
-                            "Hello World! Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.");
+            byte[] org = MString.toBytes(
+                    "Hello World! Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.");
             BigInteger[] enc = MCrypt.encodeBytes(pair256, org);
             byte[] copy = MCrypt.decodeBytes(pair256, enc);
             System.out.println("Enc Elements: " + enc.length);
@@ -224,9 +189,7 @@ public class CryptTest extends TestCase {
             BigInteger[] enc = MCrypt.encodeBytes(pair256, org);
             byte[] copy = MCrypt.decodeBytes(pair256, enc);
             System.out.println(new String(copy, M.CHARSET_UTF_8));
-            assertEquals(
-                    new String(org, M.CHARSET_UTF_8),
-                    new String(copy, M.CHARSET_UTF_8));
+            assertEquals(new String(org, M.CHARSET_UTF_8), new String(copy, M.CHARSET_UTF_8));
         }
         {
             AsyncKey pair256 = MCrypt.loadPrivateRsaKey(key256);
@@ -234,9 +197,7 @@ public class CryptTest extends TestCase {
             BigInteger[] enc = MCrypt.encodeBytes(pair256, org);
             byte[] copy = MCrypt.decodeBytes(pair256, enc);
             System.out.println(new String(copy, M.CHARSET_ISO_8859_1));
-            assertEquals(
-                    new String(org, M.CHARSET_ISO_8859_1),
-                    new String(copy, M.CHARSET_ISO_8859_1));
+            assertEquals(new String(org, M.CHARSET_ISO_8859_1), new String(copy, M.CHARSET_ISO_8859_1));
         }
         {
             AsyncKey pair256 = MCrypt.loadPrivateRsaKey(key256);
@@ -244,9 +205,7 @@ public class CryptTest extends TestCase {
             BigInteger[] enc = MCrypt.encodeBytes(pair256, org);
             byte[] copy = MCrypt.decodeBytes(pair256, enc);
             System.out.println(new String(copy, M.CHARSET_UTF_16));
-            assertEquals(
-                    new String(org, M.CHARSET_UTF_16),
-                    new String(copy, M.CHARSET_UTF_16));
+            assertEquals(new String(org, M.CHARSET_UTF_16), new String(copy, M.CHARSET_UTF_16));
         }
     }
 
@@ -255,12 +214,14 @@ public class CryptTest extends TestCase {
         System.out.println(">>> testEnDeCodeBinary");
         AsyncKey pair256 = MCrypt.loadPrivateRsaKey(key256);
         byte[] org = new byte[256];
-        for (int i = 0; i < org.length; i++) org[i] = (byte) (i - 128);
+        for (int i = 0; i < org.length; i++)
+            org[i] = (byte) (i - 128);
         BigInteger[] enc = MCrypt.encodeBytes(pair256, org);
         byte[] copy = MCrypt.decodeBytes(pair256, enc);
         // System.out.println(new String(copy));
 
-        for (int i = 0; i < org.length; i++) assertEquals(org[i], copy[i]);
+        for (int i = 0; i < org.length; i++)
+            assertEquals(org[i], copy[i]);
     }
 
     @Test
@@ -339,8 +300,7 @@ public class CryptTest extends TestCase {
             assertEquals(m, n);
         }
         {
-            String m =
-                    "20362187185641719740744354144518944735575949959856858868198444658825667466984270784929654204614580514689002872397300330656664561831814098832695775153878115027562330791292701943761254258386134072241633320460815291031714014496633155881788866223406018609362093078216332925891836454970304283868408313426082512669633657354469746229309116875207499950872538992343485180039215301661855418632786237406531379449599695768733862836388927907549255503769238544123030194101611094996705530387720100026063425333350613562296206296883503866883085316253987741357241342223657485340474646359731670857982325029246463452542949298851914572037";
+            String m = "20362187185641719740744354144518944735575949959856858868198444658825667466984270784929654204614580514689002872397300330656664561831814098832695775153878115027562330791292701943761254258386134072241633320460815291031714014496633155881788866223406018609362093078216332925891836454970304283868408313426082512669633657354469746229309116875207499950872538992343485180039215301661855418632786237406531379449599695768733862836388927907549255503769238544123030194101611094996705530387720100026063425333350613562296206296883503866883085316253987741357241342223657485340474646359731670857982325029246463452542949298851914572037";
             String b62 = MBigMath.toBase62(new BigInteger(m));
             String n = MBigMath.fromBase62(b62).toString();
             System.out.println(m + "\n" + b62 + "\n" + n);
@@ -407,8 +367,7 @@ public class CryptTest extends TestCase {
             assertEquals(m, n);
         }
         {
-            String m =
-                    "20362187185641719740744354144518944735575949959856858868198444658825667466984270784929654204614580514689002872397300330656664561831814098832695775153878115027562330791292701943761254258386134072241633320460815291031714014496633155881788866223406018609362093078216332925891836454970304283868408313426082512669633657354469746229309116875207499950872538992343485180039215301661855418632786237406531379449599695768733862836388927907549255503769238544123030194101611094996705530387720100026063425333350613562296206296883503866883085316253987741357241342223657485340474646359731670857982325029246463452542949298851914572037";
+            String m = "20362187185641719740744354144518944735575949959856858868198444658825667466984270784929654204614580514689002872397300330656664561831814098832695775153878115027562330791292701943761254258386134072241633320460815291031714014496633155881788866223406018609362093078216332925891836454970304283868408313426082512669633657354469746229309116875207499950872538992343485180039215301661855418632786237406531379449599695768733862836388927907549255503769238544123030194101611094996705530387720100026063425333350613562296206296883503866883085316253987741357241342223657485340474646359731670857982325029246463452542949298851914572037";
             String b62 = MBigMath.toBase91(new BigInteger(m));
             String n = MBigMath.fromBase91(b62).toString();
             System.out.println(m + "\n" + b62 + "\n" + n);
@@ -432,7 +391,7 @@ public class CryptTest extends TestCase {
             byte a = 127;
             byte x = enc.encode(a);
             byte in = dec.decode(x);
-            //			System.out.println(b + ": " + a + " -> " + x + " -> " + in);
+            // System.out.println(b + ": " + a + " -> " + x + " -> " + in);
             assertEquals(a, in);
         }
         enc.reset();
@@ -441,7 +400,7 @@ public class CryptTest extends TestCase {
             byte a = -128;
             byte x = enc.encode(a);
             byte in = dec.decode(x);
-            //			System.out.println(b + ": " + a + " -> " + x + " -> " + in);
+            // System.out.println(b + ": " + a + " -> " + x + " -> " + in);
             assertEquals(a, in);
         }
         enc.reset();
@@ -450,7 +409,7 @@ public class CryptTest extends TestCase {
             byte a = b;
             byte x = enc.encode(a);
             byte in = dec.decode(x);
-            //			System.out.println(b + ": " + a + " -> " + x + " -> " + in);
+            // System.out.println(b + ": " + a + " -> " + x + " -> " + in);
             assertEquals(a, in);
         }
     }
@@ -470,7 +429,7 @@ public class CryptTest extends TestCase {
             byte a = 127;
             byte x = enc.encode(a);
             byte in = dec.decode(x);
-            //			System.out.println(b + ": " + a + " -> " + x + " -> " + in);
+            // System.out.println(b + ": " + a + " -> " + x + " -> " + in);
             assertEquals(a, in);
         }
         enc.reset();
@@ -479,7 +438,7 @@ public class CryptTest extends TestCase {
             byte a = -128;
             byte x = enc.encode(a);
             byte in = dec.decode(x);
-            //			System.out.println(b + ": " + a + " -> " + x + " -> " + in);
+            // System.out.println(b + ": " + a + " -> " + x + " -> " + in);
             assertEquals(a, in);
         }
         enc.reset();
@@ -488,7 +447,7 @@ public class CryptTest extends TestCase {
             byte a = b;
             byte x = enc.encode(a);
             byte in = dec.decode(x);
-            //			System.out.println(b + ": " + a + " -> " + x + " -> " + in);
+            // System.out.println(b + ": " + a + " -> " + x + " -> " + in);
             assertEquals(a, in);
         }
     }
@@ -532,15 +491,15 @@ public class CryptTest extends TestCase {
     public void testMCipherStreamSymetry() throws IOException {
         System.out.println(">>> testMCipherStreamSymetry");
         String pass = "aaaaaaaaaa";
-        byte[] buf =
-                "------------------------------------------------------------------------------------------------------------------------------------------------------------------"
-                        .getBytes();
+        byte[] buf = "------------------------------------------------------------------------------------------------------------------------------------------------------------------"
+                .getBytes();
 
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         OutputStream cos = MCrypt.createCipherOutputStream(os, pass);
 
         // write into output stream and crypt
-        for (byte b : buf) cos.write(b);
+        for (byte b : buf)
+            cos.write(b);
 
         // get encrypted
         byte[] enc = os.toByteArray();
@@ -556,7 +515,8 @@ public class CryptTest extends TestCase {
         int sameCnt = 0;
         int sameMax = 0;
         for (byte p : enc) {
-            if (sameLast == p) sameCnt++;
+            if (sameLast == p)
+                sameCnt++;
             else {
                 sameMax = Math.max(sameMax, sameCnt);
                 sameCnt = 0;
@@ -586,7 +546,8 @@ public class CryptTest extends TestCase {
         // System.out.println(new String(enc));
         // System.out.println(new String(copy));
 
-        if (aCnt < 100) System.out.println("WARNING: Spread lower then 100");
+        if (aCnt < 100)
+            System.out.println("WARNING: Spread lower then 100");
 
         assertEquals(new String(buf), new String(copy));
     }
@@ -595,15 +556,15 @@ public class CryptTest extends TestCase {
     public void testMCipherStreamReal() throws IOException {
         System.out.println(">>> testMCipherStreamReal");
         String pass = "passphrase123";
-        byte[] buf =
-                "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
-                        .getBytes();
+        byte[] buf = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
+                .getBytes();
 
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         OutputStream cos = MCrypt.createCipherOutputStream(os, pass);
 
         // write into output stream and crypt
-        for (byte b : buf) cos.write(b);
+        for (byte b : buf)
+            cos.write(b);
 
         // get encrypted
         byte[] enc = os.toByteArray();
@@ -619,7 +580,8 @@ public class CryptTest extends TestCase {
         int sameCnt = 0;
         int sameMax = 0;
         for (byte p : enc) {
-            if (sameLast == p) sameCnt++;
+            if (sameLast == p)
+                sameCnt++;
             else {
                 sameMax = Math.max(sameMax, sameCnt);
                 sameCnt = 0;
@@ -649,7 +611,8 @@ public class CryptTest extends TestCase {
         // System.out.println(new String(enc));
         // System.out.println(new String(copy));
 
-        if (aCnt < 100) System.out.println("WARNING: Spread lower then 100");
+        if (aCnt < 100)
+            System.out.println("WARNING: Spread lower then 100");
 
         assertEquals(new String(buf), new String(copy));
     }
@@ -658,9 +621,11 @@ public class CryptTest extends TestCase {
     public void testObfuscate() {
         System.out.println(">>> testObfuscate");
         byte[] org = new byte[256];
-        for (int i = 0; i < 256; i++) org[i] = (byte) i;
+        for (int i = 0; i < 256; i++)
+            org[i] = (byte) i;
         byte[] copy = MCrypt.unobfuscate(MCrypt.obfuscate(org));
-        for (int i = 0; i < 256; i++) assertEquals(org[i], copy[i]);
+        for (int i = 0; i < 256; i++)
+            assertEquals(org[i], copy[i]);
     }
 
     @Test
@@ -676,10 +641,12 @@ public class CryptTest extends TestCase {
         }
         {
             byte[] org = new byte[256];
-            for (int i = 0; i < org.length; i++) org[i] = (byte) (i - 128);
+            for (int i = 0; i < org.length; i++)
+                org[i] = (byte) (i - 128);
             byte[] enc = MCrypt.encode(passphrase, org);
             byte[] dec = MCrypt.decode(passphrase, enc);
-            for (int i = 0; i < org.length; i++) assertEquals(org[i], dec[i]);
+            for (int i = 0; i < org.length; i++)
+                assertEquals(org[i], dec[i]);
         }
     }
 
@@ -740,7 +707,8 @@ public class CryptTest extends TestCase {
             byte[] enc1 = Blowfish.encrypt(text1.getBytes(), pass);
             byte[] enc2 = Blowfish.encrypt(text1.getBytes(), pass);
             assertEquals(enc1.length, enc2.length);
-            for (int i = 0; i < enc1.length; i++) assertEquals(enc1[i], enc2[i]);
+            for (int i = 0; i < enc1.length; i++)
+                assertEquals(enc1[i], enc2[i]);
         }
     }
 

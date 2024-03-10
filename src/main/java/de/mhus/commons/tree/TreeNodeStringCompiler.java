@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,8 +35,9 @@ public class TreeNodeStringCompiler extends StringCompiler {
 
     @Override
     protected StringPart createDefaultAttributePart(String part) {
-        if (part.startsWith(">root:")) return new RootAttributePart(part);
-        //        if (part.startsWith(">js:")) return new DefaultScriptPart(part);
+        if (part.startsWith(">root:"))
+            return new RootAttributePart(part);
+        // if (part.startsWith(">js:")) return new DefaultScriptPart(part);
         return new NodeAttributePart(part);
     }
 
@@ -48,7 +49,8 @@ public class TreeNodeStringCompiler extends StringCompiler {
         public RootAttributePart(String part) {
             name = MString.afterIndex(part, ':');
             node = rootNode;
-            while (node.getParent() != null && node.getParent() != node) node = node.getParent();
+            while (node.getParent() != null && node.getParent() != node)
+                node = node.getParent();
             int pos = name.indexOf(',');
             if (pos > 0) {
                 def = name.substring(pos + 1);
@@ -64,11 +66,7 @@ public class TreeNodeStringCompiler extends StringCompiler {
         @Override
         public void dump(int level, StringBuilder out) {
             MString.appendRepeating(level, ' ', out);
-            out.append(getClass().getCanonicalName())
-                    .append(name)
-                    .append("(")
-                    .append(def)
-                    .append(")");
+            out.append(getClass().getCanonicalName()).append(name).append("(").append(def).append(")");
         }
     }
 
@@ -87,13 +85,15 @@ public class TreeNodeStringCompiler extends StringCompiler {
             }
             node = rootNode;
             if (name.startsWith("/")) {
-                while (node.getParent() != null) node = (TreeNode) node.getParent();
+                while (node.getParent() != null)
+                    node = (TreeNode) node.getParent();
                 name = name.substring(1);
             } else
                 while (name.startsWith("../")) {
                     node = (TreeNode) node.getParent();
                     name = name.substring(3);
-                    if (node == null) break;
+                    if (node == null)
+                        break;
                 }
         }
 
@@ -103,18 +103,16 @@ public class TreeNodeStringCompiler extends StringCompiler {
             if (attributes != null && attributes instanceof NodeMap) {
                 level = ((NodeMap) attributes).getLevel();
             }
-            if (node == null) out.append(def);
-            else out.append(node.getExtracted(name, def, level));
+            if (node == null)
+                out.append(def);
+            else
+                out.append(node.getExtracted(name, def, level));
         }
 
         @Override
         public void dump(int level, StringBuilder out) {
             MString.appendRepeating(level, ' ', out);
-            out.append(getClass().getCanonicalName())
-                    .append(name)
-                    .append("(")
-                    .append(def)
-                    .append(")");
+            out.append(getClass().getCanonicalName()).append(name).append("(").append(def).append(")");
         }
     }
 
@@ -172,10 +170,12 @@ public class TreeNodeStringCompiler extends StringCompiler {
         }
 
         @Override
-        public void putAll(Map<? extends String, ? extends Object> m) {}
+        public void putAll(Map<? extends String, ? extends Object> m) {
+        }
 
         @Override
-        public void clear() {}
+        public void clear() {
+        }
 
         @Override
         public Set<String> keySet() {

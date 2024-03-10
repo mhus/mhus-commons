@@ -38,7 +38,8 @@ public class FilterRequest {
     }
 
     public FilterRequest(String text) {
-        if (text == null) return;
+        if (text == null)
+            return;
         LinkedList<String> lText = new LinkedList<String>();
         facets = new HashMap<String, String>();
         for (String part : text.split(" ")) {
@@ -59,7 +60,8 @@ public class FilterRequest {
     }
 
     public String[] getText() {
-        if (text == null) return new String[0];
+        if (text == null)
+            return new String[0];
         return text;
     }
 
@@ -68,38 +70,45 @@ public class FilterRequest {
     }
 
     public String getFacet(String name) {
-        if (facets == null) return null;
+        if (facets == null)
+            return null;
         return facets.get(name);
     }
 
     public Date getFacet(String name, Date def) {
-        if (facets == null) return def;
+        if (facets == null)
+            return def;
         return MCast.toDate(facets.get(name), def);
     }
 
     public int getFacet(String name, int def) {
-        if (facets == null) return def;
+        if (facets == null)
+            return def;
         return MCast.toint(facets.get(name), def);
     }
 
     public long getFacet(String name, long def) {
-        if (facets == null) return def;
+        if (facets == null)
+            return def;
         return MCast.tolong(facets.get(name), def);
     }
 
     public boolean getFacet(String name, boolean def) {
-        if (facets == null) return def;
+        if (facets == null)
+            return def;
         return MCast.toboolean(facets.get(name), def);
     }
 
     public Set<String> getFacetKeys() {
-        if (facets == null) return new EmptySet<String>();
+        if (facets == null)
+            return new EmptySet<String>();
         return facets.keySet();
     }
 
     public IProperties toProperties() {
         MProperties ret = new MProperties(facets);
-        if (text != null && text.length > 0) ret.put("", text[0]);
+        if (text != null && text.length > 0)
+            ret.put("", text[0]);
         return ret;
     }
 

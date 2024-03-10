@@ -46,12 +46,12 @@ public class MObjectInputStream extends ObjectInputStream {
     }
 
     @Override
-    protected Class<?> resolveClass(ObjectStreamClass desc)
-            throws IOException, ClassNotFoundException {
+    protected Class<?> resolveClass(ObjectStreamClass desc) throws IOException, ClassNotFoundException {
         String name = desc.getName();
 
         try {
-            if (cl != null) return MSystem.newInstance(cl, name);
+            if (cl != null)
+                return MSystem.newInstance(cl, name);
         } catch (Exception ex) {
         }
 
@@ -63,8 +63,7 @@ public class MObjectInputStream extends ObjectInputStream {
     }
 
     @Override
-    protected Class<?> resolveProxyClass(String[] interfaces)
-            throws IOException, ClassNotFoundException {
+    protected Class<?> resolveProxyClass(String[] interfaces) throws IOException, ClassNotFoundException {
         ClassLoader latestLoader = cl;
         ClassLoader nonPublicLoader = null;
         boolean hasNonPublicInterface = false;
@@ -78,8 +77,7 @@ public class MObjectInputStream extends ObjectInputStream {
             if ((cl.getModifiers() & Modifier.PUBLIC) == 0) {
                 if (hasNonPublicInterface) {
                     if (nonPublicLoader != cl.getClassLoader()) {
-                        throw new IllegalAccessError(
-                                "conflicting non-public interface class loaders");
+                        throw new IllegalAccessError("conflicting non-public interface class loaders");
                     }
                 } else {
                     nonPublicLoader = cl.getClassLoader();
@@ -90,9 +88,8 @@ public class MObjectInputStream extends ObjectInputStream {
         }
         try {
             @SuppressWarnings("deprecation")
-            Class<?> proxyClass =
-                    Proxy.getProxyClass(
-                            hasNonPublicInterface ? nonPublicLoader : latestLoader, classObjs);
+            Class<?> proxyClass = Proxy.getProxyClass(hasNonPublicInterface ? nonPublicLoader : latestLoader,
+                    classObjs);
             return proxyClass;
         } catch (IllegalArgumentException e) {
             throw new ClassNotFoundException(null, e);

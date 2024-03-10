@@ -30,14 +30,13 @@ public class MDate extends Date {
 
     public static final Date NULL_DATE = new Date(0);
 
-    private static SimpleDateFormat iso8601DateFormat =
-            new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+    private static SimpleDateFormat iso8601DateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     private static SimpleDateFormat fileDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
     private static SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
     private static SimpleDateFormat timeSecFormat = new SimpleDateFormat("HH:mm:ss");
     private static SimpleDateFormat germanDateFormat = new SimpleDateFormat("dd.MM.yyyy");
-    private static SimpleDateFormat httpHeaderDateFormat =
-            new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US);
+    private static SimpleDateFormat httpHeaderDateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z",
+            Locale.US);
 
     static {
         httpHeaderDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
@@ -57,7 +56,8 @@ public class MDate extends Date {
 
     public MDate(String string) {
         Date date = MCast.toDate(string, null);
-        if (date != null) this.setTime(date.getTime());
+        if (date != null)
+            this.setTime(date.getTime());
     }
 
     @Override
@@ -104,6 +104,7 @@ public class MDate extends Date {
      * yyyy-MM-ddTHH:mm:ss
      *
      * @param date
+     *
      * @return the formatted date as string
      */
     public static String toIso8601(Date date) {
@@ -179,13 +180,17 @@ public class MDate extends Date {
     /**
      * Returns a locale specific date formatter.
      *
-     * @param locale the locale or null for default locale
+     * @param locale
+     *            the locale or null for default locale
+     *
      * @return date formatter
      */
     public static DateFormat getLocaleDateFormatter(Locale locale) {
 
-        if (locale == null) locale = Locale.getDefault();
-        if (locale == null || Locale.GERMANY.equals(locale)) return germanDateFormat;
+        if (locale == null)
+            locale = Locale.getDefault();
+        if (locale == null || Locale.GERMANY.equals(locale))
+            return germanDateFormat;
 
         int style = DateFormat.SHORT;
         return DateFormat.getDateInstance(style, locale);
@@ -195,6 +200,7 @@ public class MDate extends Date {
      * yyyyMMddHHmmss
      *
      * @param date
+     *
      * @return the formatted date as string
      */
     public static String toFileFormat(Date date) {
@@ -208,6 +214,7 @@ public class MDate extends Date {
      * Returns the date in iso format: yyyy-mm-dd
      *
      * @param _in
+     *
      * @return the formatted date as string
      */
     public static String toIsoDate(Date _in) {
@@ -220,6 +227,7 @@ public class MDate extends Date {
      * Returns the date in iso time format: yyyy-mm-dd HH:mm:ss.SSS
      *
      * @param _in
+     *
      * @return the formatted date as string
      */
     public static String toIsoDateTime(Date _in) {
@@ -229,17 +237,10 @@ public class MDate extends Date {
     }
 
     public static String toIsoDateTime(Calendar _in) {
-        return _in.get(Calendar.YEAR)
-                + "-"
-                + MCast.toString(_in.get(Calendar.MONTH) + 1, 2)
-                + "-"
-                + MCast.toString(_in.get(Calendar.DAY_OF_MONTH), 2)
-                + " "
-                + MCast.toString(_in.get(Calendar.HOUR_OF_DAY), 2)
-                + ":"
-                + MCast.toString(_in.get(Calendar.MINUTE), 2)
-                + ":"
-                + MCast.toString(_in.get(Calendar.SECOND), 2)
+        return _in.get(Calendar.YEAR) + "-" + MCast.toString(_in.get(Calendar.MONTH) + 1, 2) + "-"
+                + MCast.toString(_in.get(Calendar.DAY_OF_MONTH), 2) + " "
+                + MCast.toString(_in.get(Calendar.HOUR_OF_DAY), 2) + ":" + MCast.toString(_in.get(Calendar.MINUTE), 2)
+                + ":" + MCast.toString(_in.get(Calendar.SECOND), 2)
         // + "." + toString(_in.get(Calendar.MILLISECOND), 3)
         ;
     }
@@ -248,6 +249,7 @@ public class MDate extends Date {
      * Calendar to iso date: yyyy-mm-dd
      *
      * @param timeStamp
+     *
      * @return the formatted date as string
      */
     public static String toIsoDateTime(long timeStamp) {
@@ -261,13 +263,11 @@ public class MDate extends Date {
      * Calendar to iso date: yyyy-mm-dd
      *
      * @param _in
+     *
      * @return the formatted date as string
      */
     public static String toIsoDate(Calendar _in) {
-        return _in.get(Calendar.YEAR)
-                + "-"
-                + MCast.toString(_in.get(Calendar.MONTH) + 1, 2)
-                + "-"
+        return _in.get(Calendar.YEAR) + "-" + MCast.toString(_in.get(Calendar.MONTH) + 1, 2) + "-"
                 + MCast.toString(_in.get(Calendar.DAY_OF_MONTH), 2);
     }
 
@@ -275,6 +275,7 @@ public class MDate extends Date {
      * yyyy-MM-ddTHH:mm:ss
      *
      * @param date
+     *
      * @return the formatted date as string
      */
     public static String toIso8601(Calendar date) {
@@ -295,6 +296,7 @@ public class MDate extends Date {
      * yyyyMMddHHmmss
      *
      * @param date
+     *
      * @return the formatted date as string
      */
     public static String toFileFormat(Calendar date) {
@@ -343,20 +345,25 @@ public class MDate extends Date {
 
     public static String transform(String format, String date, Date def) {
         Date d = toDate(date, def);
-        if (d == null) return null;
+        if (d == null)
+            return null;
         return toString(format, d);
     }
 
     public static Date toDateOnly(Date date) {
-        if (date == null) return null;
+        if (date == null)
+            return null;
         return new Date(date.getTime() / MPeriod.DAY_IN_MILLISECONDS * MPeriod.DAY_IN_MILLISECONDS);
     }
 
     /**
      * Calculate the last day of the defined month.
      *
-     * @param month 0 - 11
-     * @param year YYYY
+     * @param month
+     *            0 - 11
+     * @param year
+     *            YYYY
+     *
      * @return The last day of the month 1 - 31
      */
     public static int lastDayOfMonth(int month, int year) {

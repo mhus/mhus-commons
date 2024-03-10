@@ -38,7 +38,8 @@ public class DoubleToString implements Caster<Double, String> {
 
     public String toString(double _in) {
         String out = doubleFormat.format(_in);
-        if (out.indexOf(',') >= 0) out = out.replace(",", "."); // for secure
+        if (out.indexOf(',') >= 0)
+            out = out.replace(",", "."); // for secure
         return out;
     }
 }

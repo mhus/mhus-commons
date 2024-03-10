@@ -21,6 +21,7 @@ import java.util.Iterator;
  * Map an existing iterator into Iterable
  *
  * @author mikehummel
+ *
  * @param <T>
  */
 public class Iterate<T> implements Iterable<T> {

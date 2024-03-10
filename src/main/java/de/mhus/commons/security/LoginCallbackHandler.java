@@ -45,8 +45,11 @@ public class LoginCallbackHandler implements CallbackHandler {
     /**
      * Handles the callbacks, and sets the user/password detail.
      *
-     * @param callbacks the callbacks to handle
-     * @throws IOException if an input or output error occurs.
+     * @param callbacks
+     *            the callbacks to handle
+     *
+     * @throws IOException
+     *             if an input or output error occurs.
      */
     @Override
     public void handle(Callback[] callbacks) throws IOException, UnsupportedCallbackException {
@@ -59,8 +62,9 @@ public class LoginCallbackHandler implements CallbackHandler {
                 PasswordCallback pc = (PasswordCallback) callbacks[i];
                 pc.setPassword(password.toCharArray());
             } else {
-                /*throw new UnsupportedCallbackException(
-                callbacks[i], "Unrecognized Callback");*/
+                /*
+                 * throw new UnsupportedCallbackException( callbacks[i], "Unrecognized Callback");
+                 */
             }
         }
     }

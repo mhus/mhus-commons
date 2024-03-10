@@ -38,29 +38,12 @@ public class AtomicClockUtil {
     private static long now;
 
     // Some time RFC868 servers.
-    public static final List<String> TIME_SERVERS =
-            new LinkedList<String>(
-                    MCollection.toList(
-                            new String[] {
-                                "time-a.timefreq.bldrdoc.gov",
-                                "time-a.timefreq.bldrdoc.gov",
-                                "time-b.timefreq.bldrdoc.gov",
-                                "time-c.timefreq.bldrdoc.gov",
-                                "utcnist.colorado.edu",
-                                "time-nw.nist.gov",
-                                "nist1.nyc.certifiedtime.com",
-                                "nist1.dc.certifiedtime.com",
-                                "nist1.sjc.certifiedtime.com",
-                                "nist1.datum.com",
-                                "ntp2.cmc.ec.gc.ca",
-                                "ntps1-0.uni-erlangen.de",
-                                "ntps1-1.uni-erlangen.de",
-                                "ntps1-2.uni-erlangen.de",
-                                "ntps1-0.cs.tu-berlin.de",
-                                "time.ien.it",
-                                "ptbtime1.ptb.de",
-                                "ptbtime2.ptb.de"
-                            }));
+    public static final List<String> TIME_SERVERS = new LinkedList<String>(MCollection.toList(new String[] {
+            "time-a.timefreq.bldrdoc.gov", "time-a.timefreq.bldrdoc.gov", "time-b.timefreq.bldrdoc.gov",
+            "time-c.timefreq.bldrdoc.gov", "utcnist.colorado.edu", "time-nw.nist.gov", "nist1.nyc.certifiedtime.com",
+            "nist1.dc.certifiedtime.com", "nist1.sjc.certifiedtime.com", "nist1.datum.com", "ntp2.cmc.ec.gc.ca",
+            "ntps1-0.uni-erlangen.de", "ntps1-1.uni-erlangen.de", "ntps1-2.uni-erlangen.de", "ntps1-0.cs.tu-berlin.de",
+            "time.ien.it", "ptbtime1.ptb.de", "ptbtime2.ptb.de" }));
     private static int currentServer = 0;
 
     public static long getAtomicTime(String timeServerInternet)
@@ -82,7 +65,8 @@ public class AtomicClockUtil {
                 // As mention not exception control implemented
                 if (is.available() >= 4) {
                     // Read the 4 bytes (32 bits) from the server
-                    for (i = 0; i < 4; i++) buffer[i] = is.read();
+                    for (i = 0; i < 4; i++)
+                        buffer[i] = is.read();
                     // Once finish we can exit of the loop.
                     // Maybe a while implementation is more elegant ;)
                     readedTime = true;
@@ -90,7 +74,8 @@ public class AtomicClockUtil {
                 if (!readedTime) {
                     MThread.sleep(10);
                     timeout--;
-                    if (timeout <= 0) throw new TimeoutException();
+                    if (timeout <= 0)
+                        throw new TimeoutException();
                 }
             }
         } finally {
@@ -118,8 +103,7 @@ public class AtomicClockUtil {
     }
 
     /**
-     * Returns the current time cached 30 minutes. The time will be interpolated with the current
-     * time
+     * Returns the current time cached 30 minutes. The time will be interpolated with the current time
      *
      * @return actual time millies in UTC
      */

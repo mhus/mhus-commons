@@ -39,7 +39,8 @@ public class ObjectToDouble implements Caster<Object, Double> {
     }
 
     public OptionalDouble toDouble(Object in) {
-        if (in == null) return OptionalDouble.empty();
+        if (in == null)
+            return OptionalDouble.empty();
         if (in instanceof Number) {
             double r = ((Number) in).doubleValue();
             return OptionalDouble.of(r);

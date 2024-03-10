@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -68,7 +68,8 @@ public class JsonNodeBuilder extends ITreeNodeBuilder {
 
     private void fill(ITreeNode node, String name, JsonNode json, int level) {
 
-        if (level > 100) throw new TooDeepStructuresException();
+        if (level > 100)
+            throw new TooDeepStructuresException();
 
         if (json.isValueNode()) {
             node.put(ITreeNode.NAMELESS_VALUE, json.asText());
@@ -85,7 +86,8 @@ public class JsonNodeBuilder extends ITreeNodeBuilder {
             } else if (itemJ.getValue().isObject()) {
                 ITreeNode obj = node.createObject(itemJ.getKey());
                 fill(obj, itemJ.getKey(), itemJ.getValue(), level + 1);
-            } else node.put(itemJ.getKey(), itemJ.getValue().asText());
+            } else
+                node.put(itemJ.getKey(), itemJ.getValue().asText());
         }
     }
 
@@ -121,7 +123,8 @@ public class JsonNodeBuilder extends ITreeNodeBuilder {
     }
 
     private void fill(ObjectNode objectJ, ITreeNode itemC, int level) {
-        if (level > 100) throw new TooDeepStructuresException();
+        if (level > 100)
+            throw new TooDeepStructuresException();
 
         for (String key : itemC.keys()) {
             if (itemC.isArray(key)) {
@@ -134,20 +137,30 @@ public class JsonNodeBuilder extends ITreeNodeBuilder {
                 ObjectNode newJ = MJson.createObjectNode();
                 fill(newJ, itemC.getObject(key).orElse(null), level + 1);
                 objectJ.set(key, newJ);
-            } else if (itemC.get(key) instanceof NullValue) objectJ.putNull(key);
+            } else if (itemC.get(key) instanceof NullValue)
+                objectJ.putNull(key);
             else {
                 Object o = itemC.get(key);
                 if (o instanceof String) {
                     objectJ.put(key, (String) o);
-                } else if (o instanceof Boolean) objectJ.put(key, (Boolean) o);
-                else if (o instanceof Integer) objectJ.put(key, (Integer) o);
-                else if (o instanceof Long) objectJ.put(key, (Long) o);
-                else if (o instanceof Double) objectJ.put(key, (Double) o);
-                else if (o instanceof Float) objectJ.put(key, (Float) o);
-                else if (o instanceof Short) objectJ.put(key, (Short) o);
-                else if (o instanceof BigInteger) objectJ.put(key, (BigInteger) o);
-                else if (o instanceof BigDecimal) objectJ.put(key, (BigDecimal) o);
-                else if (o instanceof byte[]) objectJ.put(key, (byte[]) o);
+                } else if (o instanceof Boolean)
+                    objectJ.put(key, (Boolean) o);
+                else if (o instanceof Integer)
+                    objectJ.put(key, (Integer) o);
+                else if (o instanceof Long)
+                    objectJ.put(key, (Long) o);
+                else if (o instanceof Double)
+                    objectJ.put(key, (Double) o);
+                else if (o instanceof Float)
+                    objectJ.put(key, (Float) o);
+                else if (o instanceof Short)
+                    objectJ.put(key, (Short) o);
+                else if (o instanceof BigInteger)
+                    objectJ.put(key, (BigInteger) o);
+                else if (o instanceof BigDecimal)
+                    objectJ.put(key, (BigDecimal) o);
+                else if (o instanceof byte[])
+                    objectJ.put(key, (byte[]) o);
                 else if (o instanceof Date) {
                     objectJ.put(key, ((Date) o).getTime());
                     objectJ.put("_" + key, MDate.toIso8601((Date) o));
@@ -156,7 +169,8 @@ public class JsonNodeBuilder extends ITreeNodeBuilder {
                     objectJ.put("_" + key, ((Enum<?>) o).name());
                 } else if (o instanceof NullValue) {
                     objectJ.putNull(key);
-                } else objectJ.put(key, itemC.getString(key, null));
+                } else
+                    objectJ.put(key, itemC.getString(key, null));
             }
         }
     }

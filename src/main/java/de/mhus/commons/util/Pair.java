@@ -19,8 +19,10 @@ import de.mhus.commons.annotations.generic.Public;
 
 public class Pair<K, V> {
 
-    @Public private K key;
-    @Public private V value;
+    @Public
+    private K key;
+    @Public
+    private V value;
 
     public Pair(K key, V value) {
         this.key = key;
@@ -42,8 +44,10 @@ public class Pair<K, V> {
 
     @Override
     public boolean equals(Object in) {
-        if (in == null) return false;
-        if (in instanceof Pair<?, ?>) return ((Pair<?, ?>) in).getKey().equals(key);
+        if (in == null)
+            return false;
+        if (in instanceof Pair<?, ?>)
+            return ((Pair<?, ?>) in).getKey().equals(key);
         return key.equals(in);
     }
 }

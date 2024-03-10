@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,11 +34,10 @@ public class TreeNodeList extends LinkedList<ITreeNode> {
 
     @Override
     public boolean addAll(int index, Collection<? extends ITreeNode> c) {
-        c.forEach(
-                i -> {
-                    ((TreeNode) i).name = name;
-                    ((TreeNode) i).parent = parent;
-                });
+        c.forEach(i -> {
+            ((TreeNode) i).name = name;
+            ((TreeNode) i).parent = parent;
+        });
         return super.addAll(index, c);
     }
 

@@ -33,7 +33,8 @@ public class QuotaFileOutputStream extends FileOutputStream {
 
     @Override
     public void write(int b) throws IOException {
-        if (file.length() + 1 > quota) throw new IOException("maximum file size reached " + quota);
+        if (file.length() + 1 > quota)
+            throw new IOException("maximum file size reached " + quota);
         super.write(b);
     }
 

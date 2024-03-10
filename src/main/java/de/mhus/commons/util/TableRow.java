@@ -60,8 +60,7 @@ public class TableRow implements Serializable, TreeNodeSerializable {
         }
     }
 
-    private void readObject(java.io.ObjectInputStream in)
-            throws IOException, ClassNotFoundException {
+    private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
         int size = in.readInt();
         // data.clear(); Create new one because of concurrent modifications
         data = new LinkedList<>();
@@ -104,12 +103,14 @@ public class TableRow implements Serializable, TreeNodeSerializable {
     }
 
     public void appendData(Object... d) {
-        for (Object o : d) data.add(o);
+        for (Object o : d)
+            data.add(o);
     }
 
     public void setData(Object... d) {
         data.clear();
-        for (Object o : d) data.add(o);
+        for (Object o : d)
+            data.add(o);
     }
 
     public void setTable(Table table) {
@@ -124,16 +125,19 @@ public class TableRow implements Serializable, TreeNodeSerializable {
 
     public Object get(String name) {
         int index = table.getColumnIndex(name);
-        if (index == -1) throw new NotFoundRuntimeException("column not found", name);
+        if (index == -1)
+            throw new NotFoundRuntimeException("column not found", name);
         return get(index);
     }
 
     @SuppressWarnings("unchecked")
     public <T> T get(String name, T def) {
         int index = table.getColumnIndex(name);
-        if (index == -1) return def;
+        if (index == -1)
+            return def;
         Object val = get(index);
-        if (val == null) return def;
+        if (val == null)
+            return def;
         return (T) val;
     }
 

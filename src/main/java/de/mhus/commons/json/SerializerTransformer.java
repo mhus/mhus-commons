@@ -43,16 +43,17 @@ public class SerializerTransformer extends TransformStrategy {
 
     @SuppressWarnings("unchecked")
     @Override
-    public Object jsonToPojo(JsonNode from, Class<?> typex, TransformHelper helper)
-            throws NotSupportedException {
+    public Object jsonToPojo(JsonNode from, Class<?> typex, TransformHelper helper) throws NotSupportedException {
 
-        if (from instanceof TextNode) return ((TextNode) from).asText();
+        if (from instanceof TextNode)
+            return ((TextNode) from).asText();
         if (from instanceof ArrayNode) {
             ArrayNode node = (ArrayNode) from;
             LinkedList<Object> list = new LinkedList<>();
             JsonNode first = null;
             for (JsonNode item : node) {
-                if (first == null) first = item;
+                if (first == null)
+                    first = item;
                 else {
                     list.add(jsonToPojo(item, null, helper));
                 }
@@ -61,21 +62,28 @@ public class SerializerTransformer extends TransformStrategy {
             Object array = null;
             try {
                 array = helper.createArray(list.size(), helper.getType(aclazz));
-                for (int i = 0; i < list.size(); i++) Array.set(array, i, list.get(i));
+                for (int i = 0; i < list.size(); i++)
+                    Array.set(array, i, list.get(i));
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
             return array;
         }
 
-        if (MJson.getValue(from, "_null", false)) return null; // return null is ok !
+        if (MJson.getValue(from, "_null", false))
+            return null; // return null is ok !
 
-        if (from instanceof IntNode) return ((IntNode) from).asInt();
-        if (from instanceof BooleanNode) return ((BooleanNode) from).asBoolean();
-        if (from instanceof DoubleNode) return ((DoubleNode) from).asDouble();
-        if (from instanceof NullNode) return null;
+        if (from instanceof IntNode)
+            return ((IntNode) from).asInt();
+        if (from instanceof BooleanNode)
+            return ((BooleanNode) from).asBoolean();
+        if (from instanceof DoubleNode)
+            return ((DoubleNode) from).asDouble();
+        if (from instanceof NullNode)
+            return null;
 
-        if (!(from instanceof ObjectNode)) throw new NotSupportedException("node type is unknown");
+        if (!(from instanceof ObjectNode))
+            throw new NotSupportedException("node type is unknown");
 
         String clazz = MJson.getValue(from, "_type", "");
         String special = MJson.getValue(from, "_special", "");
@@ -89,24 +97,24 @@ public class SerializerTransformer extends TransformStrategy {
         if (val != null) {
             try {
                 switch (clazz) {
-                    case "java.lang.String":
-                        return val.asText();
-                    case "java.lang.Boolean":
-                        return val.asBoolean();
-                    case "java.lang.Byte":
-                        return val.binaryValue()[0];
-                    case "java.lang.Integer":
-                        return val.asInt();
-                    case "java.lang.Short":
-                        return val.numberValue().shortValue();
-                    case "java.lang.Double":
-                        return val.asDouble();
-                    case "java.lang.Float":
-                        return val.numberValue().floatValue();
-                    case "java.lang.Long":
-                        return val.numberValue().longValue();
-                    case "java.lang.Character":
-                        return (char) val.asInt();
+                case "java.lang.String":
+                    return val.asText();
+                case "java.lang.Boolean":
+                    return val.asBoolean();
+                case "java.lang.Byte":
+                    return val.binaryValue()[0];
+                case "java.lang.Integer":
+                    return val.asInt();
+                case "java.lang.Short":
+                    return val.numberValue().shortValue();
+                case "java.lang.Double":
+                    return val.asDouble();
+                case "java.lang.Float":
+                    return val.numberValue().floatValue();
+                case "java.lang.Long":
+                    return val.numberValue().longValue();
+                case "java.lang.Character":
+                    return (char) val.asInt();
                 }
 
             } catch (IOException e) {
@@ -140,7 +148,8 @@ public class SerializerTransformer extends TransformStrategy {
             } catch (Throwable e) {
                 out = new LinkedList<>();
             }
-            for (Object o : a) out.add(o);
+            for (Object o : a)
+                out.add(o);
             return out;
         } else {
             try {
@@ -150,9 +159,12 @@ public class SerializerTransformer extends TransformStrategy {
                     String name = attr.getName();
                     Class<?> type = attr.getType();
                     Object value = jsonToPojo(from.get(name), null, helper);
-                    if (value == null) attr.set(to, null, true);
-                    else if (type.isInstance(value)) attr.set(to, value, true);
-                    else System.out.println("Can't set ...");
+                    if (value == null)
+                        attr.set(to, null, true);
+                    else if (type.isInstance(value))
+                        attr.set(to, value, true);
+                    else
+                        System.out.println("Can't set ...");
                 }
                 return to;
             } catch (Throwable t) {
@@ -197,21 +209,15 @@ public class SerializerTransformer extends TransformStrategy {
         {
             ObjectNode out = MJson.createObjectNode();
 
-            if (from instanceof String
-                    || from instanceof Integer
-                    || from instanceof Boolean
-                    || from instanceof Short
-                    || from instanceof Long
-                    || from instanceof Double
-                    || from instanceof Float
-                    || from instanceof Character
-                    || from instanceof Byte) {
+            if (from instanceof String || from instanceof Integer || from instanceof Boolean || from instanceof Short
+                    || from instanceof Long || from instanceof Double || from instanceof Float
+                    || from instanceof Character || from instanceof Byte) {
                 out.put("_type", from.getClass().getCanonicalName());
                 putPojoValue(out, "_value", from, helper);
             } else if (from instanceof Map) {
                 out.put("_type", from.getClass().getCanonicalName());
                 out.put("_special", "map");
-                @SuppressWarnings({"rawtypes"})
+                @SuppressWarnings({ "rawtypes" })
                 Map<Object, Object> map = (Map) from;
                 ObjectNode x = out.objectNode();
                 out.set("_map", x);
@@ -222,7 +228,7 @@ public class SerializerTransformer extends TransformStrategy {
             } else if (from instanceof Collection) {
                 out.put("_type", from.getClass().getCanonicalName());
                 out.put("_special", "collection");
-                @SuppressWarnings({"rawtypes"})
+                @SuppressWarnings({ "rawtypes" })
                 Collection<Object> col = (Collection) from;
                 out.set("_array", pojoToJson(col.toArray()));
             } else {
@@ -246,16 +252,27 @@ public class SerializerTransformer extends TransformStrategy {
 
     @SuppressWarnings("deprecation")
     protected void putPojoValue(ObjectNode out, String name, Object value, TransformHelper helper) {
-        if (value == null) out.putNull(name);
-        else if (value instanceof Byte) out.put(name, new byte[] {(Byte) value});
-        else if (value instanceof String) out.put(name, (String) value);
-        else if (value instanceof Long) out.put(name, (Long) value);
-        else if (value instanceof Integer) out.put(name, (Integer) value);
-        else if (value instanceof Double) out.put(name, (Double) value);
-        else if (value instanceof Short) out.put(name, (Short) value);
-        else if (value instanceof Float) out.put(name, (Double) value);
-        else if (value instanceof Character) out.put(name, (Character) value);
-        else if (value instanceof Boolean) out.put(name, (Boolean) value);
-        else out.put(name, pojoToJson(value, helper.incLevel()));
+        if (value == null)
+            out.putNull(name);
+        else if (value instanceof Byte)
+            out.put(name, new byte[] { (Byte) value });
+        else if (value instanceof String)
+            out.put(name, (String) value);
+        else if (value instanceof Long)
+            out.put(name, (Long) value);
+        else if (value instanceof Integer)
+            out.put(name, (Integer) value);
+        else if (value instanceof Double)
+            out.put(name, (Double) value);
+        else if (value instanceof Short)
+            out.put(name, (Short) value);
+        else if (value instanceof Float)
+            out.put(name, (Double) value);
+        else if (value instanceof Character)
+            out.put(name, (Character) value);
+        else if (value instanceof Boolean)
+            out.put(name, (Boolean) value);
+        else
+            out.put(name, pojoToJson(value, helper.incLevel()));
     }
 }

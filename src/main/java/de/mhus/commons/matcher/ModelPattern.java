@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,12 +18,7 @@ package de.mhus.commons.matcher;
 public abstract class ModelPattern extends ModelPart {
 
     public enum CONDITION {
-        NONE,
-        LT,
-        LE,
-        EQ,
-        GE,
-        GR
+        NONE, LT, LE, EQ, GE, GR
     }
 
     private CONDITION condition;
@@ -38,14 +33,9 @@ public abstract class ModelPattern extends ModelPart {
 
     @Override
     public String toString() {
-        return (getParamName() != null ? "${" + getParamName() + "} " : "")
-                + (isNot() ? "!" : "")
-                + (getCondition() == null || getCondition() == CONDITION.NONE
-                        ? ""
-                        : getCondition() + " ")
-                + getPatternTypeName()
-                + " "
-                + getPatternStr();
+        return (getParamName() != null ? "${" + getParamName() + "} " : "") + (isNot() ? "!" : "")
+                + (getCondition() == null || getCondition() == CONDITION.NONE ? "" : getCondition() + " ")
+                + getPatternTypeName() + " " + getPatternStr();
     }
 
     public void setCondition(CONDITION cond) {

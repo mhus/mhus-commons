@@ -19,7 +19,8 @@ import de.mhus.commons.lang.Valueable;
 
 public class IntValue implements Valueable<Integer> {
 
-    public IntValue() {}
+    public IntValue() {
+    }
 
     public IntValue(int initial) {
         value = initial;
@@ -34,8 +35,10 @@ public class IntValue implements Valueable<Integer> {
 
     @Override
     public boolean equals(Object in) {
-        if (in == null) return false;
-        if (in instanceof Number) return ((Number) in).intValue() == value;
+        if (in == null)
+            return false;
+        if (in instanceof Number)
+            return ((Number) in).intValue() == value;
         return false;
     }
 

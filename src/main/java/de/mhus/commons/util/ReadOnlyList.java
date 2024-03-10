@@ -37,7 +37,8 @@ public class ReadOnlyList<E> implements List<E>, ReadOnly {
     }
 
     @Override
-    public void forEach(Consumer<? super E> action) {}
+    public void forEach(Consumer<? super E> action) {
+    }
 
     @Override
     public int size() {
@@ -106,7 +107,8 @@ public class ReadOnlyList<E> implements List<E>, ReadOnly {
     }
 
     @Override
-    public void replaceAll(UnaryOperator<E> operator) {}
+    public void replaceAll(UnaryOperator<E> operator) {
+    }
 
     @Override
     public boolean removeIf(Predicate<? super E> filter) {
@@ -114,10 +116,12 @@ public class ReadOnlyList<E> implements List<E>, ReadOnly {
     }
 
     @Override
-    public void sort(Comparator<? super E> c) {}
+    public void sort(Comparator<? super E> c) {
+    }
 
     @Override
-    public void clear() {}
+    public void clear() {
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -140,7 +144,8 @@ public class ReadOnlyList<E> implements List<E>, ReadOnly {
     }
 
     @Override
-    public void add(int index, E element) {}
+    public void add(int index, E element) {
+    }
 
     @SuppressWarnings("unchecked")
     @Override

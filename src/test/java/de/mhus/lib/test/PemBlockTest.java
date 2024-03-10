@@ -29,19 +29,11 @@ public class PemBlockTest extends TestCase {
     public void testBlock() throws ParseException {
 
         {
-            String longText =
-                    "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.";
+            String longText = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.";
 
-            String text =
-                    "Aloa Mr. Nobody\n\r"
-                            + "Aloa Mr. Nobody\n\r"
-                            + "Aloa Mr. Nobody\n\r"
-                            + "Aloa Mr. Nobody\n\r"
-                            + "Aloa Mr. Nobody\n\r"
-                            + "Aloa Mr. Nobody\n\r"
-                            + "Aloa Mr. Nobody\n\r"
-                            + "Aloa Mr. Nobody\n\r"
-                            + "Aloa Mr. Nobody\n\r";
+            String text = "Aloa Mr. Nobody\n\r" + "Aloa Mr. Nobody\n\r" + "Aloa Mr. Nobody\n\r" + "Aloa Mr. Nobody\n\r"
+                    + "Aloa Mr. Nobody\n\r" + "Aloa Mr. Nobody\n\r" + "Aloa Mr. Nobody\n\r" + "Aloa Mr. Nobody\n\r"
+                    + "Aloa Mr. Nobody\n\r";
             PemBlockModel b = new PemBlockModel("test");
             b.setString("Version", "1.3.4");
             b.setString("Method", "TEST-10");
@@ -67,16 +59,10 @@ public class PemBlockTest extends TestCase {
     public void testBlockList() throws ParseException {
         {
             PemBlockList list = new PemBlockList();
-            list.add(
-                    new PemBlockModel("TEST1")
-                            .set("Version", "1.2.3")
-                            .setBlock(
-                                    "ASDFGHJKLQWERTYUIOPZXCVBNMASDFGHJKLQWERTYUIOPZXCVBNMASDFGHJKLQWERTYUIOPZXCVBNM"));
-            list.add(
-                    new PemBlockModel("TEST2")
-                            .set("Version", "1.2.3")
-                            .setBlock(
-                                    "asdfghjklqwertyuiopzxcvbnmasdfghjklqwertyuiopzxcvbnmasdfghjklqwertyuiopzxcvbnm"));
+            list.add(new PemBlockModel("TEST1").set("Version", "1.2.3")
+                    .setBlock("ASDFGHJKLQWERTYUIOPZXCVBNMASDFGHJKLQWERTYUIOPZXCVBNMASDFGHJKLQWERTYUIOPZXCVBNM"));
+            list.add(new PemBlockModel("TEST2").set("Version", "1.2.3")
+                    .setBlock("asdfghjklqwertyuiopzxcvbnmasdfghjklqwertyuiopzxcvbnmasdfghjklqwertyuiopzxcvbnm"));
 
             String blocksStr = list.toString();
 

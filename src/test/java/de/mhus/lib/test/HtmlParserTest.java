@@ -38,18 +38,13 @@ public class HtmlParserTest extends TestCase {
 
         HtmlListener listener = new HtmlListener();
 
-        Reader in =
-                new InputStreamReader(
-                        MSystem.locateResource(this, getClass().getSimpleName() + ".xml")
-                                .openStream());
+        Reader in = new InputStreamReader(
+                MSystem.locateResource(this, getClass().getSimpleName() + ".xml").openStream());
 
         parser.parse(in, listener);
 
         assertTrue(listener.pi.getFirst().equals("xml version=\"1.0\" encoding=\"ISO-8859-1\""));
-        assertTrue(
-                listener.note
-                        .get(1)
-                        .equals("Edited")); // first node is "Copyright Note", second is "Edited"
+        assertTrue(listener.note.get(1).equals("Edited")); // first node is "Copyright Note", second is "Edited"
         assertTrue(listener.open.size() == listener.close.size());
         assertTrue(listener.single.size() == 1);
         assertTrue(listener.text.getFirst().equals("You"));
@@ -63,10 +58,8 @@ public class HtmlParserTest extends TestCase {
         private LinkedList<String> note = new LinkedList<String>();
         private LinkedList<String> pi = new LinkedList<String>();
         private LinkedList<String> close = new LinkedList<String>();
-        private Hashtable<String, Map<String, String>> single =
-                new Hashtable<String, Map<String, String>>();
-        private Hashtable<String, Map<String, String>> open =
-                new Hashtable<String, Map<String, String>>();
+        private Hashtable<String, Map<String, String>> single = new Hashtable<String, Map<String, String>>();
+        private Hashtable<String, Map<String, String>> open = new Hashtable<String, Map<String, String>>();
 
         @Override
         public boolean foundText(String _text) {

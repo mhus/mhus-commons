@@ -52,7 +52,7 @@ public class EmptySet<T> implements Set<T>, ReadOnly {
 
     @Override
     public <E> E[] toArray(E[] a) {
-        return (E[])MSystem.newArray(a.getClass().getComponentType(), 0);
+        return (E[]) MSystem.newArray(a.getClass().getComponentType(), 0);
     }
 
     @Override
@@ -86,5 +86,6 @@ public class EmptySet<T> implements Set<T>, ReadOnly {
     }
 
     @Override
-    public void clear() {}
+    public void clear() {
+    }
 }

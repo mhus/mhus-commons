@@ -30,18 +30,11 @@ public class AsyncKey {
     private BigInteger coefficient;
     private int maxLoad = -1;
 
-    public AsyncKey() {}
+    public AsyncKey() {
+    }
 
-    public AsyncKey(
-            BigInteger modulus,
-            BigInteger publicExponent,
-            BigInteger privateExponent,
-            BigInteger prime1,
-            BigInteger prime2,
-            BigInteger exponent1,
-            BigInteger exponent2,
-            BigInteger coefficient,
-            int maxLoad) {
+    public AsyncKey(BigInteger modulus, BigInteger publicExponent, BigInteger privateExponent, BigInteger prime1,
+            BigInteger prime2, BigInteger exponent1, BigInteger exponent2, BigInteger coefficient, int maxLoad) {
         super();
         this.modulus = modulus;
         this.publicExponent = publicExponent;

@@ -45,23 +45,28 @@ public class MCollection {
     /**
      * Create a new list and add all items from the array.
      *
-     * @param iter The iterable object
+     * @param iter
+     *            The iterable object
+     *
      * @return new list of items in the iterable
      */
     public static <T> List<T> toList(Iterable<T> iter) {
         LinkedList<T> out = new LinkedList<>();
-        for (T item : iter) out.add(item);
+        for (T item : iter)
+            out.add(item);
         return out;
     }
 
     /**
      * Create a new set and add all items from the array.
      *
-     * @param items The array
+     * @param items
+     *            The array
+     *
      * @return new set of items
      */
     @SuppressWarnings("unchecked")
-    public static <T> Set<T> toSet(T ... items) {
+    public static <T> Set<T> toSet(T... items) {
         HashSet<T> set = new HashSet<>();
         for (T item : items)
             set.add(item);
@@ -69,48 +74,62 @@ public class MCollection {
     }
 
     /**
-     * Returns true of col is not null and the value of item is included in the collection. It
-     * compares with the equals() method of the collection item. Also an item value of null will be
-     * compared.
+     * Returns true of col is not null and the value of item is included in the collection. It compares with the
+     * equals() method of the collection item. Also an item value of null will be compared.
      *
-     * @param col The collection
-     * @param item The searched item
+     * @param col
+     *            The collection
+     * @param item
+     *            The searched item
+     *
      * @return true if contains the item
      */
     public static boolean contains(Collection<?> col, Object item) {
-        if (col == null) return false;
+        if (col == null)
+            return false;
         return col.contains(item);
     }
 
     /**
-     * Returns true of array is not null and the value of item is included in the array. It compares
-     * with the equals() method of the array item. Also a item value of null will be compared.
+     * Returns true of array is not null and the value of item is included in the array. It compares with the equals()
+     * method of the array item. Also a item value of null will be compared.
      *
-     * @param array The array
-     * @param item The searched item
+     * @param array
+     *            The array
+     * @param item
+     *            The searched item
+     *
      * @return true if contains the item
      */
     public static boolean contains(Object[] array, Object item) {
-        if (array == null) return false;
+        if (array == null)
+            return false;
         for (Object o : array) {
-            if (item == null && o == null || o != null && o.equals(item)) return true;
+            if (item == null && o == null || o != null && o.equals(item))
+                return true;
         }
         return false;
     }
 
     /**
-     * Returns the index of the item in the array. It compares with the equals() method of the array.
-     * If the item was not found -1 will be returned. Also a item value of null will be compared.
-     * @param array The array
-     * @param item The searched item
+     * Returns the index of the item in the array. It compares with the equals() method of the array. If the item was
+     * not found -1 will be returned. Also a item value of null will be compared.
+     *
+     * @param array
+     *            The array
+     * @param item
+     *            The searched item
+     *
      * @return The index of the item or -1
      */
     public static int indexOf(Object[] array, Object item) {
-        if (array == null) return -1;
+        if (array == null)
+            return -1;
         int pos = -1;
         for (Object o : array) {
             pos++;
-            if (item == null && o == null || o != null && o.equals(item)) return pos;
+            if (item == null && o == null || o != null && o.equals(item))
+                return pos;
         }
         return -1;
     }
@@ -122,8 +141,11 @@ public class MCollection {
      * @param list
      */
     public static <T> void copyArray(T[] array, Collection<T> list) {
-        if (array == null || list == null) return;
-        for (T item : array) if (item != null) list.add(item);
+        if (array == null || list == null)
+            return;
+        for (T item : array)
+            if (item != null)
+                list.add(item);
     }
 
     // from
@@ -135,7 +157,7 @@ public class MCollection {
      */
     public static <T> void removeDuplicates(List<T> list) {
         final Set<T> encountered = new HashSet<T>();
-        for (Iterator<T> iter = list.iterator(); iter.hasNext(); ) {
+        for (Iterator<T> iter = list.iterator(); iter.hasNext();) {
             final T t = iter.next();
             final boolean first = encountered.add(t);
             if (!first) {
@@ -145,18 +167,18 @@ public class MCollection {
     }
 
     /**
-     * remove duplicated entries, Attention exponential runtime behavior !!! Running from beginning
-     * to the end, the first element will be left, following removed.
+     * remove duplicated entries, Attention exponential runtime behavior !!! Running from beginning to the end, the
+     * first element will be left, following removed.
      *
      * @param list
      * @param comparator
      */
     public static <T> void removeDuplicates(List<T> list, Comparator<T> comparator) {
         final Set<T> encountered = new HashSet<>();
-        for (Iterator<T> iter = list.iterator(); iter.hasNext(); ) {
+        for (Iterator<T> iter = list.iterator(); iter.hasNext();) {
             final T t = iter.next();
             boolean removed = false;
-            for (Iterator<T> iter2 = encountered.iterator(); iter2.hasNext(); ) {
+            for (Iterator<T> iter2 = encountered.iterator(); iter2.hasNext();) {
                 final T e = iter2.next();
                 if (comparator.compare(t, e) == 0) {
                     iter.remove();
@@ -172,21 +194,22 @@ public class MCollection {
 
     /**
      * Append new elements to the array and return a new array.
-     * @param array The current array
-     * @param newElements The new elements
+     *
+     * @param array
+     *            The current array
+     * @param newElements
+     *            The new elements
      */
     @SafeVarargs
     public static <T> T[] append(T[] array, T... newElements) {
 
-        if (newElements == null || newElements.length == 0) return array;
-        if (array == null) return newElements;
+        if (newElements == null || newElements.length == 0)
+            return array;
+        if (array == null)
+            return newElements;
 
         @SuppressWarnings("unchecked")
-        T[] newArray =
-                (T[])
-                        Array.newInstance(
-                                array.getClass().getComponentType(),
-                                array.length + newElements.length);
+        T[] newArray = (T[]) Array.newInstance(array.getClass().getComponentType(), array.length + newElements.length);
         System.arraycopy(array, 0, newArray, 0, array.length);
         System.arraycopy(newElements, 0, newArray, array.length, newElements.length);
 
@@ -195,26 +218,28 @@ public class MCollection {
 
     /**
      * Insert new elements to the array and return a new array.
-     * @param array The current array
-     * @param index The index where to insert
-     * @param newElements The new elements
+     *
+     * @param array
+     *            The current array
+     * @param index
+     *            The index where to insert
+     * @param newElements
+     *            The new elements
+     *
      * @return The new array
      */
     @SafeVarargs
     public static <T> T[] insert(T[] array, int index, T... newElements) {
 
-        if (newElements == null || newElements.length == 0) return array;
-        if (array == null) return newElements;
+        if (newElements == null || newElements.length == 0)
+            return array;
+        if (array == null)
+            return newElements;
         if (index < 0 || index > array.length)
-            throw new IndexOutOfBoundsException(
-                    "Array.length: " + array.length + " Index: " + index);
+            throw new IndexOutOfBoundsException("Array.length: " + array.length + " Index: " + index);
 
         @SuppressWarnings("unchecked")
-        T[] newArray =
-                (T[])
-                        Array.newInstance(
-                                array.getClass().getComponentType(),
-                                array.length + newElements.length);
+        T[] newArray = (T[]) Array.newInstance(array.getClass().getComponentType(), array.length + newElements.length);
         System.arraycopy(array, 0, newArray, 0, index);
         System.arraycopy(newElements, 0, newArray, index, newElements.length);
         System.arraycopy(array, index, newArray, index + newElements.length, array.length - index);
@@ -224,21 +249,26 @@ public class MCollection {
 
     /**
      * Remove a part from the array and return a new array.
-     * @param array The current array
-     * @param offset The start index
-     * @param len The length to remove
+     *
+     * @param array
+     *            The current array
+     * @param offset
+     *            The start index
+     * @param len
+     *            The length to remove
+     *
      * @return The new array
      */
     public static <T> T[] remove(T[] array, int offset, int len) {
 
-        if (array == null) return null;
+        if (array == null)
+            return null;
         if (offset < 0 || offset + len > array.length)
             throw new IndexOutOfBoundsException(
                     "Array.length: " + array.length + " Offset: " + offset + " Len: " + len);
 
         @SuppressWarnings("unchecked")
-        T[] newArray =
-                (T[]) Array.newInstance(array.getClass().getComponentType(), array.length - len);
+        T[] newArray = (T[]) Array.newInstance(array.getClass().getComponentType(), array.length - len);
         System.arraycopy(array, 0, newArray, 0, offset);
         System.arraycopy(array, offset + len, newArray, offset, array.length - len - offset);
 
@@ -247,77 +277,103 @@ public class MCollection {
 
     /**
      * Order the integer array and remove duplicates if unique is true.
-     * @param array The array
-     * @param unique Remove duplicates
+     *
+     * @param array
+     *            The array
+     * @param unique
+     *            Remove duplicates
+     *
      * @return The new array
      */
     public static int[] order(int[] array, boolean unique) {
         if (unique) {
             HashSet<Integer> set = new HashSet<>();
-            for (int i : array) set.add(i);
+            for (int i : array)
+                set.add(i);
             int[] out = new int[set.size()];
             Iterator<Integer> iter = set.iterator();
-            for (int i = 0; i < out.length; i++) out[i] = iter.next();
+            for (int i = 0; i < out.length; i++)
+                out[i] = iter.next();
             return out;
         }
 
         LinkedList<Integer> list = new LinkedList<>();
-        for (int i : array) list.add(i);
+        for (int i : array)
+            list.add(i);
         Collections.sort(list);
         int[] out = new int[list.size()];
         Iterator<Integer> iter = list.iterator();
-        for (int i = 0; i < out.length; i++) out[i] = iter.next();
+        for (int i = 0; i < out.length; i++)
+            out[i] = iter.next();
         return out;
     }
 
     /**
      * Order the long array and remove duplicates if unique is true.
-     * @param array The array
-     * @param unique Remove duplicates if true
+     *
+     * @param array
+     *            The array
+     * @param unique
+     *            Remove duplicates if true
+     *
      * @return The new array
      */
     public static long[] order(long[] array, boolean unique) {
         if (unique) {
             HashSet<Long> set = new HashSet<>();
-            for (long i : array) set.add(i);
+            for (long i : array)
+                set.add(i);
             long[] out = new long[set.size()];
             Iterator<Long> iter = set.iterator();
-            for (int i = 0; i < out.length; i++) out[i] = iter.next();
+            for (int i = 0; i < out.length; i++)
+                out[i] = iter.next();
             return out;
         }
 
         LinkedList<Long> list = new LinkedList<>();
-        for (long i : array) list.add(i);
+        for (long i : array)
+            list.add(i);
         Collections.sort(list);
         long[] out = new long[list.size()];
         Iterator<Long> iter = list.iterator();
-        for (int i = 0; i < out.length; i++) out[i] = iter.next();
+        for (int i = 0; i < out.length; i++)
+            out[i] = iter.next();
         return out;
     }
 
     /**
      * Create a new array and fill in the values from from to to.
-     * @param from The start value
-     * @param to The end value
+     *
+     * @param from
+     *            The start value
+     * @param to
+     *            The end value
+     *
      * @return The new array
      */
     public static int[] fillIntArray(int from, int to) {
         int[] out = new int[to - from];
-        for (int l = 0; l < out.length; l++) out[l] = l + from;
+        for (int l = 0; l < out.length; l++)
+            out[l] = l + from;
         return out;
     }
 
     /**
      * Create a new map with string values and convert all object values to strings.
-     * @param in The object valued map
-     * @param ignoreNull If true null values will be ignored
+     *
+     * @param in
+     *            The object valued map
+     * @param ignoreNull
+     *            If true null values will be ignored
+     *
      * @return The new map with string values
      */
     public static Map<String, String> toStringMap(Map<Object, Object> in, boolean ignoreNull) {
         HashMap<String, String> out = new HashMap<String, String>();
         for (Entry<Object, Object> e : in.entrySet()) {
             if (e.getValue() == null) {
-                if (!ignoreNull) out.put(e.getKey().toString(), null);
+                if (!ignoreNull)
+                    out.put(e.getKey().toString(), null);
             } else {
                 out.put(e.getKey().toString(), e.getValue().toString());
             }
@@ -327,15 +383,20 @@ public class MCollection {
 
     /**
      * Create a new map with string values and convert all object values to strings.
-     * @param in The object valued map
-     * @param ignoreNull If true null values will be ignored
+     *
+     * @param in
+     *            The object valued map
+     * @param ignoreNull
+     *            If true null values will be ignored
+     *
      * @return The new map with string values
      */
     public static Map<String, String> toStringMap(IProperties in, boolean ignoreNull) {
         HashMap<String, String> out = new HashMap<String, String>();
         for (Map.Entry<String, Object> e : in) {
             if (e.getValue() == null) {
-                if (!ignoreNull) out.put(e.getKey(), "");
+                if (!ignoreNull)
+                    out.put(e.getKey(), "");
             } else {
                 out.put(e.getKey(), e.getValue().toString());
             }
@@ -345,59 +406,86 @@ public class MCollection {
 
     /**
      * Create a new List from the array.
-     * @param array The array
+     *
+     * @param array
+     *            The array
+     *
      * @return The new list
      */
     public static <T> List<T> toList(@SuppressWarnings("unchecked") T... array) {
         LinkedList<T> out = new LinkedList<>();
-        for (T item : array) out.add(item);
+        for (T item : array)
+            out.add(item);
         return out;
     }
 
     /**
      * Create a new TreeSet (ordered) from the array.
-     * @param items The array
+     *
+     * @param items
+     *            The array
+     *
      * @return The new set
      */
     public static <T> TreeSet<T> toTreeSet(T[] items) {
         TreeSet<T> ret = new TreeSet<T>();
-        for (T item : items) if (item != null) ret.add(item);
+        for (T item : items)
+            if (item != null)
+                ret.add(item);
         return ret;
     }
 
     /**
      * Create a new HashSet from the array.
-     * @param items The array
+     *
+     * @param items
+     *            The array
+     *
      * @return The new set
      */
     public static <T> HashSet<T> toHashSet(T[] items) {
         HashSet<T> ret = new HashSet<T>();
-        for (T item : items) if (item != null) ret.add(item);
+        for (T item : items)
+            if (item != null)
+                ret.add(item);
         return ret;
     }
 
     /**
      * Add all items from the array to the end of the list.
-     * @param list The list
-     * @param items The array
+     *
+     * @param list
+     *            The list
+     * @param items
+     *            The array
      */
     public static <T> void addAll(List<T> list, T[] items) {
-        for (T i : items) if (i != null) list.add(i);
+        for (T i : items)
+            if (i != null)
+                list.add(i);
     }
 
     /**
      * Add all items from the array to the set.
-     * @param list The set
-     * @param items The array
+     *
+     * @param list
+     *            The set
+     * @param items
+     *            The array
      */
     public static <T> void addAll(Set<T> list, T[] items) {
-        for (T i : items) if (i != null) list.add(i);
+        for (T i : items)
+            if (i != null)
+                list.add(i);
     }
 
     /**
-     * Returns a new Read Only list containing the given items.
-     * In contrast to Collections.unmodifiableList() it will create a copy of the list.
-     * @param in The list
+     * Returns a new Read Only list containing the given items. In contrast to Collections.unmodifiableList() it will
+     * create a copy of the list.
+     *
+     * @param in
+     *            The list
+     *
      * @return The new read only list
      */
     public static <T> List<T> toReadOnlyList(List<? extends T> in) {
@@ -406,6 +494,7 @@ public class MCollection {
 
     /**
      * Returns a new list containing the given items.
+     *
      * @return The new list
      */
     public static <T> List<T> toList(Collection<? extends T> set) {
@@ -416,7 +505,10 @@ public class MCollection {
 
     /**
      * Returns a new set containing the given items.
-     * @param list The list
+     *
+     * @param list
+     *            The list
+     *
      * @return The new set
      */
     public static <T> Set<T> toSet(Collection<? extends T> list) {
@@ -426,76 +518,101 @@ public class MCollection {
     }
 
     /**
-     * Returns true if the given item is part of the list. The list itself is a char separated list
-     * of items. White spaces are not allowed! The search is case sensitive.
+     * Returns true if the given item is part of the list. The list itself is a char separated list of items. White
+     * spaces are not allowed! The search is case sensitive.
      *
-     * @param list The list of items
-     * @param separator The separator between the list items
-     * @param item The searched item
+     * @param list
+     *            The list of items
+     * @param separator
+     *            The separator between the list items
+     * @param item
+     *            The searched item
+     *
      * @return true if the item is part of the list
      */
     public static boolean contains(String list, char separator, String item) {
-        if (list == null || item == null) return false;
+        if (list == null || item == null)
+            return false;
         // (.*,|)test(,.*|)
         String s = Pattern.quote(String.valueOf(separator));
         return list.matches("(.*" + s + "|)" + Pattern.quote(item) + "(" + s + ".*|)");
     }
 
     /**
-     * Append the item to the end of the list using the separator. If list is empty the item will be
-     * the first element.
+     * Append the item to the end of the list using the separator. If list is empty the item will be the first element.
      *
-     * @param list The list of items
-     * @param separator The item separator
-     * @param item New item to append
+     * @param list
+     *            The list of items
+     * @param separator
+     *            The item separator
+     * @param item
+     *            New item to append
+     *
      * @return The new list
      */
     public static String append(String list, char separator, String item) {
-        if (item == null) return list;
-        if (MString.isEmpty(list)) return item;
+        if (item == null)
+            return list;
+        if (MString.isEmpty(list))
+            return item;
         return list + separator + item;
     }
 
     /**
-     * Append the item to the end of the list using the separator if not already exists. If list is
-     * empty the item will be the first element.
+     * Append the item to the end of the list using the separator if not already exists. If list is empty the item will
+     * be the first element.
      *
-     * @param list The list of items
-     * @param separator The item separator
-     * @param item New item to append
+     * @param list
+     *            The list of items
+     * @param separator
+     *            The item separator
+     * @param item
+     *            New item to append
+     *
      * @return The new list
      */
     public static String set(String list, char separator, String item) {
-        if (item == null) return list;
-        if (MString.isEmpty(list)) return item;
-        if (contains(list, separator, item)) return list;
+        if (item == null)
+            return list;
+        if (MString.isEmpty(list))
+            return item;
+        if (contains(list, separator, item))
+            return list;
         return list + separator + item;
     }
 
     /**
      * Remove the given item from the list once.
      *
-     * @param list List of items
-     * @param separator Separator between the items
-     * @param item The item to remove
+     * @param list
+     *            List of items
+     * @param separator
+     *            Separator between the items
+     * @param item
+     *            The item to remove
+     *
      * @return New list with removed item
      */
     public static String remove(String list, char separator, String item) {
-        if (list == null || item == null || list.length() == 0) return list;
-        if (list.equals(item)) return ""; // last element
+        if (list == null || item == null || list.length() == 0)
+            return list;
+        if (list.equals(item))
+            return ""; // last element
         if (list.startsWith(item + separator))
             return list.substring(item.length() + 1); // first element
         if (list.endsWith(separator + item))
             return list.substring(0, list.length() - 1 - item.length()); // last element
-        return list.replaceFirst(
-                Pattern.quote(separator + item + separator),
-                String.valueOf(separator)); // somewhere in the middle
+        return list.replaceFirst(Pattern.quote(separator + item + separator), String.valueOf(separator)); // somewhere
+                                                                                                          // in the
+                                                                                                          // middle
     }
 
     /**
      * Returns a new instance of Map with sorted keys.
      *
-     * @param in The source map
+     * @param in
+     *            The source map
+     *
      * @return a new sorted map
      */
     public static <K, V> Map<K, V> sorted(Map<K, V> in) {
@@ -503,29 +620,40 @@ public class MCollection {
     }
 
     /**
-     * If sort is possible (instance of Comparable) the function will create a new instance of list,
-     * copy and sort all the entries from the source into the new list and returns the created list.
+     * If sort is possible (instance of Comparable) the function will create a new instance of list, copy and sort all
+     * the entries from the source into the new list and returns the created list.
      *
-     * <p>If the list could not be sorted the original list object will be returned.
+     * <p>
+     * If the list could not be sorted the original list object will be returned.
      *
-     * @param in The source list
+     * @param in
+     *            The source list
+     *
      * @return A new sorted list
      */
-    @SuppressWarnings({"rawtypes", "unchecked"})
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public static <K> List<K> sorted(List<K> in) {
         if (in != null && in.size() > 0 && in.get(0) instanceof Comparable) {
             LinkedList<Comparable> l = new LinkedList<>();
-            for (K item : in) if (item instanceof Comparable) l.add((Comparable) item);
+            for (K item : in)
+                if (item instanceof Comparable)
+                    l.add((Comparable) item);
             Collections.sort(l);
             return (List<K>) l;
-        } else if (in == null) return new LinkedList<>();
-        else return in;
+        } else if (in == null)
+            return new LinkedList<>();
+        else
+            return in;
     }
 
     /**
      * The function will create a new instance of map, copy and sort all the entries from the source.
-     * @param in The source map
-     * @param comp The comparator
+     *
+     * @param in
+     *            The source map
+     * @param comp
+     *            The comparator
+     *
      * @return A new sorted map
      */
     public static <K, V> Map<K, V> sorted(Map<K, V> in, Comparator<K> comp) {
@@ -535,11 +663,14 @@ public class MCollection {
     }
 
     /**
-     * The function will create a new instance of list, copy and sort all the entries from the
-     * source into the new list and returns the created list.
+     * The function will create a new instance of list, copy and sort all the entries from the source into the new list
+     * and returns the created list.
      *
-     * @param in The source list
-     * @param comp The comparator
+     * @param in
+     *            The source list
+     * @param comp
+     *            The comparator
+     *
      * @return A new sorted list
      */
     public static <K> List<K> sorted(List<K> in, Comparator<K> comp) {
@@ -547,34 +678,46 @@ public class MCollection {
             LinkedList<K> l = new LinkedList<>(in);
             Collections.sort(l, comp);
             return (List<K>) l;
-        } else return new LinkedList<>();
+        } else
+            return new LinkedList<>();
     }
 
     /**
      * Process for each entry in the array. Return the new value for each entry.
      *
-     * @param array The array
-     * @param manipulator The function to manipulate each entry.
+     * @param array
+     *            The array
+     * @param manipulator
+     *            The function to manipulate each entry.
      */
     public static <T> void updateEach(T[] array, Function<T, T> manipulator) {
-        if (array == null) return;
-        for (int i = 0; i < array.length; i++) array[i] = manipulator.apply(array[i]);
+        if (array == null)
+            return;
+        for (int i = 0; i < array.length; i++)
+            array[i] = manipulator.apply(array[i]);
     }
 
     /**
      * Execute the consumer for each entry of the array.
      *
-     * @param array The array
-     * @param consumer The consumer
+     * @param array
+     *            The array
+     * @param consumer
+     *            The consumer
      */
     public static <T> void forEach(T[] array, Consumer<T> consumer) {
-        if (array == null) return;
-        for (int i = 0; i < array.length; i++) consumer.accept(array[i]);
+        if (array == null)
+            return;
+        for (int i = 0; i < array.length; i++)
+            consumer.accept(array[i]);
     }
 
     /**
      * Return true if the collection is null or empty.
-     * @param col The collection
+     *
+     * @param col
+     *            The collection
+     *
      * @return true if the collection is null or empty
      */
     public static boolean isEmpty(Collection<?> col) {
@@ -583,7 +726,10 @@ public class MCollection {
 
     /**
      * Return true if the map is null or empty.
-     * @param map The map
+     *
+     * @param map
+     *            The map
+     *
      * @return true if the map is null or empty
      */
     public static boolean isEmpty(Map<?, ?> map) {
@@ -592,7 +738,10 @@ public class MCollection {
 
     /**
      * Return true if the collection is not empty.
-     * @param col The collection
+     *
+     * @param col
+     *            The collection
+     *
      * @return true if the collection is not empty
      */
     public static boolean isSet(Collection<?> col) {
@@ -601,7 +750,10 @@ public class MCollection {
 
     /**
      * Return true if the map is not empty.
-     * @param map The map
+     *
+     * @param map
+     *            The map
+     *
      * @return true if the map is not empty
      */
     public static boolean isSet(Map<?, ?> map) {
@@ -610,7 +762,10 @@ public class MCollection {
 
     /**
      * Return true if the array is null or empty.
-     * @param array The array
+     *
+     * @param array
+     *            The array
+     *
      * @return true if the array is null or empty
      */
     public static boolean isEmpty(Object[] array) {
@@ -619,7 +774,10 @@ public class MCollection {
 
     /**
      * Return true if the array is not empty.
-     * @param array The array
+     *
+     * @param array
+     *            The array
+     *
      * @return true if the array is not empty
      */
     public static boolean isSet(Object[] array) {
@@ -628,102 +786,153 @@ public class MCollection {
 
     /**
      * Return true if all elements are null in the array.
-     * @param array The array
+     *
+     * @param array
+     *            The array
+     *
      * @return true if all elements are null
      */
     public static boolean isAllNull(Object[] array) {
-        for (Object o : array) if (o != null) return false;
+        for (Object o : array)
+            if (o != null)
+                return false;
         return true;
     }
 
     /**
      * Create a new map and convert all string keys to lower case.
      *
-     * @param parameters The source map
+     * @param parameters
+     *            The source map
+     *
      * @return map with lower case keys
      */
     public static Map<String, Object> toLowerCaseKeys(Map<String, Object> parameters) {
-        return parameters
-                .entrySet()
-                .parallelStream()
-                .collect(
-                        Collectors.toMap(
-                                entry -> entry.getKey().toLowerCase(), Map.Entry::getValue));
+        return parameters.entrySet().parallelStream()
+                .collect(Collectors.toMap(entry -> entry.getKey().toLowerCase(), Map.Entry::getValue));
     }
 
     /**
      * Check if the arrays are equal. The arrays can be null.
-     * @param nr1 The first array
-     * @param nr2 The second array
+     *
+     * @param nr1
+     *            The first array
+     * @param nr2
+     *            The second array
+     *
      * @return true if the arrays are equal
      */
     public static boolean equals(Object[] nr1, Object[] nr2) {
-        if (nr1 == null && nr2 == null) return true;
-        if (nr1 == null || nr2 == null) return false;
-        if (nr1.length != nr2.length) return false;
-        for (int i = 0; i < nr1.length; i++) if (!MSystem.equals(nr1[i], nr2[i])) return false;
+        if (nr1 == null && nr2 == null)
+            return true;
+        if (nr1 == null || nr2 == null)
+            return false;
+        if (nr1.length != nr2.length)
+            return false;
+        for (int i = 0; i < nr1.length; i++)
+            if (!MSystem.equals(nr1[i], nr2[i]))
+                return false;
         return true;
     }
 
     /**
      * Check if the arrays are equal. The arrays can be null.
-     * @param nr1 The first array
-     * @param nr2 The second array
+     *
+     * @param nr1
+     *            The first array
+     * @param nr2
+     *            The second array
+     *
      * @return true if the arrays are equal
      */
     public static boolean equals(byte[] nr1, byte[] nr2) {
-        if (nr1 == null && nr2 == null) return true;
-        if (nr1 == null || nr2 == null) return false;
-        if (nr1.length != nr2.length) return false;
-        for (int i = 0; i < nr1.length; i++) if (nr1[i] != nr2[i]) return false;
+        if (nr1 == null && nr2 == null)
+            return true;
+        if (nr1 == null || nr2 == null)
+            return false;
+        if (nr1.length != nr2.length)
+            return false;
+        for (int i = 0; i < nr1.length; i++)
+            if (nr1[i] != nr2[i])
+                return false;
         return true;
     }
 
     /**
      * Check if the arrays are equal. The arrays can be null.
-     * @param nr1 The first array
-     * @param nr2 The second array
+     *
+     * @param nr1
+     *            The first array
+     * @param nr2
+     *            The second array
+     *
      * @return true if the arrays are equal
      */
     public static boolean equals(int[] nr1, int[] nr2) {
-        if (nr1 == null && nr2 == null) return true;
-        if (nr1 == null || nr2 == null) return false;
-        if (nr1.length != nr2.length) return false;
-        for (int i = 0; i < nr1.length; i++) if (nr1[i] != nr2[i]) return false;
+        if (nr1 == null && nr2 == null)
+            return true;
+        if (nr1 == null || nr2 == null)
+            return false;
+        if (nr1.length != nr2.length)
+            return false;
+        for (int i = 0; i < nr1.length; i++)
+            if (nr1[i] != nr2[i])
+                return false;
         return true;
     }
 
     /**
      * Check if the arrays are equal. The arrays can be null.
-     * @param nr1 The first array
-     * @param nr2 The second array
+     *
+     * @param nr1
+     *            The first array
+     * @param nr2
+     *            The second array
+     *
      * @return true if the arrays are equal
      */
     public static boolean equals(double[] nr1, double[] nr2) {
-        if (nr1 == null && nr2 == null) return true;
-        if (nr1 == null || nr2 == null) return false;
-        if (nr1.length != nr2.length) return false;
-        for (int i = 0; i < nr1.length; i++) if (nr1[i] != nr2[i]) return false;
+        if (nr1 == null && nr2 == null)
+            return true;
+        if (nr1 == null || nr2 == null)
+            return false;
+        if (nr1.length != nr2.length)
+            return false;
+        for (int i = 0; i < nr1.length; i++)
+            if (nr1[i] != nr2[i])
+                return false;
         return true;
     }
 
     /**
      * Check if the arrays are equal. The arrays can be null.
-     * @param nr1 The first array
-     * @param nr2 The second array
+     *
+     * @param nr1
+     *            The first array
+     * @param nr2
+     *            The second array
+     *
      * @return true if the arrays are equal
      */
     public static boolean equals(char[] nr1, char[] nr2) {
-        if (nr1 == null && nr2 == null) return true;
-        if (nr1 == null || nr2 == null) return false;
-        if (nr1.length != nr2.length) return false;
-        for (int i = 0; i < nr1.length; i++) if (nr1[i] != nr2[i]) return false;
+        if (nr1 == null && nr2 == null)
+            return true;
+        if (nr1 == null || nr2 == null)
+            return false;
+        if (nr1.length != nr2.length)
+            return false;
+        for (int i = 0; i < nr1.length; i++)
+            if (nr1[i] != nr2[i])
+                return false;
         return true;
     }
 
     /**
      * Create an Iterable from an Iterator.
-     * @param iterator The iterator
+     *
+     * @param iterator
+     *            The iterator
+     *
      * @return The new iterable
      */
     public static <T> Iterable<T> iterate(final Iterator<T> iterator) {
@@ -738,16 +947,19 @@ public class MCollection {
     /**
      * Cut a part from an array and create a new array with the values.
      *
-     * @param from The source array
-     * @param start The start index
-     * @param stop The stop/last index
+     * @param from
+     *            The source array
+     * @param start
+     *            The start index
+     * @param stop
+     *            The stop/last index
+     *
      * @return new cropped array
      */
     public static <T> T[] cropArray(T[] from, int start, int stop) {
         int length = stop - start;
         if (length < 0)
-            throw new MRuntimeException(
-                    RC.STATUS.SYNTAX_ERROR, "malformed indexes", start, stop, length);
+            throw new MRuntimeException(RC.STATUS.SYNTAX_ERROR, "malformed indexes", start, stop, length);
         @SuppressWarnings("unchecked")
         T[] out = (T[]) Array.newInstance(from.getClass().getComponentType(), length);
         System.arraycopy(from, start, out, 0, length);
@@ -756,15 +968,19 @@ public class MCollection {
 
     /**
      * Extend the array with null values at the beginning and end.
-     * @param from The source array
-     * @param left The number of null values at the beginning
-     * @param right The number of null values at the end
+     *
+     * @param from
+     *            The source array
+     * @param left
+     *            The number of null values at the beginning
+     * @param right
+     *            The number of null values at the end
+     *
      * @return new extended array
      */
     public static <T> T[] extendArray(T[] from, int left, int right) {
         if (left < 0 || right < 0)
-            throw new MRuntimeException(
-                    RC.STATUS.SYNTAX_ERROR, "malformed extensions", left, right);
+            throw new MRuntimeException(RC.STATUS.SYNTAX_ERROR, "malformed extensions", left, right);
         int length = from.length + left + right;
         @SuppressWarnings("unchecked")
         T[] out = (T[]) Array.newInstance(from.getClass().getComponentType(), length);
@@ -773,22 +989,28 @@ public class MCollection {
     }
 
     /**
-     * Search for an entry and return it use the filter to find it. Will return the first entry or
-     * null.
+     * Search for an entry and return it use the filter to find it. Will return the first entry or null.
      *
-     * @param iter The list or iterable object
-     * @param filter The filter to find the entry
+     * @param iter
+     *            The list or iterable object
+     * @param filter
+     *            The filter to find the entry
+     *
      * @return The entry or null
      */
     public static <T> T search(Iterable<T> iter, Predicate<? super T> filter) {
-        for (T item : iter) if (filter.test(item)) return item;
+        for (T item : iter)
+            if (filter.test(item))
+                return item;
         return null;
     }
 
     /**
      * Return a new map and add the attributes alternating key and value.
      *
-     * @param keyValues The key value pairs
+     * @param keyValues
+     *            The key value pairs
+     *
      * @return A new Map filed with values
      */
     @SuppressWarnings("unchecked")
@@ -802,11 +1024,14 @@ public class MCollection {
     /**
      * Transforms a map into a key - value pair string.
      *
-     * @param map The map
+     * @param map
+     *            The map
+     *
      * @return a key-value list
      */
     public static String[] toPairs(Map<String, Object> map) {
-        if (map == null) return null;
+        if (map == null)
+            return null;
         String[] out = new String[map.size() * 2];
         int cnt = 0;
         for (Entry<String, Object> entry : map.entrySet()) {
@@ -819,41 +1044,50 @@ public class MCollection {
     }
 
     /**
-     * Extract the keys starting with prefix in a new HashMap. Will return an empty map if prefix or
-     * map is null.
+     * Extract the keys starting with prefix in a new HashMap. Will return an empty map if prefix or map is null.
      *
-     * @param <V> Type of the value
-     * @param prefix Prefix of the key to extract
-     * @param map Map of all entries
+     * @param <V>
+     *            Type of the value
+     * @param prefix
+     *            Prefix of the key to extract
+     * @param map
+     *            Map of all entries
+     *
      * @return Extracted subset
      */
     public static <V> HashMap<String, V> subset(String prefix, Map<String, V> map) {
         HashMap<String, V> out = new HashMap<>();
-        if (prefix == null || map == null) return out;
-        map.forEach(
-                (k, v) -> {
-                    if (k.startsWith(prefix)) out.put(k, v);
-                });
+        if (prefix == null || map == null)
+            return out;
+        map.forEach((k, v) -> {
+            if (k.startsWith(prefix))
+                out.put(k, v);
+        });
         return out;
     }
 
     /**
-     * Extract the keys starting with prefix in a new HashMap. It removes the prefix from the keys.
-     * Will return an empty map if prefix or map is null.
+     * Extract the keys starting with prefix in a new HashMap. It removes the prefix from the keys. Will return an empty
+     * map if prefix or map is null.
      *
-     * @param <V> Type of the value
-     * @param prefix Prefix of the key to extract
-     * @param map Map of all entries
+     * @param <V>
+     *            Type of the value
+     * @param prefix
+     *            Prefix of the key to extract
+     * @param map
+     *            Map of all entries
+     *
      * @return Extracted subset
      */
     public static <V> HashMap<String, V> subsetCrop(String prefix, Map<String, V> map) {
         HashMap<String, V> out = new HashMap<>();
-        if (prefix == null || map == null) return out;
+        if (prefix == null || map == null)
+            return out;
         int l = prefix.length();
-        map.forEach(
-                (k, v) -> {
-                    if (k.startsWith(prefix)) out.put(k.substring(l), v);
-                });
+        map.forEach((k, v) -> {
+            if (k.startsWith(prefix))
+                out.put(k.substring(l), v);
+        });
         return out;
     }
 }

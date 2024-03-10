@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,8 +17,9 @@ package de.mhus.commons.console;
 
 /**
  * @author hummel
- *     <p>To change the template for this generated type comment go to
- *     Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ *         <p>
+ *         To change the template for this generated type comment go to Window&gt;Preferences&gt;Java&gt;Code
+ *         Generation&gt;Code and Comments
  */
 public class ConsoleProgressBar {
 
@@ -41,7 +42,8 @@ public class ConsoleProgressBar {
 
     public ConsoleProgressBar(Console console, int _len, long _max) {
         this.stream = console;
-        if (_len < 1) _len = console.getWidth();
+        if (_len < 1)
+            _len = console.getWidth();
         len = _len;
         max = _max;
     }
@@ -52,25 +54,31 @@ public class ConsoleProgressBar {
 
     public void set(long _current) {
 
-        if (stop != -1) return;
+        if (stop != -1)
+            return;
         if (start == -1) {
             start = System.currentTimeMillis();
             paintHeader();
         }
 
-        if (_current > max) _current = max;
-        if (_current < 0) _current = 0;
-        if (_current < current) clean();
+        if (_current > max)
+            _current = max;
+        if (_current < 0)
+            _current = 0;
+        if (_current < current)
+            clean();
         paint(_current);
     }
 
     public void clean() {
 
-        if (stop != -1) return;
+        if (stop != -1)
+            return;
 
         current = 0;
         stream.cr();
-        for (int i = 0; i < len; i++) stream.print(' ');
+        for (int i = 0; i < len; i++)
+            stream.print(' ');
         stream.cr();
     }
 
@@ -81,7 +89,8 @@ public class ConsoleProgressBar {
                 stream.print('|');
             } else if (i % 10 == 0) {
                 stream.print('+');
-            } else stream.print('-');
+            } else
+                stream.print('-');
         }
         stream.println();
     }
@@ -90,7 +99,8 @@ public class ConsoleProgressBar {
         int old = (int) ((double) len / (double) max * (double) current);
         int new_ = (int) ((double) len / (double) max * (double) _current);
         int diff = new_ - old;
-        for (int i = 0; i < diff; i++) stream.print('*');
+        for (int i = 0; i < diff; i++)
+            stream.print('*');
         current = _current;
     }
 
@@ -100,14 +110,17 @@ public class ConsoleProgressBar {
     }
 
     public long getTime() {
-        if (stop == -1) return (System.currentTimeMillis() - start) / 1000;
-        else return (stop - start) / 1000;
+        if (stop == -1)
+            return (System.currentTimeMillis() - start) / 1000;
+        else
+            return (stop - start) / 1000;
     }
 
     /** @return Rate per milliseconds */
     public float getRate() {
         long time = getTime();
-        if (time == 0) return (float) current;
+        if (time == 0)
+            return (float) current;
         return (float) current / (float) time;
     }
 }

@@ -38,17 +38,19 @@ public class MEventHandler<L> implements IRegistry<L> {
     /**
      * Create the handler and specify if all listeners have to be weak.
      *
-     * @param weakHandler If true handler is in weak mode. All registered handlers are weak.
+     * @param weakHandler
+     *            If true handler is in weak mode. All registered handlers are weak.
      */
     public MEventHandler(boolean weakHandler) {
         this.weakHandler = weakHandler;
     }
+
     /**
-     * Register a listener for this kind of events. If the handler is weak the listener will
-     * registered weak. A listener can only register one time. A second registration will be
-     * ignored.
+     * Register a listener for this kind of events. If the handler is weak the listener will registered weak. A listener
+     * can only register one time. A second registration will be ignored.
      *
-     * @param listener Listener for the events.
+     * @param listener
+     *            Listener for the events.
      */
     @Override
     public void register(L listener) {
@@ -57,14 +59,16 @@ public class MEventHandler<L> implements IRegistry<L> {
             return;
         }
         synchronized (listeners) {
-            if (!contains(listener)) listeners.put(listener, "");
+            if (!contains(listener))
+                listeners.put(listener, "");
         }
     }
 
     /**
      * Unregister normal or weak listener from the handler.
      *
-     * @param listener Listener for the events.
+     * @param listener
+     *            Listener for the events.
      */
     @Override
     public void unregister(L listener) {
@@ -77,7 +81,8 @@ public class MEventHandler<L> implements IRegistry<L> {
     /**
      * Register the listener as a weak reference.
      *
-     * @param listener Listener for the events.
+     * @param listener
+     *            Listener for the events.
      */
     @Override
     public void registerWeak(L listener) {
@@ -89,7 +94,9 @@ public class MEventHandler<L> implements IRegistry<L> {
     /**
      * Returns true if the listener instance is already registered for this event handler.
      *
-     * @param listener Listener for the events.
+     * @param listener
+     *            Listener for the events.
+     *
      * @return true if the listener is registered as normal or weak.
      */
     public boolean contains(L listener) {
@@ -99,10 +106,9 @@ public class MEventHandler<L> implements IRegistry<L> {
     }
 
     /**
-     * Returns a array of all registered (normal or weak) listeners. The list should not be cashed -
-     * this will prevent weak listeners to be removed from the memory. The list should be used to
-     * fire events to the listeners if the listeners are able to change the event handler (register
-     * / unregister).
+     * Returns a array of all registered (normal or weak) listeners. The list should not be cashed - this will prevent
+     * weak listeners to be removed from the memory. The list should be used to fire events to the listeners if the
+     * listeners are able to change the event handler (register / unregister).
      *
      * @return All registered listeners
      */
@@ -111,9 +117,12 @@ public class MEventHandler<L> implements IRegistry<L> {
         synchronized (listeners) {
             Object[] list1 = weakHandler ? null : listeners.keySet().toArray();
             Object[] list2 = weak.keySet().toArray();
-            if (list1 == null) list = list2;
-            else if (list2.length == 0) list = list1;
-            else if (list1.length == 0) list = list2;
+            if (list1 == null)
+                list = list2;
+            else if (list2.length == 0)
+                list = list1;
+            else if (list1.length == 0)
+                list = list2;
             else {
                 list = new Object[list1.length + list2.length];
                 System.arraycopy(list1, 0, list, 0, list1.length);
@@ -124,15 +133,16 @@ public class MEventHandler<L> implements IRegistry<L> {
     }
 
     /**
-     * Use this to iterate into the listeners and if you be sure the listeners do not try to change
-     * the event handler (register/unregister). This method will save resources if only normal or
-     * only weak listeners are registered.
+     * Use this to iterate into the listeners and if you be sure the listeners do not try to change the event handler
+     * (register/unregister). This method will save resources if only normal or only weak listeners are registered.
      *
      * @return Iterable object for all listeners.
      */
     public Iterable<L> getListeners() {
-        if (weakHandler || listeners.size() == 0) return weak.keySet();
-        if (weak.size() == 0) return listeners.keySet();
+        if (weakHandler || listeners.size() == 0)
+            return weak.keySet();
+        if (weak.size() == 0)
+            return listeners.keySet();
         LinkedList<L> ll = new LinkedList<L>(listeners.keySet());
         ll.addAll(weak.keySet());
         return ll;
@@ -165,7 +175,7 @@ public class MEventHandler<L> implements IRegistry<L> {
         for (Object obj : getListenersArray()) {
             try {
                 onFire((L) obj, event, values);
-                //				method.invoke(obj, values);
+                // method.invoke(obj, values);
             } catch (Throwable t) {
                 LOGGER.debug("fire of event {} with {} failed", obj, event, values);
             }
@@ -182,5 +192,6 @@ public class MEventHandler<L> implements IRegistry<L> {
         }
     }
 
-    public void onFire(L listener, Object event, Object... values) {}
+    public void onFire(L listener, Object event, Object... values) {
+    }
 }

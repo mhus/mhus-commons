@@ -53,12 +53,12 @@ public class MCountWithDelay extends MCount {
         super.inc();
         if (throwExceptionOnNextCount) {
             throwExceptionOnNextCount = false;
-            throw new RuntimeException(
-                    "Counter " + getName() + " is thrown by request at " + getValue());
+            throw new RuntimeException("Counter " + getName() + " is thrown by request at " + getValue());
         }
-        if (isClosed) return;
+        if (isClosed)
+            return;
         if (sleepInterval > 0 && sleepSeconds > 0 && cnt % sleepInterval == 0) {
-            LOGGER.debug("Sleep {} {}",getName(),  sleepSeconds);
+            LOGGER.debug("Sleep {} {}", getName(), sleepSeconds);
             MThread.sleep(sleepSeconds * 1000);
         }
     }

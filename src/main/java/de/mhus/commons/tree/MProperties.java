@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,28 +51,27 @@ public class MProperties extends AbstractProperties implements Externalizable {
     private static final long serialVersionUID = 1L;
 
     protected Properties properties = null;
-    private static final char[] hexDigit = {
-        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
-    };
+    private static final char[] hexDigit = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E',
+            'F' };
 
     public MProperties() {
         this(new Properties());
     }
 
     // use IProperties.to() instead
-    //    public MProperties(String... values) {
-    //        this(new Properties());
-    //        if (values != null) {
-    //            for (int i = 0; i < values.length; i += 2) {
-    //                if (i + 1 < values.length)
-    //                    IProperties.appendToMap(this, values[i] + "=" + values[i + 1], '=', ':');
-    //            }
-    //        }
-    //    }
+    // public MProperties(String... values) {
+    // this(new Properties());
+    // if (values != null) {
+    // for (int i = 0; i < values.length; i += 2) {
+    // if (i + 1 < values.length)
+    // IProperties.appendToMap(this, values[i] + "=" + values[i + 1], '=', ':');
+    // }
+    // }
+    // }
 
     public MProperties(Dictionary<?, ?> config) {
         this.properties = new Properties();
-        for (Enumeration<?> enu = config.keys(); enu.hasMoreElements(); ) {
+        for (Enumeration<?> enu = config.keys(); enu.hasMoreElements();) {
             Object next = enu.nextElement();
             this.properties.put(String.valueOf(next), config.get(next));
         }
@@ -105,7 +104,8 @@ public class MProperties extends AbstractProperties implements Externalizable {
 
     public MProperties(Properties properties) {
         this.properties = properties;
-        if (properties == null) this.properties = new Properties();
+        if (properties == null)
+            this.properties = new Properties();
     }
 
     @Override
@@ -125,8 +125,10 @@ public class MProperties extends AbstractProperties implements Externalizable {
 
     @Override
     public void setProperty(String key, Object value) {
-        if (value == null) properties.remove(key);
-        else properties.put(key, value);
+        if (value == null)
+            properties.remove(key);
+        else
+            properties.put(key, value);
     }
 
     @Override
@@ -184,7 +186,8 @@ public class MProperties extends AbstractProperties implements Externalizable {
 
     public static MProperties loadOrEmpty(File f) {
         MProperties out = load(f);
-        if (out == null) out = new MProperties();
+        if (out == null)
+            out = new MProperties();
         return out;
     }
 
@@ -197,17 +200,17 @@ public class MProperties extends AbstractProperties implements Externalizable {
         } catch (IOException e) {
             return null;
         }
-        //		Properties p = new Properties();
-        //		try {
-        //			if (f.exists() && f.isFile()) {
-        //				FileInputStream is = new FileInputStream(f);
-        //				p.load(is);
-        //			}
-        //		} catch (Exception t) {
-        //			MLogUtil.log().d(f, t);
-        //		}
-        //		MProperties out = new MProperties(p);
-        //		return out;
+        // Properties p = new Properties();
+        // try {
+        // if (f.exists() && f.isFile()) {
+        // FileInputStream is = new FileInputStream(f);
+        // p.load(is);
+        // }
+        // } catch (Exception t) {
+        // MLogUtil.log().d(f, t);
+        // }
+        // MProperties out = new MProperties(p);
+        // return out;
     }
 
     public static MProperties load(InputStream inStream) throws IOException {
@@ -241,7 +244,7 @@ public class MProperties extends AbstractProperties implements Externalizable {
             while (keyLen < limit) {
                 c = lr.lineBuf[keyLen];
                 // need check if escaped.
-                //                if ((c == '=' ||  c == ':') && !precedingBackslash) {
+                // if ((c == '=' || c == ':') && !precedingBackslash) {
                 if (c == '=' && !precedingBackslash) {
                     valueStart = keyLen + 1;
                     hasSep = true;
@@ -260,7 +263,7 @@ public class MProperties extends AbstractProperties implements Externalizable {
             while (valueStart < limit) {
                 c = lr.lineBuf[valueStart];
                 if (c != ' ' && c != '\t' && c != '\f') {
-                    //                    if (!hasSep && (c == '=' ||  c == ':')) {
+                    // if (!hasSep && (c == '=' || c == ':')) {
                     if (!hasSep && c == '=') {
                         hasSep = true;
                     } else {
@@ -281,10 +284,10 @@ public class MProperties extends AbstractProperties implements Externalizable {
             inByteBuf = new byte[8192];
         }
 
-        //        public LineReader(Reader reader) {
-        //            this.reader = reader;
-        //            inCharBuf = new char[8192];
-        //        }
+        // public LineReader(Reader reader) {
+        // this.reader = reader;
+        // inCharBuf = new char[8192];
+        // }
 
         byte[] inByteBuf;
         char[] inCharBuf;
@@ -307,8 +310,7 @@ public class MProperties extends AbstractProperties implements Externalizable {
 
             while (true) {
                 if (inOff >= inLimit) {
-                    inLimit =
-                            (inStream == null) ? reader.read(inCharBuf) : inStream.read(inByteBuf);
+                    inLimit = (inStream == null) ? reader.read(inCharBuf) : inStream.read(inByteBuf);
                     inOff = 0;
                     if (inLimit <= 0) {
                         if (len == 0 || isCommentLine) {
@@ -378,10 +380,7 @@ public class MProperties extends AbstractProperties implements Externalizable {
                         continue;
                     }
                     if (inOff >= inLimit) {
-                        inLimit =
-                                (inStream == null)
-                                        ? reader.read(inCharBuf)
-                                        : inStream.read(inByteBuf);
+                        inLimit = (inStream == null) ? reader.read(inCharBuf) : inStream.read(inByteBuf);
                         inOff = 0;
                         if (inLimit <= 0) {
                             if (precedingBackslash) {
@@ -430,44 +429,48 @@ public class MProperties extends AbstractProperties implements Externalizable {
                     for (int i = 0; i < 4; i++) {
                         aChar = in[off++];
                         switch (aChar) {
-                            case '0':
-                            case '1':
-                            case '2':
-                            case '3':
-                            case '4':
-                            case '5':
-                            case '6':
-                            case '7':
-                            case '8':
-                            case '9':
-                                value = (value << 4) + aChar - '0';
-                                break;
-                            case 'a':
-                            case 'b':
-                            case 'c':
-                            case 'd':
-                            case 'e':
-                            case 'f':
-                                value = (value << 4) + 10 + aChar - 'a';
-                                break;
-                            case 'A':
-                            case 'B':
-                            case 'C':
-                            case 'D':
-                            case 'E':
-                            case 'F':
-                                value = (value << 4) + 10 + aChar - 'A';
-                                break;
-                            default:
-                                throw new IllegalArgumentException("Malformed \\uxxxx encoding.");
+                        case '0':
+                        case '1':
+                        case '2':
+                        case '3':
+                        case '4':
+                        case '5':
+                        case '6':
+                        case '7':
+                        case '8':
+                        case '9':
+                            value = (value << 4) + aChar - '0';
+                            break;
+                        case 'a':
+                        case 'b':
+                        case 'c':
+                        case 'd':
+                        case 'e':
+                        case 'f':
+                            value = (value << 4) + 10 + aChar - 'a';
+                            break;
+                        case 'A':
+                        case 'B':
+                        case 'C':
+                        case 'D':
+                        case 'E':
+                        case 'F':
+                            value = (value << 4) + 10 + aChar - 'A';
+                            break;
+                        default:
+                            throw new IllegalArgumentException("Malformed \\uxxxx encoding.");
                         }
                     }
                     out[outLen++] = (char) value;
                 } else {
-                    if (aChar == 't') aChar = '\t';
-                    else if (aChar == 'r') aChar = '\r';
-                    else if (aChar == 'n') aChar = '\n';
-                    else if (aChar == 'f') aChar = '\f';
+                    if (aChar == 't')
+                        aChar = '\t';
+                    else if (aChar == 'r')
+                        aChar = '\r';
+                    else if (aChar == 'n')
+                        aChar = '\n';
+                    else if (aChar == 'f')
+                        aChar = '\f';
                     out[outLen++] = aChar;
                 }
             } else {
@@ -477,23 +480,23 @@ public class MProperties extends AbstractProperties implements Externalizable {
         return new String(out, 0, outLen);
     }
 
-    //	public static MProperties load(InputStream is) {
-    //		Properties p = new Properties();
-    //		try {
-    //			p.load(is);
-    //		} catch (Exception t) {
-    //			MLogUtil.log().d(t);
-    //		}
-    //		MProperties out = new MProperties(p);
-    //		return out;
-    //	}
+    // public static MProperties load(InputStream is) {
+    // Properties p = new Properties();
+    // try {
+    // p.load(is);
+    // } catch (Exception t) {
+    // MLogUtil.log().d(t);
+    // }
+    // MProperties out = new MProperties(p);
+    // return out;
+    // }
 
     public static MProperties load(Reader is) {
         Properties p = new Properties();
         try {
             p.load(is);
         } catch (Exception t) {
-            LOGGER.debug("Error",t);
+            LOGGER.debug("Error", t);
         }
         MProperties out = new MProperties(p);
         return out;
@@ -528,7 +531,7 @@ public class MProperties extends AbstractProperties implements Externalizable {
         try {
             store(new BufferedWriter(out), true, true);
         } catch (IOException e) {
-            LOGGER.error("Error",e);
+            LOGGER.error("Error", e);
         }
         return out.toString();
     }
@@ -538,16 +541,13 @@ public class MProperties extends AbstractProperties implements Externalizable {
         try {
             store(new BufferedWriter(out), true, addDate);
         } catch (IOException e) {
-            LOGGER.error("Error",e);
+            LOGGER.error("Error", e);
         }
         return out.toString();
     }
 
     public boolean save(OutputStream out, boolean addDate) throws IOException {
-        store(
-                new BufferedWriter(new OutputStreamWriter(out, M.CHARSET_UTF_8)),
-                true,
-                addDate);
+        store(new BufferedWriter(new OutputStreamWriter(out, M.CHARSET_UTF_8)), true, addDate);
         return true;
     }
 
@@ -565,8 +565,8 @@ public class MProperties extends AbstractProperties implements Externalizable {
             for (String key : sortedKeys()) {
                 String val = (String) getString(key, "");
                 key = saveConvert(key, true, escUnicode);
-                /* No need to escape embedded and trailing spaces for value, hence
-                 * pass false to flag.
+                /*
+                 * No need to escape embedded and trailing spaces for value, hence pass false to flag.
                  */
                 val = saveConvert(val, false, escUnicode);
                 bw.write(key + "=" + val);
@@ -583,7 +583,8 @@ public class MProperties extends AbstractProperties implements Externalizable {
     private String saveConvert(String value, boolean escapeSpace, boolean escapeUnicode) {
         int len = value.length();
         int bufLen = len * 2;
-        if (bufLen < 0) bufLen = Integer.MAX_VALUE;
+        if (bufLen < 0)
+            bufLen = Integer.MAX_VALUE;
         StringBuilder outBuffer = new StringBuilder(bufLen);
         for (int x = 0; x < len; x++) {
             char aChar = value.charAt(x);
@@ -597,44 +598,45 @@ public class MProperties extends AbstractProperties implements Externalizable {
                 continue;
             }
             switch (aChar) {
-                case ' ':
-                    if (x == 0 || escapeSpace) outBuffer.append('\\');
-                    outBuffer.append(' ');
-                    break;
-                case '\t':
+            case ' ':
+                if (x == 0 || escapeSpace)
                     outBuffer.append('\\');
-                    outBuffer.append('t');
-                    break;
-                case '\n':
+                outBuffer.append(' ');
+                break;
+            case '\t':
+                outBuffer.append('\\');
+                outBuffer.append('t');
+                break;
+            case '\n':
+                outBuffer.append('\\');
+                outBuffer.append('n');
+                break;
+            case '\r':
+                outBuffer.append('\\');
+                outBuffer.append('r');
+                break;
+            case '\f':
+                outBuffer.append('\\');
+                outBuffer.append('f');
+                break;
+            case '=':
+            case ':':
+            case '#':
+            case '!':
+                outBuffer.append('\\');
+                outBuffer.append(aChar);
+                break;
+            default:
+                if (((aChar < 0x0020) || (aChar > 0x007e)) & escapeUnicode) {
                     outBuffer.append('\\');
-                    outBuffer.append('n');
-                    break;
-                case '\r':
-                    outBuffer.append('\\');
-                    outBuffer.append('r');
-                    break;
-                case '\f':
-                    outBuffer.append('\\');
-                    outBuffer.append('f');
-                    break;
-                case '=':
-                case ':':
-                case '#':
-                case '!':
-                    outBuffer.append('\\');
+                    outBuffer.append('u');
+                    outBuffer.append(toHex((aChar >> 12) & 0xF));
+                    outBuffer.append(toHex((aChar >> 8) & 0xF));
+                    outBuffer.append(toHex((aChar >> 4) & 0xF));
+                    outBuffer.append(toHex(aChar & 0xF));
+                } else {
                     outBuffer.append(aChar);
-                    break;
-                default:
-                    if (((aChar < 0x0020) || (aChar > 0x007e)) & escapeUnicode) {
-                        outBuffer.append('\\');
-                        outBuffer.append('u');
-                        outBuffer.append(toHex((aChar >> 12) & 0xF));
-                        outBuffer.append(toHex((aChar >> 8) & 0xF));
-                        outBuffer.append(toHex((aChar >> 4) & 0xF));
-                        outBuffer.append(toHex(aChar & 0xF));
-                    } else {
-                        outBuffer.append(aChar);
-                    }
+                }
             }
         }
         return outBuffer.toString();
@@ -652,25 +654,24 @@ public class MProperties extends AbstractProperties implements Externalizable {
     @Override
     public synchronized String toString() {
         int max = properties.size() - 1;
-        if (max == -1) return "{}";
+        if (max == -1)
+            return "{}";
 
         StringBuilder sb = new StringBuilder();
         Iterator<Map.Entry<Object, Object>> it = properties.entrySet().iterator();
 
         sb.append('{');
-        for (int i = 0; ; i++) {
+        for (int i = 0;; i++) {
             Map.Entry<Object, Object> e = it.next();
             Object key = e.getKey();
             Object value = e.getValue();
             String keyStr = key.toString();
             sb.append(keyStr);
             sb.append('=');
-            sb.append(
-                    MSystem.isPasswordName(keyStr)
-                            ? "[***]"
-                            : (value == this ? "(this Map)" : value.toString()));
+            sb.append(MSystem.isPasswordName(keyStr) ? "[***]" : (value == this ? "(this Map)" : value.toString()));
 
-            if (i == max) return sb.append('}').toString();
+            if (i == max)
+                return sb.append('}').toString();
             sb.append(", ");
         }
     }

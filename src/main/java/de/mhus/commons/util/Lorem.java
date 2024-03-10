@@ -28,19 +28,22 @@ public class Lorem {
 
     public static String create(int paragraphs) {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < paragraphs; i++) sb.append(create()).append("\n\n");
+        for (int i = 0; i < paragraphs; i++)
+            sb.append(create()).append("\n\n");
         return sb.toString();
     }
 
     public static String createHtml(int paragraphs) {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < paragraphs; i++) sb.append("<p>").append(create()).append("</p>\n");
+        for (int i = 0; i < paragraphs; i++)
+            sb.append("<p>").append(create()).append("</p>\n");
         return sb.toString();
     }
 
     public static String createWithSize(int size) {
         StringBuilder sb = new StringBuilder();
-        while (sb.length() < size) sb.append(create());
+        while (sb.length() < size)
+            sb.append(create());
         sb.setLength(size);
         return sb.toString();
     }

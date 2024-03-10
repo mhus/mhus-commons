@@ -34,8 +34,10 @@ public class CipherOutputStream extends OutputStream {
 
     @Override
     public void write(int b) throws IOException {
-        if (cipher == null) os.write(b);
-        else os.write(cipher.encode((byte) b));
+        if (cipher == null)
+            os.write(b);
+        else
+            os.write(cipher.encode((byte) b));
     }
 
     public CipherBlock getCipher() {

@@ -55,17 +55,15 @@ public class SecureStringTest extends TestCase {
         SecureString sec = new SecureString(text);
 
         String serial = MCast.serializeToString(sec);
-        SecureString sec2 =
-                (SecureString) MCast.unserializeFromString(serial, getClass().getClassLoader());
+        SecureString sec2 = (SecureString) MCast.unserializeFromString(serial, getClass().getClassLoader());
 
         String text2 = sec2.value();
         assertEquals(text, text2);
     }
 
     @Test
-    public void testCryptedStringDefault()
-            throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException,
-                    SecurityException, NoSuchAlgorithmException, NoSuchProviderException {
+    public void testCryptedStringDefault() throws IllegalArgumentException, IllegalAccessException,
+            NoSuchFieldException, SecurityException, NoSuchAlgorithmException, NoSuchProviderException {
         System.out.println(">>> testCryptedStringDefault");
         String text = Lorem.create();
         KeyPair key = MBouncy.generateRsaKey(MBouncy.RSA_KEY_SIZE_DEFAULT);
@@ -82,9 +80,8 @@ public class SecureStringTest extends TestCase {
     }
 
     @Test
-    public void testCryptedString1024()
-            throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException,
-                    SecurityException, NoSuchAlgorithmException, NoSuchProviderException {
+    public void testCryptedString1024() throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException,
+            SecurityException, NoSuchAlgorithmException, NoSuchProviderException {
         System.out.println(">>> testCryptedString1024");
         String text = Lorem.create();
         KeyPair key = MBouncy.generateRsaKey(MBouncy.RSA_KEY_SIZE.B1024);
@@ -101,9 +98,8 @@ public class SecureStringTest extends TestCase {
     }
 
     @Test
-    public void testCryptedString2048()
-            throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException,
-                    SecurityException, NoSuchAlgorithmException, NoSuchProviderException {
+    public void testCryptedString2048() throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException,
+            SecurityException, NoSuchAlgorithmException, NoSuchProviderException {
         System.out.println(">>> testCryptedString2048");
         String text = Lorem.create();
         KeyPair key = MBouncy.generateRsaKey(MBouncy.RSA_KEY_SIZE.B2048);
@@ -120,9 +116,8 @@ public class SecureStringTest extends TestCase {
     }
 
     @Test
-    public void testCryptedString4096()
-            throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException,
-                    SecurityException, NoSuchAlgorithmException, NoSuchProviderException {
+    public void testCryptedString4096() throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException,
+            SecurityException, NoSuchAlgorithmException, NoSuchProviderException {
         System.out.println(">>> testCryptedString4096");
         String text = Lorem.create();
         KeyPair key = MBouncy.generateRsaKey(MBouncy.RSA_KEY_SIZE.B4096);
@@ -139,9 +134,8 @@ public class SecureStringTest extends TestCase {
     }
 
     @Test
-    public void testKeyConvert()
-            throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException,
-                    SecurityException, NoSuchAlgorithmException, NoSuchProviderException {
+    public void testKeyConvert() throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException,
+            SecurityException, NoSuchAlgorithmException, NoSuchProviderException {
         System.out.println(">>> testKeyConvert");
         KeyPair key = MBouncy.generateRsaKey(MBouncy.RSA_KEY_SIZE_DEFAULT);
         {
@@ -157,9 +151,8 @@ public class SecureStringTest extends TestCase {
     }
 
     @Test
-    public void testCryptedStringTextual()
-            throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException,
-                    SecurityException, NoSuchAlgorithmException, NoSuchProviderException {
+    public void testCryptedStringTextual() throws IllegalArgumentException, IllegalAccessException,
+            NoSuchFieldException, SecurityException, NoSuchAlgorithmException, NoSuchProviderException {
         System.out.println(">>> testCryptedStringTextual");
         String text = Lorem.create();
         KeyPair key = MBouncy.generateRsaKey(MBouncy.RSA_KEY_SIZE_DEFAULT);
@@ -179,8 +172,7 @@ public class SecureStringTest extends TestCase {
     }
 
     @Test
-    public void testCryptedStringPerformance()
-            throws NoSuchAlgorithmException, NoSuchProviderException {
+    public void testCryptedStringPerformance() throws NoSuchAlgorithmException, NoSuchProviderException {
         System.out.println(">>> testCryptedStringPerformance");
         String text = Lorem.create();
         int cnt = 0;
@@ -196,8 +188,8 @@ public class SecureStringTest extends TestCase {
     }
 
     /**
-     * This is a example how to use CryptedKey in your code. Use the key pool to rotate keys, send
-     * the public key to the secret encoded and decode the secret.
+     * This is a example how to use CryptedKey in your code. Use the key pool to rotate keys, send the public key to the
+     * secret encoded and decode the secret.
      */
     @Test
     public void testKeyPool() {
@@ -217,6 +209,7 @@ public class SecureStringTest extends TestCase {
      *
      * @param pub
      * @param text
+     *
      * @return
      */
     private CryptedString callToGetTheSecret(String pub, String text) {
@@ -233,8 +226,7 @@ public class SecureStringTest extends TestCase {
         CryptedString sec = callToGetTheSecret(pub, text);
 
         String serial = MCast.serializeToString(sec);
-        CryptedString sec2 =
-                (CryptedString) MCast.unserializeFromString(serial, getClass().getClassLoader());
+        CryptedString sec2 = (CryptedString) MCast.unserializeFromString(serial, getClass().getClassLoader());
 
         String text2 = sec2.value(key);
         assertEquals(text, text2);

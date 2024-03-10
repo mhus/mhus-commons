@@ -39,22 +39,27 @@ public class SaltInputStream extends InputStream {
         if (cnt <= 0) {
             if (hasRandomBlocks) {
                 int c = previous.read();
-                if (c < 0) return c;
+                if (c < 0)
+                    return c;
                 for (int i = 0; i < c; i++) {
                     int r = previous.read();
-                    if (r < 0) return r;
+                    if (r < 0)
+                        return r;
                 }
             }
 
             int s = previous.read();
-            if (s < 0) return s;
+            if (s < 0)
+                return s;
             salt = (byte) s;
             cnt = previous.read();
-            if (cnt < 0) return cnt;
+            if (cnt < 0)
+                return cnt;
         }
 
         int out = previous.read();
-        if (out < 0) return out;
+        if (out < 0)
+            return out;
 
         out = MMath.unsignetByteToInt(MMath.subRotate((byte) out, salt));
 

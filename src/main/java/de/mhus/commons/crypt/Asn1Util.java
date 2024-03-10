@@ -24,8 +24,7 @@ import java.util.Base64;
 import java.util.Enumeration;
 
 /**
- * Need to separate this method to remove the dependency to bounycastle from the MCrypt class. Do
- * not use it directly.
+ * Need to separate this method to remove the dependency to bounycastle from the MCrypt class. Do not use it directly.
  *
  * @author mikehummel
  */
@@ -35,19 +34,25 @@ class Asn1Util {
     /**
      * Load a RSA private key into a AsyncKey object.
      *
-     * @param key key as ASN1 encoded string containing "-----BEGIN RSA PRIVATE KEY-----"
+     * @param key
+     *            key as ASN1 encoded string containing "-----BEGIN RSA PRIVATE KEY-----"
+     *
      * @return Corresponding key object
-     * @throws IOException If the key start or stop token was not found
+     *
+     * @throws IOException
+     *             If the key start or stop token was not found
      */
     static AsyncKey loadPrivateRsaKey(String key) throws IOException {
 
         int pos = key.indexOf("-----BEGIN RSA PRIVATE KEY-----\n");
-        if (pos < 0) throw new IOException("begin of RSA Key not found");
+        if (pos < 0)
+            throw new IOException("begin of RSA Key not found");
 
         key = key.substring(pos + "-----BEGIN RSA PRIVATE KEY-----\n".length());
 
         pos = key.indexOf("-----END RSA PRIVATE KEY-----");
-        if (pos < 0) throw new IOException("end of RSA Key not found");
+        if (pos < 0)
+            throw new IOException("end of RSA Key not found");
 
         key = key.substring(0, pos);
         key = key.replace("\n", "").trim();
@@ -70,34 +75,32 @@ class Asn1Util {
         BigInteger exponent2 = ((ASN1Integer) ex.nextElement()).getValue();
         BigInteger coefficient = ((ASN1Integer) ex.nextElement()).getValue();
 
-        return new AsyncKey(
-                modulus,
-                publicExponent,
-                privateExponent,
-                prime1,
-                prime2,
-                exponent1,
-                exponent2,
-                coefficient,
+        return new AsyncKey(modulus, publicExponent, privateExponent, prime1, prime2, exponent1, exponent2, coefficient,
                 MCrypt.getMaxLoad(modulus));
     }
 
     /**
      * Load a RSA public key into a AsyncKey object.
      *
-     * @param key key as ASN1 encoded string containing "-----BEGIN RSA PUBLIC KEY-----"
+     * @param key
+     *            key as ASN1 encoded string containing "-----BEGIN RSA PUBLIC KEY-----"
+     *
      * @return Corresponding key object
-     * @throws IOException If the key start or stop token was not found
+     *
+     * @throws IOException
+     *             If the key start or stop token was not found
      */
     static AsyncKey loadPublicRsaKey(String key) throws IOException {
 
         int pos = key.indexOf("-----BEGIN RSA PUBLIC KEY-----\n");
-        if (pos < 0) throw new IOException("begin of RSA Key not found");
+        if (pos < 0)
+            throw new IOException("begin of RSA Key not found");
 
         key = key.substring(pos + "-----BEGIN RSA PUBLIC KEY-----\n".length());
 
         pos = key.indexOf("-----END RSA PUBLIC KEY-----");
-        if (pos < 0) throw new IOException("end of RSA Key not found");
+        if (pos < 0)
+            throw new IOException("end of RSA Key not found");
 
         key = key.substring(0, pos);
         key = key.replace("\n", "").trim();
@@ -114,15 +117,6 @@ class Asn1Util {
         BigInteger modulus = ((ASN1Integer) ex.nextElement()).getValue();
         BigInteger publicExponent = ((ASN1Integer) ex.nextElement()).getValue();
 
-        return new AsyncKey(
-                modulus,
-                publicExponent,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                MCrypt.getMaxLoad(modulus));
+        return new AsyncKey(modulus, publicExponent, null, null, null, null, null, null, MCrypt.getMaxLoad(modulus));
     }
 }

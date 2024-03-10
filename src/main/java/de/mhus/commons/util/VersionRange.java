@@ -28,27 +28,23 @@ public class VersionRange {
     Version low;
     char start = '[';
     char end = ']';
-    public static final String VERSION_STRING =
-            "(\\d+)(\\.(\\d+)(\\.(\\d+)(\\.([-_\\da-zA-Z]+))?)?)?";
+    public static final String VERSION_STRING = "(\\d+)(\\.(\\d+)(\\.(\\d+)(\\.([-_\\da-zA-Z]+))?)?)?";
 
-    static Pattern RANGE =
-            Pattern.compile(
-                    "(\\(|\\[)\\s*("
-                            + VERSION_STRING
-                            + ")\\s*,\\s*("
-                            + VERSION_STRING
-                            + ")\\s*(\\)|\\])");
+    static Pattern RANGE = Pattern
+            .compile("(\\(|\\[)\\s*(" + VERSION_STRING + ")\\s*,\\s*(" + VERSION_STRING + ")\\s*(\\)|\\])");
 
     public VersionRange(String string) {
         string = string.trim();
         if (string.indexOf(',') > 0) {
             if (string.startsWith("]")) // ]1.0.0,...
-            string = "(" + string.substring(1);
-            else if (!string.startsWith("[") && !string.startsWith("(")) string = "[" + string;
+                string = "(" + string.substring(1);
+            else if (!string.startsWith("[") && !string.startsWith("("))
+                string = "[" + string;
 
             if (string.endsWith("[")) // ...,2.0.0[
-            string = string.substring(0, string.length() - 1) + ")";
-            else if (!string.endsWith("]") && !string.endsWith(")")) string = string + ")";
+                string = string.substring(0, string.length() - 1) + ")";
+            else if (!string.endsWith("]") && !string.endsWith(")"))
+                string = string + ")";
         } else if (string.endsWith("+")) {
             string = string.substring(0, string.length() - 1);
             Version v = new Version(string);
@@ -65,10 +61,10 @@ public class VersionRange {
             high = new Version(v2);
             end = m.group(18).charAt(0);
             if (low.compareTo(high) > 0)
-                throw new IllegalArgumentException(
-                        "Low Range is higher than High Range: " + low + "-" + high);
+                throw new IllegalArgumentException("Low Range is higher than High Range: " + low + "-" + high);
 
-        } else high = low = new Version(string);
+        } else
+            high = low = new Version(string);
     }
 
     public boolean isRange() {
@@ -85,7 +81,8 @@ public class VersionRange {
 
     @Override
     public String toString() {
-        if (high == low) return high.toString();
+        if (high == low)
+            return high.toString();
 
         StringBuilder sb = new StringBuilder();
         sb.append(start);
@@ -113,12 +110,16 @@ public class VersionRange {
             return low.compareTo(v) == 0; // need exact match
         }
         if (includeLow()) {
-            if (v.compareTo(low) < 0) return false;
-        } else if (v.compareTo(low) <= 0) return false;
+            if (v.compareTo(low) < 0)
+                return false;
+        } else if (v.compareTo(low) <= 0)
+            return false;
 
         if (includeHigh()) {
-            if (v.compareTo(high) > 0) return false;
-        } else if (v.compareTo(high) >= 0) return false;
+            if (v.compareTo(high) > 0)
+                return false;
+        } else if (v.compareTo(high) >= 0)
+            return false;
 
         return true;
     }

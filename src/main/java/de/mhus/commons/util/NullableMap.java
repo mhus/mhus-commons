@@ -39,7 +39,8 @@ public class NullableMap<K, V> implements Map<K, V> {
     @SuppressWarnings("unchecked")
     public V get(Object key) {
         Object ret = impl.get(key);
-        if (ret instanceof NullValue) return null;
+        if (ret instanceof NullValue)
+            return null;
         return (V) ret;
     }
 
@@ -58,12 +59,14 @@ public class NullableMap<K, V> implements Map<K, V> {
     public V put(K key, V value) {
         if (value == null) {
             Object ret = impl.put(key, NullValue.VALUE);
-            if (ret instanceof NullValue) return null;
+            if (ret instanceof NullValue)
+                return null;
             return (V) ret;
         }
 
         Object ret = impl.put(key, value);
-        if (ret instanceof NullValue) return null;
+        if (ret instanceof NullValue)
+            return null;
         return (V) ret;
     }
 
@@ -86,7 +89,8 @@ public class NullableMap<K, V> implements Map<K, V> {
     @SuppressWarnings("unchecked")
     public V remove(Object key) {
         Object ret = impl.remove(key);
-        if (ret instanceof NullValue) return null;
+        if (ret instanceof NullValue)
+            return null;
         return (V) ret;
     }
 
@@ -115,7 +119,8 @@ public class NullableMap<K, V> implements Map<K, V> {
     public Collection<V> values() {
         LinkedList<V> out = new LinkedList<V>();
         for (Object o : impl.values()) {
-            if (!(o instanceof NullValue)) out.add((V) o);
+            if (!(o instanceof NullValue))
+                out.add((V) o);
         }
         return out;
     }
@@ -125,7 +130,8 @@ public class NullableMap<K, V> implements Map<K, V> {
     public Set<Map.Entry<K, V>> entrySet() {
         LinkedList<Map.Entry<K, V>> out = new LinkedList<Map.Entry<K, V>>();
         for (Map.Entry<K, Object> o : impl.entrySet()) {
-            if (!(o instanceof NullValue)) out.add(new MyEntry(o));
+            if (!(o instanceof NullValue))
+                out.add(new MyEntry(o));
         }
         return (Set<java.util.Map.Entry<K, V>>) out;
     }
@@ -148,7 +154,8 @@ public class NullableMap<K, V> implements Map<K, V> {
         @SuppressWarnings("unchecked")
         @Override
         public V getValue() {
-            if (v instanceof NullValue) return null;
+            if (v instanceof NullValue)
+                return null;
             return (V) v;
         }
 

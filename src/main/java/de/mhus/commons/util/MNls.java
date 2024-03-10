@@ -44,9 +44,11 @@ public class MNls extends AbstractProperties {
     }
 
     public String find(String in, String... strings) {
-        if (strings == null || strings.length == 0) return find(in, (Map<String, Object>) null);
+        if (strings == null || strings.length == 0)
+            return find(in, (Map<String, Object>) null);
         HashMap<String, Object> attr = new HashMap<String, Object>();
-        for (int i = 0; i < strings.length; i++) attr.put(String.valueOf(i), strings[i]);
+        for (int i = 0; i < strings.length; i++)
+            attr.put(String.valueOf(i), strings[i]);
         return find(in, attr);
     }
 
@@ -68,7 +70,8 @@ public class MNls extends AbstractProperties {
 
     public static String find(MNls nls, String in, Map<String, Object> attributes) {
         String def = null;
-        if (in == null) return "";
+        if (in == null)
+            return "";
         int pos = in.indexOf("=");
         if (pos == 0) { // no key defined
             return in.substring(1);
@@ -78,12 +81,15 @@ public class MNls extends AbstractProperties {
             in = in.substring(0, pos);
         }
 
-        if (def == null) def = in;
-        if (nls == null) return def;
+        if (def == null)
+            def = in;
+        if (nls == null)
+            return def;
 
         try {
             String ret = nls.getString(in, def);
-            if (ret == null) return def;
+            if (ret == null)
+                return def;
 
             if (attributes != null && ret.indexOf('$') >= 0) {
                 ret = StringCompiler.compile(ret).execute(attributes);
@@ -132,19 +138,22 @@ public class MNls extends AbstractProperties {
     }
 
     public MNls createSubstitute(String prefix) {
-        if (prefix == null) return this;
+        if (prefix == null)
+            return this;
         return new MNls(properties, this.prefix + prefix);
     }
 
     public static MNls lookup(Object owner) {
         MNlsFactory factory = MNlsFactory.lookup(owner);
-        if (factory != null) return factory.load(owner.getClass());
+        if (factory != null)
+            return factory.load(owner.getClass());
         return null;
     }
 
     public static MNls lookup(Object owner, Locale locale) {
         MNlsFactory factory = MNlsFactory.lookup(owner);
-        if (factory != null) return factory.load(owner.getClass(), locale);
+        if (factory != null)
+            return factory.load(owner.getClass(), locale);
         return null;
     }
 

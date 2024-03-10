@@ -50,18 +50,16 @@ import java.util.Base64;
 import java.util.LinkedList;
 
 /**
- * This utility uses explicit bouncy castle methods for cryptography. It depends on BC but not JCE.
- * For some compatibility reasons it makes sense to use BC instead of JCE (e.g. open jdk on not
- * common environments / hardware JCE is not available).
+ * This utility uses explicit bouncy castle methods for cryptography. It depends on BC but not JCE. For some
+ * compatibility reasons it makes sense to use BC instead of JCE (e.g. open jdk on not common environments / hardware
+ * JCE is not available).
  *
  * @author mikehummel
  */
 public class MBouncy {
 
     public enum RSA_KEY_SIZE {
-        B1024,
-        B2048,
-        B4096;
+        B1024, B2048, B4096;
 
         private int bits = MCast.toint(name().substring(1), 1024);
 
@@ -75,21 +73,8 @@ public class MBouncy {
     }
 
     public enum ECC_SPEC {
-        PRIME192V1,
-        PRIME192V2,
-        PRIME192V3,
-        PRIME239V1,
-        PRIME239V2,
-        PRIME239V3,
-        PRIME256V1,
-        SECP192K1,
-        SECP192R1,
-        SECP244K1,
-        SECP244R1,
-        SECP256K1,
-        SECP256R1,
-        SECP384R1,
-        SECP521R1
+        PRIME192V1, PRIME192V2, PRIME192V3, PRIME239V1, PRIME239V2, PRIME239V3, PRIME256V1, SECP192K1, SECP192R1,
+        SECP244K1, SECP244R1, SECP256K1, SECP256R1, SECP384R1, SECP521R1
     };
 
     public static void init() {
@@ -108,20 +93,22 @@ public class MBouncy {
 
     private static LinkedList<KeyPair> keyPool = new LinkedList<>();
     private static long keyPoolUpdate = 0;
-    private static final long CFG_POOL_UPDATE_TIME = MSystem.getEnv(MBouncy.class, "poolUpdateTime", MPeriod.MINUTE_IN_MILLISECONDS * 10);
+    private static final long CFG_POOL_UPDATE_TIME = MSystem.getEnv(MBouncy.class, "poolUpdateTime",
+            MPeriod.MINUTE_IN_MILLISECONDS * 10);
     private static final int CFG_POOL_SIZE = MSystem.getEnv(MBouncy.class, "poolSize", 10);
 
     /**
      * Generate a RSA key pair with 1024 bits.
      *
      * @param size
+     *
      * @return The key pair
+     *
      * @throws NoSuchAlgorithmException
      * @throws NoSuchProviderException
      */
     // With help from https://github.com/ingoclaro/crypt-examples/tree/master/java/src
-    public static KeyPair generateRsaKey(RSA_KEY_SIZE size)
-            throws NoSuchAlgorithmException, NoSuchProviderException {
+    public static KeyPair generateRsaKey(RSA_KEY_SIZE size) throws NoSuchAlgorithmException, NoSuchProviderException {
         init();
         KeyPairGenerator keyGen = KeyPairGenerator.getInstance(ALGORITHM_RSA, PROVIDER);
         keyGen.initialize(size.getBits());
@@ -132,7 +119,9 @@ public class MBouncy {
     /**
      * Transform a string encoded public key to a public key object.
      *
-     * @param key Public Key as string
+     * @param key
+     *            Public Key as string
+     *
      * @return Public Key as object
      */
     // http://www.javased.com/index.php?api=java.security.PrivateKey
@@ -151,7 +140,9 @@ public class MBouncy {
     /**
      * Transforms a string encoded private key into a private key object
      *
-     * @param key Private Key as string
+     * @param key
+     *            Private Key as string
+     *
      * @return Private Key as object
      */
     public static PrivateKey getPrivateKey(String key) {
@@ -170,6 +161,7 @@ public class MBouncy {
      * Returns the public key of a key pair as string
      *
      * @param key
+     *
      * @return Public Key as string
      */
     public static String getPublicKey(KeyPair key) {
@@ -180,6 +172,7 @@ public class MBouncy {
      * Returns the private key of a key pair as string
      *
      * @param key
+     *
      * @return Private Key as string
      */
     public static String getPrivateKey(KeyPair key) {
@@ -217,7 +210,9 @@ public class MBouncy {
      *
      * @param text
      * @param key
+     *
      * @return The encrypted block (128 bytes for 1024 bits, 256 bytes for 2048 bits ...)
+     *
      * @throws Exception
      */
     public static byte[] encryptRsa117(byte[] text, PublicKey key) throws Exception {
@@ -238,7 +233,9 @@ public class MBouncy {
      *
      * @param text
      * @param key
+     *
      * @return encrypted bytes
+     *
      * @throws Exception
      */
     public static byte[] encryptRsa(byte[] text, PublicKey key) throws Exception {
@@ -270,11 +267,12 @@ public class MBouncy {
      * @param text
      * @param key
      * @param size
+     *
      * @return decrypted data
+     *
      * @throws Exception
      */
-    public static byte[] decryptRsa(byte[] text, PrivateKey key, RSA_KEY_SIZE size)
-            throws Exception {
+    public static byte[] decryptRsa(byte[] text, PrivateKey key, RSA_KEY_SIZE size) throws Exception {
         init();
         Cipher cipher = Cipher.getInstance(TRANSFORMATION, PROVIDER);
         cipher.init(Cipher.DECRYPT_MODE, key);
@@ -284,7 +282,8 @@ public class MBouncy {
         int start = 0;
         while (true) {
             int len = text.length - start;
-            if (len > blockSize) len = blockSize;
+            if (len > blockSize)
+                len = blockSize;
             byte[] out = cipher.doFinal(text, start, len);
             os.write(out);
             if (start + len >= text.length) {
@@ -296,12 +295,15 @@ public class MBouncy {
     }
 
     /**
-     * Encrypt a single block with max 117 bytes as base64 string. Optimized for one block
-     * encryption. The text will be encoded with UTF8.
+     * Encrypt a single block with max 117 bytes as base64 string. Optimized for one block encryption. The text will be
+     * encoded with UTF8.
      *
-     * @param text UTF8 Text
+     * @param text
+     *            UTF8 Text
      * @param key
+     *
      * @return encrypted string
+     *
      * @throws Exception
      */
     public static String encryptRsa117(String text, PublicKey key) throws Exception {
@@ -312,12 +314,14 @@ public class MBouncy {
     }
 
     /**
-     * Decrypt a single rsa block (128 bytes for 1024 bits, 256 for 2048 bits ...) with a result of
-     * maximal 117 bytes. Optimized for a single block step.
+     * Decrypt a single rsa block (128 bytes for 1024 bits, 256 for 2048 bits ...) with a result of maximal 117 bytes.
+     * Optimized for a single block step.
      *
      * @param text
      * @param key
+     *
      * @return decrypted string
+     *
      * @throws Exception
      */
     public static byte[] decryptRsa117(byte[] text, PrivateKey key) throws Exception {
@@ -334,7 +338,9 @@ public class MBouncy {
      *
      * @param text
      * @param key
+     *
      * @return decrypted string
+     *
      * @throws Exception
      */
     public static String decryptRsa117(String text, PrivateKey key) throws Exception {
@@ -352,6 +358,7 @@ public class MBouncy {
      * encode bytes with base64 algorithm.
      *
      * @param bytes
+     *
      * @return Base64 encoded string
      */
     public static String encodeBase64(byte[] bytes) {
@@ -362,6 +369,7 @@ public class MBouncy {
      * Decode Base64 encoded string to bytes
      *
      * @param text
+     *
      * @return original bytes
      */
     public static byte[] decodeBase64(String text) {
@@ -372,20 +380,24 @@ public class MBouncy {
      * Create a array of 'size' with random content.
      *
      * @param size
+     *
      * @return random content
      */
     public static byte[] createRandom(int size) {
         byte[] out = new byte[size];
         MRandom rnd = MCrypt.getRandom();
-        for (int i = 0; i < out.length; i++) out[i] = rnd.getByte();
+        for (int i = 0; i < out.length; i++)
+            out[i] = rnd.getByte();
         return out;
     }
 
     /**
      * Encrypt the data using symmetric AES.
      *
-     * @param key The key with 16, 24 or 32 bytes.
+     * @param key
+     *            The key with 16, 24 or 32 bytes.
      * @param data
+     *
      * @return Encoded data
      */
     public static byte[] encryptAes(byte[] key, byte[] data) {
@@ -406,6 +418,7 @@ public class MBouncy {
      *
      * @param key
      * @param data
+     *
      * @return Base64 encoded encrypted string
      */
     public static String encryptAes(byte[] key, String data) {
@@ -417,6 +430,7 @@ public class MBouncy {
      * Creates a key object from bytes.
      *
      * @param key
+     *
      * @return The bytes key as object
      */
     public static Key generateAesKeySpec(byte[] key) {
@@ -429,6 +443,7 @@ public class MBouncy {
      *
      * @param key
      * @param encrypted
+     *
      * @return original bytes
      */
     public static byte[] decryptAes(byte[] key, byte[] encrypted) {
@@ -449,6 +464,7 @@ public class MBouncy {
      *
      * @param key
      * @param encrypted
+     *
      * @return The original string
      */
     public static String decryptAes(byte[] key, String encrypted) {
@@ -457,14 +473,15 @@ public class MBouncy {
     }
 
     /**
-     * Generating RSA keys needs a lot of resources (ca 100ms per key). Therefore you can use a
-     * keypool. The keypool will regularly renew the keys.
+     * Generating RSA keys needs a lot of resources (ca 100ms per key). Therefore you can use a keypool. The keypool
+     * will regularly renew the keys.
      *
      * @return A key from the pool
      */
     public static synchronized KeyPair getRsaKeyFromPool() {
         if (MPeriod.isTimeOut(keyPoolUpdate, CFG_POOL_UPDATE_TIME)) {
-            if (keyPool.size() > 0) keyPool.removeFirst();
+            if (keyPool.size() > 0)
+                keyPool.removeFirst();
             keyPoolUpdate = System.currentTimeMillis();
         }
         if (keyPool.size() < CFG_POOL_SIZE) {
@@ -496,10 +513,7 @@ public class MBouncy {
 
     public static boolean validateSignature(PublicKey key, String in, String sign) {
         try {
-            return validateSignature(
-                    key,
-                    new ByteArrayInputStream(in.getBytes(M.UTF_8)),
-                    sign);
+            return validateSignature(key, new ByteArrayInputStream(in.getBytes(M.UTF_8)), sign);
         } catch (Exception t) {
             throw new RuntimeException(t);
         }
@@ -518,9 +532,12 @@ public class MBouncy {
             byte[] buffer = new byte[1024 * 10];
             while (true) {
                 int len = is.read(buffer);
-                if (len < 0) break;
-                if (len == 0) MThread.sleep(200);
-                else sig.update(buffer, 0, len);
+                if (len < 0)
+                    break;
+                if (len == 0)
+                    MThread.sleep(200);
+                else
+                    sig.update(buffer, 0, len);
             }
             PemBlock signBlock = PemUtil.parse(sign);
             return sig.verify(signBlock.getBytesBlock());
@@ -531,8 +548,7 @@ public class MBouncy {
 
     public static String createSignature(PrivateKey key, String in) {
         try {
-            return createSignature(
-                    key, new ByteArrayInputStream(in.getBytes(M.CHARSET_UTF_8)));
+            return createSignature(key, new ByteArrayInputStream(in.getBytes(M.CHARSET_UTF_8)));
         } catch (Exception t) {
             throw new RuntimeException(t);
         }
@@ -550,9 +566,12 @@ public class MBouncy {
             byte[] buffer = new byte[1024 * 10];
             while (true) {
                 int len = is.read(buffer);
-                if (len < 0) break;
-                if (len == 0) MThread.sleep(200);
-                else sig.update(buffer, 0, len);
+                if (len < 0)
+                    break;
+                if (len == 0)
+                    MThread.sleep(200);
+                else
+                    sig.update(buffer, 0, len);
             }
             PemBlockModel pem = new PemBlockModel(PemBlock.BLOCK_SIGN, sig.sign());
             pem.setString(PemBlock.METHOD, key.getAlgorithm());

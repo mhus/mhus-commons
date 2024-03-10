@@ -25,13 +25,11 @@ import java.net.UnknownHostException;
 public class MNet {
 
     public static boolean isLocalhost(String in) {
-        if (in == null) return false;
-        return "0:0:0:0:0:0:0:1".equals(in)
-                || "[0:0:0:0:0:0:0:1]".equals(in)
-                || "127.0.0.1".equals(in)
+        if (in == null)
+            return false;
+        return "0:0:0:0:0:0:0:1".equals(in) || "[0:0:0:0:0:0:0:1]".equals(in) || "127.0.0.1".equals(in)
                 || "localhost".equals(in) // insecure?
-                || in.matches("127\\.0\\.0\\.1:[0-9]+")
-                || in.matches("\\[0:0:0:0:0:0:0:1\\]:[0-9]+");
+                || in.matches("127\\.0\\.0\\.1:[0-9]+") || in.matches("\\[0:0:0:0:0:0:0:1\\]:[0-9]+");
     }
 
     public static boolean isIPv4NetMatch(String network, String ipAddr) {
@@ -56,18 +54,10 @@ public class MNet {
         }
 
         byte[] b = a.getAddress();
-        int ipInt =
-                ((b[0] & 0xFF) << 24)
-                        | ((b[1] & 0xFF) << 16)
-                        | ((b[2] & 0xFF) << 8)
-                        | ((b[3] & 0xFF) << 0);
+        int ipInt = ((b[0] & 0xFF) << 24) | ((b[1] & 0xFF) << 16) | ((b[2] & 0xFF) << 8) | ((b[3] & 0xFF) << 0);
 
         byte[] b1 = a1.getAddress();
-        int ipInt1 =
-                ((b1[0] & 0xFF) << 24)
-                        | ((b1[1] & 0xFF) << 16)
-                        | ((b1[2] & 0xFF) << 8)
-                        | ((b1[3] & 0xFF) << 0);
+        int ipInt1 = ((b1[0] & 0xFF) << 24) | ((b1[1] & 0xFF) << 16) | ((b1[2] & 0xFF) << 8) | ((b1[3] & 0xFF) << 0);
 
         int mask = ~((1 << (32 - prefix)) - 1);
 

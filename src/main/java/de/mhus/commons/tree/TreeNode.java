@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,7 +43,8 @@ public class TreeNode extends MProperties implements ITreeNode {
     protected HashMap<String, CompiledString> compiledCache;
     protected TreeNodeList array;
 
-    public TreeNode() {}
+    public TreeNode() {
+    }
 
     public TreeNode(String name) {
         this.name = name;
@@ -52,7 +53,8 @@ public class TreeNode extends MProperties implements ITreeNode {
     public TreeNode(String name, TreeNodeList array) {
         this.name = name;
         this.array = array;
-        if (array != null) this.parent = array.getParent();
+        if (array != null)
+            this.parent = array.getParent();
     }
 
     public TreeNode(String name, ITreeNode parent) {
@@ -63,45 +65,55 @@ public class TreeNode extends MProperties implements ITreeNode {
     @Override
     public boolean isObject(String key) {
         Object val = get(key);
-        if (val == null) return false;
+        if (val == null)
+            return false;
         return val instanceof ITreeNode;
     }
 
-    @SuppressWarnings({"rawtypes", "unchecked"})
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     public ITreeNode getAsObject(String key) {
         Object val = get(key);
-        if (val == null) return null;
-        if (val instanceof ITreeNode) return (ITreeNode) val;
-        if (val instanceof IProperties) return new TreeNodeWrapper((IProperties) val);
+        if (val == null)
+            return null;
+        if (val instanceof ITreeNode)
+            return (ITreeNode) val;
+        if (val instanceof IProperties)
+            return new TreeNodeWrapper((IProperties) val);
 
         TreeNode ret = new TreeNode();
         if (val instanceof Map) {
             ret.putAll((Map) val);
-        } else ret.put(NAMELESS_VALUE, val);
+        } else
+            ret.put(NAMELESS_VALUE, val);
         return ret;
     }
 
     @Override
     public Optional<ITreeNode> getObject(String key) {
         Object val = get(key);
-        if (val == null) return Optional.empty();
-        if (val instanceof ITreeNode) return Optional.of((ITreeNode) val);
+        if (val == null)
+            return Optional.empty();
+        if (val instanceof ITreeNode)
+            return Optional.of((ITreeNode) val);
         return Optional.empty();
     }
 
     @Override
     public boolean isArray(String key) {
         Object val = get(key);
-        if (val == null) return false;
+        if (val == null)
+            return false;
         return val instanceof TreeNodeList;
     }
 
     @Override
     public Optional<TreeNodeList> getArray(String key) {
         Object val = get(key);
-        if (val == null) return Optional.empty();
-        if (val instanceof List) return Optional.of((TreeNodeList) val);
+        if (val == null)
+            return Optional.empty();
+        if (val instanceof List)
+            return Optional.of((TreeNodeList) val);
         return Optional.empty();
     }
 
@@ -109,24 +121,33 @@ public class TreeNode extends MProperties implements ITreeNode {
     @Override
     public List<ITreeNode> getObjectList(String key) {
         Object val = get(key);
-        if (val == null) return (List<ITreeNode>) Collections.EMPTY_LIST;
+        if (val == null)
+            return (List<ITreeNode>) Collections.EMPTY_LIST;
         // if (val == null) throw new NotFoundException("value not found",key);
-        if (val instanceof ITreeNode) return new SingleList<ITreeNode>((ITreeNode) val);
-        if (val instanceof TreeNodeList) return Collections.unmodifiableList((TreeNodeList) val);
+        if (val instanceof ITreeNode)
+            return new SingleList<ITreeNode>((ITreeNode) val);
+        if (val instanceof TreeNodeList)
+            return Collections.unmodifiableList((TreeNodeList) val);
         return (List<ITreeNode>) Collections.EMPTY_LIST;
         // throw new NotFoundException("value is not a NodeList or INode",key);
     }
 
     @Override
     public ITreeNode getObjectByPath(String path) {
-        if (path == null) return null;
-        if (path.equals("") || path.equals(".")) return this;
-        while (path.startsWith("/")) path = path.substring(1);
-        if (path.length() == 0) return this;
+        if (path == null)
+            return null;
+        if (path.equals("") || path.equals("."))
+            return this;
+        while (path.startsWith("/"))
+            path = path.substring(1);
+        if (path.length() == 0)
+            return this;
         int p = path.indexOf('/');
-        if (p < 0) return getObject(path).orElse(null);
+        if (p < 0)
+            return getObject(path).orElse(null);
         ITreeNode next = getObject(path.substring(0, p)).orElse(null);
-        if (next == null) return null;
+        if (next == null)
+            return null;
         return next.getObjectByPath(path.substring(p + 1));
     }
 
@@ -142,7 +163,8 @@ public class TreeNode extends MProperties implements ITreeNode {
 
     @Override
     public TreeNodeList getList(String key) {
-        if (isArray(key)) return getArray(key).orElse(null);
+        if (isArray(key))
+            return getArray(key).orElse(null);
         if (isObject(key)) {
             TreeNodeList ret = new TreeNodeList(key, this);
             ret.add(getObject(key).orElse(null));
@@ -160,12 +182,15 @@ public class TreeNode extends MProperties implements ITreeNode {
 
     protected String getExtracted(String key, String def, int level) {
 
-        if (level > 10) return def;
+        if (level > 10)
+            return def;
 
         String value = getString(key, null);
 
-        if (value == null) return def;
-        if (value.indexOf('$') < 0) return value;
+        if (value == null)
+            return def;
+        if (value.indexOf('$') < 0)
+            return value;
 
         synchronized (this) {
             if (compiler == null) {
@@ -189,7 +214,8 @@ public class TreeNode extends MProperties implements ITreeNode {
     public List<ITreeNode> getObjects() {
         ArrayList<ITreeNode> out = new ArrayList<>();
         for (Object val : values()) {
-            if (val instanceof ITreeNode) out.add((ITreeNode) val);
+            if (val instanceof ITreeNode)
+                out.add((ITreeNode) val);
         }
         return Collections.unmodifiableList(out);
     }
@@ -287,7 +313,8 @@ public class TreeNode extends MProperties implements ITreeNode {
     public List<String> getObjectKeys() {
         ArrayList<String> out = new ArrayList<>();
         for (Entry<String, Object> entry : entrySet()) {
-            if (entry.getValue() instanceof ITreeNode) out.add(entry.getKey());
+            if (entry.getValue() instanceof ITreeNode)
+                out.add(entry.getKey());
         }
         return Collections.unmodifiableList(out);
     }
@@ -296,7 +323,8 @@ public class TreeNode extends MProperties implements ITreeNode {
     public List<String> getArrayKeys() {
         ArrayList<String> out = new ArrayList<>();
         for (Entry<String, Object> entry : entrySet()) {
-            if (entry.getValue() instanceof TreeNodeList) out.add(entry.getKey());
+            if (entry.getValue() instanceof TreeNodeList)
+                out.add(entry.getKey());
         }
         return Collections.unmodifiableList(out);
     }
@@ -319,7 +347,8 @@ public class TreeNode extends MProperties implements ITreeNode {
     @Override
     public boolean isProperties() {
         for (Object val : values())
-            if ((val instanceof TreeNodeList) || (val instanceof ITreeNode)) return false;
+            if ((val instanceof TreeNodeList) || (val instanceof ITreeNode))
+                return false;
         return true;
     }
 
@@ -328,9 +357,11 @@ public class TreeNode extends MProperties implements ITreeNode {
     }
 
     protected void putMapToNode(Map<?, ?> m, int level) {
-        if (level > M.MAX_DEPTH_LEVEL) throw new MaxDepthReached();
+        if (level > M.MAX_DEPTH_LEVEL)
+            throw new MaxDepthReached();
         for (Map.Entry<?, ?> e : m.entrySet())
-            if (e.getValue() instanceof IsNull) remove(e.getKey());
+            if (e.getValue() instanceof IsNull)
+                remove(e.getKey());
             else {
                 if (e.getValue() instanceof Map) {
                     TreeNode cfg = new TreeNode();
@@ -346,10 +377,12 @@ public class TreeNode extends MProperties implements ITreeNode {
                             TreeNode cfg = (TreeNode) list.createObject();
                             if (obj instanceof Map) {
                                 cfg.putMapToNode((Map<?, ?>) obj, level + 1);
-                            } else cfg.put(NAMELESS_VALUE, obj);
+                            } else
+                                cfg.put(NAMELESS_VALUE, obj);
                         }
                     }
-                } else put(String.valueOf(e.getKey()), e.getValue());
+                } else
+                    put(String.valueOf(e.getKey()), e.getValue());
             }
     }
 

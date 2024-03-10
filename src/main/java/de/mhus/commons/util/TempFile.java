@@ -20,8 +20,7 @@ import java.io.IOException;
 import java.net.URI;
 
 /**
- * The file will be deleted if the reference of the object is lost and the gc remove the object from
- * the vm.
+ * The file will be deleted if the reference of the object is lost and the gc remove the object from the vm.
  *
  * @author mikehummel
  */

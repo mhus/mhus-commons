@@ -38,7 +38,9 @@ public abstract class AbstractByteBuffer {
 
     /**
      * @return the next byte from the buffer.
-     * @throws EOFException if the buffer is empty.
+     *
+     * @throws EOFException
+     *             if the buffer is empty.
      */
     public abstract byte get() throws EOFException;
 
@@ -46,6 +48,7 @@ public abstract class AbstractByteBuffer {
      * Gets bytes from the buffer to fill buf.
      *
      * @param buf
+     *
      * @return the length of data put into buf.
      */
     public int get(byte[] buf) {
@@ -53,22 +56,26 @@ public abstract class AbstractByteBuffer {
     }
 
     /**
-     * Gets bytes from the buffer to fill buf, starting at the specified position for the specified
-     * length.
+     * Gets bytes from the buffer to fill buf, starting at the specified position for the specified length.
      *
      * @param buf
      * @param off
      * @param len
+     *
      * @return the length of data put into buf.
      */
     public int get(byte[] buf, int off, int len) {
-        if (off < 0) throw new IllegalArgumentException("off < 0");
+        if (off < 0)
+            throw new IllegalArgumentException("off < 0");
 
-        if (len < 0) throw new IllegalArgumentException("len < 0");
+        if (len < 0)
+            throw new IllegalArgumentException("len < 0");
 
-        if (off + len > buf.length) throw new IllegalArgumentException("off+len > buf.length");
+        if (off + len > buf.length)
+            throw new IllegalArgumentException("off+len > buf.length");
 
-        if (len == 0) return 0;
+        if (len == 0)
+            return 0;
 
         int count = 0;
         try {
@@ -88,7 +95,9 @@ public abstract class AbstractByteBuffer {
      * Puts a byte into the buffer.
      *
      * @param b
-     * @throws BufferOverflowException if the buffer is full
+     *
+     * @throws BufferOverflowException
+     *             if the buffer is full
      */
     public abstract void put(byte b) throws BufferOverflowException;
 
@@ -96,6 +105,7 @@ public abstract class AbstractByteBuffer {
      * Puts the bytes from buf into the buffer.
      *
      * @param buf
+     *
      * @return the amount of data copied into the buffer.
      */
     public int put(byte[] buf) {
@@ -103,22 +113,26 @@ public abstract class AbstractByteBuffer {
     }
 
     /**
-     * Puts the bytes from buf into the buffer, starting at the specified position for the specified
-     * length;
+     * Puts the bytes from buf into the buffer, starting at the specified position for the specified length;
      *
      * @param buf
      * @param off
      * @param len
+     *
      * @return the amount of data copied into the buffer.
      */
     public int put(byte[] buf, int off, int len) {
-        if (off < 0) throw new IllegalArgumentException("off < 0");
+        if (off < 0)
+            throw new IllegalArgumentException("off < 0");
 
-        if (len < 0) throw new IllegalArgumentException("len < 0");
+        if (len < 0)
+            throw new IllegalArgumentException("len < 0");
 
-        if (off + len > buf.length) throw new IllegalArgumentException("off+len > buf.length");
+        if (off + len > buf.length)
+            throw new IllegalArgumentException("off+len > buf.length");
 
-        if (len == 0) return 0;
+        if (len == 0)
+            return 0;
 
         int count = 0;
         try {
@@ -139,6 +153,7 @@ public abstract class AbstractByteBuffer {
 
     /**
      * @return a little-endian 32-bit integer from the buffer.
+     *
      * @throws EOFException
      */
     public int getInt() throws EOFException {

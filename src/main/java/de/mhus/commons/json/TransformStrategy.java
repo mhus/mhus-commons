@@ -29,14 +29,19 @@ public abstract class TransformStrategy {
     }
 
     /**
-     * Transform the json into an object, some implementations need a type hint to create the
-     * object.
+     * Transform the json into an object, some implementations need a type hint to create the object.
      *
-     * @param node The object data
-     * @param type The type hint, can also be null. If this is not supportet throw the exception
-     * @param helper The helper to create objects
+     * @param node
+     *            The object data
+     * @param type
+     *            The type hint, can also be null. If this is not supportet throw the exception
+     * @param helper
+     *            The helper to create objects
+     *
      * @return The object, can also be null if the object originally was null.
-     * @throws NotSupportedException Thrown if the object could not be created.
+     *
+     * @throws NotSupportedException
+     *             Thrown if the object could not be created.
      */
     public abstract Object jsonToPojo(JsonNode node, Class<?> type, TransformHelper helper)
             throws NotSupportedException;
@@ -48,11 +53,13 @@ public abstract class TransformStrategy {
     /**
      * Transform an object into an json representation.
      *
-     * @param obj The object to transform
+     * @param obj
+     *            The object to transform
      * @param helper
+     *
      * @return The json representation, never return null. Throw the exception if problems occur.
+     *
      * @throws NotSupportedException
      */
-    public abstract JsonNode pojoToJson(Object obj, TransformHelper helper)
-            throws NotSupportedException;
+    public abstract JsonNode pojoToJson(Object obj, TransformHelper helper) throws NotSupportedException;
 }

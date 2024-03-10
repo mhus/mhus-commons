@@ -60,17 +60,8 @@ public class ByteBufferArray {
         try {
             System.arraycopy(in, offset, buffer, next, len);
         } catch (IndexOutOfBoundsException ioe) {
-            System.out.println(
-                    "FATAL: ByteBufferArray.append: "
-                            + in.length
-                            + ' '
-                            + offset
-                            + ' '
-                            + buffer.length
-                            + ' '
-                            + next
-                            + ' '
-                            + len);
+            System.out.println("FATAL: ByteBufferArray.append: " + in.length + ' ' + offset + ' ' + buffer.length + ' '
+                    + next + ' ' + len);
             throw ioe;
         }
         next += len;

@@ -36,5 +36,6 @@ public class ImmutableIterator<E> implements Iterator<E> {
     }
 
     @Override
-    public void remove() {}
+    public void remove() {
+    }
 }

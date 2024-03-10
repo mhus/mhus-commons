@@ -29,11 +29,7 @@ public class FunctionAttribute<T> implements PojoAttribute<T> {
     private String name;
     private FunctionAttribute<Object> parent;
 
-    public FunctionAttribute(
-            Class<T> clazz,
-            Method getter,
-            Method setter,
-            String name,
+    public FunctionAttribute(Class<T> clazz, Method getter, Method setter, String name,
             FunctionAttribute<Object> parent) {
         this.clazz = clazz;
         this.getter = getter;
@@ -60,8 +56,10 @@ public class FunctionAttribute<T> implements PojoAttribute<T> {
     @SuppressWarnings("unchecked")
     @Override
     public Class<T> getType() {
-        if (getter != null) return (Class<T>) getter.getReturnType();
-        else return (Class<T>) setter.getParameterTypes()[0];
+        if (getter != null)
+            return (Class<T>) getter.getReturnType();
+        else
+            return (Class<T>) setter.getParameterTypes()[0];
     }
 
     @SuppressWarnings("unchecked")
@@ -70,9 +68,10 @@ public class FunctionAttribute<T> implements PojoAttribute<T> {
 
         pojo = PojoParser.checkParent(parent, pojo);
 
-        if (setter == null) throw new IOException("Method is read only: " + getter.getName());
-        //		if (!getType().isInstance(pojo))
-        //			throw new IOException("Object is not instance of " + getType().getCanonicalName());
+        if (setter == null)
+            throw new IOException("Method is read only: " + getter.getName());
+        // if (!getType().isInstance(pojo))
+        // throw new IOException("Object is not instance of " + getType().getCanonicalName());
         try {
             value = (T) MCast.toType(value, getType(), null);
             if (getType().isPrimitive() && value == null) {
@@ -91,8 +90,8 @@ public class FunctionAttribute<T> implements PojoAttribute<T> {
 
         pojo = PojoParser.checkParent(parent, pojo);
 
-        //		if (!getType().isInstance(pojo))
-        //			throw new IOException("Object is not instance of " + getType().getCanonicalName());
+        // if (!getType().isInstance(pojo))
+        // throw new IOException("Object is not instance of " + getType().getCanonicalName());
         try {
             return (T) getter.invoke(pojo);
         } catch (Exception e) {
@@ -108,7 +107,8 @@ public class FunctionAttribute<T> implements PojoAttribute<T> {
     @Override
     public <A extends Annotation> A getAnnotation(Class<? extends A> annotationClass) {
         A out = getter == null ? null : getter.getAnnotation(annotationClass);
-        if (out == null && setter != null) out = setter.getAnnotation(annotationClass);
+        if (out == null && setter != null)
+            out = setter.getAnnotation(annotationClass);
         return out;
     }
 

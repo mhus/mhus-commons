@@ -29,11 +29,8 @@ public class TestUtil {
         }
         Optional<Class<?>> clazz = testInfo.getTestClass();
         Optional<Method> method = testInfo.getTestMethod();
-        System.out.println(
-                ">>> "
-                        + (clazz == null || clazz.isEmpty() ? "?" : clazz.get().getCanonicalName())
-                        + "::"
-                        + (method == null || method.isEmpty() ? "?" : method.get().getName()));
+        System.out.println(">>> " + (clazz == null || clazz.isEmpty() ? "?" : clazz.get().getCanonicalName()) + "::"
+                + (method == null || method.isEmpty() ? "?" : method.get().getName()));
     }
 
     public static void stop(TestInfo testInfo) {
@@ -43,11 +40,8 @@ public class TestUtil {
         }
         Optional<Class<?>> clazz = testInfo.getTestClass();
         Optional<Method> method = testInfo.getTestMethod();
-        System.out.println(
-                "<<< "
-                        + (clazz == null || clazz.isEmpty() ? "?" : clazz.get().getCanonicalName())
-                        + "::"
-                        + (method == null || method.isEmpty() ? "?" : method.get().getName()));
+        System.out.println("<<< " + (clazz == null || clazz.isEmpty() ? "?" : clazz.get().getCanonicalName()) + "::"
+                + (method == null || method.isEmpty() ? "?" : method.get().getName()));
     }
 
 }

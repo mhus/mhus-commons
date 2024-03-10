@@ -23,6 +23,7 @@ public interface PemPriv extends PemBlock {
      * Returns the identifier of the encoding method
      *
      * @return the method name
+     *
      * @throws MException
      */
     String getMethod() throws MException;

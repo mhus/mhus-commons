@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Mike Hummel (mh@mhus.de)
+ * Copyright (C) 2002 Mike Hummel (mh@mhus.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,8 +23,8 @@ import java.util.LinkedList;
 import java.util.Map;
 
 /**
- * Parsed and tree representated compiled variant of the original string. This is used to output the
- * changed representation of the string.
+ * Parsed and tree representated compiled variant of the original string. This is used to output the changed
+ * representation of the string.
  *
  * @author mikehummel
  */
@@ -48,7 +48,9 @@ public class CompiledString {
      * Return the new, compiled string.
      *
      * @param attributes
+     *
      * @return the resulting string
+     *
      * @throws MException
      */
     public String execute(IValuesProvider attributes) throws MException {
