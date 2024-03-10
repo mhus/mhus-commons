@@ -44,9 +44,8 @@ jobs:
       - name: find next release version
         id: find-next-release-version
         run: |
+          mkdir target
           mvn -B -U --fail-at-end -Pdeploy -Prelease 'de.mhus.mvn.plugin:versioning-maven-plugin:1.0.2:next-release-version'
-          pwd
-          ls -la
           echo "RELEASE_VERSION=$(cat target/release-version.txt)"
           echo "RELEASE_VERSION=$(cat target/release-version.txt)" >> "$GITHUB_OUTPUT"
 
