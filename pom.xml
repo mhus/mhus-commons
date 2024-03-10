@@ -35,6 +35,9 @@
 		<bouncycastle.version>1.77</bouncycastle.version>
 		<junit.juniper.version>5.6.2</junit.juniper.version>
 		<junit.platform.version>1.6.2</junit.platform.version>
+		<tmpl.plugin>1.1.0</tmpl.plugin>
+		<license.plugin>2.11.1</license.plugin>
+		<git-code-format-maven-plugin.version>5.3</git-code-format-maven-plugin.version>
 	</properties>
     
     <inceptionYear>2002</inceptionYear>
@@ -59,40 +62,8 @@
 		</developer>
 	</developers>
 	<build>
+		<defaultGoal>install</defaultGoal>
 		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-			</plugin>
-			<plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-assembly-plugin</artifactId>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-			</plugin>
-
-			<plugin>
-				<groupId>org.sonatype.plugins</groupId>
-				<artifactId>nexus-staging-maven-plugin</artifactId>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-enforcer-plugin</artifactId>
-			</plugin>
-
-			<plugin>
-				<groupId>com.mycila</groupId>
-				<artifactId>license-maven-plugin</artifactId>
-			</plugin>
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -184,17 +155,142 @@
 		</dependency>
 
      </dependencies>
-    
+
+
+
     <profiles>
+		<profile>
+			<id>formatter</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.cosium.code</groupId>
+						<artifactId>git-code-format-maven-plugin</artifactId>
+						<version>${git-code-format-maven-plugin.version}</version>
+						<executions>
+							<!-- On commit, format the modified files -->
+							<execution>
+								<id>install-formatter-hook</id>
+								<goals>
+									<goal>install-hooks</goal>
+								</goals>
+							</execution>
+							<!-- On Maven verify phase, fail if any file
+                            (including unmodified) is badly formatted -->
+							<execution>
+								<id>validate-code-format</id>
+								<goals>
+									<goal>validate-code-format</goal>
+								</goals>
+							</execution>
+						</executions>
+						<dependencies>
+							<!-- Enable https://github.com/google/google-java-format -->
+							<dependency>
+								<groupId>com.cosium.code</groupId>
+								<artifactId>google-java-format</artifactId>
+								<version>${git-code-format-maven-plugin.version}</version>
+							</dependency>
+						</dependencies>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
         <profile>
-            <id>deploy-ngnetwork</id>
-            <repositories>
-                <repository>
-                    <id>nexus_gammanetwork</id>
-                    <url>https://nexus.gammanetwork.de/repository/maven-snapshots</url>
-                    <snapshots><enabled>true</enabled></snapshots>
-                </repository>
-            </repositories>
+            <id>deploy</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>net.revelc.code.formatter</groupId>
+						<artifactId>formatter-maven-plugin</artifactId>
+						<version>2.23.0</version>
+						<configuration>
+							<lineEnding>LF</lineEnding>
+							<encoding>UTF-8</encoding>
+							<skip>false</skip>
+							<excludes>
+								<exclude>**/target/**</exclude>
+								<exclude>**/src/main/resources/**</exclude>
+								<exclude>**/src/test/resources/**</exclude>
+								<exclude>**/docs/**</exclude>
+							</excludes>
+						</configuration>
+						<executions>
+							<execution>
+								<phase>validate</phase>
+								<goals>
+									<goal>format</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>de.mhus.mvn.plugin</groupId>
+						<version>${tmpl.plugin}</version>
+						<artifactId>tmpl-maven-plugin</artifactId>
+						<configuration>
+							<files>
+								<directory>${basedir}</directory>
+								<includes>
+									<include>**/*</include>
+								</includes>
+							</files>
+						</configuration>
+						<executions>
+							<execution>
+								<phase>package</phase>
+								<goals>
+									<goal>tmpl</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>de.mhus.mvn.plugin</groupId>
+						<artifactId>license-maven-plugin</artifactId>
+						<version>${license.plugin}</version>
+						<configuration>
+							<aggregate>true</aggregate>
+							<header>com/mycila/maven/plugin/license/templates/APACHE-2.txt</header>
+							<properties>
+								<owner>Mike Hummel</owner>
+								<email>mh@mhus.de</email>
+							</properties>
+							<excludes>
+								<exclude>README.*</exclude>
+								<exclude>readme.*</exclude>
+								<exclude>LICENSE</exclude>
+								<exclude>LICENSE_HEADER</exclude>
+								<exclude>src/test/resources/**</exclude>
+								<exclude>src/main/resources/**</exclude>
+								<exclude>mhu-liferay-theme/src/main/webapp/**</exclude>
+								<exclude>docs/**</exclude>
+							</excludes>
+						</configuration>
+						<executions>
+							<execution>
+								<phase>validate</phase>
+								<goals>
+									<goal>format</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+
+				</plugins>
+			</build>
+
+			<distributionManagement>
+				<snapshotRepository>
+					<id>ossrh</id>
+					<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+				</snapshotRepository>
+				<repository>
+					<id>ossrh</id>
+					<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+				</repository>
+			</distributionManagement>
+
         </profile>
     </profiles>
 </project>
