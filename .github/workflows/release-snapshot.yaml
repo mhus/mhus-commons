@@ -40,6 +40,7 @@ jobs:
           server-username: OSSRH_USERNAME
           server-password: OSSRH_PASSWORD
       - name: release_snapshot
+        if: ${{ !startsWith(github.event.head_commit.message, 'wip') }}
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
