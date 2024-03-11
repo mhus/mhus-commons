@@ -52,6 +52,21 @@ jobs:
       - name: set release version to pom.xml
         run: mvn -B --fail-at-end -Pdeploy -Prelease versions:set -DnewVersion=${{ steps.find-next-release-version.outputs.RELEASE_VERSION }}
 
+      - name: create release nodes
+        id: create-release-notes
+        run: |
+          lastRelease=$(git log --all --pretty=format:"%ad|%s"|grep -e '|Release:'|cut -d \| -f 1|head -1)
+          if [ ! -z $lastRelease ]; then
+            since="--since=\"$lastRelease\""
+          fi
+          releaseNotes=$(git log --all $since --pretty=format:"%s"|grep -e '^fix:' -e '^feat:'|sed -e 's/^/* /')
+          echo $releaseNotes > docs/releases/release-${{ steps.find-next-release-version.outputs.RELEASE_VERSION }}.md
+          echo "* [${{ steps.find-next-release-version.outputs.RELEASE_VERSION }}](release-${{ steps.find-next-release-version.outputs.RELEASE_VERSION }}.md)" >> docs/releases/README.md
+          echo "RELEASE_NOTES<<EOF" >> "$GITHUB_OUTPUT"
+          echo $releaseNotes >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+          git add docs/releases/release-${{ steps.find-next-release-version.outputs.RELEASE_VERSION }}.md
+
       - name: compile before release
         run: mvn -B -U --fail-at-end -Pdeploy -Prelease clean install
         env:
@@ -80,6 +95,7 @@ jobs:
           tag_name: ${{ steps.find-next-release-version.outputs.RELEASE_VERSION }}
           release_name: Release ${{ steps.find-next-release-version.outputs.RELEASE_VERSION }}
           body: |
+            ${{ steps.create-release-notes.outputs.RELEASE_NOTES }}
           draft: false
           prerelease: false
 
