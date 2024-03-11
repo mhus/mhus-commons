@@ -45,12 +45,12 @@ jobs:
         id: find-next-release-version
         run: |
           mkdir target
-          mvn -B -U --fail-at-end -Pdeploy -Prelease 'de.mhus.mvn.plugin:versioning-maven-plugin:1.0.2:next-release-version'
+          mvn -B --fail-at-end -Pdeploy -Prelease 'de.mhus.mvn.plugin:versioning-maven-plugin:1.0.2:next-release-version'
           echo "RELEASE_VERSION=$(cat target/release-version.txt)"
           echo "RELEASE_VERSION=$(cat target/release-version.txt)" >> "$GITHUB_OUTPUT"
 
       - name: set release version to pom.xml
-        run: mvn -B -U --fail-at-end -Pdeploy -Prelease versions:set -DnewVersion=${{ steps.find-next-release-version.outputs.RELEASE_VERSION }}
+        run: mvn -B --fail-at-end -Pdeploy -Prelease versions:set -DnewVersion=${{ steps.find-next-release-version.outputs.RELEASE_VERSION }}
 
       - name: compile before release
         run: mvn -B -U --fail-at-end -Pdeploy -Prelease clean install
@@ -58,9 +58,11 @@ jobs:
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 
       - name: deploy release
-        run: mvn -B -U --fail-at-end -Pdeploy -Prelease deploy
+        run: mvn -B --fail-at-end -Pdeploy -Prelease deploy
         env:
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
 
       - name: commit release
         run: |
@@ -84,12 +86,12 @@ jobs:
       - name: Find next snapshot version
         id: find-next-snapshot-version
         run: |
-          mvn -B -U --fail-at-end -Pdeploy -Prelease 'de.mhus.mvn.plugin:versioning-maven-plugin:1.0.2:next-snapshot-version'
+          mvn -B --fail-at-end -Pdeploy -Prelease 'de.mhus.mvn.plugin:versioning-maven-plugin:1.0.2:next-snapshot-version'
           echo "SNAPSHOT_VERSION=$(cat target/snapshot-version.txt)"
           echo "SNAPSHOT_VERSION=$(cat target/snapshot-version.txt)" >> "$GITHUB_OUTPUT"
 
       - name: set snapshot version to pom.xml
-        run: mvn -B -U --fail-at-end -Pdeploy -Prelease versions:set -DnewVersion=${{ steps.find-next-snapshot-version.outputs.SNAPSHOT_VERSION }}
+        run: mvn -B --fail-at-end -Pdeploy -Prelease versions:set -DnewVersion=${{ steps.find-next-snapshot-version.outputs.SNAPSHOT_VERSION }}
 
       - name: commit snapshot
         run: |
