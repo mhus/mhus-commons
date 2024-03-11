@@ -86,7 +86,7 @@ jobs:
       - name: Find next snapshot version
         id: find-next-snapshot-version
         run: |
-          mvn -B --fail-at-end -Pdeploy -Prelease 'de.mhus.mvn.plugin:versioning-maven-plugin:1.0.2:next-snapshot-version'
+          mvn -B --fail-at-end -Pdeploy -Prelease 'de.mhus.mvn.plugin:versioning-maven-plugin:1.0.3:next-snapshot-version'
           echo "SNAPSHOT_VERSION=$(cat target/snapshot-version.txt)"
           echo "SNAPSHOT_VERSION=$(cat target/snapshot-version.txt)" >> "$GITHUB_OUTPUT"
 
