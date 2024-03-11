@@ -33,7 +33,6 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
-          cache: maven
           server-id: ossrh
           server-username: OSSRH_USERNAME
           server-password: OSSRH_PASSWORD
@@ -58,13 +57,12 @@ jobs:
         env:
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 
-      # disabled, because the release alredy done but not pushed
-      #- name: deploy release
-      #  run: mvn -B --fail-at-end -Pdeploy -Prelease deploy
-      #  env:
-      #    GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-      #    OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-      #    OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+      - name: deploy release
+        run: mvn -B --fail-at-end -Pdeploy -Prelease deploy
+        env:
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
 
       - name: commit release
         run: |
