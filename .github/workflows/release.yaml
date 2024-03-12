@@ -23,6 +23,7 @@ jobs:
 
   release:
     runs-on: ubuntu-latest
+    permissions: write-all
     steps:
 
       - uses: actions/checkout@v4
@@ -32,7 +33,6 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
-          cache: maven
           server-id: ossrh
           server-username: OSSRH_USERNAME
           server-password: OSSRH_PASSWORD
@@ -45,12 +45,27 @@ jobs:
         id: find-next-release-version
         run: |
           mkdir target
-          mvn -B -U --fail-at-end -Pdeploy -Prelease 'de.mhus.mvn.plugin:versioning-maven-plugin:1.0.2:next-release-version'
+          mvn -B --fail-at-end -Pdeploy -Prelease 'de.mhus.mvn.plugin:versioning-maven-plugin:1.0.2:next-release-version'
           echo "RELEASE_VERSION=$(cat target/release-version.txt)"
           echo "RELEASE_VERSION=$(cat target/release-version.txt)" >> "$GITHUB_OUTPUT"
 
       - name: set release version to pom.xml
-        run: mvn -B -U --fail-at-end -Pdeploy -Prelease versions:set -DnewVersion=${{ steps.find-next-release-version.outputs.RELEASE_VERSION }}
+        run: mvn -B --fail-at-end -Pdeploy -Prelease versions:set -DnewVersion=${{ steps.find-next-release-version.outputs.RELEASE_VERSION }}
+
+      - name: create release nodes
+        id: create-release-notes
+        run: |
+          lastRelease=$(git log --all --pretty=format:"%ad|%s"|grep -e '|Release:'|cut -d \| -f 1|head -1)
+          if [ ! -z $lastRelease ]; then
+            since="--since=\"$lastRelease\""
+          fi
+          releaseNotes=$(git log --all $since --pretty=format:"%s"|grep -e '^fix:' -e '^feat:'|sed -e 's/^/* /')
+          echo $releaseNotes > docs/releases/release-${{ steps.find-next-release-version.outputs.RELEASE_VERSION }}.md
+          echo "* [${{ steps.find-next-release-version.outputs.RELEASE_VERSION }}](release-${{ steps.find-next-release-version.outputs.RELEASE_VERSION }}.md)" >> docs/releases/README.md
+          echo "RELEASE_NOTES<<EOF" >> "$GITHUB_OUTPUT"
+          echo $releaseNotes >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+          git add docs/releases/release-${{ steps.find-next-release-version.outputs.RELEASE_VERSION }}.md
 
       - name: compile before release
         run: mvn -B -U --fail-at-end -Pdeploy -Prelease clean install
@@ -58,9 +73,11 @@ jobs:
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 
       - name: deploy release
-        run: mvn -B -U --fail-at-end -Pdeploy -Prelease deploy
+        run: mvn -B --fail-at-end -Pdeploy -Prelease deploy
         env:
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
 
       - name: commit release
         run: |
@@ -78,18 +95,19 @@ jobs:
           tag_name: ${{ steps.find-next-release-version.outputs.RELEASE_VERSION }}
           release_name: Release ${{ steps.find-next-release-version.outputs.RELEASE_VERSION }}
           body: |
+            ${{ steps.create-release-notes.outputs.RELEASE_NOTES }}
           draft: false
           prerelease: false
 
       - name: Find next snapshot version
         id: find-next-snapshot-version
         run: |
-          mvn -B -U --fail-at-end -Pdeploy -Prelease 'de.mhus.mvn.plugin:versioning-maven-plugin:1.0.2:next-snapshot-version'
+          mvn -B --fail-at-end -Pdeploy -Prelease 'de.mhus.mvn.plugin:versioning-maven-plugin:1.0.3:next-snapshot-version'
           echo "SNAPSHOT_VERSION=$(cat target/snapshot-version.txt)"
           echo "SNAPSHOT_VERSION=$(cat target/snapshot-version.txt)" >> "$GITHUB_OUTPUT"
 
       - name: set snapshot version to pom.xml
-        run: mvn -B -U --fail-at-end -Pdeploy -Prelease versions:set -DnewVersion=${{ steps.find-next-snapshot-version.outputs.SNAPSHOT_VERSION }}
+        run: mvn -B --fail-at-end -Pdeploy -Prelease versions:set -DnewVersion=${{ steps.find-next-snapshot-version.outputs.SNAPSHOT_VERSION }}
 
       - name: commit snapshot
         run: |
