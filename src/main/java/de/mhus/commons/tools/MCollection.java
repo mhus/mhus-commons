@@ -21,6 +21,7 @@ import de.mhus.commons.tree.IProperties;
 import de.mhus.commons.util.ReadOnlyList;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -41,6 +42,55 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class MCollection {
+
+    /**
+     * Create a new list and add all items from the array. Avoid concurrentModificationException.
+     *
+     * @param list
+     *            The list
+     *
+     * @return new list of items
+     *
+     * @param <T>
+     */
+    public static <T> List<T> detached(List<T> list) {
+        if (list == null)
+            return Collections.EMPTY_LIST;
+        return new ArrayList<>(list);
+    }
+
+    /**
+     * Create a new map and add all items from the map. Avoid concurrentModificationException.
+     *
+     * @param set
+     *            The set
+     *
+     * @return new set of items
+     *
+     * @param <T>
+     */
+    public static <T> Set<T> detached(Set<T> set) {
+        if (set == null)
+            return Collections.EMPTY_SET;
+        return new HashSet<>(set);
+    }
+
+    /**
+     * Create a new map and add all items from the map. Avoid concurrentModificationException.
+     *
+     * @param map
+     *            The map
+     *
+     * @return new map of items
+     *
+     * @param <K>
+     * @param <V>
+     */
+    public static <K, V> Map<K, V> detached(Map<K, V> map) {
+        if (map == null)
+            return Collections.EMPTY_MAP;
+        return new HashMap<>(map);
+    }
 
     /**
      * Create a new list and add all items from the array.
@@ -633,17 +683,17 @@ public class MCollection {
      */
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public static <K> List<K> sorted(List<K> in) {
-        if (in != null && in.size() > 0 && in.get(0) instanceof Comparable) {
+        if (in == null || in.size() <= 0)
+            return Collections.EMPTY_LIST;
+        if (in.get(0) instanceof Comparable) {
             LinkedList<Comparable> l = new LinkedList<>();
             for (K item : in)
                 if (item instanceof Comparable)
                     l.add((Comparable) item);
             Collections.sort(l);
             return (List<K>) l;
-        } else if (in == null)
-            return new LinkedList<>();
-        else
-            return in;
+        }
+        return detached(in);
     }
 
     /**
@@ -656,7 +706,7 @@ public class MCollection {
      *
      * @return A new sorted map
      */
-    public static <K, V> Map<K, V> sorted(Map<K, V> in, Comparator<K> comp) {
+    public static <K, V> Map<K, V> sorted(Map<K, V> in, Comparator<? super K> comp) {
         TreeMap<K, V> out = new TreeMap<K, V>(comp);
         out.putAll(in);
         return out;
@@ -673,13 +723,18 @@ public class MCollection {
      *
      * @return A new sorted list
      */
-    public static <K> List<K> sorted(List<K> in, Comparator<K> comp) {
-        if (in != null && in.size() > 0) {
-            LinkedList<K> l = new LinkedList<>(in);
+    public static <K> List<K> sorted(List<K> in, Comparator<? super K> comp) {
+        if (in == null || in.size() <= 0)
+            return Collections.EMPTY_LIST;
+        if (in.get(0) instanceof Comparable) {
+            LinkedList<K> l = new LinkedList<>();
+            for (K item : in)
+                if (item instanceof Comparable)
+                    l.add(item);
             Collections.sort(l, comp);
             return (List<K>) l;
-        } else
-            return new LinkedList<>();
+        }
+        return detached(in);
     }
 
     /**

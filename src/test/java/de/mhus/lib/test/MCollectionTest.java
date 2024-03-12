@@ -22,14 +22,51 @@ import org.assertj.core.api.Assert;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class MCollectionTest extends TestCase {
+
+    @Test
+    public void testDetachedList() {
+        LinkedList<String> list = new LinkedList<>();
+        list.add("a");
+        list.add("b");
+        list.add("c");
+        List<String> detached = MCollection.detached(list);
+        detached.add("d");
+        assertEquals(3, list.size());
+    }
+
+    @Test
+    public void testDetachedSet() {
+        HashSet<String> set = new HashSet<>();
+        set.add("a");
+        set.add("b");
+        set.add("c");
+        Set<String> detached = MCollection.detached(set);
+        detached.add("d");
+        assertEquals(3, set.size());
+    }
+
+    @Test
+    public void testDetachedMap() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("a", "1");
+        map.put("b", "2");
+        map.put("c", "3");
+        Map<String, String> detached = MCollection.detached(map);
+        detached.put("d", "4");
+        assertEquals(3, map.size());
+    }
 
     @Test
     public void testArrayManipulation() {
