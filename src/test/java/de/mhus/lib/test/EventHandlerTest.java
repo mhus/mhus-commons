@@ -15,27 +15,42 @@
  */
 package de.mhus.lib.test;
 
+import de.mhus.commons.lang.IRegistration;
 import de.mhus.commons.util.MEventHandler;
 import de.mhus.lib.test.util.TestCase;
 import org.junit.jupiter.api.Test;
 
 import java.util.ConcurrentModificationException;
+import java.util.function.Consumer;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /** Unit test for simple App. */
 public class EventHandlerTest extends TestCase {
 
+    @Test
+    public void testRegistration() {
+        MEventHandler<MyEvent> eh = new MEventHandler<MyEvent>();
+        MyListener l1 = new MyListener();
+        MyListener l2 = new MyListener();
+
+        IRegistration reg1 = eh.register(l1);
+        IRegistration reg2 = eh.registerWeak(l2);
+
+        assertTrue(eh.getListenersArray().length == 2);
+
+        reg1.unregister();
+        reg2.unregister();
+
+        assertTrue(eh.getListenersArray().length == 0);
+    }
+
     /**
      * Test registration of normal and weak listeners. Test if weak listener will be removed after full gc().
      */
     @Test
     public void testListeners() {
-        MEventHandler<MyListener> eh = new MEventHandler<MyListener>() {
-            @Override
-            public void onFire(MyListener listener, Object event, Object... values) {
-            }
-        };
+        MEventHandler<MyEvent> eh = new MEventHandler<MyEvent>();
         MyListener l1 = new MyListener();
         MyListener l2 = new MyListener();
 
@@ -54,11 +69,7 @@ public class EventHandlerTest extends TestCase {
     /** Test unregister for normal and weak listeners */
     @Test
     public void testUnregister() {
-        MEventHandler<MyListener> eh = new MEventHandler<MyListener>() {
-            @Override
-            public void onFire(MyListener listener, Object event, Object... values) {
-            }
-        };
+        MEventHandler<MyEvent> eh = new MEventHandler<MyEvent>();
         MyListener l1 = new MyListener();
         MyListener l2 = new MyListener();
 
@@ -76,11 +87,7 @@ public class EventHandlerTest extends TestCase {
     /** Test if weak mode is supported. */
     @Test
     public void testWeakMode() {
-        MEventHandler<MyListener> eh = new MEventHandler<MyListener>(true) {
-            @Override
-            public void onFire(MyListener listener, Object event, Object... values) {
-            }
-        };
+        MEventHandler<MyEvent> eh = new MEventHandler<MyEvent>(true);
         MyListener l1 = new MyListener();
         MyListener l2 = new MyListener();
 
@@ -98,11 +105,7 @@ public class EventHandlerTest extends TestCase {
 
     @Test
     public void testIterator() {
-        MEventHandler<MyListener> eh = new MEventHandler<MyListener>(true) {
-            @Override
-            public void onFire(MyListener listener, Object event, Object... values) {
-            }
-        };
+        MEventHandler<MyEvent> eh = new MEventHandler<MyEvent>(true);
         MyListener l1 = new MyListener();
         MyListener l2 = new MyListener();
 
@@ -110,8 +113,8 @@ public class EventHandlerTest extends TestCase {
         eh.registerWeak(l2);
 
         int cnt = 0;
-        for (MyListener cur : eh.getListeners()) {
-            cur.doIt();
+        for (Consumer<MyEvent> cur : eh.getListeners()) {
+            ((MyListener) cur).accept(null);
             cnt++;
         }
 
@@ -119,42 +122,9 @@ public class EventHandlerTest extends TestCase {
     }
 
     @Test
-    public void testConcurrentModification() {
-
-        MEventHandler<MyListener> eh = new MEventHandler<MyListener>(true) {
-            @Override
-            public void onFire(MyListener listener, Object event, Object... values) {
-            }
-        };
-        MyListener l1 = new MyListenerModify(eh);
-        MyListener l2 = new MyListenerModify(eh);
-
-        eh.register(l1);
-        eh.registerWeak(l2);
-
-        try {
-            for (MyListener cur : eh.getListeners()) {
-                cur.doIt();
-            }
-            assertTrue(false, "Error should be thrown");
-        } catch (ConcurrentModificationException ex) {
-        }
-
-        for (Object cur : eh.getListenersArray()) {
-            ((MyListener) cur).doIt();
-        }
-    }
-
-    @Test
     public void testFireMethod() throws SecurityException, NoSuchMethodException {
 
-        MEventHandler<MyListener> eh = new MEventHandler<MyListener>(true) {
-
-            @Override
-            public void onFire(MyListener listener, Object event, Object... values) {
-                listener.doIt();
-            }
-        };
+        MEventHandler<MyEvent> eh = new MEventHandler<MyEvent>(true);
         MyListener l1 = new MyListener();
         eh.register(l1);
 
@@ -163,24 +133,16 @@ public class EventHandlerTest extends TestCase {
         assertTrue(l1.done);
     }
 
-    public static class MyListener {
+    public record MyEvent(String id) {
+    }
+
+    public static class MyListener implements Consumer<MyEvent> {
         private boolean done = false;
 
-        public void doIt() {
+        @Override
+        public void accept(MyEvent myEvent) {
             done = true;
         }
     }
 
-    public class MyListenerModify extends MyListener {
-        private MEventHandler<MyListener> eh;
-
-        public MyListenerModify(MEventHandler<MyListener> eh) {
-            this.eh = eh;
-        }
-
-        @Override
-        public void doIt() {
-            eh.register(new MyListener());
-        }
-    }
 }

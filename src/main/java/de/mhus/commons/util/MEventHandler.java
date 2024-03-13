@@ -15,6 +15,7 @@
  */
 package de.mhus.commons.util;
 
+import de.mhus.commons.lang.IRegistration;
 import de.mhus.commons.lang.IRegistry;
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,12 +23,13 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.WeakHashMap;
+import java.util.function.Consumer;
 
 @Slf4j
-public class MEventHandler<L> implements IRegistry<L> {
+public class MEventHandler<E> implements IRegistry<E> {
 
-    private HashMap<L, String> listeners = new HashMap<L, String>();
-    private WeakHashMap<L, String> weak = new WeakHashMap<L, String>();
+    private HashMap<Consumer<E>, String> listeners = new HashMap<>();
+    private WeakHashMap<Consumer<E>, String> weak = new WeakHashMap<>();
     private boolean weakHandler = false;
 
     /** Create the handler in normal mode. */
@@ -53,15 +55,16 @@ public class MEventHandler<L> implements IRegistry<L> {
      *            Listener for the events.
      */
     @Override
-    public void register(L listener) {
+    public IRegistration register(Consumer<E> listener) {
         if (weakHandler) {
             registerWeak(listener);
-            return;
+            return new Registration(listener);
         }
         synchronized (listeners) {
             if (!contains(listener))
                 listeners.put(listener, "");
         }
+        return new Registration(listener);
     }
 
     /**
@@ -71,7 +74,7 @@ public class MEventHandler<L> implements IRegistry<L> {
      *            Listener for the events.
      */
     @Override
-    public void unregister(L listener) {
+    public void unregister(Consumer<E> listener) {
         synchronized (listeners) {
             listeners.remove(listener);
             weak.remove(listener);
@@ -85,10 +88,11 @@ public class MEventHandler<L> implements IRegistry<L> {
      *            Listener for the events.
      */
     @Override
-    public void registerWeak(L listener) {
+    public IRegistration registerWeak(Consumer<E> listener) {
         synchronized (listeners) {
             weak.put(listener, "");
         }
+        return new Registration(listener);
     }
 
     /**
@@ -99,7 +103,7 @@ public class MEventHandler<L> implements IRegistry<L> {
      *
      * @return true if the listener is registered as normal or weak.
      */
-    public boolean contains(L listener) {
+    public boolean contains(Consumer<E> listener) {
         synchronized (this) {
             return listeners.containsKey(listener) || weak.containsKey(listener);
         }
@@ -138,12 +142,12 @@ public class MEventHandler<L> implements IRegistry<L> {
      *
      * @return Iterable object for all listeners.
      */
-    public Iterable<L> getListeners() {
+    public Iterable<Consumer<E>> getListeners() {
         if (weakHandler || listeners.size() == 0)
             return weak.keySet();
         if (weak.size() == 0)
             return listeners.keySet();
-        LinkedList<L> ll = new LinkedList<L>(listeners.keySet());
+        LinkedList<Consumer<E>> ll = new LinkedList<>(listeners.keySet());
         ll.addAll(weak.keySet());
         return ll;
     }
@@ -171,27 +175,31 @@ public class MEventHandler<L> implements IRegistry<L> {
     }
 
     @SuppressWarnings("unchecked")
-    public void fire(Object event, Object... values) {
+    public void fire(E event) {
         for (Object obj : getListenersArray()) {
             try {
-                onFire((L) obj, event, values);
+                onFire((Consumer<E>) obj, event);
                 // method.invoke(obj, values);
             } catch (Throwable t) {
-                LOGGER.debug("fire of event {} with {} failed", obj, event, values);
+                LOGGER.debug("fire of event {} with {} failed", obj, event);
             }
         }
     }
 
-    public void fireMethod(Method method, Object... values) {
-        for (Object obj : getListenersArray()) {
-            try {
-                method.invoke(obj, values);
-            } catch (Throwable t) {
-                LOGGER.debug("fire of event failed {} {} {}", obj, method, values, t);
-            }
-        }
+    public void onFire(Consumer<E> listener, E event) {
+        listener.accept((E) event);
     }
 
-    public void onFire(L listener, Object event, Object... values) {
+    private class Registration implements IRegistration {
+        private final Consumer<E> listener;
+
+        public Registration(Consumer<E> listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        public void unregister() {
+            MEventHandler.this.unregister(listener);
+        }
     }
 }

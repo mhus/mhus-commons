@@ -15,11 +15,13 @@
  */
 package de.mhus.commons.lang;
 
-public interface IRegistry<L> {
+import java.util.function.Consumer;
 
-    public void register(L listener);
+public interface IRegistry<E> {
 
-    public void registerWeak(L listener);
+    public IRegistration register(Consumer<E> listener);
 
-    public void unregister(L listener);
+    public IRegistration registerWeak(Consumer<E> listener);
+
+    public void unregister(Consumer<E> listener);
 }

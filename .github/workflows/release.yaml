@@ -53,6 +53,7 @@ jobs:
         run: mvn -B --fail-at-end -Pdeploy -Prelease versions:set -DnewVersion=${{ steps.find-next-release-version.outputs.RELEASE_VERSION }}
 
       - name: create release nodes
+        if: ${{ !endsWith(steps.find-next-release-version.outputs.RELEASE_VERSION, '.0') }}
         id: create-release-notes
         run: |
           lastRelease=$(git log --all --pretty=format:"%ad|%s"|grep -e '|Release:'|cut -d \| -f 1|head -1)
@@ -81,9 +82,14 @@ jobs:
 
       - name: commit release
         run: |
+          topic="Hotfix"
+          minor=$(echo ${{ steps.find-next-release-version.outputs.RELEASE_VERSION }}|cut -d . -f 2)
+          if [ "$minor" = "0" ]; then
+            topic="Release"
+          fi
           git config --global user.name 'Robot'
           git config --global user.email 'mhus@users.noreply.github.com'
-          git commit -am "Release: ${{ steps.find-next-release-version.outputs.RELEASE_VERSION }}"
+          git commit -am "$topic: ${{ steps.find-next-release-version.outputs.RELEASE_VERSION }}"
           git push
 
       - name: Create Release Tag
