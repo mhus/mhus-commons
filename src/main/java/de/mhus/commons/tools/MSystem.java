@@ -943,12 +943,12 @@ public class MSystem {
 
     public static boolean isWindows() {
         final String os = System.getProperty("os.name");
-        return os.contains("Windows");
+        return os.toLowerCase().contains("windows");
     }
 
     public static boolean isMac() {
         final String os = System.getProperty("os.name");
-        return (os.indexOf("mac") >= 0);
+        return (os.toLowerCase().indexOf("mac") >= 0);
     }
 
     public static boolean isUnix() {
@@ -958,7 +958,7 @@ public class MSystem {
 
     public static boolean isSolaris() {
         final String os = System.getProperty("os.name");
-        return (os.indexOf("sunos") >= 0);
+        return (os.toLowerCase().indexOf("sunos") >= 0);
     }
 
     public static OS getOS() {
