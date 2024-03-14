@@ -48,9 +48,9 @@ public interface ITreeNode extends IProperties {
     Logger LOGGER = LoggerFactory.getLogger(ITreeNode.class);
 
     public static final String NAMELESS_VALUE = "";
-    public static final String VALUE = "value";
-    public static final String VALUES = "values";
-    public static final String ID = "_id";
+    // public static final String VALUE = "value";
+    // public static final String VALUES = "values";
+    // public static final String ID = "_id";
     public static final String HELPER_VALUE = "_";
     public static final String CLASS = "_class";
     public static final String NULL = "_null";

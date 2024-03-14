@@ -745,7 +745,7 @@ public class MCollection {
      * @param manipulator
      *            The function to manipulate each entry.
      */
-    public static <T> void updateEach(T[] array, Function<T, T> manipulator) {
+    public static <T> void replaceAll(T[] array, Function<T, T> manipulator) {
         if (array == null)
             return;
         for (int i = 0; i < array.length; i++)
