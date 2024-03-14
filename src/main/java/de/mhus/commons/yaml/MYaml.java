@@ -105,4 +105,10 @@ public class MYaml {
         getYaml();
         yaml.dump(elemY.getObject(), writer);
     }
+
+    public static String toString(YElement elemY) {
+        getYaml();
+        return yaml.dump(elemY.getObject());
+    }
+
 }
