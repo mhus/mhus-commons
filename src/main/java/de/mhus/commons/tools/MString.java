@@ -21,6 +21,7 @@ import de.mhus.commons.errors.MException;
 import de.mhus.commons.errors.MRuntimeException;
 import de.mhus.commons.tree.IProperties;
 import de.mhus.commons.parser.StringCompiler;
+import de.mhus.commons.tree.MProperties;
 import de.mhus.commons.util.EmptyList;
 import lombok.extern.slf4j.Slf4j;
 
@@ -2484,6 +2485,14 @@ public class MString {
             LOGGER.trace("MString.compileAndExecute {}", template, e);
         }
         return def;
+    }
+
+    public static String compileAndExecute(String template, Object... attributes) throws MException {
+        MProperties props = new MProperties();
+        for (int i = 0; i < attributes.length; i += 2) {
+            props.put(String.valueOf(attributes[i]), attributes[i + 1]);
+        }
+        return StringCompiler.compile(template).execute(props);
     }
 
     /**
