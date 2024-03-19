@@ -15,8 +15,10 @@
  */
 package de.mhus.lib.test;
 
+import de.mhus.commons.errors.UsageException;
 import de.mhus.commons.tools.MString;
 import de.mhus.commons.errors.MException;
+import de.mhus.commons.tree.IProperties;
 import de.mhus.commons.tree.MProperties;
 import de.mhus.commons.parser.StringCompiler;
 import de.mhus.lib.test.util.TestCase;
@@ -24,9 +26,57 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Map.Entry;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class MStringTest extends TestCase {
+
+    @Test
+    public void testSubstitute() {
+        String[] tests = {
+                "Name $name$ end|Name Mickey end",
+                "Name ${name} end|Name Mickey end",
+                "Name $none:Joe$ end|Name Joe end",
+                "Name ${none:Joe} end|Name Joe end",
+                "Name $name:Joe$ end|Name Mickey end",
+                "Name ${name:Joe} end|Name Mickey end",
+                "Name $$ end|Name $ end"
+        };
+        for (String test : tests) {
+            String[] parts = test.split("\\|");
+            String pattern = parts[0];
+            String result = parts[1];
+            System.out.println("Pattern: " + pattern);
+            System.out.println("Result: " + result);
+            {
+                String r = MString.substitute(pattern, IProperties.to("name", "Mickey"));
+                assertThat(r).isEqualTo(result);
+            }
+            {
+                String r = MString.substitute(pattern, "name", "Mickey");
+                assertThat(r).isEqualTo(result);
+            }
+            {
+                assertThrows(IllegalArgumentException.class,
+                    () -> MString.substitute(pattern, "name", "Mickey", "name2"));
+            }
+        }
+        System.out.println("Test template exceptions");
+        {
+            assertThrows(UsageException.class,
+                () -> MString.substitute("Name $name end", "name", "Mickey"));
+        }
+        {
+            assertThrows(UsageException.class,
+                () -> MString.substitute("Name ${name end", "name", "Mickey"));
+        }
+        {
+            assertThrows(UsageException.class,
+                    () -> MString.substitute("Name name end$", "name", "Mickey"));
+        }
+
+    }
 
     @Test
     public void testSubstr() throws MException {

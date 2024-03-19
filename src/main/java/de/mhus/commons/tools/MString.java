@@ -19,6 +19,7 @@ import de.mhus.commons.M;
 import de.mhus.commons.errors.RC;
 import de.mhus.commons.errors.MException;
 import de.mhus.commons.errors.MRuntimeException;
+import de.mhus.commons.errors.UsageException;
 import de.mhus.commons.tree.IProperties;
 import de.mhus.commons.parser.StringCompiler;
 import de.mhus.commons.tree.MProperties;
@@ -2474,11 +2475,34 @@ public class MString {
         return error;
     }
 
-    public static String compileAndExecute(String template, IProperties attributes) throws MException {
-        return StringCompiler.compile(template).execute(attributes);
+    /**
+     * Convert a template to string using StringCompiler. Use $var$ or ${var} to insert the value of the variable.
+     *
+     * @param template The template to substitute
+     * @param attributes The attributes to use for substitution
+     *
+     * @return The substituted string
+     * @throws UsageException if the template is not valid or execution fails
+     */
+    public static String substitute(String template, IProperties attributes) {
+        try {
+            return StringCompiler.compile(template).execute(attributes);
+        } catch (UsageException e) {
+            throw e;
+        } catch (MException e) {
+            throw new UsageException(RC.CAUSE.ADAPT, e);
+        }
     }
 
-    public static String compileAndExecute(String template, IProperties attributes, String def) {
+    /**
+     * Convert a template to string using StringCompiler. Use $var$ or ${var} to insert the value of the variable.
+     *
+     * @param template The template to substitute
+     * @param attributes The attributes to use for substitution
+     *
+     * @return The substituted string or def in substitution fails
+     */
+    public static String substitute(String template, IProperties attributes, String def) {
         try {
             return StringCompiler.compile(template).execute(attributes);
         } catch (MException e) {
@@ -2487,12 +2511,27 @@ public class MString {
         return def;
     }
 
-    public static String compileAndExecute(String template, Object... attributes) throws MException {
-        MProperties props = new MProperties();
-        for (int i = 0; i < attributes.length; i += 2) {
-            props.put(String.valueOf(attributes[i]), attributes[i + 1]);
+    /**
+     * Convert a template to string using StringCompiler. Use $var$ or ${var} to insert the value of the variable.
+     *
+     * @param template The template to substitute
+     * @param attributes The attributes to use for substitution
+     *
+     * @return The substituted string or null if substitution fails
+     * @throws UsageException if the template is not valid or execution fails
+     * @throws IllegalArgumentException if number of attributes is odd
+     */
+    public static String substitute(String template, Object... attributes) {
+        MProperties props = IProperties.to(attributes);
+        try {
+            return StringCompiler.compile(template).execute(props);
+        } catch (IllegalArgumentException e) {
+            throw e;
+        } catch (UsageException e) {
+            throw e;
+        } catch (MException e) {
+            throw new UsageException(RC.CAUSE.ADAPT, e);
         }
-        return StringCompiler.compile(template).execute(props);
     }
 
     /**

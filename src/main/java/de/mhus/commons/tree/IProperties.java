@@ -64,12 +64,13 @@ public interface IProperties
      *
      * @return In every case a properties object
      */
-    public static MProperties to(Object... keysAndValues) {
+    static MProperties to(Object... keysAndValues) {
         MProperties out = new MProperties();
         if (keysAndValues != null) {
+            if (keysAndValues.length % 2 != 0)
+                throw new IllegalArgumentException("Keys and values must be in pairs");
             for (int i = 0; i < keysAndValues.length; i += 2) {
-                if (i + 1 < keysAndValues.length)
-                    out.put(String.valueOf(keysAndValues[i]), keysAndValues[i + 1]);
+                out.put(String.valueOf(keysAndValues[i]), keysAndValues[i + 1]);
             }
         }
         return out;
@@ -82,12 +83,13 @@ public interface IProperties
      *
      * @return In every case a properties object
      */
-    public static MProperties to(String... keysAndValues) {
+    static MProperties to(String... keysAndValues) {
         MProperties out = new MProperties();
         if (keysAndValues != null) {
+            if (keysAndValues.length % 2 != 0)
+                throw new IllegalArgumentException("Keys and values must be in pairs");
             for (int i = 0; i < keysAndValues.length; i += 2) {
-                if (i + 1 < keysAndValues.length)
-                    out.put(keysAndValues[i], keysAndValues[i + 1]);
+                out.put(keysAndValues[i], keysAndValues[i + 1]);
             }
         }
         return out;
@@ -102,7 +104,7 @@ public interface IProperties
      *
      * @return The MProperties
      */
-    public static MProperties explodeToOptions(String properties) {
+    static MProperties explodeToOptions(String properties) {
         return explodeToOptions(MUri.explodeArray(properties), '=');
     }
 
@@ -114,7 +116,7 @@ public interface IProperties
      *
      * @return The MProperties
      */
-    public static MProperties explodeToOptions(String[] properties) {
+    static MProperties explodeToOptions(String[] properties) {
         return explodeToOptions(properties, '=');
     }
 
@@ -127,7 +129,7 @@ public interface IProperties
      *
      * @return The MProperties
      */
-    public static MProperties explodeToMProperties(String properties) {
+    static MProperties explodeToMProperties(String properties) {
         return explodeToMProperties(MUri.explodeArray(properties), '=', ':', 0, Integer.MAX_VALUE);
     }
 
@@ -138,7 +140,7 @@ public interface IProperties
      *
      * @return The String
      */
-    public static String implode(IProperties properties) {
+    static String implode(IProperties properties) {
         return MUri.implode(properties);
     }
 
@@ -150,7 +152,7 @@ public interface IProperties
      *
      * @return The MProperties
      */
-    public static MProperties explodeToMProperties(String[] properties) {
+    static MProperties explodeToMProperties(String[] properties) {
         if (properties == null)
             return new MProperties();
         return explodeToMProperties(properties, '=', ':', 0, properties.length);
@@ -171,7 +173,7 @@ public interface IProperties
      *
      * @return The MProperties
      */
-    public static MProperties explodeToOptions(String[] properties, char separator) {
+    static MProperties explodeToOptions(String[] properties, char separator) {
         MProperties p = new MProperties();
         if (properties != null) {
             for (String i : properties) {
@@ -198,7 +200,7 @@ public interface IProperties
      *
      * @return The MProperties
      */
-    public static MProperties explodeToMProperties(String[] properties, char keySeparator, char typeSeparator) {
+    static MProperties explodeToMProperties(String[] properties, char keySeparator, char typeSeparator) {
         return explodeToMProperties(properties, keySeparator, typeSeparator, 0, Integer.MAX_VALUE);
     }
 
@@ -226,7 +228,7 @@ public interface IProperties
      *
      * @return The Properties
      */
-    public static Properties explodeToProperties(String[] properties) {
+    static Properties explodeToProperties(String[] properties) {
         Properties p = new Properties();
         if (properties != null) {
             for (String i : properties) {
@@ -254,7 +256,7 @@ public interface IProperties
      *
      * @param in
      */
-    public static <V> void updateFunctional(Map<String, V> in) {
+    static <V> void updateFunctional(Map<String, V> in) {
         in.keySet().removeIf(k -> isFunctional(k));
         for (String key : new LinkedList<>(in.keySet()))
             if (key.startsWith("_"))
@@ -268,11 +270,11 @@ public interface IProperties
      *
      * @return true if actual internal
      */
-    public static boolean isFunctional(String key) {
+    static boolean isFunctional(String key) {
         return key.startsWith("_") && !key.startsWith("__");
     }
 
-    public static IProperties toIProperties(IReadProperties properties) {
+    static IProperties toIProperties(IReadProperties properties) {
         if (properties == null)
             return null;
         if (properties instanceof IProperties)
@@ -288,7 +290,7 @@ public interface IProperties
         return new MProperties(properties);
     }
 
-    public static void appendToMap(Map<?, ?> p, String para) {
+    static void appendToMap(Map<?, ?> p, String para) {
         appendToMap(p, para, '=', ':');
     }
 

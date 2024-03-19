@@ -16,6 +16,7 @@
 package de.mhus.commons.parser;
 
 import de.mhus.commons.errors.MException;
+import de.mhus.commons.errors.UsageException;
 import de.mhus.commons.tools.MString;
 import de.mhus.commons.tools.MSystem;
 import de.mhus.commons.lang.IValuesProvider;
@@ -75,22 +76,19 @@ public class StringCompiler implements Parser {
             parts.add(in.substring(0, nextPos)); // add content part
 
             if (nextPos == in.length() - separator.length()) { // at the end
-                parts.add(separator);
-                return parts;
+                throw new UsageException("Missing attribute name in string, separator at the end of string: " + in);
             }
             if (in.charAt(nextPos + separator.length()) == '{') {
                 int endPos = in.indexOf('}', nextPos);
                 if (endPos < 0) { // not found
-                    parts.add(in.substring(nextPos));
-                    return parts;
+                    throw new UsageException("Missing ending '}' in string: " + in);
                 }
                 parts.add(in.substring(nextPos + separator.length() + 1, endPos));
                 in = in.substring(endPos + 1);
             } else {
                 int endPos = in.indexOf(separator, nextPos + separator.length());
                 if (endPos < 0) { // not found
-                    parts.add(in.substring(nextPos));
-                    return parts;
+                    throw new UsageException("Missing end separator in string: " + in);
                 }
                 parts.add(in.substring(nextPos + separator.length(), endPos));
                 in = in.substring(endPos + separator.length());
