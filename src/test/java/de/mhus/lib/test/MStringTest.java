@@ -34,15 +34,10 @@ public class MStringTest extends TestCase {
 
     @Test
     public void testSubstitute() {
-        String[] tests = {
-                "Name $name$ end|Name Mickey end",
-                "Name ${name} end|Name Mickey end",
-                "Name $none:Joe$ end|Name Joe end",
-                "Name ${none:Joe} end|Name Joe end",
-                "Name $name:Joe$ end|Name Mickey end",
-                "Name ${name:Joe} end|Name Mickey end",
-                "Name $$ end|Name $ end"
-        };
+        String[] tests = { "Name $name$ end|Name Mickey end", "Name ${name} end|Name Mickey end",
+                "Name $none:Joe$ end|Name Joe end", "Name ${none:Joe} end|Name Joe end",
+                "Name $name:Joe$ end|Name Mickey end", "Name ${name:Joe} end|Name Mickey end",
+                "Name $$ end|Name $ end" };
         for (String test : tests) {
             String[] parts = test.split("\\|");
             String pattern = parts[0];
@@ -59,21 +54,18 @@ public class MStringTest extends TestCase {
             }
             {
                 assertThrows(IllegalArgumentException.class,
-                    () -> MString.substitute(pattern, "name", "Mickey", "name2"));
+                        () -> MString.substitute(pattern, "name", "Mickey", "name2"));
             }
         }
         System.out.println("Test template exceptions");
         {
-            assertThrows(UsageException.class,
-                () -> MString.substitute("Name $name end", "name", "Mickey"));
+            assertThrows(UsageException.class, () -> MString.substitute("Name $name end", "name", "Mickey"));
         }
         {
-            assertThrows(UsageException.class,
-                () -> MString.substitute("Name ${name end", "name", "Mickey"));
+            assertThrows(UsageException.class, () -> MString.substitute("Name ${name end", "name", "Mickey"));
         }
         {
-            assertThrows(UsageException.class,
-                    () -> MString.substitute("Name name end$", "name", "Mickey"));
+            assertThrows(UsageException.class, () -> MString.substitute("Name name end$", "name", "Mickey"));
         }
 
     }

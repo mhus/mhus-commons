@@ -2478,11 +2478,15 @@ public class MString {
     /**
      * Convert a template to string using StringCompiler. Use $var$ or ${var} to insert the value of the variable.
      *
-     * @param template The template to substitute
-     * @param attributes The attributes to use for substitution
+     * @param template
+     *            The template to substitute
+     * @param attributes
+     *            The attributes to use for substitution
      *
      * @return The substituted string
-     * @throws UsageException if the template is not valid or execution fails
+     *
+     * @throws UsageException
+     *             if the template is not valid or execution fails
      */
     public static String substitute(String template, IProperties attributes) {
         try {
@@ -2497,8 +2501,10 @@ public class MString {
     /**
      * Convert a template to string using StringCompiler. Use $var$ or ${var} to insert the value of the variable.
      *
-     * @param template The template to substitute
-     * @param attributes The attributes to use for substitution
+     * @param template
+     *            The template to substitute
+     * @param attributes
+     *            The attributes to use for substitution
      *
      * @return The substituted string or def in substitution fails
      */
@@ -2514,12 +2520,17 @@ public class MString {
     /**
      * Convert a template to string using StringCompiler. Use $var$ or ${var} to insert the value of the variable.
      *
-     * @param template The template to substitute
-     * @param attributes The attributes to use for substitution
+     * @param template
+     *            The template to substitute
+     * @param attributes
+     *            The attributes to use for substitution
      *
      * @return The substituted string or null if substitution fails
-     * @throws UsageException if the template is not valid or execution fails
-     * @throws IllegalArgumentException if number of attributes is odd
+     *
+     * @throws UsageException
+     *             if the template is not valid or execution fails
+     * @throws IllegalArgumentException
+     *             if number of attributes is odd
      */
     public static String substitute(String template, Object... attributes) {
         MProperties props = IProperties.to(attributes);
