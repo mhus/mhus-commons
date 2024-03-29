@@ -17,5 +17,5 @@ package de.mhus.commons.lang;
 
 @FunctionalInterface
 public interface Consumer4<One, Two, Three, Four> {
-    public void accept(One one, Two two, Three three, Four four);
+    public void accept(One one, Two two, Three three, Four four) throws Exception;
 }

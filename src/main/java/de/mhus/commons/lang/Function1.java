@@ -17,5 +17,5 @@ package de.mhus.commons.lang;
 
 @FunctionalInterface
 public interface Function1<One, Retour> {
-    public Retour apply(One one);
+    public Retour apply(One one) throws Exception;
 }

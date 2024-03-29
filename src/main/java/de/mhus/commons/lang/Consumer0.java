@@ -17,5 +17,5 @@ package de.mhus.commons.lang;
 
 @FunctionalInterface
 public interface Consumer0 {
-    public void accept();
+    public void accept() throws Exception;
 }
