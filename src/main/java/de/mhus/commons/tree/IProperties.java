@@ -19,16 +19,20 @@ import de.mhus.commons.tools.MCast;
 import de.mhus.commons.util.MUri;
 
 import java.io.Serializable;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 public interface IProperties
         extends IReadProperties, Map<String, Object>, Serializable, Iterable<Map.Entry<String, Object>> {
 
     void setProperty(String name, Object value);
+
+    OptionalInt getInt(String key);
+
+    long getLong(String key, long def);
+
+    OptionalLong getLong(String key);
+
+    OptionalDouble getDouble(String key);
 
     void setString(String name, String value);
 

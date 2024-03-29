@@ -23,13 +23,7 @@ import de.mhus.commons.errors.RC;
 import de.mhus.commons.tools.MString;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 
 @Slf4j
@@ -111,6 +105,17 @@ public abstract class AbstractProperties implements IProperties {
     }
 
     @Override
+    public OptionalInt getInt(String key) {
+        Object out;
+        try {
+            out = getProperty(key);
+        } catch (Exception e) {
+            return OptionalInt.empty();
+        }
+        return MCast.toint(out);
+    }
+
+    @Override
     public long getLong(String key, long def) {
         Object out;
         try {
@@ -119,6 +124,17 @@ public abstract class AbstractProperties implements IProperties {
             return def;
         }
         return MCast.tolong(out, def);
+    }
+
+    @Override
+    public OptionalLong getLong(String key) {
+        Object out;
+        try {
+            out = getProperty(key);
+        } catch (Exception e) {
+            return OptionalLong.empty();
+        }
+        return MCast.tolong(out);
     }
 
     @Override
@@ -141,6 +157,17 @@ public abstract class AbstractProperties implements IProperties {
             return def;
         }
         return MCast.todouble(out, def);
+    }
+
+    @Override
+    public OptionalDouble getDouble(String key) {
+        Object out;
+        try {
+            out = getProperty(key);
+        } catch (Exception e) {
+            return OptionalDouble.empty();
+        }
+        return MCast.todouble(out);
     }
 
     @Override

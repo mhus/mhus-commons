@@ -17,14 +17,7 @@ package de.mhus.commons.tree;
 
 import de.mhus.commons.lang.OptionalBoolean;
 
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import java.util.Spliterator;
+import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
@@ -104,8 +97,8 @@ public class TreeNodeWrapper extends TreeNode {
     }
 
     @Override
-    public long getLong(String name, long def) {
-        return parameters.getLong(name, def);
+    public OptionalLong getLong(String name) {
+        return parameters.getLong(name);
     }
 
     @Override
