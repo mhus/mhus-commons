@@ -17,15 +17,11 @@ package de.mhus.commons.tree;
 
 import de.mhus.commons.lang.OptionalBoolean;
 
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Optional;
-import java.util.Set;
 import java.util.function.Function;
 
-public interface IReadProperties extends Iterable<Entry<String, Object>> {
+public interface IReadonly extends Iterable<Entry<String, Object>> {
 
     String getString(String name, String def);
 
@@ -40,6 +36,12 @@ public interface IReadProperties extends Iterable<Entry<String, Object>> {
     OptionalBoolean getBoolean(String name);
 
     int getInt(String name, int def);
+
+    OptionalInt getInt(String name);
+
+    OptionalLong getLong(String name);
+
+    OptionalDouble getDouble(String name);
 
     // int getIntOrCreate(String name, Function<String, Integer> def);
 

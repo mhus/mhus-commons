@@ -21,7 +21,7 @@ import de.mhus.commons.tools.MValidator;
 import de.mhus.commons.errors.RC;
 import de.mhus.commons.errors.MException;
 import de.mhus.commons.tree.IProperties;
-import de.mhus.commons.tree.IReadProperties;
+import de.mhus.commons.tree.IReadonly;
 import de.mhus.commons.tree.MProperties;
 import lombok.extern.slf4j.Slf4j;
 
@@ -42,7 +42,7 @@ public class ParameterDefinition implements Externalizable {
     private boolean mandatory;
     private String mapping;
     private String format;
-    private IReadProperties properties;
+    private IReadonly properties;
 
     public ParameterDefinition(Map<String, Object> properties) {
         this.properties = new MProperties(properties);
@@ -111,7 +111,7 @@ public class ParameterDefinition implements Externalizable {
         return format;
     }
 
-    public IReadProperties getProperties() {
+    public IReadonly getProperties() {
         return properties;
     }
 
@@ -222,6 +222,6 @@ public class ParameterDefinition implements Externalizable {
         mandatory = in.readBoolean();
         mapping = (String) in.readObject();
         format = (String) in.readObject();
-        properties = (IReadProperties) in.readObject();
+        properties = (IReadonly) in.readObject();
     }
 }

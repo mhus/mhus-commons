@@ -63,13 +63,13 @@ public class MLang {
             return exception != null;
         }
 
-        public T onError(T def) {
+        public T or(T def) {
             if (exception != null)
                 return def;
             return result;
         }
 
-        public TryResult<T> ifError(Consumer1<Exception> action) {
+        public TryResult<T> onError(Consumer1<Exception> action) {
             if (exception != null) {
                 try {
                     action.accept(exception);
@@ -80,25 +80,25 @@ public class MLang {
             return this;
         }
 
-        public T onErrorGet(Supplier<T> def) {
+        public T orGet(Supplier<T> def) {
             if (exception != null)
                 return def.get();
             return result;
         }
 
-        public TryResult<T> onErrorTry(Supplier<T> def) {
+        public TryResult<T> orTry(Supplier<T> def) {
             if (exception != null)
                 return tryThis(def);
             return this;
         }
 
-        public TryResult<T> onErrorThrow() {
+        public TryResult<T> orThrow() {
             if (exception != null)
                 throw new RuntimeException(exception);
             return this;
         }
 
-        public <E extends Exception> TryResult<T> ifErrorThrow(Class<E> exceptionClass) throws E {
+        public <E extends Exception> TryResult<T> orThrow(Class<E> exceptionClass) throws E {
             if (exception != null && exceptionClass.isInstance(exception))
                 throw (E) exception;
             return this;

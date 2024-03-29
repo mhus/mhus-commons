@@ -18,7 +18,7 @@ package de.mhus.commons.security;
 import java.util.Date;
 import java.util.UUID;
 
-import de.mhus.commons.tree.IReadProperties;
+import de.mhus.commons.tree.IReadonly;
 import de.mhus.commons.errors.NotSupportedException;
 
 public interface Account extends Rightful {
@@ -43,7 +43,7 @@ public interface Account extends Rightful {
      *
      * @return all attributes in read only properties list or null if properties are not supported.
      */
-    IReadProperties getAttributes();
+    IReadonly getAttributes();
 
     /**
      * Overwrites the given attributes, leaves all other properties untouched. Use NullValue to remove a attribute from
@@ -54,7 +54,7 @@ public interface Account extends Rightful {
      * @throws NotSupportedException
      *             Thrown if attributes are not supported
      */
-    void putAttributes(IReadProperties properties) throws NotSupportedException;
+    void putAttributes(IReadonly properties) throws NotSupportedException;
 
     /**
      * Return the set of assigned groups

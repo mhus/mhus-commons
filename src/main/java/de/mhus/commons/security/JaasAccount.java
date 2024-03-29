@@ -24,7 +24,7 @@ import javax.security.auth.Subject;
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
 
-import de.mhus.commons.tree.IReadProperties;
+import de.mhus.commons.tree.IReadonly;
 import de.mhus.commons.tree.MProperties;
 import de.mhus.commons.errors.NotSupportedException;
 
@@ -84,12 +84,12 @@ public class JaasAccount implements Account {
     }
 
     @Override
-    public IReadProperties getAttributes() {
+    public IReadonly getAttributes() {
         return attr;
     }
 
     @Override
-    public void putAttributes(IReadProperties properties) throws NotSupportedException {
+    public void putAttributes(IReadonly properties) throws NotSupportedException {
         throw new NotSupportedException();
     }
 

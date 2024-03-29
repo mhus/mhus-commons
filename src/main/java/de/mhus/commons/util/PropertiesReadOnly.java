@@ -18,18 +18,13 @@ package de.mhus.commons.util;
 import de.mhus.commons.lang.OptionalBoolean;
 import de.mhus.commons.lang.ReadOnly;
 import de.mhus.commons.tree.IProperties;
-import de.mhus.commons.tree.IReadProperties;
+import de.mhus.commons.tree.IReadonly;
 
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Iterator;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Optional;
-import java.util.Set;
 import java.util.function.Function;
 
-public class PropertiesReadOnly implements IReadProperties, ReadOnly {
+public class PropertiesReadOnly implements IReadonly, ReadOnly {
 
     private IProperties parent;
 
@@ -100,6 +95,21 @@ public class PropertiesReadOnly implements IReadProperties, ReadOnly {
     @Override
     public int getInt(String name, int def) {
         return parent.getInt(name, def);
+    }
+
+    @Override
+    public OptionalInt getInt(String name) {
+        return parent.getInt(name);
+    }
+
+    @Override
+    public OptionalLong getLong(String name) {
+        return parent.getLong(name);
+    }
+
+    @Override
+    public OptionalDouble getDouble(String name) {
+        return parent.getDouble(name);
     }
 
     @Override

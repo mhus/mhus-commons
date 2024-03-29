@@ -85,7 +85,7 @@ public class MProperties extends AbstractProperties implements Externalizable {
                     this.properties.put(String.valueOf(e.getKey()), e.getValue());
     }
 
-    public MProperties(IReadProperties in) {
+    public MProperties(IReadonly in) {
         this.properties = new Properties();
         if (in != null)
             for (Map.Entry<?, ?> e : in.entrySet())

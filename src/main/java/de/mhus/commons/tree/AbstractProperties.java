@@ -68,10 +68,14 @@ public abstract class AbstractProperties implements IProperties {
 
     @Override
     public Optional<String> getString(String key) {
-        Object out = getProperty(key);
-        if (out == null)
-            Optional.empty();
-        return Optional.ofNullable(MString.valueOf(out));
+        try {
+            Object out = getProperty(key);
+            if (out == null)
+                Optional.empty();
+            return Optional.ofNullable(MString.valueOf(out));
+        } catch (Exception e) {
+            return Optional.empty();
+        }
     }
 
     @Override
@@ -434,7 +438,7 @@ public abstract class AbstractProperties implements IProperties {
                 put(String.valueOf(e.getKey()), e.getValue());
     }
 
-    public void putReadProperties(IReadProperties m) {
+    public void putReadProperties(IReadonly m) {
         for (Entry<? extends String, ? extends Object> e : m.entrySet())
             if (e.getValue() instanceof IsNull)
                 remove(e.getKey());

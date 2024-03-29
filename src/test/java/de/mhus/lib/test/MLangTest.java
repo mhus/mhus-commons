@@ -21,28 +21,28 @@ public class MLangTest {
         }).getException()).isInstanceOf(UsageException.class);
         assertThat(MLang.tryThis(() -> {
             throw new UsageException();
-        }).onError("b")).isEqualTo("b");
+        }).or("b")).isEqualTo("b");
         assertThat(MLang.tryThis(() -> {
             throw new UsageException();
-        }).onErrorGet(() -> "c")).isEqualTo("c");
+        }).orGet(() -> "c")).isEqualTo("c");
         assertThat(MLang.tryThis(() -> {
             throw new UsageException();
-        }).onErrorTry(() -> "d").get()).isEqualTo("d");
+        }).orTry(() -> "d").get()).isEqualTo("d");
         assertThat(MLang.tryThis(() -> {
             throw new UsageException();
-        }).onErrorTry(() -> {
+        }).orTry(() -> {
             throw new UsageException();
         }).get()).isNull();
         assertThat(MLang.tryThis(() -> {
             throw new UsageException();
-        }).onErrorTry(() -> {
+        }).orTry(() -> {
             throw new UsageException();
-        }).onError("e")).isEqualTo("e");
+        }).or("e")).isEqualTo("e");
 
         final Value<Exception> exception = new Value<>();
         MLang.tryThis(() -> {
             throw new UsageException();
-        }).ifError(e -> exception.setValue(e));
+        }).onError(e -> exception.setValue(e));
 
         assertThat(exception.get()).isInstanceOf(UsageException.class);
 

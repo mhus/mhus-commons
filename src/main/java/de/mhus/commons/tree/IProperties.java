@@ -21,8 +21,7 @@ import de.mhus.commons.util.MUri;
 import java.io.Serializable;
 import java.util.*;
 
-public interface IProperties
-        extends IReadProperties, Map<String, Object>, Serializable, Iterable<Map.Entry<String, Object>> {
+public interface IProperties extends IReadonly, Map<String, Object>, Serializable, Iterable<Map.Entry<String, Object>> {
 
     void setProperty(String name, Object value);
 
@@ -96,6 +95,89 @@ public interface IProperties
                 out.put(keysAndValues[i], keysAndValues[i + 1]);
             }
         }
+        return out;
+    }
+
+    /**
+     * This will handle the strings like options. It will read key=value key=value syntax and values can be enclosed in
+     * quotes. Quotes will be removed or can be escaped with a backslash.
+     *
+     * @param properties
+     *            Properties string
+     *
+     * @return The MProperties object
+     */
+    static MProperties toProperties(String properties) {
+        var out = new MProperties();
+        if (properties == null)
+            return out;
+        StringBuilder key = new StringBuilder();
+        StringBuilder value = new StringBuilder();
+        int mode = 1; // 1 = key, 2 = value, 3 = value with quotes
+        for (int i = 0; i < properties.length(); i++) {
+            char c = properties.charAt(i);
+            if (c == '=' && mode == 1) {
+                mode = 2;
+                value.setLength(0);
+                continue;
+            }
+            if (c == '"' && mode == 2) {
+                mode = 3;
+                value.setLength(0);
+                continue;
+            }
+            if (c == '\\' && mode > 1) {
+                i++;
+                if (i >= properties.length())
+                    break;
+                c = properties.charAt(i);
+                if (c == '"' || c == '\\') {
+                    value.append(c);
+                } else if (c == 'u') {
+                    if (i + 4 >= properties.length())
+                        break;
+                    String hex = properties.substring(i + 1, i + 5);
+                    try {
+                        value.append((char) Integer.parseInt(hex, 16));
+                    } catch (NumberFormatException e) {
+                        value.append('\\');
+                        value.append('u');
+                        value.append(hex);
+                    }
+                    i += 4;
+                } else {
+                    value.append('\\');
+                    value.append(c);
+                }
+                continue;
+            }
+            if ((c == ' ' || c == '\t') && mode == 2) {
+                out.put(key.toString().trim(), value.toString().trim());
+                key.setLength(0);
+                value.setLength(0);
+                mode = 1;
+                continue;
+            }
+            if (c == '"' && mode == 3) {
+                out.put(key.toString().trim(), value.toString());
+                key.setLength(0);
+                value.setLength(0);
+                mode = 1;
+                continue;
+            }
+            if (mode == 1) {
+                key.append(c);
+            } else if (mode == 2) {
+                value.append(c);
+            } else {
+                value.append(c);
+            }
+
+        }
+        if (mode == 2) {
+            out.put(key.toString().trim(), value.toString().trim());
+        }
+
         return out;
     }
 
@@ -278,7 +360,7 @@ public interface IProperties
         return key.startsWith("_") && !key.startsWith("__");
     }
 
-    static IProperties toIProperties(IReadProperties properties) {
+    static IProperties toIProperties(IReadonly properties) {
         if (properties == null)
             return null;
         if (properties instanceof IProperties)
@@ -286,7 +368,7 @@ public interface IProperties
         return new MProperties(properties);
     }
 
-    public static MProperties toMProperties(IReadProperties properties) {
+    public static MProperties toMProperties(IReadonly properties) {
         if (properties == null)
             return null;
         if (properties instanceof MProperties)

@@ -16,7 +16,7 @@
 package de.mhus.commons.io;
 
 import de.mhus.commons.tools.MXml;
-import de.mhus.commons.tree.IReadProperties;
+import de.mhus.commons.tree.IReadonly;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -31,9 +31,9 @@ import java.io.InputStream;
  */
 public class UserFieldValuesRewriter implements StreamRewriter {
 
-    private IReadProperties values;
+    private IReadonly values;
 
-    public UserFieldValuesRewriter(IReadProperties values) {
+    public UserFieldValuesRewriter(IReadonly values) {
         this.values = values;
     }
 

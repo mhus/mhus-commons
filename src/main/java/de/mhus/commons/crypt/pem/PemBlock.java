@@ -15,11 +15,11 @@
  */
 package de.mhus.commons.crypt.pem;
 
-import de.mhus.commons.tree.IReadProperties;
+import de.mhus.commons.tree.IReadonly;
 
 import java.util.Map;
 
-public interface PemBlock extends IReadProperties, Map<String, Object> {
+public interface PemBlock extends IReadonly, Map<String, Object> {
 
     String BLOCK_CIPHER = "CIPHER";
     String ALGORITHM = "Algorithm";

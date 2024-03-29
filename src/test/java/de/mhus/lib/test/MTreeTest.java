@@ -22,11 +22,7 @@ import de.mhus.commons.tools.MSystem;
 import de.mhus.commons.tools.MXml;
 import de.mhus.commons.errors.MException;
 import de.mhus.commons.errors.NotFoundException;
-import de.mhus.commons.tree.DefaultNodeFactory;
-import de.mhus.commons.tree.ITreeNode;
-import de.mhus.commons.tree.TreeNode;
-import de.mhus.commons.tree.MProperties;
-import de.mhus.commons.tree.TreeNodeList;
+import de.mhus.commons.tree.*;
 import de.mhus.lib.test.util.TestCase;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
@@ -37,12 +33,93 @@ import java.io.InputStream;
 import java.util.Collection;
 import java.util.Iterator;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MTreeTest extends TestCase {
+
+    @Test
+    public void testPropertiesParser() {
+        {
+            IProperties p = IProperties.toProperties("a=b");
+            assertThat(p.getString("a").get()).isEqualTo("b");
+        }
+        {
+            IProperties p = IProperties.toProperties("a=b c=d");
+            assertThat(p.getString("a").get()).isEqualTo("b");
+            assertThat(p.getString("c").get()).isEqualTo("d");
+        }
+        {
+            IProperties p = IProperties.toProperties(" a = b c = d ");
+            assertThat(p.getString("a").get()).isEqualTo("");
+            assertThat(p.getString("b c").get()).isEqualTo("");
+        }
+        {
+            IProperties p = IProperties.toProperties(" a =b c =d ");
+            assertThat(p.getString("a").get()).isEqualTo("b");
+            assertThat(p.getString("c").get()).isEqualTo("d");
+        }
+        {
+            IProperties p = IProperties.toProperties(" a =\"b\" c =\"d\" ");
+            assertThat(p.getString("a").get()).isEqualTo("b");
+            assertThat(p.getString("c").get()).isEqualTo("d");
+        }
+        {
+            IProperties p = IProperties.toProperties(" a =\" b \" c =\" d \" ");
+            assertThat(p.getString("a").get()).isEqualTo(" b ");
+            assertThat(p.getString("c").get()).isEqualTo(" d ");
+        }
+        {
+            IProperties p = IProperties.toProperties(" a =\" b\\\" \" c =\" d\\\\ \" ");
+            assertThat(p.getString("a").get()).isEqualTo(" b\" ");
+            assertThat(p.getString("c").get()).isEqualTo(" d\\ ");
+        }
+        {
+            IProperties p = IProperties.toProperties(" a =\"\\u2202\" c =\"d\" ");
+            assertThat(p.getString("a").get()).isEqualTo("\u2202");
+            assertThat(p.getString("c").get()).isEqualTo("d");
+        }
+        {
+            IProperties p = IProperties.toProperties(" a =\\u2202 c =\"d\" ");
+            assertThat(p.getString("a").get()).isEqualTo("\u2202");
+            assertThat(p.getString("c").get()).isEqualTo("d");
+        }
+    }
+
+    @Test
+    public void testOptionals() {
+        {
+            IProperties p = new MProperties();
+            assertThat(p.getString("test1").orElse("oh")).isEqualTo("oh");
+            assertThat(p.getString("test1").orElse(null)).isNull();
+
+            assertThat(p.getInt("test1").orElse(1)).isEqualTo(1);
+            assertThat(p.getInt("test1").orElse(1)).isEqualTo(1);
+
+            assertThat(p.getDouble("test1").orElse(1.0)).isEqualTo(1.0);
+            assertThat(p.getDouble("test1").orElse(1.0)).isEqualTo(1.0);
+
+            assertThat(p.getLong("test1").orElse(1)).isEqualTo(1);
+            assertThat(p.getLong("test1").orElse(1)).isEqualTo(1);
+        }
+        {
+            IReadonly p = new MProperties();
+            assertThat(p.getString("test1").orElse("oh")).isEqualTo("oh");
+            assertThat(p.getString("test1").orElse(null)).isNull();
+
+            assertThat(p.getInt("test1").orElse(1)).isEqualTo(1);
+            assertThat(p.getInt("test1").orElse(1)).isEqualTo(1);
+
+            assertThat(p.getDouble("test1").orElse(1.0)).isEqualTo(1.0);
+            assertThat(p.getDouble("test1").orElse(1.0)).isEqualTo(1.0);
+
+            assertThat(p.getLong("test1").orElse(1)).isEqualTo(1);
+            assertThat(p.getLong("test1").orElse(1)).isEqualTo(1);
+        }
+    }
 
     @Test
     public void testPropertiesWithUTF8() throws IOException, NotFoundException {
@@ -136,6 +213,7 @@ public class MTreeTest extends TestCase {
             System.out.println("C2: " + c2);
             validateTree(c2, false);
         }
+
     }
 
     @Test
