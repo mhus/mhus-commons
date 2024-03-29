@@ -1,6 +1,7 @@
 package de.mhus.commons.tools;
 
 import de.mhus.commons.lang.Consumer0;
+import de.mhus.commons.lang.Consumer1;
 
 import java.util.function.Supplier;
 
@@ -66,6 +67,17 @@ public class MLang {
             if (exception != null)
                 return def;
             return result;
+        }
+
+        public TryResult<T> ifError(Consumer1<Exception> action) {
+            if (exception != null) {
+                try {
+                    action.accept(exception);
+                } catch (Exception e) {
+                    // ignore
+                }
+            }
+            return this;
         }
 
         public T onErrorGet(Supplier<T> def) {

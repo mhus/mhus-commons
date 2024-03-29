@@ -52,6 +52,10 @@ public class Value<T> implements Valueable<T>, Serializable {
         return value;
     }
 
+    public T get() {
+        return value;
+    }
+
     private void writeObject(java.io.ObjectOutputStream out) throws IOException {
         if (value == null) {
             out.writeInt(0);
@@ -77,4 +81,9 @@ public class Value<T> implements Valueable<T>, Serializable {
     public void setValue(T value) {
         this.value = value;
     }
+
+    public void set(T value) {
+        this.value = value;
+    }
+
 }

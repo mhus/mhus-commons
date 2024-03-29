@@ -2,6 +2,7 @@ package de.mhus.lib.test;
 
 import de.mhus.commons.errors.UsageException;
 import de.mhus.commons.tools.MLang;
+import de.mhus.commons.util.Value;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -37,5 +38,13 @@ public class MLangTest {
         }).onErrorTry(() -> {
             throw new UsageException();
         }).onError("e")).isEqualTo("e");
+
+        final Value<Exception> exception = new Value<>();
+        MLang.tryThis(() -> {
+            throw new UsageException();
+        }).ifError(e -> exception.setValue(e));
+
+        assertThat(exception.get()).isInstanceOf(UsageException.class);
+
     }
 }
