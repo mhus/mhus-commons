@@ -36,6 +36,18 @@ import static org.junit.jupiter.api.Assertions.fail;
 public class MCollectionTest extends TestCase {
 
     @Test
+    public void testReplaceMap() {
+        Map<String, String> map = new HashMap<>();
+        map.put("a", "1");
+        map.put("b", "2");
+        map.put("c", "3");
+        MCollection.replaceAll(map, (k, v) -> "x");
+        assertEquals("x", map.get("a"));
+        assertEquals("x", map.get("b"));
+        assertEquals("x", map.get("c"));
+    }
+
+    @Test
     public void testDetachedList() {
         LinkedList<String> list = new LinkedList<>();
         list.add("a");

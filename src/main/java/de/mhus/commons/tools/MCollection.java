@@ -17,6 +17,7 @@ package de.mhus.commons.tools;
 
 import de.mhus.commons.errors.RC;
 import de.mhus.commons.errors.MRuntimeException;
+import de.mhus.commons.lang.Function2;
 import de.mhus.commons.tree.IProperties;
 import de.mhus.commons.util.ReadOnlyList;
 
@@ -35,6 +36,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -750,6 +752,16 @@ public class MCollection {
             return;
         for (int i = 0; i < array.length; i++)
             array[i] = manipulator.apply(array[i]);
+    }
+
+    public static <K, V> void replaceAll(Map<K, V> map, BiFunction<K, V, V> manipulator) {
+        if (map == null)
+            return;
+        for (Entry<K, V> entry : map.entrySet()) {
+            var newValue = manipulator.apply(entry.getKey(), entry.getValue());
+            if (newValue != null)
+                entry.setValue(newValue);
+        }
     }
 
     /**
