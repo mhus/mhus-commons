@@ -63,7 +63,7 @@ public class MTreeTest extends TestCase {
             assertThat(p.getString("c").get()).isEqualTo("d");
         }
         {
-            IProperties p = IProperties.toProperties(" a =\"b\" c =\"d\" ");
+            IProperties p = IProperties.toProperties(" a = \"b\" c =\"d\" ");
             assertThat(p.getString("a").get()).isEqualTo("b");
             assertThat(p.getString("c").get()).isEqualTo("d");
         }
@@ -83,10 +83,31 @@ public class MTreeTest extends TestCase {
             assertThat(p.getString("c").get()).isEqualTo("d");
         }
         {
-            IProperties p = IProperties.toProperties(" a =\\u2202 c =\"d\" ");
+            IProperties p = IProperties.toProperties(" a =\\u2202 c =\"d'\" ");
             assertThat(p.getString("a").get()).isEqualTo("\u2202");
+            assertThat(p.getString("c").get()).isEqualTo("d'");
+        }
+        {
+            IProperties p = IProperties.toProperties(" a = 'b' c =' d ' ");
+            assertThat(p.getString("a").get()).isEqualTo("b");
+            assertThat(p.getString("c").get()).isEqualTo(" d ");
+        }
+        {
+            IProperties p = IProperties.toProperties(" a = 'b\\'' c =' d \\' \"' ");
+            assertThat(p.getString("a").get()).isEqualTo("b'");
+            assertThat(p.getString("c").get()).isEqualTo(" d ' \"");
+        }
+        {
+            IProperties p = IProperties.toProperties(" a = 'b'\n\rc ='d' ");
+            assertThat(p.getString("a").get()).isEqualTo("b");
             assertThat(p.getString("c").get()).isEqualTo("d");
         }
+        {
+            IProperties p = IProperties.toProperties(" a = 'b'\tc ='d' ");
+            assertThat(p.getString("a").get()).isEqualTo("b");
+            assertThat(p.getString("c").get()).isEqualTo("d");
+        }
+
     }
 
     @Test

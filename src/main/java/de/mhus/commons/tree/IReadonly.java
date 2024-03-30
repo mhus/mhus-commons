@@ -85,4 +85,6 @@ public interface IReadonly extends Iterable<Entry<String, Object>> {
     Collection<Object> values();
 
     Set<Entry<String, Object>> entrySet();
+
+    int size();
 }

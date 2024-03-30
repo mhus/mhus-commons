@@ -16,6 +16,7 @@
 package de.mhus.commons.tree;
 
 import de.mhus.commons.tools.MCast;
+import de.mhus.commons.tools.MString;
 import de.mhus.commons.util.MUri;
 
 import java.io.Serializable;
@@ -113,16 +114,18 @@ public interface IProperties extends IReadonly, Map<String, Object>, Serializabl
             return out;
         StringBuilder key = new StringBuilder();
         StringBuilder value = new StringBuilder();
+        char encapsulateChar = 0;
         int mode = 1; // 1 = key, 2 = value, 3 = value with quotes
-        for (int i = 0; i < properties.length(); i++) {
+        main: for (int i = 0; i < properties.length(); i++) {
             char c = properties.charAt(i);
             if (c == '=' && mode == 1) {
                 mode = 2;
                 value.setLength(0);
                 continue;
             }
-            if (c == '"' && mode == 2) {
+            if ((c == '"' || c == '\'') && mode == 2) {
                 mode = 3;
+                encapsulateChar = c;
                 value.setLength(0);
                 continue;
             }
@@ -131,8 +134,14 @@ public interface IProperties extends IReadonly, Map<String, Object>, Serializabl
                 if (i >= properties.length())
                     break;
                 c = properties.charAt(i);
-                if (c == '"' || c == '\\') {
+                if (c == encapsulateChar || c == '\\') {
                     value.append(c);
+                } else if (c == 'n') {
+                    value.append('\n');
+                } else if (c == 'r') {
+                    value.append('\r');
+                } else if (c == 't') {
+                    value.append('\t');
                 } else if (c == 'u') {
                     if (i + 4 >= properties.length())
                         break;
@@ -151,14 +160,28 @@ public interface IProperties extends IReadonly, Map<String, Object>, Serializabl
                 }
                 continue;
             }
-            if ((c == ' ' || c == '\t') && mode == 2) {
+            if (MString.isWhitespace(c) && mode == 2) {
+                // is there an encapsulation next?
+                if (value.length() == 0) {
+                    for (int j = i + 1; j < properties.length(); j++) {
+                        char nextChar = properties.charAt(j);
+                        if (MString.isWhitespace(nextChar)) continue;
+                        if (nextChar == '"' || nextChar == '\'') {
+                            i = j - 1;
+                            continue main;
+                        } else {
+                            break;
+                        }
+                    }
+                }
+                // no, the value is finished
                 out.put(key.toString().trim(), value.toString().trim());
                 key.setLength(0);
                 value.setLength(0);
                 mode = 1;
                 continue;
             }
-            if (c == '"' && mode == 3) {
+            if (c == encapsulateChar && mode == 3) {
                 out.put(key.toString().trim(), value.toString());
                 key.setLength(0);
                 value.setLength(0);

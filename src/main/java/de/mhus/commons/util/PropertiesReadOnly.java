@@ -73,6 +73,11 @@ public class PropertiesReadOnly implements IReadonly, ReadOnly {
     }
 
     @Override
+    public int size() {
+        return parent.size();
+    }
+
+    @Override
     public String getString(String name, String def) {
         return parent.getString(name, def);
     }
