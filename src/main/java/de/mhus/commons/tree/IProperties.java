@@ -165,7 +165,8 @@ public interface IProperties extends IReadonly, Map<String, Object>, Serializabl
                 if (value.length() == 0) {
                     for (int j = i + 1; j < properties.length(); j++) {
                         char nextChar = properties.charAt(j);
-                        if (MString.isWhitespace(nextChar)) continue;
+                        if (MString.isWhitespace(nextChar))
+                            continue;
                         if (nextChar == '"' || nextChar == '\'') {
                             i = j - 1;
                             continue main;

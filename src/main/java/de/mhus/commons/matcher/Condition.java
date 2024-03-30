@@ -153,6 +153,7 @@ public class Condition {
                     pattern = new ModelSql();
                     break;
                 case "regex":
+                case "=~":
                     if (pattern != null)
                         throw new SyntaxError("type before type");
                     pattern = new ModelRegex();

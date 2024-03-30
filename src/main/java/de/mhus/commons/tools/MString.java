@@ -1105,7 +1105,7 @@ public class MString {
             pattern = pattern.substring(1);
         }
         if (pattern.endsWith("%") && pattern.startsWith("%")) {
-            if (str.indexOf(pattern.substring(1, pattern.length() - 2)) >= 0)
+            if (str.indexOf(pattern.substring(1, pattern.length() - 1)) >= 0)
                 return policy;
         } else if (pattern.startsWith("%")) {
             if (str.endsWith(pattern.substring(1)))
@@ -1140,7 +1140,7 @@ public class MString {
             return ret;
 
         if (pattern.endsWith("*") && pattern.startsWith("*")) {
-            if (str.indexOf(pattern.substring(1, pattern.length() - 2)) >= 0)
+            if (str.indexOf(pattern.substring(1, pattern.length() - 1)) >= 0)
                 return ret;
         } else if (pattern.startsWith("*")) {
             if (str.endsWith(pattern.substring(1)))

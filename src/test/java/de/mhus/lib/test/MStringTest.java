@@ -33,6 +33,26 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class MStringTest extends TestCase {
 
     @Test
+    public void testReplace() {
+        {
+            var repl = MString.replaceSQLLikePattern("It is a text", "%is%", "was");
+            assertEquals("It was a text", repl);
+        }
+        {
+            var repl = MString.replaceSQLLikePattern("This is a text", "%is%", "was");
+            assertEquals("Thwas is a text", repl);
+        }
+        {
+            var repl = MString.replaceSQLLikePattern("It is a text", "It%", "This");
+            assertEquals("This is a text", repl);
+        }
+        {
+            var repl = MString.replaceSQLLikePattern("It is a text", "%text", "world");
+            assertEquals("It is a world", repl);
+        }
+    }
+
+    @Test
     public void testSubstitute() {
         String[] tests = { "Name $name$ end|Name Mickey end", "Name ${name} end|Name Mickey end",
                 "Name $none:Joe$ end|Name Joe end", "Name ${none:Joe} end|Name Joe end",

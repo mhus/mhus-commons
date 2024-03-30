@@ -190,6 +190,111 @@ public class MatcherTest extends TestCase {
             System.out.println(cond);
             assertEquals(false, cond.matches(val));
         }
+        // fs
+        {
+            Condition cond = new Condition("$param1 fs aloa");
+            System.out.println(cond);
+            assertEquals(true, cond.matches(val));
+        }
+        {
+            Condition cond = new Condition("$param1 fs al*");
+            System.out.println(cond);
+            assertEquals(true, cond.matches(val));
+        }
+        {
+            Condition cond = new Condition("$param1 fs *oa");
+            System.out.println(cond);
+            assertEquals(true, cond.matches(val));
+        }
+        {
+            Condition cond = new Condition("$param1 fs *o*");
+            System.out.println(cond);
+            assertEquals(true, cond.matches(val));
+        }
+        {
+            Condition cond = new Condition("$param1 fs *x*");
+            System.out.println(cond);
+            assertEquals(false, cond.matches(val));
+        }
+        // sql
+        {
+            Condition cond = new Condition("$param1 sql aloa");
+            System.out.println(cond);
+            assertEquals(true, cond.matches(val));
+        }
+        {
+            Condition cond = new Condition("$param1 sql al%");
+            System.out.println(cond);
+            assertEquals(true, cond.matches(val));
+        }
+        {
+            Condition cond = new Condition("$param1 sql %oa");
+            System.out.println(cond);
+            assertEquals(true, cond.matches(val));
+        }
+        {
+            Condition cond = new Condition("$param1 sql %o%");
+            System.out.println(cond);
+            assertEquals(true, cond.matches(val));
+        }
+        {
+            Condition cond = new Condition("$param1 sql %x%");
+            System.out.println(cond);
+            assertEquals(false, cond.matches(val));
+        }
+        // regex
+        {
+            Condition cond = new Condition("$param1 regex aloa");
+            System.out.println(cond);
+            assertEquals(true, cond.matches(val));
+        }
+        {
+            Condition cond = new Condition("$param1 regex al.*");
+            System.out.println(cond);
+            assertEquals(true, cond.matches(val));
+        }
+        {
+            Condition cond = new Condition("$param1 regex .*oa");
+            System.out.println(cond);
+            assertEquals(true, cond.matches(val));
+        }
+        {
+            Condition cond = new Condition("$param1 regex .*o.*");
+            System.out.println(cond);
+            assertEquals(true, cond.matches(val));
+        }
+        {
+            Condition cond = new Condition("$param1 regex .*x.*");
+            System.out.println(cond);
+            assertEquals(false, cond.matches(val));
+        }
+        // regex 2
+        {
+            Condition cond = new Condition("$param1 =~ aloa");
+            System.out.println(cond);
+            assertEquals(true, cond.matches(val));
+        }
+        {
+            Condition cond = new Condition("$param1 =~ al.*");
+            System.out.println(cond);
+            assertEquals(true, cond.matches(val));
+        }
+        {
+            Condition cond = new Condition("$param1 =~ .*oa");
+            System.out.println(cond);
+            assertEquals(true, cond.matches(val));
+        }
+        {
+            Condition cond = new Condition("$param1 =~ .*o.*");
+            System.out.println(cond);
+            assertEquals(true, cond.matches(val));
+        }
+        {
+            Condition cond = new Condition("$param1 =~ .*x.*");
+            System.out.println(cond);
+            assertEquals(false, cond.matches(val));
+        }
+        // more ...
         {
             Condition cond = new Condition("($param1 bla or $param1 aloa)");
             System.out.println(cond);
