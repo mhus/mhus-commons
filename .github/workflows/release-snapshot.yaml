@@ -22,7 +22,8 @@ on:
   push:
     branches:
       - main
-
+  pull_request:
+    types: [opened, synchronize, reopened]
 jobs:
   release_snapshot:
     runs-on: ubuntu-latest
@@ -47,3 +48,8 @@ jobs:
         # Notes:
         #  - tests already run in a separate action (main)
         run: mvn -B -U --fail-at-end -Pdeploy clean deploy
+      - name: Analyse
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=mhus_mhus-commons
