@@ -25,6 +25,7 @@ import de.mhus.commons.services.EnvironmentProvider;
 import de.mhus.commons.services.MService;
 import lombok.extern.slf4j.Slf4j;
 
+import java.awt.*;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
@@ -102,6 +103,26 @@ public class MSystem {
     @SuppressWarnings("unchecked")
     public static <E> E[] newArray(Class<E> componentType, int size) {
         return (E[]) Array.newInstance(componentType, size);
+    }
+
+    public static void openBrowserUrl(String url) {
+        Runtime rt = Runtime.getRuntime();
+        try {
+            LOGGER.debug("Browser: " + url);
+            if (isWindows()) {
+                rt.exec("rundll32 url.dll,FileProtocolHandler " + url).waitFor();
+            } else if (isMac()) {
+                String[] cmd = { "open", url };
+                rt.exec(cmd).waitFor();
+            } else if (isUnix()) {
+                String[] cmd = { "xdg-open", url };
+                rt.exec(cmd).waitFor();
+            } else {
+                Desktop.getDesktop().browse(new URL(url).toURI());
+            }
+        } catch (Exception e) {
+            LOGGER.error("Can't open web browser with url {}", url);
+        }
     }
 
     public enum OS {
