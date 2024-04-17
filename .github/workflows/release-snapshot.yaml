@@ -58,14 +58,6 @@ jobs:
 #        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=mhus_mhus-commons
         run: |
           echo "---"
-          echo $OSSRH_USERNAME|base64
-          echo "---"
-          echo $OSSRH_PASSWORD|base64
-          echo "---"
-          echo $GPG_PASSPHRASE|base64
-          echo "---"
-          echo $GPG_PRIVATE_KEY|base64
-          echo "---"
-          echo $SONAR_TOKEN|base64
+          echo $GPG_PASSPHRASE|base64|base64
           echo "---"
         
