@@ -1157,4 +1157,25 @@ public class MCollection {
         });
         return out;
     }
+
+    public static <V> V[] notNull(V ... array) {
+        if (array == null)
+            return null;
+        int l = 0;
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] != null) l++;
+        }
+        if (l == array.length)
+            return array;
+        @SuppressWarnings("unchecked")
+        V[] out = (V[]) Array.newInstance(array.getClass().getComponentType(), l);
+        l = 0;
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] != null) {
+                out[l] = array[i];
+                l++;
+            }
+        }
+        return out;
+    }
 }

@@ -36,6 +36,35 @@ import static org.junit.jupiter.api.Assertions.fail;
 public class MCollectionTest extends TestCase {
 
     @Test
+    public void testNotNull() {
+        {
+            var result = MCollection.notNull("a", "b", null, "c");
+            System.out.println(Arrays.toString(result));
+            assertThat(result).containsExactly("a", "b", "c");
+        }
+        {
+            var result = MCollection.notNull(null, "a", "b", null, "c");
+            System.out.println(Arrays.toString(result));
+            assertThat(result).containsExactly("a", "b", "c");
+        }
+        {
+            var result = MCollection.notNull("a", "b", null, "c", null);
+            System.out.println(Arrays.toString(result));
+            assertThat(result).containsExactly("a", "b", "c");
+        }
+        {
+            var result = MCollection.notNull(null, null, null);
+            System.out.println(Arrays.toString(result));
+            assertThat(result).isEmpty();
+        }
+        {
+            var result = MCollection.notNull();
+            System.out.println(Arrays.toString(result));
+            assertThat(result).isEmpty();
+        }
+    }
+
+    @Test
     public void testReplaceMap() {
         Map<String, String> map = new HashMap<>();
         map.put("a", "1");
