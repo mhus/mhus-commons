@@ -1158,12 +1158,13 @@ public class MCollection {
         return out;
     }
 
-    public static <V> V[] notNull(V ... array) {
+    public static <V> V[] notNull(V... array) {
         if (array == null)
             return null;
         int l = 0;
         for (int i = 0; i < array.length; i++) {
-            if (array[i] != null) l++;
+            if (array[i] != null)
+                l++;
         }
         if (l == array.length)
             return array;
