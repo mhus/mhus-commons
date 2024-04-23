@@ -26,7 +26,9 @@ import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
@@ -40,8 +42,10 @@ public class Zip {
     private File src;
     private File dst;
     private FileFilter filter;
+    private List<String> errors;
 
     public void zip() throws IOException {
+        errors = new ArrayList<>();
         ZipOutputStream zip = new ZipOutputStream(new FileOutputStream(dst));
         for (File file : src.listFiles()) {
             addFile(zip, file, "");
@@ -65,14 +69,15 @@ public class Zip {
                 }
             } catch (IOException e) {
                 LOGGER.error("Failed to write file {} to zip {}", file, dst, e);
+                errors.add(file.getPath());
             }
         }
     }
 
 
     public void unzip() throws ZipException, IOException {
+        errors = new ArrayList<>();
         ZipFile zipFile = new ZipFile(src);
-
         Enumeration<?> entries = zipFile.entries();
 
         while (entries.hasMoreElements()) {
@@ -91,15 +96,20 @@ public class Zip {
             File dstFile = new File(dst, name);
             if (filter == null || !filter.accept(dstFile)) {
                 LOGGER.trace("Unzip file {} to {}", entry.getName(), dstFile.getAbsolutePath());
-                File parent = dstFile.getParentFile();
-                if (!parent.exists()) {
-                    LOGGER.trace("  Create parent directory {} ", parent.getAbsolutePath());
-                    parent.mkdirs();
+                try {
+                    File parent = dstFile.getParentFile();
+                    if (!parent.exists()) {
+                        LOGGER.trace("  Create parent directory {} ", parent.getAbsolutePath());
+                        parent.mkdirs();
+                    }
+                    BufferedOutputStream os = new BufferedOutputStream(new FileOutputStream(dstFile));
+                    MFile.copyFile(zipFile.getInputStream(entry), os);
+                    os.flush();
+                    os.close();
+                } catch (Exception e) {
+                    LOGGER.error("Failed to unzip file {} to {}", entry.getName(), dstFile.getAbsolutePath(), e);
+                    errors.add(entry.getName());
                 }
-                BufferedOutputStream os = new BufferedOutputStream(new FileOutputStream(dstFile));
-                MFile.copyFile(zipFile.getInputStream(entry), os);
-                os.flush();
-                os.close();
             }
         }
 
