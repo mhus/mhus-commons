@@ -16,46 +16,84 @@
 package de.mhus.commons.io;
 
 import de.mhus.commons.tools.MFile;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
+import java.util.zip.ZipOutputStream;
 
 @Slf4j
-public class Unzip {
+@Getter
+@Builder
+public class Zip {
 
-    public void unzip(File src, File dst, FileFilter filter) throws ZipException, IOException {
-        Enumeration<?> entries;
-        ZipFile zipFile;
-        zipFile = new ZipFile(src);
+    private File src;
+    private File dst;
+    private FileFilter filter;
 
-        entries = zipFile.entries();
+    public void zip() throws IOException {
+        ZipOutputStream zip = new ZipOutputStream(new FileOutputStream(dst));
+        for (File file : src.listFiles()) {
+            addFile(zip, file, "");
+        }
+    }
+
+    private void addFile(ZipOutputStream zip, File file, String s) {
+        if (filter == null || !filter.accept(file)) {
+            try {
+                if (file.isDirectory()) {
+                    for (File f : file.listFiles()) {
+                        addFile(zip, f, s + file.getName() + "/");
+                    }
+                } else {
+                    ZipEntry entry = new ZipEntry(s + file.getName());
+                    zip.putNextEntry(entry);
+                    try (FileInputStream fin = new FileInputStream(file)) {
+                        MFile.copyFile(fin, zip);
+                    }
+                    zip.closeEntry();
+                }
+            } catch (IOException e) {
+                LOGGER.error("Failed to write file {} to zip {}", file, dst, e);
+            }
+        }
+    }
+
+
+    public void unzip() throws ZipException, IOException {
+        ZipFile zipFile = new ZipFile(src);
+
+        Enumeration<?> entries = zipFile.entries();
 
         while (entries.hasMoreElements()) {
             ZipEntry entry = (ZipEntry) entries.nextElement();
+            final var name = MFile.normalizePath(entry.getName());
 
             if (entry.isDirectory()) {
                 // Assume directories are stored parents first then children.
                 // System.err.println("Extracting directory: " + entry.getName());
-                LOGGER.trace("Unzip directory {}", entry.getName());
+                LOGGER.trace("Unzip directory {} to {}", entry.getName(), name);
                 // This is not robust, just for demonstration purposes.
-                (new File(dst, entry.getName())).mkdir();
+                (new File(dst, name)).mkdir();
                 continue;
             }
 
-            File dstFile = new File(dst, entry.getName());
+            File dstFile = new File(dst, name);
             if (filter == null || !filter.accept(dstFile)) {
-                LOGGER.trace("Unzip file: {}", entry.getName());
+                LOGGER.trace("Unzip file {} to {}", entry.getName(), dstFile.getAbsolutePath());
                 File parent = dstFile.getParentFile();
                 if (!parent.exists()) {
-                    LOGGER.trace("  Create parent");
+                    LOGGER.trace("  Create parent directory {} ", parent.getAbsolutePath());
                     parent.mkdirs();
                 }
                 BufferedOutputStream os = new BufferedOutputStream(new FileOutputStream(dstFile));
