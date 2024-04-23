@@ -26,12 +26,14 @@ import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
+import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 @Slf4j
@@ -40,16 +42,18 @@ import java.util.zip.ZipOutputStream;
 public class Zip {
 
     private File src;
+    private InputStream srcStream;
     private File dst;
     private FileFilter filter;
     private List<String> errors;
 
-    public void zip() throws IOException {
+    public Zip zip() throws IOException {
         errors = new ArrayList<>();
         ZipOutputStream zip = new ZipOutputStream(new FileOutputStream(dst));
         for (File file : src.listFiles()) {
             addFile(zip, file, "");
         }
+        return this;
     }
 
     private void addFile(ZipOutputStream zip, File file, String s) {
@@ -75,8 +79,48 @@ public class Zip {
     }
 
 
-    public void unzip() throws ZipException, IOException {
+    public Zip unzip() throws ZipException, IOException {
         errors = new ArrayList<>();
+        if (srcStream != null) {
+            unzipStream();
+        } else {
+            unzipFile();
+        }
+        return this;
+    }
+
+    protected void unzipStream() throws ZipException, IOException {
+        ZipInputStream zis = new ZipInputStream(srcStream);
+        String fileName = null;
+        while (true) {
+            try {
+                fileName = null;
+                ZipEntry entry = zis.getNextEntry();
+                if (entry == null) break;
+
+                fileName = MFile.normalizePath(entry.getName());
+                if (entry.isDirectory()) {
+                    File newFile = new File(dst, fileName);
+                    newFile.mkdirs();
+                } else {
+                    File newFile = new File(dst, fileName);
+                    LOGGER.trace("Unzipping to {}", newFile.getAbsolutePath());
+                    //create directories for sub directories in zip
+                    newFile.getParentFile().mkdirs();
+                    FileOutputStream fos = new FileOutputStream(newFile);
+                    MFile.copyFile(zis, fos);
+                    fos.close();
+                    //close this ZipEntry
+                    zis.closeEntry();
+                }
+            } catch (Exception e) {
+                LOGGER.error("Failed to unzip file to {}", fileName, e);
+                errors.add(src.toString());
+            }
+        }
+    }
+
+    protected void unzipFile() throws IOException {
         ZipFile zipFile = new ZipFile(src);
         Enumeration<?> entries = zipFile.entries();
 
@@ -115,4 +159,5 @@ public class Zip {
 
         zipFile.close();
     }
+
 }
