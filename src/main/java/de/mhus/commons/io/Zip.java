@@ -15,6 +15,7 @@
  */
 package de.mhus.commons.io;
 
+import de.mhus.commons.errors.InternalRuntimeException;
 import de.mhus.commons.tools.MFile;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,9 +28,13 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
@@ -37,23 +42,173 @@ import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 @Slf4j
-@Getter
-@Builder
+@Builder()
 public class Zip {
 
+    /**
+     * Source file or directory.
+     */
     private File src;
+    /**
+     * Source stream as alternative to src. Has priority before src.
+     */
     private InputStream srcStream;
+    /**
+     * Destination file or directory.
+     */
     private File dst;
+    /**
+     * Destination stream as alternative to dst. Has priority before dst.
+     */
+    private OutputStream dstStream;
+    /**
+     * Filter to exclude files from the zip.
+     */
     private FileFilter filter;
-    private List<String> errors;
+    private final List<String> errors = new ArrayList<>(); // make final to avoid handled by builder
+    /**
+     * If true an InternalRuntimeException will be thrown if an error occurs. if false the error will
+     * be stored in the error list.
+     */
+    private boolean throwException;
+    /**
+     * If true no log output will be generated.
+     */
+    private boolean quiet = false;
 
-    public Zip zip() throws IOException {
-        errors = new ArrayList<>();
-        ZipOutputStream zip = new ZipOutputStream(new FileOutputStream(dst));
-        for (File file : src.listFiles()) {
-            addFile(zip, file, "");
-        }
+    public Zip gzip() {
+        gzipInternal();
+        if (throwException && !errors.isEmpty())
+            throw new InternalRuntimeException("Failed to gzip file " + src + " to " + dst + " " + errors);
         return this;
+    }
+
+    private void gzipInternal() {
+        errors.clear();
+        if (src == null && srcStream == null) {
+            errors.add("Source is null");
+            return;
+        }
+        if (dst == null && dstStream == null) {
+            errors.add("Destination is null");
+            return;
+        }
+        if (srcStream == null && !src.exists() && !src.isFile()) {
+            errors.add("Source does not exist");
+            return;
+        }
+        if (srcStream == null && !src.isFile()) {
+            errors.add("Source is not a file");
+            return;
+        }
+        if (dstStream == null && dst.exists() && !dst.isFile()) {
+            errors.add("Destination is not a file");
+            return;
+        }
+        try {
+            if (srcStream == null)
+                src.getParentFile().mkdirs();
+            var is = srcStream != null ? srcStream : new FileInputStream(src);
+            try (GZIPOutputStream zip = new GZIPOutputStream(
+                    dstStream != null ? dstStream : new FileOutputStream(dst))) {
+                MFile.copyFile(is, zip);
+            } finally {
+                if (srcStream == null)
+                    is.close();
+            }
+        } catch (Exception e) {
+            if (!quiet)
+                LOGGER.error("Failed to gzip file {} to {}", src, dst, e);
+            errors.add(e.toString());
+        }
+    }
+
+    public Zip ungzip() {
+        ungzipInternal();
+        if (throwException && !errors.isEmpty())
+            throw new InternalRuntimeException("Failed to gzip file " + src + " to " + dst + " " + errors);
+        return this;
+    }
+
+    private void ungzipInternal() {
+        errors.clear();
+        if (src == null && srcStream == null) {
+            errors.add("Source is null");
+            return;
+        }
+        if (dst == null && dstStream == null) {
+            errors.add("Destination is null");
+            return;
+        }
+        if (srcStream == null && !src.exists()) {
+            errors.add("Source does not exist");
+            return;
+        }
+        if (srcStream == null && !src.isFile()) {
+            errors.add("Source is not a file");
+            return;
+        }
+        if (dstStream == null && dst.exists() && !dst.isFile()) {
+            errors.add("Destination is not a file");
+            return;
+        }
+        try {
+            if (dstStream == null)
+                dst.getParentFile().mkdirs();
+            var os = dstStream != null ? dstStream : new FileOutputStream(dst);
+            try (GZIPInputStream zip = new GZIPInputStream(srcStream != null ? srcStream : new FileInputStream(src))) {
+                MFile.copyFile(zip, os);
+            } finally {
+                if (dstStream == null)
+                    os.close();
+            }
+        } catch (Exception e) {
+            if (!quiet)
+                LOGGER.error("Failed to ungzip file {} to {}", src, dst, e);
+            errors.add(e.toString());
+        }
+    }
+
+    public Zip zip() {
+        zipInternal();
+        if (throwException && !errors.isEmpty())
+            throw new InternalRuntimeException("Failed to gzip file " + src + " to " + dst + " " + errors);
+        return this;
+    }
+
+    private void zipInternal() {
+        errors.clear();
+        if (src == null && srcStream == null) {
+            errors.add("Source is null");
+            return;
+        }
+        if (dst == null && dstStream == null) {
+            errors.add("Destination is null");
+            return;
+        }
+        if (srcStream == null && !src.exists()) {
+            errors.add("Source does not exist");
+            return;
+        }
+        if (dstStream == null && dst.exists() && !dst.isFile()) {
+            errors.add("Destination is not a file");
+            return;
+        }
+        try {
+            try (ZipOutputStream zip = new ZipOutputStream(dstStream != null ? dstStream : new FileOutputStream(dst))) {
+                if (src.isFile()) {
+                    addFile(zip, src, "");
+                } else {
+                    for (File file : src.listFiles()) {
+                        addFile(zip, file, "");
+                    }
+                }
+            }
+        } catch (Exception e) {
+            if (!quiet)
+                LOGGER.error("Failed to zip file {} to {}", src, dst, e);
+            errors.add(e.toString());
+        }
     }
 
     private void addFile(ZipOutputStream zip, File file, String s) {
@@ -72,21 +227,49 @@ public class Zip {
                     zip.closeEntry();
                 }
             } catch (IOException e) {
-                LOGGER.error("Failed to write file {} to zip {}", file, dst, e);
+                if (!quiet)
+                    LOGGER.error("Failed to write file {} to zip {}", file, dst, e);
                 errors.add(file.getPath());
             }
         }
     }
 
-
-    public Zip unzip() throws ZipException, IOException {
-        errors = new ArrayList<>();
-        if (srcStream != null) {
-            unzipStream();
-        } else {
-            unzipFile();
-        }
+    public Zip unzip() {
+        unzipInternal();
+        if (throwException && !errors.isEmpty())
+            throw new InternalRuntimeException("Failed to gzip file " + src + " to " + dst + " " + errors);
         return this;
+    }
+
+    private void unzipInternal() {
+        errors.clear();
+        if (src == null && srcStream == null) {
+            errors.add("Source is null");
+            return;
+        }
+        if (dst == null && dstStream == null) {
+            errors.add("Destination is null");
+            return;
+        }
+        if (srcStream == null && !src.exists()) {
+            errors.add("Source does not exist");
+            return;
+        }
+        if (srcStream == null && !src.isFile()) {
+            errors.add("Source is not a file");
+            return;
+        }
+        try {
+            if (srcStream != null) {
+                unzipStream();
+            } else {
+                unzipFile();
+            }
+        } catch (Exception e) {
+            if (!quiet)
+                LOGGER.error("Failed to unzip file {} to {}", src, dst, e);
+            errors.add(src.toString());
+        }
     }
 
     protected void unzipStream() throws ZipException, IOException {
@@ -96,7 +279,8 @@ public class Zip {
             try {
                 fileName = null;
                 ZipEntry entry = zis.getNextEntry();
-                if (entry == null) break;
+                if (entry == null)
+                    break;
 
                 fileName = MFile.normalizePath(entry.getName());
                 if (entry.isDirectory()) {
@@ -104,17 +288,19 @@ public class Zip {
                     newFile.mkdirs();
                 } else {
                     File newFile = new File(dst, fileName);
-                    LOGGER.trace("Unzipping to {}", newFile.getAbsolutePath());
-                    //create directories for sub directories in zip
+                    if (!quiet)
+                        LOGGER.trace("Unzipping to {}", newFile.getAbsolutePath());
+                    // create directories for sub directories in zip
                     newFile.getParentFile().mkdirs();
                     FileOutputStream fos = new FileOutputStream(newFile);
                     MFile.copyFile(zis, fos);
                     fos.close();
-                    //close this ZipEntry
+                    // close this ZipEntry
                     zis.closeEntry();
                 }
             } catch (Exception e) {
-                LOGGER.error("Failed to unzip file to {}", fileName, e);
+                if (!quiet)
+                    LOGGER.error("Failed to unzip file to {}", fileName, e);
                 errors.add(src.toString());
             }
         }
@@ -129,21 +315,21 @@ public class Zip {
             final var name = MFile.normalizePath(entry.getName());
 
             if (entry.isDirectory()) {
-                // Assume directories are stored parents first then children.
-                // System.err.println("Extracting directory: " + entry.getName());
-                LOGGER.trace("Unzip directory {} to {}", entry.getName(), name);
-                // This is not robust, just for demonstration purposes.
+                if (!quiet)
+                    LOGGER.trace("Unzip directory {} to {}", entry.getName(), name);
                 (new File(dst, name)).mkdir();
                 continue;
             }
 
             File dstFile = new File(dst, name);
             if (filter == null || !filter.accept(dstFile)) {
-                LOGGER.trace("Unzip file {} to {}", entry.getName(), dstFile.getAbsolutePath());
+                if (!quiet)
+                    LOGGER.trace("Unzip file {} to {}", entry.getName(), dstFile.getAbsolutePath());
                 try {
                     File parent = dstFile.getParentFile();
                     if (!parent.exists()) {
-                        LOGGER.trace("  Create parent directory {} ", parent.getAbsolutePath());
+                        if (!quiet)
+                            LOGGER.trace("  Create parent directory {} ", parent.getAbsolutePath());
                         parent.mkdirs();
                     }
                     BufferedOutputStream os = new BufferedOutputStream(new FileOutputStream(dstFile));
@@ -151,7 +337,8 @@ public class Zip {
                     os.flush();
                     os.close();
                 } catch (Exception e) {
-                    LOGGER.error("Failed to unzip file {} to {}", entry.getName(), dstFile.getAbsolutePath(), e);
+                    if (!quiet)
+                        LOGGER.error("Failed to unzip file {} to {}", entry.getName(), dstFile.getAbsolutePath(), e);
                     errors.add(entry.getName());
                 }
             }
@@ -160,4 +347,7 @@ public class Zip {
         zipFile.close();
     }
 
+    public List<String> getErrors() {
+        return Collections.unmodifiableList(errors);
+    }
 }
