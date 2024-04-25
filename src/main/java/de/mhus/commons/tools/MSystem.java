@@ -108,7 +108,7 @@ public class MSystem {
     public static void openBrowserUrl(String url) {
         Runtime rt = Runtime.getRuntime();
         try {
-            LOGGER.debug("Browser: " + url);
+            LOGGER.debug("WebBrowser: " + url);
             if (isWindows()) {
                 rt.exec("rundll32 url.dll,FileProtocolHandler " + url).waitFor();
             } else if (isMac()) {
@@ -122,6 +122,24 @@ public class MSystem {
             }
         } catch (Exception e) {
             LOGGER.error("Can't open web browser with url {}", url);
+        }
+    }
+
+    public static void openFileBrowser(String path) {
+        Runtime rt = Runtime.getRuntime();
+        try {
+            LOGGER.debug("FileBrowser: " + path);
+            if (isWindows()) {
+                rt.exec("explorer.exe /select," + path);
+            } else if (isMac()) {
+                rt.exec("open -R " + path);
+            } else if (isUnix()) {
+                rt.exec("nautilus " + path);
+            } else {
+                Desktop.getDesktop().open(new File(path));
+            }
+        } catch (Exception e) {
+            LOGGER.error("Can't open file browser with path {}", path);
         }
     }
 

@@ -67,8 +67,8 @@ public class Zip {
     private FileFilter filter;
     private final List<String> errors = new ArrayList<>(); // make final to avoid handled by builder
     /**
-     * If true an InternalRuntimeException will be thrown if an error occurs. if false the error will
-     * be stored in the error list.
+     * If true an InternalRuntimeException will be thrown if an error occurs. if false the error will be stored in the
+     * error list.
      */
     private boolean throwException;
     /**
