@@ -268,7 +268,7 @@ public class Zip {
         } catch (Exception e) {
             if (!quiet)
                 LOGGER.error("Failed to unzip file {} to {}", src, dst, e);
-            errors.add(src.toString());
+            errors.add(e.toString());
         }
     }
 
@@ -301,7 +301,7 @@ public class Zip {
             } catch (Exception e) {
                 if (!quiet)
                     LOGGER.error("Failed to unzip file to {}", fileName, e);
-                errors.add(src.toString());
+                errors.add(e.toString());
             }
         }
     }
@@ -339,7 +339,7 @@ public class Zip {
                 } catch (Exception e) {
                     if (!quiet)
                         LOGGER.error("Failed to unzip file {} to {}", entry.getName(), dstFile.getAbsolutePath(), e);
-                    errors.add(entry.getName());
+                    errors.add(entry.getName() + " " + e.toString());
                 }
             }
         }
