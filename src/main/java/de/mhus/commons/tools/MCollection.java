@@ -17,7 +17,6 @@ package de.mhus.commons.tools;
 
 import de.mhus.commons.errors.RC;
 import de.mhus.commons.errors.MRuntimeException;
-import de.mhus.commons.lang.Function2;
 import de.mhus.commons.tree.IProperties;
 import de.mhus.commons.util.ReadOnlyList;
 
@@ -899,6 +898,106 @@ public class MCollection {
         for (int i = 0; i < nr1.length; i++)
             if (!MSystem.equals(nr1[i], nr2[i]))
                 return false;
+        return true;
+    }
+
+    /**
+     * Check if the collections are equal. The collections can be null. If both collections are null it will return
+     * true.
+     *
+     * @param nr1
+     *            The first collection
+     * @param nr2
+     *            The second collection
+     *
+     * @return true if the collections are equal
+     */
+    public static boolean equals(Collection<?> nr1, Collection<?> nr2) {
+        if (nr1 == null && nr2 == null)
+            return true;
+        if (nr1 == null || nr2 == null)
+            return false;
+        if (nr1.size() != nr2.size())
+            return false;
+        Iterator<?> it1 = nr1.iterator();
+        Iterator<?> it2 = nr2.iterator();
+        while (it1.hasNext()) {
+            if (!MSystem.equals(it1.next(), it2.next()))
+                return false;
+        }
+        return true;
+    }
+
+    /**
+     * Check if the collections are equal. The collections can be null. Will not check the order of the elements. Only
+     * if the collections contains the same elements.
+     *
+     * @param nr1
+     *            The first collection
+     * @param nr2
+     *            The second collection
+     *
+     * @return true if the collections contains the same elements
+     */
+    public static boolean equalsAnyOrder(Collection<?> nr1, Collection<?> nr2) {
+        if (nr1 == null && nr2 == null)
+            return true;
+        if (nr1 == null || nr2 == null)
+            return false;
+        if (nr1.size() != nr2.size())
+            return false;
+        Iterator<?> it1 = nr1.iterator();
+        while (it1.hasNext()) {
+            if (!nr2.contains(it1.next()))
+                return false;
+        }
+        return true;
+    }
+
+    /**
+     * Check if the arrays are equal. The arrays can be null. Will not check the order of the elements.
+     *
+     * @param nr1 The first array
+     * @param nr2 The second array
+     * @return true if the arrays contains the same elements
+     */
+    public static boolean equalsAnyOrder(Object[] nr1, Object[] nr2) {
+        if (nr1 == null && nr2 == null)
+            return true;
+        if (nr1 == null || nr2 == null)
+            return false;
+        if (nr1.length != nr2.length)
+            return false;
+
+        HashMap<Object, Integer> buffer = new HashMap<>();
+        int shouldNullCount = 0;
+        for (Object o : nr2) {
+            if (o != null) {
+                var cnt = buffer.get(o);
+                if (cnt == null)
+                    buffer.put(o, 1);
+                else
+                    buffer.put(o, cnt + 1);
+            } else
+                shouldNullCount++;
+        }
+        for (int i = 0; i < nr1.length; i++)
+            if (nr1[i] != null) {
+                var cnt = buffer.get(nr1[i]);
+                if (cnt != null) {
+                    if (cnt == 1)
+                        buffer.remove(nr1[i]);
+                    else
+                        buffer.put(nr1[i], cnt - 1);
+                } else
+                    return false;
+            } else {
+                if (shouldNullCount <= 0)
+                    return false;
+                shouldNullCount--;
+            }
+        if (buffer.size() != 0 || shouldNullCount != 0)
+            return false;
         return true;
     }
 

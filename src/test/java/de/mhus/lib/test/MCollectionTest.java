@@ -36,6 +36,186 @@ import static org.junit.jupiter.api.Assertions.fail;
 public class MCollectionTest extends TestCase {
 
     @Test
+    public void testListOrder() {
+        {
+            var list1 = List.of("a", "b", "c");
+            var list2 = List.of("a", "b", "c");
+            assertThat(MCollection.equals(list1, list2)).isTrue();
+        }
+        {
+            var list1 = List.of("a", "b", "x");
+            var list2 = List.of("a", "b", "c");
+            assertThat(MCollection.equals(list1, list2)).isFalse();
+        }
+        {
+            var list1 = List.of("a", "b", "c");
+            var list2 = List.of("a", "b", "x");
+            assertThat(MCollection.equals(list1, list2)).isFalse();
+        }
+        {
+            var list1 = List.of("a", "c", "b");
+            var list2 = List.of("a", "b", "c");
+            assertThat(MCollection.equals(list1, list2)).isFalse();
+        }
+        {
+            var list1 = List.of("a", "b", "c");
+            var list2 = List.of("a", "c", "b");
+            assertThat(MCollection.equals(list1, list2)).isFalse();
+        }
+        {
+            var list1 = List.of("a", "b", "c");
+            var list2 = List.of("a", "b", "c","d");
+            assertThat(MCollection.equals(list1, list2)).isFalse();
+        }
+        {
+            var list1 = List.of("a", "b", "c","d");
+            var list2 = List.of("a", "b", "c");
+            assertThat(MCollection.equals(list1, list2)).isFalse();
+        }
+
+    }
+
+    @Test
+    public void testListAnyOrder() {
+        {
+            var list1 = List.of("a", "b", "c");
+            var list2 = List.of("a", "b", "c");
+            assertThat(MCollection.equalsAnyOrder(list1, list2)).isTrue();
+        }
+        {
+            var list1 = List.of("a", "b", "x");
+            var list2 = List.of("a", "b", "c");
+            assertThat(MCollection.equalsAnyOrder(list1, list2)).isFalse();
+        }
+        {
+            var list1 = List.of("a", "b", "c");
+            var list2 = List.of("a", "b", "x");
+            assertThat(MCollection.equalsAnyOrder(list1, list2)).isFalse();
+        }
+        {
+            var list1 = List.of("a", "c", "b");
+            var list2 = List.of("a", "b", "c");
+            assertThat(MCollection.equalsAnyOrder(list1, list2)).isTrue();
+        }
+        {
+            var list1 = List.of("a", "b", "c");
+            var list2 = List.of("a", "c", "b");
+            assertThat(MCollection.equalsAnyOrder(list1, list2)).isTrue();
+        }
+        {
+            var list1 = List.of("a", "b", "c");
+            var list2 = List.of("a", "b", "c","d");
+            assertThat(MCollection.equalsAnyOrder(list1, list2)).isFalse();
+        }
+        {
+            var list1 = List.of("a", "b", "c","d");
+            var list2 = List.of("a", "b", "c");
+            assertThat(MCollection.equalsAnyOrder(list1, list2)).isFalse();
+        }
+
+    }
+
+    @Test
+    public void testArrayOrder() {
+        {
+            var list1 = new String[] { "a", "b", "c" };
+            var list2 = new String[] { "a", "b", "c" };
+            assertThat(MCollection.equals(list1, list2)).isTrue();
+        }
+        {
+            var list1 = new String[] { "a", "b", "x" };
+            var list2 = new String[] { "a", "b", "c" };
+            assertThat(MCollection.equals(list1, list2)).isFalse();
+        }
+        {
+            var list1 = new String[] { "a", "b", "c" };
+            var list2 = new String[] { "a", "b", "x" };
+            assertThat(MCollection.equals(list1, list2)).isFalse();
+        }
+        {
+            var list1 = new String[] { "a", "c", "b" };
+            var list2 = new String[] { "a", "b", "c" };
+            assertThat(MCollection.equals(list1, list2)).isFalse();
+        }
+        {
+            var list1 = new String[] { "a", "b", "c" };
+            var list2 = new String[] { "a", "c", "b" };
+            assertThat(MCollection.equals(list1, list2)).isFalse();
+        }
+        {
+            var list1 = new String[] { "a", "b", "c" };
+            var list2 = new String[] { "a", "b", "c", "d" };
+            assertThat(MCollection.equals(list1, list2)).isFalse();
+        }
+        {
+            var list1 = new String[] { "a", "b", "c", "d" };
+            var list2 = new String[] { "a", "b", "c" };
+            assertThat(MCollection.equals(list1, list2)).isFalse();
+        }
+        {
+            var list1 = new String[] { "a", null, "c" };
+            var list2 = new String[] { "a", null, "c" };
+            assertThat(MCollection.equals(list1, list2)).isTrue();
+        }
+
+    }
+
+    @Test
+    public void testArrayAnyOrder() {
+        {
+            var list1 = new String[] { "a", "b", "c" };
+            var list2 = new String[] { "a", "b", "c" };
+            assertThat(MCollection.equalsAnyOrder(list1, list2)).isTrue();
+        }
+        {
+            var list1 = new String[] { "a", "b", "x" };
+            var list2 = new String[] { "a", "b", "c" };
+            assertThat(MCollection.equalsAnyOrder(list1, list2)).isFalse();
+        }
+        {
+            var list1 = new String[] { "a", "b", "c" };
+            var list2 = new String[] { "a", "b", "x" };
+            assertThat(MCollection.equalsAnyOrder(list1, list2)).isFalse();
+        }
+        {
+            var list1 = new String[] { "a", "c", "b" };
+            var list2 = new String[] { "a", "b", "c" };
+            assertThat(MCollection.equalsAnyOrder(list1, list2)).isTrue();
+        }
+        {
+            var list1 = new String[] { "a", "b", "c" };
+            var list2 = new String[] { "a", "c", "b" };
+            assertThat(MCollection.equalsAnyOrder(list1, list2)).isTrue();
+        }
+        {
+            var list1 = new String[] { "a", "b", "c" };
+            var list2 = new String[] { "a", "b", "c", "d" };
+            assertThat(MCollection.equalsAnyOrder(list1, list2)).isFalse();
+        }
+        {
+            var list1 = new String[] { "a", "b", "c", "d" };
+            var list2 = new String[] { "a", "b", "c" };
+            assertThat(MCollection.equalsAnyOrder(list1, list2)).isFalse();
+        }
+        {
+            var list1 = new String[] { "a", null, "c" };
+            var list2 = new String[] { "a", null, "c" };
+            assertThat(MCollection.equalsAnyOrder(list1, list2)).isTrue();
+        }
+        {
+            var list1 = new String[] { "a", null, null };
+            var list2 = new String[] { null, null, "a" };
+            assertThat(MCollection.equalsAnyOrder(list1, list2)).isTrue();
+        }
+        {
+            var list1 = new String[] { "a", "a", "c" };
+            var list2 = new String[] { "a", "c", "c" };
+            assertThat(MCollection.equalsAnyOrder(list1, list2)).isFalse();
+        }
+
+    }
+
+    @Test
     public void testNotNull() {
         {
             var result = MCollection.notNull("a", "b", null, "c");
