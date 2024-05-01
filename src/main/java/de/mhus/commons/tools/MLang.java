@@ -15,6 +15,8 @@
  */
 package de.mhus.commons.tools;
 
+import de.mhus.commons.errors.InternalRuntimeException;
+import de.mhus.commons.errors.TimeoutRuntimeException;
 import de.mhus.commons.lang.Consumer0;
 import de.mhus.commons.lang.Consumer1;
 
@@ -48,6 +50,26 @@ public class MLang {
             return new TryResult<T>(res);
         } catch (Exception e) {
             return new TryResult<T>(e);
+        }
+    }
+
+    public static <T> T await(Supplier<T> action, long timeout) {
+        return await(action, timeout, 100);
+    }
+
+    public static <T> T await(Supplier<T> action, long timeout, long delay) {
+        var start = System.currentTimeMillis();
+        while (true) {
+            try {
+                var result = action.get();
+                if (result != null)
+                    return result;
+            } catch (Exception e) {
+                throw new InternalRuntimeException(e);
+            }
+            if (System.currentTimeMillis() - start > timeout)
+                throw new TimeoutRuntimeException("Timeout");
+            MThread.sleep(delay);
         }
     }
 
