@@ -181,7 +181,7 @@ public class MEventHandler<E> implements IRegistry<E> {
                 onFire((Consumer<E>) obj, event);
                 // method.invoke(obj, values);
             } catch (Throwable t) {
-                LOGGER.debug("fire of event {} with {} failed", obj, event);
+                LOGGER.debug("fire of event {} with {} failed", obj, event, t);
             }
         }
     }
