@@ -957,8 +957,11 @@ public class MCollection {
     /**
      * Check if the arrays are equal. The arrays can be null. Will not check the order of the elements.
      *
-     * @param nr1 The first array
-     * @param nr2 The second array
+     * @param nr1
+     *            The first array
+     * @param nr2
+     *            The second array
+     *
      * @return true if the arrays contains the same elements
      */
     public static boolean equalsAnyOrder(Object[] nr1, Object[] nr2) {

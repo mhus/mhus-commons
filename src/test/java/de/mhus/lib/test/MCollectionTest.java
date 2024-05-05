@@ -64,11 +64,11 @@ public class MCollectionTest extends TestCase {
         }
         {
             var list1 = List.of("a", "b", "c");
-            var list2 = List.of("a", "b", "c","d");
+            var list2 = List.of("a", "b", "c", "d");
             assertThat(MCollection.equals(list1, list2)).isFalse();
         }
         {
-            var list1 = List.of("a", "b", "c","d");
+            var list1 = List.of("a", "b", "c", "d");
             var list2 = List.of("a", "b", "c");
             assertThat(MCollection.equals(list1, list2)).isFalse();
         }
@@ -104,11 +104,11 @@ public class MCollectionTest extends TestCase {
         }
         {
             var list1 = List.of("a", "b", "c");
-            var list2 = List.of("a", "b", "c","d");
+            var list2 = List.of("a", "b", "c", "d");
             assertThat(MCollection.equalsAnyOrder(list1, list2)).isFalse();
         }
         {
-            var list1 = List.of("a", "b", "c","d");
+            var list1 = List.of("a", "b", "c", "d");
             var list2 = List.of("a", "b", "c");
             assertThat(MCollection.equalsAnyOrder(list1, list2)).isFalse();
         }

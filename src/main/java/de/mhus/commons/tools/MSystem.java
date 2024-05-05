@@ -62,6 +62,18 @@ import java.util.regex.Pattern;
 @Slf4j
 public class MSystem {
 
+    public static <T> int compare(T a, T b) {
+        if (a == null && b == null)
+            return 0;
+        if (a == null)
+            return -1;
+        if (b == null)
+            return 1;
+        if (a instanceof Comparable)
+            return ((Comparable<T>) a).compareTo(b);
+        return a.toString().compareTo(b.toString());
+    }
+
     public static <T> T newInstance(Class<T> clazz) {
         try {
             return clazz.newInstance();
