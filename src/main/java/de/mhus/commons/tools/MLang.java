@@ -19,7 +19,9 @@ import de.mhus.commons.errors.InternalRuntimeException;
 import de.mhus.commons.errors.TimeoutRuntimeException;
 import de.mhus.commons.lang.Consumer0;
 import de.mhus.commons.lang.Consumer1;
+import de.mhus.commons.lang.Function0;
 
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class MLang {
@@ -44,9 +46,9 @@ public class MLang {
      *
      * @param <T>
      */
-    public static <T> TryResult<T> tryThis(Supplier<T> supplier) {
+    public static <T> TryResult<T> tryThis(Function0<T> supplier) {
         try {
-            T res = supplier.get();
+            T res = supplier.apply();
             return new TryResult<T>(res);
         } catch (Exception e) {
             return new TryResult<T>(e);
@@ -117,13 +119,24 @@ public class MLang {
             return this;
         }
 
+        public TryResult<T> onSuccess(Consumer1<T> action) {
+            if (exception == null) {
+                try {
+                    action.accept(result);
+                } catch (Exception e) {
+                    return new TryResult<>(e);
+                }
+            }
+            return this;
+        }
+
         public T orGet(Supplier<T> def) {
             if (exception != null)
                 return def.get();
             return result;
         }
 
-        public TryResult<T> orTry(Supplier<T> def) {
+        public TryResult<T> orTry(Function0<T> def) {
             if (exception != null)
                 return tryThis(def);
             return this;

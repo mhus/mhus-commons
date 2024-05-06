@@ -1361,7 +1361,7 @@ public final class MCast {
             break;
         default:
             try {
-                t = MSystem.newInstance(type);
+                t = MObject.newInstance(type);
             } catch (Exception e) {
                 return def;
             }

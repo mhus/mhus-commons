@@ -15,7 +15,7 @@
  */
 package de.mhus.commons.services;
 
-import de.mhus.commons.tools.MSystem;
+import de.mhus.commons.tools.MObject;
 import de.mhus.commons.annotations.service.DefaultImplementation;
 import de.mhus.commons.annotations.service.DefaultImplementationNull;
 import de.mhus.commons.annotations.service.ServiceFactory;
@@ -41,14 +41,14 @@ public class MService {
                 }
                 final var factoryAnno = clazz.getAnnotation(ServiceFactory.class);
                 if (factoryAnno != null) {
-                    service = (T) MSystem.newInstance(factoryAnno.value()).create(clazz);
+                    service = (T) MObject.newInstance(factoryAnno.value()).create(clazz);
                 }
                 if (service == null) {
                     final var defaultAnno = clazz.getAnnotation(DefaultImplementation.class);
                     if (defaultAnno != null) {
                         service = (T) defaultAnno.value().newInstance();
                     } else {
-                        service = MSystem.newInstance(clazz);
+                        service = MObject.newInstance(clazz);
                     }
                 }
                 LOGGER.debug("Create service {} with {}", clazz, service.getClass());

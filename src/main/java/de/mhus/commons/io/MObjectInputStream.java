@@ -15,7 +15,7 @@
  */
 package de.mhus.commons.io;
 
-import de.mhus.commons.tools.MSystem;
+import de.mhus.commons.tools.MObject;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -51,7 +51,7 @@ public class MObjectInputStream extends ObjectInputStream {
 
         try {
             if (cl != null)
-                return MSystem.newInstance(cl, name);
+                return MObject.newInstance(cl, name);
         } catch (Exception ex) {
         }
 

@@ -18,7 +18,7 @@ package de.mhus.commons.util;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import de.mhus.commons.tools.MJson;
-import de.mhus.commons.tools.MSystem;
+import de.mhus.commons.tools.MObject;
 import de.mhus.commons.errors.NotFoundRuntimeException;
 import de.mhus.commons.tree.ITreeNode;
 import de.mhus.commons.tree.TreeNodeList;
@@ -73,7 +73,7 @@ public class TableRow implements Serializable, TreeNodeSerializable {
                 String clazzName = in.readUTF();
                 Object obj;
                 try {
-                    obj = MSystem.newInstance(cl, clazzName);
+                    obj = MObject.newInstance(cl, clazzName);
                 } catch (Exception e) {
                     throw new IOException(e);
                 }

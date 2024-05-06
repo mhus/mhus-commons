@@ -20,7 +20,6 @@ import de.mhus.commons.errors.NotFoundException;
 import de.mhus.commons.io.ThreadLocalInputStream;
 import de.mhus.commons.io.ThreadLocalPrinter;
 import de.mhus.commons.tree.IProperties;
-import de.mhus.commons.services.ClassLoaderProvider;
 import de.mhus.commons.services.EnvironmentProvider;
 import de.mhus.commons.services.MService;
 import lombok.extern.slf4j.Slf4j;
@@ -62,44 +61,6 @@ import java.util.regex.Pattern;
 @Slf4j
 public class MSystem {
 
-    public static <T> int compare(T a, T b) {
-        if (a == null && b == null)
-            return 0;
-        if (a == null)
-            return -1;
-        if (b == null)
-            return 1;
-        if (a instanceof Comparable)
-            return ((Comparable<T>) a).compareTo(b);
-        return a.toString().compareTo(b.toString());
-    }
-
-    public static <T> T newInstance(Class<T> clazz) {
-        try {
-            return clazz.newInstance();
-        } catch (InstantiationException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static <T> T newInstance(String clazzName) {
-        return newInstance(MService.getService(ClassLoaderProvider.class).getClassLoader(), clazzName);
-    }
-
-    public static <T> T newInstance(ClassLoader activator, String clazzName) {
-        try {
-            return (T) activator.loadClass(clazzName).newInstance();
-        } catch (InstantiationException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(clazzName, e);
-        }
-    }
-
     public static long getEnv(Class<?> owner, String name, long def) {
         return MService.getService(EnvironmentProvider.class).getEnv(owner, name, def);
     }
@@ -110,11 +71,6 @@ public class MSystem {
 
     public static String getEnv(Class<?> owner, String name, String def) {
         return MService.getService(EnvironmentProvider.class).getEnv(owner, name, def);
-    }
-
-    @SuppressWarnings("unchecked")
-    public static <E> E[] newArray(Class<E> componentType, int size) {
-        return (E[]) Array.newInstance(componentType, size);
     }
 
     public static void openBrowserUrl(String url) {
@@ -505,14 +461,6 @@ public class MSystem {
         return out;
     }
 
-    public static boolean equals(Object a, Object b) {
-        if (a == null && b == null)
-            return true;
-        if (a == null)
-            return false;
-        return a.equals(b);
-    }
-
     /**
      * Start a script and return the result as struct. Deprecated use execute() instead
      *
@@ -675,34 +623,6 @@ public class MSystem {
             return templName;
         }
         return null;
-    }
-
-    /**
-     * Compares two objects even if they are null.
-     *
-     * <p>
-     * compareTo(null, null ) === 0 compareTo("", "" ) === 0 compareTo(null, "" ) === -1 compareTo("", null ) === 1
-     *
-     * <p>
-     * returns s1.comareTo(s2)
-     *
-     * <p>
-     * groovy:000> s1 = new Date(); === Wed Jun 28 12:22:35 CEST 2017 groovy:000> s2 = new Date(); === Wed Jun 28
-     * 12:22:40 CEST 2017 groovy:000> groovy:000> s1.compareTo(s2) === -1 groovy:000> s2.compareTo(s1) === 1
-     *
-     * @param s1
-     * @param s2
-     *
-     * @return see Comparator
-     */
-    public static <T extends Comparable<T>> int compareTo(T s1, T s2) {
-        if (s1 == null && s2 == null)
-            return 0;
-        if (s1 == null)
-            return -1;
-        if (s2 == null)
-            return 1;
-        return s1.compareTo(s2);
     }
 
     public static String freeMemoryAsString() {

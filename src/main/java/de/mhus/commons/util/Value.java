@@ -15,7 +15,7 @@
  */
 package de.mhus.commons.util;
 
-import de.mhus.commons.tools.MSystem;
+import de.mhus.commons.tools.MObject;
 import de.mhus.commons.lang.Valueable;
 
 import java.io.IOException;
@@ -43,8 +43,8 @@ public class Value<T> implements Valueable<T>, Serializable {
     @Override
     public boolean equals(Object in) {
         if (in != null && in instanceof Valueable)
-            return MSystem.equals(value, ((Valueable<?>) in).getValue());
-        return MSystem.equals(value, in);
+            return MObject.equals(value, ((Valueable<?>) in).getValue());
+        return MObject.equals(value, in);
     }
 
     @Override

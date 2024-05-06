@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import de.mhus.commons.tools.MCast;
 import de.mhus.commons.tools.MCollection;
 import de.mhus.commons.tools.MDate;
+import de.mhus.commons.tools.MObject;
 import de.mhus.commons.tools.MString;
 import de.mhus.commons.tools.MSystem;
 import de.mhus.commons.tools.MXml;
@@ -450,7 +451,7 @@ public class MPojo {
             }
             return null;
         }
-        Object obj = MSystem.newInstance(activator, clazz);
+        Object obj = MObject.newInstance(activator, clazz);
         nodeToPojo(from, obj, factory, force, verbose);
         return obj;
     }
@@ -585,7 +586,7 @@ public class MPojo {
             val = MCast.to(value, hint);
             if (val == null && value instanceof ITreeNode) {
                 try {
-                    val = MSystem.newInstance(getDefaultClassLoader(), hint);
+                    val = MObject.newInstance(getDefaultClassLoader(), hint);
                     nodeToPojo((ITreeNode) value, val, factory, force, verbose);
                 } catch (Throwable t) {
                     LOGGER.debug("Can't create object {}", hint, t);
@@ -1048,7 +1049,7 @@ public class MPojo {
                 if (a.hasAttribute("type")) {
                     String value = a.getAttribute("type");
                     try {
-                        Object obj = MSystem.newInstance(act, value);
+                        Object obj = MObject.newInstance(act, value);
                         xmlToPojo(a, obj, factory, act);
                         attr.set(to, obj, force);
                     } catch (Exception e1) {

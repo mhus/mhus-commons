@@ -896,7 +896,7 @@ public class MCollection {
         if (nr1.length != nr2.length)
             return false;
         for (int i = 0; i < nr1.length; i++)
-            if (!MSystem.equals(nr1[i], nr2[i]))
+            if (!MObject.equals(nr1[i], nr2[i]))
                 return false;
         return true;
     }
@@ -922,7 +922,7 @@ public class MCollection {
         Iterator<?> it1 = nr1.iterator();
         Iterator<?> it2 = nr2.iterator();
         while (it1.hasNext()) {
-            if (!MSystem.equals(it1.next(), it2.next()))
+            if (!MObject.equals(it1.next(), it2.next()))
                 return false;
         }
         return true;
