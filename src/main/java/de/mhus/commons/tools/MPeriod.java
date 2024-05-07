@@ -278,75 +278,6 @@ public class MPeriod {
         // + "S";
     }
 
-    /**
-     * Parse a string and returns an interval, possible formats are SECONDs: 123425 SECONDs and millis: 12345.123
-     * Format: Day Hour:Minutes:SECONDs.Millis or DD HH:MM:ss.SSS or ss, ss.SSS, MM:ss.SSS, HH:MM:ss.SSS, MM:ss,
-     * HH:MM:ss
-     *
-     * @param interval
-     * @param def
-     *
-     * @return milliseconds
-     */
-    public static long toMilliseconds(String interval, long def) {
-        if (interval == null)
-            return def;
-        try {
-            // parse string
-            String msec = null;
-            String sec = null;
-            String min = null;
-            String hour = null;
-            String day = null;
-
-            if (interval.indexOf(':') > 0) {
-                String[] parts = MString.split(interval, ":");
-                if (parts.length == 3) {
-                    hour = parts[0];
-                    min = parts[1];
-                    sec = parts[2];
-                } else if (parts.length == 2) {
-                    min = parts[0];
-                    sec = parts[1];
-                }
-            } else
-                sec = interval;
-
-            if (hour != null && hour.indexOf(' ') > 0) {
-                day = MString.beforeIndex(hour, ' ');
-                hour = MString.afterIndex(hour, ' ');
-            }
-
-            if (sec != null && sec.indexOf('.') > 0) {
-                msec = MString.afterIndex(sec, '.');
-                sec = MString.beforeIndex(sec, '.');
-            }
-
-            long out = 0;
-
-            if (day != null)
-                out = out + MCast.tolong(day, 0) * DAY_IN_MILLISECONDS;
-
-            if (hour != null)
-                out = out + MCast.tolong(hour, 0) * HOUR_IN_MILLISECONDS;
-
-            if (min != null)
-                out = out + MCast.tolong(min, 0) * MINUTE_IN_MILLISECONDS;
-
-            if (sec != null)
-                out = out + MCast.tolong(sec, 0) * SECOND_IN_MILLISECONDS;
-
-            if (msec != null)
-                out = out + MCast.tolong(msec, 0);
-
-            return out;
-
-        } catch (Exception t) {
-
-        }
-        return def;
-    }
-
     public int getMilliseconds() {
         return (int) millisec;
     }
@@ -415,32 +346,97 @@ public class MPeriod {
         return timeout > -1 && System.currentTimeMillis() - start > timeout;
     }
 
-    public static long toTime(String in, long def) {
-        if (in == null)
+    // TODO: or a combination of them like 1d 2h 3m 4s
+    /**
+     * Parse a string and returns an interval, possible formats are SECONDs: 123425s, MINUTEs: 1234m, HOURs: 123h,
+     * DAYs: 123d, WEEKs: 123w, MONTHs: 123M, YEARs: 123y.
+     * You can also use ':' to separate the values like 1 2:3:4.5 for 1 day, 2 hours, 3 minutes, 4 seconds and 5 milliseconds.
+     * Otherwise the string is parsed as long value.
+     *
+     * @param interval The string to parse
+     * @param def The default value if the string is null or not parsable
+     * @return The parsed value in milliseconds
+     */
+    public static long parseInterval(String interval, long def) {
+        if (interval == null)
             return def;
-        in = in.trim().toLowerCase();
-        if (in.endsWith("M") || in.endsWith("min") || in.endsWith("minutes") || in.endsWith("minute"))
-            return MCast.tolong(MString.integerPart(in), 0) * MINUTE_IN_MILLISECONDS;
+        interval = interval.trim().toLowerCase();
+        if (interval.endsWith("M") || interval.endsWith("min") || interval.endsWith("minutes") || interval.endsWith("minute"))
+            return MCast.tolong(MString.integerPart(interval), 0) * MINUTE_IN_MILLISECONDS;
 
-        if (in.endsWith("h") || in.endsWith("hour") || in.endsWith("hours"))
-            return MCast.tolong(MString.integerPart(in), 0) * HOUR_IN_MILLISECONDS;
+        if (interval.endsWith("h") || interval.endsWith("hour") || interval.endsWith("hours"))
+            return MCast.tolong(MString.integerPart(interval), 0) * HOUR_IN_MILLISECONDS;
 
-        if (in.endsWith("s") || in.endsWith("sec") || in.endsWith("SECOND") || in.endsWith("SECONDs"))
-            return MCast.tolong(MString.integerPart(in), 0) * SECOND_IN_MILLISECONDS;
+        if (interval.endsWith("s") || interval.endsWith("sec") || interval.endsWith("SECOND") || interval.endsWith("SECONDs"))
+            return MCast.tolong(MString.integerPart(interval), 0) * SECOND_IN_MILLISECONDS;
 
-        if (in.endsWith("d") || in.endsWith("day") || in.endsWith("days"))
-            return MCast.tolong(MString.integerPart(in), 0) * DAY_IN_MILLISECONDS;
+        if (interval.endsWith("d") || interval.endsWith("day") || interval.endsWith("days"))
+            return MCast.tolong(MString.integerPart(interval), 0) * DAY_IN_MILLISECONDS;
 
-        if (in.endsWith("w") || in.endsWith("week") || in.endsWith("weeks"))
-            return MCast.tolong(MString.integerPart(in), 0) * DAY_IN_MILLISECONDS * 7;
+        if (interval.endsWith("w") || interval.endsWith("week") || interval.endsWith("weeks"))
+            return MCast.tolong(MString.integerPart(interval), 0) * DAY_IN_MILLISECONDS * 7;
 
-        if (in.endsWith("m") || in.endsWith("mon") || in.endsWith("month") || in.endsWith("months"))
-            return MCast.tolong(MString.integerPart(in), 0) * MONTH_AVERAGE_MILLISECONDS;
+        if (interval.endsWith("m") || interval.endsWith("mon") || interval.endsWith("month") || interval.endsWith("months"))
+            return MCast.tolong(MString.integerPart(interval), 0) * MONTH_AVERAGE_MILLISECONDS;
 
-        if (in.endsWith("y") || in.endsWith("year") || in.endsWith("years"))
-            return MCast.tolong(MString.integerPart(in), 0) * YEAR_AVERAGE_MILLISECONDS;
+        if (interval.endsWith("y") || interval.endsWith("year") || interval.endsWith("years"))
+            return MCast.tolong(MString.integerPart(interval), 0) * YEAR_AVERAGE_MILLISECONDS;
 
-        return MCast.tolong(in, def);
+        try {
+            // parse string
+            String msec = null;
+            String sec = null;
+            String min = null;
+            String hour = null;
+            String day = null;
+
+            if (interval.indexOf(':') > 0) {
+                String[] parts = MString.split(interval, ":");
+                if (parts.length == 3) {
+                    hour = parts[0];
+                    min = parts[1];
+                    sec = parts[2];
+                } else if (parts.length == 2) {
+                    min = parts[0];
+                    sec = parts[1];
+                }
+            } else
+                sec = interval;
+
+            if (hour != null && hour.indexOf(' ') > 0) {
+                day = MString.beforeIndex(hour, ' ');
+                hour = MString.afterIndex(hour, ' ');
+            }
+
+            if (sec != null && sec.indexOf('.') > 0) {
+                msec = MString.afterIndex(sec, '.');
+                sec = MString.beforeIndex(sec, '.');
+            }
+
+            long out = 0;
+
+            if (day != null)
+                out = out + MCast.tolong(day, 0) * DAY_IN_MILLISECONDS;
+
+            if (hour != null)
+                out = out + MCast.tolong(hour, 0) * HOUR_IN_MILLISECONDS;
+
+            if (min != null)
+                out = out + MCast.tolong(min, 0) * MINUTE_IN_MILLISECONDS;
+
+            if (sec != null)
+                out = out + MCast.tolong(sec, 0) * SECOND_IN_MILLISECONDS;
+
+            if (msec != null)
+                out = out + MCast.tolong(msec, 0);
+
+            return out;
+
+        } catch (Exception t) {
+
+        }
+
+        return MCast.tolong(interval, def);
     }
 
     public static String getIntervalAsString(long msec) {
