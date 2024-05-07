@@ -17,6 +17,7 @@ package de.mhus.commons.tools;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Optional;
 
 /**
  * @author hummel
@@ -346,7 +347,11 @@ public class MPeriod {
         return timeout > -1 && System.currentTimeMillis() - start > timeout;
     }
 
-    // TODO: or a combination of them like 1d 2h 3m 4s
+    public static long parseInterval(Optional<String> interval, long def) {
+        return interval.map(s -> parseInterval(s, def)).orElse(def);
+    }
+
+        // TODO: or a combination of them like 1d 2h 3m 4s
     /**
      * Parse a string and returns an interval, possible formats are SECONDs: 123425s, MINUTEs: 1234m, HOURs: 123h,
      * DAYs: 123d, WEEKs: 123w, MONTHs: 123M, YEARs: 123y.
