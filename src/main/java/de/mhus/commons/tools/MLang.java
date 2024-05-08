@@ -27,6 +27,8 @@ import java.util.function.Supplier;
 
 public class MLang {
 
+    private static final Object GLOBAL_LOCK = new Object();
+
     /**
      * Try to execute the action and return an TryResult with the exception or void. Will not throw an exception.
      *
@@ -116,7 +118,8 @@ public class MLang {
 
     /**
      * Synchronize the execution of the function with the given locks. The locks are sorted by their identity hash code
-     * to avoid deadlocks. It will throw an InternalRuntimeException if an exception is thrown.
+     * to avoid deadlocks. It will throw an InternalRuntimeException if an exception is thrown. If no lock is given the
+     * global lock is used.
      *
      * @param function
      *            The function to execute
@@ -130,7 +133,10 @@ public class MLang {
      */
     public static <T> T synchronize(Function0<T> function, Object... lock) {
         // reorder lock
-        Arrays.sort(lock, Comparator.comparingInt(System::identityHashCode));
+        if (lock == null || lock.length == 0)
+            lock = new Object[] { GLOBAL_LOCK };
+        if (lock.length > 1)
+            Arrays.sort(lock, Comparator.comparingInt(System::identityHashCode));
         // lock and execute in correct order
         var locker = new LockNextAndExecute<T>(0, lock, function);
         var res = locker.execute(null);
@@ -141,7 +147,7 @@ public class MLang {
 
     /**
      * Synchronize the execution of the function with the given locks. The locks are sorted by their identity hash code
-     * to avoid deadlocks.
+     * to avoid deadlocks. If no lock is given the global lock is used.
      *
      * @param function
      *            The function to execute
@@ -155,6 +161,10 @@ public class MLang {
      */
     public static <T> TryResult<T> synchronizeAndTry(Function0<T> function, Object... lock) {
         // reorder lock
+        if (lock == null || lock.length == 0)
+            lock = new Object[] { GLOBAL_LOCK };
+        if (lock.length > 1)
+            Arrays.sort(lock, Comparator.comparingInt(System::identityHashCode));
         Arrays.sort(lock, Comparator.comparingInt(System::identityHashCode));
         // lock and execute in correct order
         var locker = new LockNextAndExecute<T>(0, lock, function);
