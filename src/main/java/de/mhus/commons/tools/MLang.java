@@ -286,6 +286,12 @@ public class MLang {
             return this;
         }
 
+        public <E extends Exception> T getOrThrow(Supplier<E> supplier) throws E {
+            if (exception != null)
+                throw supplier.get();
+            return result;
+        }
+
     }
 
 }
