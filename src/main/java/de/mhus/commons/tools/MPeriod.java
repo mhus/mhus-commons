@@ -351,28 +351,32 @@ public class MPeriod {
         return interval.map(s -> parseInterval(s, def)).orElse(def);
     }
 
-        // TODO: or a combination of them like 1d 2h 3m 4s
+    // TODO: or a combination of them like 1d 2h 3m 4s
     /**
-     * Parse a string and returns an interval, possible formats are SECONDs: 123425s, MINUTEs: 1234m, HOURs: 123h,
-     * DAYs: 123d, WEEKs: 123w, MONTHs: 123M, YEARs: 123y.
-     * You can also use ':' to separate the values like 1 2:3:4.5 for 1 day, 2 hours, 3 minutes, 4 seconds and 5 milliseconds.
-     * Otherwise the string is parsed as long value.
+     * Parse a string and returns an interval, possible formats are SECONDs: 123425s, MINUTEs: 1234m, HOURs: 123h, DAYs:
+     * 123d, WEEKs: 123w, MONTHs: 123M, YEARs: 123y. You can also use ':' to separate the values like 1 2:3:4.5 for 1
+     * day, 2 hours, 3 minutes, 4 seconds and 5 milliseconds. Otherwise the string is parsed as long value.
      *
-     * @param interval The string to parse
-     * @param def The default value if the string is null or not parsable
+     * @param interval
+     *            The string to parse
+     * @param def
+     *            The default value if the string is null or not parsable
+     *
      * @return The parsed value in milliseconds
      */
     public static long parseInterval(String interval, long def) {
         if (interval == null)
             return def;
         interval = interval.trim().toLowerCase();
-        if (interval.endsWith("M") || interval.endsWith("min") || interval.endsWith("minutes") || interval.endsWith("minute"))
+        if (interval.endsWith("M") || interval.endsWith("min") || interval.endsWith("minutes")
+                || interval.endsWith("minute"))
             return MCast.tolong(MString.integerPart(interval), 0) * MINUTE_IN_MILLISECONDS;
 
         if (interval.endsWith("h") || interval.endsWith("hour") || interval.endsWith("hours"))
             return MCast.tolong(MString.integerPart(interval), 0) * HOUR_IN_MILLISECONDS;
 
-        if (interval.endsWith("s") || interval.endsWith("sec") || interval.endsWith("SECOND") || interval.endsWith("SECONDs"))
+        if (interval.endsWith("s") || interval.endsWith("sec") || interval.endsWith("SECOND")
+                || interval.endsWith("SECONDs"))
             return MCast.tolong(MString.integerPart(interval), 0) * SECOND_IN_MILLISECONDS;
 
         if (interval.endsWith("d") || interval.endsWith("day") || interval.endsWith("days"))
@@ -381,7 +385,8 @@ public class MPeriod {
         if (interval.endsWith("w") || interval.endsWith("week") || interval.endsWith("weeks"))
             return MCast.tolong(MString.integerPart(interval), 0) * DAY_IN_MILLISECONDS * 7;
 
-        if (interval.endsWith("m") || interval.endsWith("mon") || interval.endsWith("month") || interval.endsWith("months"))
+        if (interval.endsWith("m") || interval.endsWith("mon") || interval.endsWith("month")
+                || interval.endsWith("months"))
             return MCast.tolong(MString.integerPart(interval), 0) * MONTH_AVERAGE_MILLISECONDS;
 
         if (interval.endsWith("y") || interval.endsWith("year") || interval.endsWith("years"))

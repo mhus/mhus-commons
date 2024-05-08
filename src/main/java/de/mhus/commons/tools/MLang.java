@@ -21,11 +21,20 @@ import de.mhus.commons.lang.Consumer0;
 import de.mhus.commons.lang.Consumer1;
 import de.mhus.commons.lang.Function0;
 
-import java.util.function.Function;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.function.Supplier;
 
 public class MLang {
 
+    /**
+     * Try to execute the action and return an TryResult with the exception or void. Will not throw an exception.
+     *
+     * @param action
+     *            The code to execute
+     *
+     * @return The result of execution
+     */
     public static TryResult<Void> tryThis(Consumer0 action) {
         try {
             action.accept();
@@ -55,10 +64,40 @@ public class MLang {
         }
     }
 
+    /**
+     * Wait until the action returns a non-null value or the timeout is reached. If timeout is reach a
+     * TimeoutRuntimeException is thrown.
+     *
+     * @param action
+     *            The action to execute
+     * @param timeout
+     *            The timeout in milliseconds
+     *
+     * @return The result of the action
+     *
+     * @param <T>
+     *            The result type
+     */
     public static <T> T await(Supplier<T> action, long timeout) {
         return await(action, timeout, 100);
     }
 
+    /**
+     * Wait until the action returns a non-null value or the timeout is reached. If timeout is reach a
+     * TimeoutRuntimeException is thrown.
+     *
+     * @param action
+     *            The action to execute
+     * @param timeout
+     *            The timeout in milliseconds
+     * @param delay
+     *            The delay between checks
+     *
+     * @return The result of the action
+     *
+     * @param <T>
+     *            The result type
+     */
     public static <T> T await(Supplier<T> action, long timeout, long delay) {
         var start = System.currentTimeMillis();
         while (true) {
@@ -72,6 +111,89 @@ public class MLang {
             if (System.currentTimeMillis() - start > timeout)
                 throw new TimeoutRuntimeException("Timeout");
             MThread.sleep(delay);
+        }
+    }
+
+    /**
+     * Synchronize the execution of the function with the given locks. The locks are sorted by their identity hash code
+     * to avoid deadlocks. It will throw an InternalRuntimeException if an exception is thrown.
+     *
+     * @param function
+     *            The function to execute
+     * @param lock
+     *            The locks to use
+     *
+     * @return The result of the function
+     *
+     * @param <T>
+     *            The result type
+     */
+    public static <T> T synchronize(Function0<T> function, Object... lock) {
+        // reorder lock
+        Arrays.sort(lock, Comparator.comparingInt(System::identityHashCode));
+        // lock and execute in correct order
+        var locker = new LockNextAndExecute<T>(0, lock, function);
+        var res = locker.execute(null);
+        if (locker.error != null)
+            throw new InternalRuntimeException(locker.error);
+        return res;
+    }
+
+    /**
+     * Synchronize the execution of the function with the given locks. The locks are sorted by their identity hash code
+     * to avoid deadlocks.
+     *
+     * @param function
+     *            The function to execute
+     * @param lock
+     *            The locks to use
+     *
+     * @return The result of the function as TryResult
+     *
+     * @param <T>
+     *            The result type
+     */
+    public static <T> TryResult<T> synchronizeAndTry(Function0<T> function, Object... lock) {
+        // reorder lock
+        Arrays.sort(lock, Comparator.comparingInt(System::identityHashCode));
+        // lock and execute in correct order
+        var locker = new LockNextAndExecute<T>(0, lock, function);
+        var res = locker.execute(null);
+        if (locker.error != null)
+            return new TryResult<>(locker.error);
+        return new TryResult<>(res);
+    }
+
+    private static class LockNextAndExecute<T> {
+
+        private final int index;
+        private final Object[] lock;
+        private final Function0<T> function;
+        private Exception error;
+
+        public LockNextAndExecute(int index, Object[] lock, Function0<T> function) {
+            this.index = index;
+            this.lock = lock;
+            this.function = function;
+        }
+
+        public T execute(LockNextAndExecute<T> parent) {
+            if (index < lock.length - 1) {
+                synchronized (lock[index]) {
+                    return new LockNextAndExecute<T>(index + 1, lock, function).execute(this);
+                }
+            } else {
+                try {
+                    synchronized (lock[index]) {
+                        return function.apply();
+                    }
+                } catch (Exception e) {
+                    this.error = e;
+                    if (parent != null)
+                        parent.error = e;
+                    return null;
+                }
+            }
         }
     }
 
@@ -98,7 +220,7 @@ public class MLang {
             return exception;
         }
 
-        public boolean isError() {
+        public boolean isFailure() {
             return exception != null;
         }
 
@@ -108,7 +230,7 @@ public class MLang {
             return result;
         }
 
-        public TryResult<T> onError(Consumer1<Exception> action) {
+        public TryResult<T> onFailure(Consumer1<Exception> action) {
             if (exception != null) {
                 try {
                     action.accept(exception);
