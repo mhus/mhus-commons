@@ -18,7 +18,6 @@ package de.mhus.commons.tools;
 import de.mhus.commons.M;
 import de.mhus.commons.io.FileChecker;
 import de.mhus.commons.io.PdfFileChecker;
-import de.mhus.commons.lang.IObserver;
 import de.mhus.commons.util.MUri;
 import lombok.extern.slf4j.Slf4j;
 
@@ -55,6 +54,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.TimeoutException;
+import java.util.function.Consumer;
 
 /** @author hummel */
 @Slf4j
@@ -940,12 +940,8 @@ public class MFile {
             return null;
 
         final LinkedList<String> out = new LinkedList<>();
-        readLines(file, new IObserver<String>() {
-
-            @Override
-            public void update(Object o, Object reason, String arg) {
-                out.add(MUri.decode((String) arg));
-            }
+        readLines(file, (arg) -> {
+            out.add(MUri.decode((String) arg));
         });
 
         if (removeLastEmpty && out.size() > 0 && MString.isEmpty(out.getLast()))
@@ -996,12 +992,8 @@ public class MFile {
             return null;
 
         final LinkedList<String> out = new LinkedList<>();
-        readLines(file, new IObserver<String>() {
-
-            @Override
-            public void update(Object o, Object reason, String arg) {
-                out.add((String) arg);
-            }
+        readLines(file, (arg) -> {
+            out.add((String) arg);
         });
 
         if (removeLastEmpty && out.size() > 0 && MString.isEmpty(out.getLast()))
@@ -1027,12 +1019,8 @@ public class MFile {
             return null;
 
         final LinkedList<String> out = new LinkedList<>();
-        readLines(is, new IObserver<String>() {
-
-            @Override
-            public void update(Object o, Object reason, String arg) {
-                out.add((String) arg);
-            }
+        readLines(is, (arg) -> {
+            out.add(arg);
         });
 
         if (removeLastEmpty && out.size() > 0 && MString.isEmpty(out.getLast()))
@@ -1041,7 +1029,7 @@ public class MFile {
         return out;
     }
 
-    public static void readLines(File file, IObserver<String> lineObserver) throws IOException {
+    public static void readLines(File file, Consumer<String> lineObserver) throws IOException {
         if (file == null || lineObserver == null)
             return;
         FileReader r = new FileReader(file);
@@ -1057,14 +1045,14 @@ public class MFile {
      *
      * @throws IOException
      */
-    public static void readLines(InputStream is, IObserver<String> lineObserver) throws IOException {
+    public static void readLines(InputStream is, Consumer<String> lineObserver) throws IOException {
         if (is == null || lineObserver == null)
             return;
         InputStreamReader r = new InputStreamReader(is, M.UTF_8); // default charset is UTF-8
         readLines(r, lineObserver);
     }
 
-    public static void readLines(Reader r, IObserver<String> lineObserver) throws IOException {
+    public static void readLines(Reader r, Consumer<String> lineObserver) throws IOException {
         if (r == null || lineObserver == null)
             return;
         BufferedReader br = new BufferedReader(r);
@@ -1072,7 +1060,7 @@ public class MFile {
         do {
             line = br.readLine();
             if (line != null)
-                lineObserver.update(null, null, line);
+                lineObserver.accept(line);
         } while (line != null);
     }
 

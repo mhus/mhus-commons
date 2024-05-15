@@ -16,7 +16,6 @@
 package de.mhus.commons.tools;
 
 import de.mhus.commons.errors.NotSupportedException;
-import de.mhus.commons.lang.IObserver;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.InputStream;
@@ -146,16 +145,12 @@ public class MValidator {
             URL res = MSystem.locateResource(MValidator.class, "10-million-password-list-top-100000.txt");
             InputStream is = res.openStream();
             final LinkedList<String> list = new LinkedList<>();
-            MFile.readLines(is, new IObserver<String>() {
-
-                @Override
-                public void update(Object o, Object reason, String arg) {
-                    String v = (String) arg;
-                    // to lower case and trimm
-                    v = v.trim().toLowerCase();
-                    if (v.length() > 0)
-                        list.add(v);
-                }
+            MFile.readLines(is, (arg) -> {
+                String v = (String) arg;
+                // to lower case and trimm
+                v = v.trim().toLowerCase();
+                if (v.length() > 0)
+                    list.add(v);
             });
             is.close();
 
