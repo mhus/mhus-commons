@@ -2711,4 +2711,9 @@ public class MString {
             to = in.length();
         return in.substring(from, to);
     }
+
+    public static void fillUntil(StringBuilder sb, int until, char c) {
+        while (sb.length() < until)
+            sb.append(c);
+    }
 }
