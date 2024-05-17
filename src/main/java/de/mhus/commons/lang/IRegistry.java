@@ -24,4 +24,6 @@ public interface IRegistry<E> {
     public IRegistration registerWeak(Consumer<E> listener);
 
     public void unregister(Consumer<E> listener);
+
+    int size();
 }
