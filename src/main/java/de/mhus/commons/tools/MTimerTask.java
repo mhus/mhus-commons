@@ -65,7 +65,7 @@ public abstract class MTimerTask extends TimerTask implements ITimerTask {
 
     @Override
     public void onError(Throwable t) {
-        t.printStackTrace();
+        LOGGER.debug("Error in TimerTask {}", getClass().getCanonicalName(), t);
     }
 
     @Override

@@ -27,7 +27,9 @@ import javax.security.auth.login.LoginException;
 import de.mhus.commons.tree.IReadonly;
 import de.mhus.commons.tree.MProperties;
 import de.mhus.commons.errors.NotSupportedException;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class JaasAccount implements Account {
 
     private String realm;
@@ -67,7 +69,7 @@ public class JaasAccount implements Account {
 
             return true;
         } catch (LoginException e) {
-            e.printStackTrace();
+            LOGGER.trace("Validate password failed", e);
         }
 
         return false;

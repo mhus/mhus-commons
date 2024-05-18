@@ -15,6 +15,8 @@
  */
 package de.mhus.commons.io;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.BufferedReader;
 import java.io.EOFException;
 import java.io.FileReader;
@@ -53,6 +55,7 @@ import java.util.HashMap;
  *         chars have to be in quotes in data then. <br>
  *         2. allow \ to be used for quoting characters.
  */
+@Slf4j
 public class CSVReader {
 
     // ------------------------------ FIELDS ------------------------------
@@ -717,8 +720,7 @@ public class CSVReader {
                 }
                 csv.close();
             } catch (IOException e) {
-                e.printStackTrace();
-                System.out.println(e.getMessage());
+                LOGGER.error("Error", e);
             }
         } // end if
     } // end main

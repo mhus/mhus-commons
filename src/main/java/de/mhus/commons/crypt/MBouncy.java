@@ -494,7 +494,8 @@ public class MBouncy {
                 throw new RuntimeException(e);
             }
         }
-        int pos = (int) (MService.getService(MRandom.class).getDouble() * keyPool.size()); // use a simple random function
+        int pos = (int) (MService.getService(MRandom.class).getDouble() * keyPool.size()); // use a simple random
+                                                                                           // function
         return keyPool.get(pos);
     }
 

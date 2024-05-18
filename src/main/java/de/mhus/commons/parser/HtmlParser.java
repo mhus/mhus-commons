@@ -17,6 +17,7 @@ package de.mhus.commons.parser;
 
 import de.mhus.commons.tools.MString;
 import de.mhus.commons.tools.MXml;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,6 +27,7 @@ import java.util.Hashtable;
 import java.util.Map;
 
 /** @author hummel */
+@Slf4j
 public class HtmlParser {
 
     public static final int TEXT = 1;
@@ -133,8 +135,7 @@ public class HtmlParser {
             }
 
         } catch (IOException ioe) {
-            ioe.printStackTrace();
-            return true;
+            LOGGER.error("Error", ioe);
         }
 
         return true;

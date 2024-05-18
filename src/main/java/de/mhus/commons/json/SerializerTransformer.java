@@ -65,7 +65,7 @@ public class SerializerTransformer extends TransformStrategy {
                 for (int i = 0; i < list.size(); i++)
                     Array.set(array, i, list.get(i));
             } catch (IllegalAccessException e) {
-                e.printStackTrace();
+                LOGGER.debug("Error", e);
             }
             return array;
         }
@@ -240,7 +240,7 @@ public class SerializerTransformer extends TransformStrategy {
                     try {
                         putPojoValue(out, name, attr.get(from), helper);
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        LOGGER.debug("Error", e);
                     }
                 }
             }

@@ -183,7 +183,7 @@ public class MThread {
                 try {
                     task.run();
                 } catch (Throwable t) {
-                    t.printStackTrace();
+                    LOGGER.debug("Error in task", t);
                 }
             }
         }).start();
@@ -197,7 +197,7 @@ public class MThread {
                 try {
                     consumer.accept(Thread.currentThread());
                 } catch (Throwable t) {
-                    t.printStackTrace();
+                    LOGGER.debug("Error in task", t);
                 }
             }
         }).start();

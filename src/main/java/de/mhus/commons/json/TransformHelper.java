@@ -20,10 +20,12 @@ import de.mhus.commons.tools.MJson;
 import de.mhus.commons.pojo.DefaultFilter;
 import de.mhus.commons.pojo.PojoModel;
 import de.mhus.commons.pojo.PojoParser;
+import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 
+@Slf4j
 public class TransformHelper {
     int level = 0;
     protected String prefix = "";
@@ -87,8 +89,7 @@ public class TransformHelper {
     }
 
     public void log(String string, Throwable t) {
-        System.out.println(string);
-        t.printStackTrace();
+        LOGGER.error(string, t);
     }
 
     public String getPrefix() {

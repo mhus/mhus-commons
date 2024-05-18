@@ -16,10 +16,12 @@
 package de.mhus.commons.tools;
 
 import de.mhus.commons.lang.Named;
+import lombok.extern.slf4j.Slf4j;
 
 import java.lang.ref.SoftReference;
 import java.util.TimerTask;
 
+@Slf4j
 public class MSoftTimerTask extends TimerTask implements Named {
 
     private boolean canceled = false;
@@ -50,7 +52,7 @@ public class MSoftTimerTask extends TimerTask implements Named {
     }
 
     protected void onError(Throwable t) {
-        t.printStackTrace();
+        LOGGER.debug("Error in TimerTask {}", getClass().getCanonicalName(), t);
     }
 
     protected void onFinal(boolean isError) {

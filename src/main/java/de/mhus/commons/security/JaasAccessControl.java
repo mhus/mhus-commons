@@ -16,11 +16,13 @@
 package de.mhus.commons.security;
 
 import de.mhus.commons.tree.IProperties;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.security.auth.Subject;
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
 
+@Slf4j
 public class JaasAccessControl implements AccessControl {
 
     public static final String SUBJECT_ATTR = "_subject";
@@ -44,7 +46,7 @@ public class JaasAccessControl implements AccessControl {
 
             return true;
         } catch (LoginException e) {
-            e.printStackTrace();
+            LOGGER.warn("Login failed", e);
         }
 
         return false;
