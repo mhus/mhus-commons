@@ -727,8 +727,8 @@ public final class MCast {
             cnt++;
             old = offset + 1;
         }
-
-        out[cnt] = Byte.parseByte(in.substring(old));
+        if (cnt < out.length)
+            out[cnt] = Byte.parseByte(in.substring(old));
 
         return out;
     }

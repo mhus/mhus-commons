@@ -174,7 +174,8 @@ public class MString {
             offset += _pattern.length();
             oldOffset = offset;
         }
-        out[nr] = _in.substring(oldOffset);
+        if (nr < out.length)
+            out[nr] = _in.substring(oldOffset);
 
         return out;
     }
