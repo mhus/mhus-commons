@@ -15,11 +15,14 @@
  */
 package de.mhus.commons.util;
 
+import de.mhus.commons.crypt.MRandom;
+import de.mhus.commons.services.MService;
+
 public class Lorem {
 
     public static String create() {
         StringBuilder out = new StringBuilder();
-        int c = (int) (Math.random() * 10d) + 1;
+        int c = (int) (MService.getService(MRandom.class).getDouble() * 10d) + 1;
         for (int i = 0; i < c; i++)
             out.append(
                     "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. ");
