@@ -24,7 +24,6 @@ import java.util.Random;
 @Slf4j
 public class DefaultRandom implements MRandom {
 
-    private Random rand;
     private SecureRandom secureRandom;
 
     @Override
@@ -53,20 +52,14 @@ public class DefaultRandom implements MRandom {
      * @return
      */
     protected double random() {
-        return Math.random();
-    }
-
-    public synchronized Random getRandom() {
-        if (rand == null)
-            rand = new MyRandom();
-        return rand;
+        return getSecureRandom().nextDouble();
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public <T> T adaptTo(Class<? extends T> ifc) {
         if (Random.class.isAssignableFrom(ifc))
-            return (T) getRandom();
+            return (T) getSecureRandom();
         return null;
     }
 
@@ -80,37 +73,11 @@ public class DefaultRandom implements MRandom {
         try {
             // secureRandom = SecureRandom.getInstance("SHA1PRNG", "SUN");
             if (secureRandom == null)
-                secureRandom = new MySecureRandom();
+                secureRandom = new SecureRandom();
         } catch (Exception e) {
             LOGGER.error("Error", e);
         }
         return secureRandom;
     }
 
-    private class MySecureRandom extends SecureRandom {
-
-        private static final long serialVersionUID = 1L;
-
-        @Override
-        public synchronized void nextBytes(byte[] bytes) {
-            super.nextBytes(bytes);
-            byte b = getByte();
-            for (int i = 0; i < bytes.length; i++)
-                bytes[i] = (byte) ((bytes[i] + b) & 255);
-        }
-    }
-
-    private class MyRandom extends Random {
-        private static final long serialVersionUID = 1L;
-
-        MyRandom() {
-            super(getLong());
-        }
-
-        @Override
-        protected int next(int bits) {
-            setSeed(getLong());
-            return super.next(bits);
-        }
-    }
 }
