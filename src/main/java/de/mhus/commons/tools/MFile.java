@@ -785,7 +785,7 @@ public class MFile {
 
     /**
      * Return a name free from problematic characters like back slash, they will be changed to underscore. The slash as
-     * separator between folders is allowed.
+     * separator between folders is allowed. The name will not end with '/' expect it is exactly '/'.
      *
      * @param name
      *
@@ -809,6 +809,9 @@ public class MFile {
             name = name.replace("..", "_");
         if (name.indexOf('~') >= 0)
             name = name.replace('~', '_');
+
+        while (!name.equals('/') && name.endsWith("/"))
+            name = name.substring(0, name.length() - 1);
 
         return name;
     }
