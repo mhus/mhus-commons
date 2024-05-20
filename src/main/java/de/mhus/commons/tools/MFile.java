@@ -1196,4 +1196,15 @@ public class MFile {
         if (!dir.exists())
             dir.mkdirs();
     }
+
+    public static String getParentPath(String path) {
+        if (path == null)
+            return null;
+        int pos = path.lastIndexOf('/');
+        if (pos < 0)
+            pos = path.lastIndexOf('\\');
+        if (pos < 0)
+            return "/";
+        return path.substring(0, pos);
+    }
 }
