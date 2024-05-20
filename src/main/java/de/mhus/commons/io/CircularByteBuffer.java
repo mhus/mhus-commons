@@ -58,7 +58,72 @@ public class CircularByteBuffer extends AbstractByteBuffer {
         nextPut = 0;
     }
 
-    @Override
+    public int put(byte[] buf, int off, int len) {
+        if (off < 0)
+            throw new IllegalArgumentException("off < 0");
+
+        if (len < 0)
+            throw new IllegalArgumentException("len < 0");
+
+        if (off + len > buf.length)
+            throw new IllegalArgumentException("off+len > buf.length");
+
+        if (len == 0)
+            return 0;
+
+        var free = size - length;
+        if (free == 0) return 0;
+        if (free < len) len = free;
+
+        if (nextPut + len < size) {
+            System.arraycopy(buf, off, this.buf, nextPut, len);
+            nextPut += len;
+        } else {
+            int l = size - nextPut;
+            System.arraycopy(buf, off, this.buf, nextPut, l);
+            System.arraycopy(buf, off + l, this.buf, 0, len - l);
+            nextPut = len - l;
+        }
+        length += len;
+        nextPut = (nextPut + len) % buf.length;
+        return len;
+    }
+
+
+    public int get(byte[] buf, int off, int len) {
+        if (off < 0)
+            throw new IllegalArgumentException("off < 0");
+
+        if (len < 0)
+            throw new IllegalArgumentException("len < 0");
+
+        if (off + len > buf.length)
+            throw new IllegalArgumentException("off+len > buf.length");
+
+        if (len == 0)
+            return 0;
+
+        if (length() == 0) return 0;
+
+        if (len > length) len = length;
+
+        if (nextGet + len < size) {
+            System.arraycopy(this.buf, nextGet, buf, off, len);
+            nextGet += len;
+        } else {
+            int l = size - nextGet;
+            System.arraycopy(this.buf, nextGet, buf, off, l);
+            System.arraycopy(this.buf, 0, buf, off + l, len - l);
+            nextGet = len - l;
+        }
+        length -= len;
+        nextGet = (nextGet + len) % buf.length;
+        return len;
+    }
+
+
+
+        @Override
     public byte get() throws EOFException {
         if (isEmpty()) {
             throw new EOFException();
@@ -88,5 +153,9 @@ public class CircularByteBuffer extends AbstractByteBuffer {
      */
     public boolean isNearlyFull() {
         return length() >= size() - 10;
+    }
+
+    public int free() {
+        return size() - length();
     }
 }
