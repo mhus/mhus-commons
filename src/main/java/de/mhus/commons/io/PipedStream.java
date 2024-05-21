@@ -80,7 +80,8 @@ public class PipedStream implements Closeable {
         @Override
         public void write(int b) throws IOException {
 
-            if (outputClosed) throw new EOFException();
+            if (outputClosed)
+                throw new EOFException();
             long start = System.currentTimeMillis();
             while (byteBuffer.isFull()) {
                 MThread.sleep(200);
@@ -89,7 +90,7 @@ public class PipedStream implements Closeable {
             }
             synchronized (byteBuffer) {
                 // System.out.println("Write: " + (char)b + " (" + b + ")");
-                byteBuffer.put((byte)b);
+                byteBuffer.put((byte) b);
             }
         }
 
@@ -103,7 +104,8 @@ public class PipedStream implements Closeable {
 
             while (true) {
 
-                if (outputClosed) throw new EOFException();
+                if (outputClosed)
+                    throw new EOFException();
 
                 var free = byteBuffer.free();
                 if (free < len) {
@@ -130,8 +132,6 @@ public class PipedStream implements Closeable {
             }
 
         }
-
-
 
     }
 

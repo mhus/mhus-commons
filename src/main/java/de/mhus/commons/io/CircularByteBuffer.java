@@ -72,8 +72,10 @@ public class CircularByteBuffer extends AbstractByteBuffer {
             return 0;
 
         var free = size - length;
-        if (free == 0) return 0;
-        if (free < len) len = free;
+        if (free == 0)
+            return 0;
+        if (free < len)
+            len = free;
 
         if (nextPut + len < size) {
             System.arraycopy(buf, off, this.buf, nextPut, len);
@@ -89,7 +91,6 @@ public class CircularByteBuffer extends AbstractByteBuffer {
         return len;
     }
 
-
     public int get(byte[] buf, int off, int len) {
         if (off < 0)
             throw new IllegalArgumentException("off < 0");
@@ -103,9 +104,11 @@ public class CircularByteBuffer extends AbstractByteBuffer {
         if (len == 0)
             return 0;
 
-        if (length() == 0) return 0;
+        if (length() == 0)
+            return 0;
 
-        if (len > length) len = length;
+        if (len > length)
+            len = length;
 
         if (nextGet + len < size) {
             System.arraycopy(this.buf, nextGet, buf, off, len);
@@ -121,9 +124,7 @@ public class CircularByteBuffer extends AbstractByteBuffer {
         return len;
     }
 
-
-
-        @Override
+    @Override
     public byte get() throws EOFException {
         if (isEmpty()) {
             throw new EOFException();

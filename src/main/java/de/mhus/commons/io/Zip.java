@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 import java.util.zip.ZipEntry;
@@ -75,6 +76,8 @@ public class Zip {
      * If true no log output will be generated.
      */
     private boolean quiet = false;
+
+    private Consumer<Event> consumer;
 
     public Zip gzip() {
         gzipInternal();
@@ -163,9 +166,11 @@ public class Zip {
                     os.close();
             }
         } catch (Exception e) {
+            errors.add(e.toString());
             if (!quiet)
                 LOGGER.error("Failed to ungzip file {} to {}", src, dst, e);
-            errors.add(e.toString());
+            if (consumer != null)
+                consumer.accept(new Event(EVENT_TYPE.ERROR, e.toString(), null));
         }
     }
 
@@ -205,9 +210,11 @@ public class Zip {
                 }
             }
         } catch (Exception e) {
+            errors.add(e.toString());
             if (!quiet)
                 LOGGER.error("Failed to zip file {} to {}", src, dst, e);
-            errors.add(e.toString());
+            if (consumer != null)
+                consumer.accept(new Event(EVENT_TYPE.ERROR, e.toString(), dst));
         }
     }
 
@@ -219,6 +226,8 @@ public class Zip {
                         addFile(zip, f, s + file.getName() + "/");
                     }
                 } else {
+                    if (consumer != null)
+                        consumer.accept(new Event(EVENT_TYPE.ZIP, "Zip " + s + file.getName(), null));
                     ZipEntry entry = new ZipEntry(s + file.getName());
                     zip.putNextEntry(entry);
                     try (FileInputStream fin = new FileInputStream(file)) {
@@ -290,6 +299,8 @@ public class Zip {
                     File newFile = new File(dst, fileName);
                     if (!quiet)
                         LOGGER.trace("Unzipping to {}", newFile.getAbsolutePath());
+                    if (consumer != null)
+                        consumer.accept(new Event(EVENT_TYPE.UNZIP, "Unzip", newFile));
                     // create directories for sub directories in zip
                     newFile.getParentFile().mkdirs();
                     FileOutputStream fos = new FileOutputStream(newFile);
@@ -299,9 +310,11 @@ public class Zip {
                     zis.closeEntry();
                 }
             } catch (Exception e) {
+                errors.add(e.toString());
                 if (!quiet)
                     LOGGER.error("Failed to unzip file to {}", fileName, e);
-                errors.add(e.toString());
+                if (consumer != null)
+                    consumer.accept(new Event(EVENT_TYPE.ERROR, e.toString(), null));
             }
         }
     }
@@ -325,6 +338,8 @@ public class Zip {
             if (filter == null || !filter.accept(dstFile)) {
                 if (!quiet)
                     LOGGER.trace("Unzip file {} to {}", entry.getName(), dstFile.getAbsolutePath());
+                if (consumer != null)
+                    consumer.accept(new Event(EVENT_TYPE.UNZIP, "Unzip", dstFile));
                 try {
                     File parent = dstFile.getParentFile();
                     if (!parent.exists()) {
@@ -337,9 +352,11 @@ public class Zip {
                     os.flush();
                     os.close();
                 } catch (Exception e) {
+                    errors.add(entry.getName() + " " + e.toString());
                     if (!quiet)
                         LOGGER.error("Failed to unzip file {} to {}", entry.getName(), dstFile.getAbsolutePath(), e);
-                    errors.add(entry.getName() + " " + e.toString());
+                    if (consumer != null)
+                        consumer.accept(new Event(EVENT_TYPE.ERROR, e.toString(), dstFile));
                 }
             }
         }
@@ -350,4 +367,14 @@ public class Zip {
     public List<String> getErrors() {
         return Collections.unmodifiableList(errors);
     }
+
+    public enum EVENT_TYPE {
+        ZIP,
+        UNZIP,
+        ERROR
+    }
+
+    public record Event(EVENT_TYPE type, String message, File file) {
+    }
+
 }
