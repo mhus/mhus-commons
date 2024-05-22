@@ -369,9 +369,7 @@ public class Zip {
     }
 
     public enum EVENT_TYPE {
-        ZIP,
-        UNZIP,
-        ERROR
+        ZIP, UNZIP, ERROR
     }
 
     public record Event(EVENT_TYPE type, String message, File file) {
