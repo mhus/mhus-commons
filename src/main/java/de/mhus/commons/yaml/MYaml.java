@@ -15,6 +15,8 @@
  */
 package de.mhus.commons.yaml;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import de.mhus.commons.util.Iterate;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
@@ -111,4 +113,39 @@ public class MYaml {
         return yaml.dump(elemY.getObject());
     }
 
+    public static YElement toYaml(JsonNode json) throws IOException {
+        if (json == null) return new YElement(null);
+        if (json.isNull()) return new YElement(null);
+        // if (json.isEmpty()) return new YElement(null); // "" or []
+        if (json.isTextual()) return new YElement(json.asText());
+        if (json.isBoolean()) return new YElement(json.asBoolean());
+        if (json.isInt()) return new YElement(json.asInt());
+        if (json.isDouble()) return new YElement(json.asDouble());
+        if (json.isLong()) return new YElement(json.asLong());
+        if (json.isBigInteger()) return new YElement(json.bigIntegerValue());
+        if (json.isBigDecimal()) return new YElement(json.decimalValue());
+        if (json.isFloat()) return new YElement(json.floatValue());
+        if (json.isShort()) return new YElement(json.shortValue());
+        if (json.isNumber()) return new YElement(json.numberValue()); // should not happen
+        if (json.isBinary()) return new YElement(json.binaryValue());
+        if (json.isArray()) {
+            YList list = createList();
+            for (JsonNode item : json) {
+                list.add(toYaml(item));
+            }
+            return list;
+        }
+        if (json.isObject()) {
+            YMap map = createMap();
+            for (String key : new Iterate<>(json.fieldNames())) {
+                map.put(key, toYaml(json.get(key)));
+            }
+            return map;
+        }
+        return null;  // should not happen
+    }
+
+    private static void toYamlObject(JsonNode json) {
+
+    }
 }

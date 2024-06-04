@@ -127,8 +127,8 @@ public class YList extends YElement implements Iterable<YElement> {
         ((List<Object>) getObject()).add(item.getObject());
     }
 
-    @Override
-    public String toString() {
-        return getObject() == null ? null : getObject().toString();
-    }
+//    @Override
+//    public String toString() {
+//        return getObject() == null ? null : getObject().toString();
+//    }
 }

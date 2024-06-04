@@ -177,12 +177,13 @@ public class MEventHandler<E> implements IRegistry<E> {
     @SuppressWarnings("unchecked")
     public void fire(E event) {
         for (Object obj : getListenersArray()) {
-            try {
-                onFire((Consumer<E>) obj, event);
-                // method.invoke(obj, values);
-            } catch (Throwable t) {
-                LOGGER.debug("fire of event {} with {} failed", obj, event, t);
-            }
+//            Thread.startVirtualThread(() -> {
+                try {
+                    onFire((Consumer<E>) obj, event);
+                } catch (Throwable t) {
+                    LOGGER.debug("fire of event {} with {} failed", obj, event, t);
+                }
+//            });
         }
     }
 

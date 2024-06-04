@@ -1281,4 +1281,32 @@ public class MCollection {
         }
         return out;
     }
+
+    public static List<Integer> toIntegerList(int[] values) {
+        if (values == null)
+            return List.of();
+        List<Integer> out = new ArrayList<>(values.length);
+        for (int i : values)
+            out.add(i);
+        return out;
+    }
+
+    public static List<Double> toDoubleList(double[] values) {
+        if (values == null)
+            return List.of();
+        List<Double> out = new ArrayList<>(values.length);
+        for (double i : values)
+            out.add(i);
+        return out;
+    }
+
+    public static List<Long> toLongList(long[] values) {
+        if (values == null)
+            return List.of();
+        List<Long> out = new ArrayList<>(values.length);
+        for (long i : values)
+            out.add(i);
+        return out;
+    }
+
 }

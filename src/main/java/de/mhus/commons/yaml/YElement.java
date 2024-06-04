@@ -36,7 +36,7 @@ public class YElement {
 
     @Override
     public String toString() {
-        return obj == null ? null : obj.toString();
+        return obj == null ? null : MYaml.toString(this);
     }
 
     // public String getString() {
