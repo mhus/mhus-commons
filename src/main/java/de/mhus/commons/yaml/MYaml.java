@@ -145,7 +145,4 @@ public class MYaml {
         return null;  // should not happen
     }
 
-    private static void toYamlObject(JsonNode json) {
-
-    }
 }
