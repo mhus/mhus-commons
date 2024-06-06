@@ -2717,4 +2717,24 @@ public class MString {
         while (sb.length() < until)
             sb.append(c);
     }
+
+    public static boolean containsAll(String in, String... parts) {
+        if (in == null || parts == null)
+            return false;
+        for (String part : parts)
+            if (in.indexOf(part) < 0)
+                return false;
+        return true;
+    }
+
+    public static boolean containsAllIgnoreCase(String in, String... parts) {
+        if (in == null || parts == null)
+            return false;
+        in = in.toLowerCase();
+        for (String part : parts)
+            if (in.indexOf(part.toLowerCase()) < 0)
+                return false;
+        return true;
+    }
+
 }

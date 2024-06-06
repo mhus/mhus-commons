@@ -334,8 +334,9 @@ public class MFile {
         if (in == null)
             return null;
 
-        InputStream fis = new FileInputStream(in);
-        return readBinary(fis, false);
+        try (InputStream fis = new FileInputStream(in)) {
+            return readBinary(fis, false);
+        }
     }
 
     /**
@@ -1090,10 +1091,8 @@ public class MFile {
     }
 
     public static void releaseLock(FileLock lock) {
-        try {
-            FileChannel channel = lock.channel();
+        try (FileChannel channel = lock.channel()) {
             lock.close();
-            channel.close();
         } catch (IOException e) {
             LOGGER.debug("Error", e);
         }
@@ -1113,8 +1112,11 @@ public class MFile {
             } catch (OverlappingFileLockException e) {
                 MThread.sleep(200);
             }
-            if (System.currentTimeMillis() - start > timeout)
+            if (System.currentTimeMillis() - start > timeout) {
+                channel.close();
+                lock.close();
                 throw new TimeoutException(lockFile.getAbsolutePath());
+            }
         }
     }
 

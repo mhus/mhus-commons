@@ -183,8 +183,9 @@ public class SOfficeConnector {
             ZipEntry e = new ZipEntry(inNext.getName());
             outZip.putNextEntry(e);
             if (inNext.getName().equals(SOFFICE_CONTENT) || inNext.getName().equals(WORD_CONTENT)) {
-                InputStream isRewritten = replacer.rewriteContent(inNext.getName(), isZip);
-                MFile.copyFile(isRewritten, outZip);
+                try (InputStream isRewritten = replacer.rewriteContent(inNext.getName(), isZip)) {
+                    MFile.copyFile(isRewritten, outZip);
+                }
             } else {
                 MFile.copyFile(isZip, outZip);
             }

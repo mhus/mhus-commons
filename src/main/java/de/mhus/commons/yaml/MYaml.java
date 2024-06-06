@@ -114,20 +114,33 @@ public class MYaml {
     }
 
     public static YElement toYaml(JsonNode json) throws IOException {
-        if (json == null) return new YElement(null);
-        if (json.isNull()) return new YElement(null);
+        if (json == null)
+            return new YElement(null);
+        if (json.isNull())
+            return new YElement(null);
         // if (json.isEmpty()) return new YElement(null); // "" or []
-        if (json.isTextual()) return new YElement(json.asText());
-        if (json.isBoolean()) return new YElement(json.asBoolean());
-        if (json.isInt()) return new YElement(json.asInt());
-        if (json.isDouble()) return new YElement(json.asDouble());
-        if (json.isLong()) return new YElement(json.asLong());
-        if (json.isBigInteger()) return new YElement(json.bigIntegerValue());
-        if (json.isBigDecimal()) return new YElement(json.decimalValue());
-        if (json.isFloat()) return new YElement(json.floatValue());
-        if (json.isShort()) return new YElement(json.shortValue());
-        if (json.isNumber()) return new YElement(json.numberValue()); // should not happen
-        if (json.isBinary()) return new YElement(json.binaryValue());
+        if (json.isTextual())
+            return new YElement(json.asText());
+        if (json.isBoolean())
+            return new YElement(json.asBoolean());
+        if (json.isInt())
+            return new YElement(json.asInt());
+        if (json.isDouble())
+            return new YElement(json.asDouble());
+        if (json.isLong())
+            return new YElement(json.asLong());
+        if (json.isBigInteger())
+            return new YElement(json.bigIntegerValue());
+        if (json.isBigDecimal())
+            return new YElement(json.decimalValue());
+        if (json.isFloat())
+            return new YElement(json.floatValue());
+        if (json.isShort())
+            return new YElement(json.shortValue());
+        if (json.isNumber())
+            return new YElement(json.numberValue()); // should not happen
+        if (json.isBinary())
+            return new YElement(json.binaryValue());
         if (json.isArray()) {
             YList list = createList();
             for (JsonNode item : json) {
@@ -142,7 +155,7 @@ public class MYaml {
             }
             return map;
         }
-        return null;  // should not happen
+        return null; // should not happen
     }
 
 }
