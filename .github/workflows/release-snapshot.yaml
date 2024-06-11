@@ -23,6 +23,9 @@ on:
   push:
     branches:
       - main
+    paths:
+        - 'pom.xml'
+        - 'src/**'
 #  pull_request:
 #    types: [opened, synchronize, reopened]
 
