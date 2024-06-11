@@ -25,6 +25,11 @@ on:
       - main
 #  pull_request:
 #    types: [opened, synchronize, reopened]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   release_snapshot:
     runs-on: ubuntu-latest
