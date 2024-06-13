@@ -1321,4 +1321,9 @@ public class MSystem {
         }
         throw new NotFoundException("manifest not found for", owner);
     }
+
+    public static boolean isVmDebug() {
+        return java.lang.management.ManagementFactory.getRuntimeMXBean().
+                getInputArguments().toString().contains("-agentlib:jdwp");
+    }
 }
