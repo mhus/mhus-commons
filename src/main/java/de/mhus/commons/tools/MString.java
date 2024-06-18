@@ -2737,4 +2737,53 @@ public class MString {
         return true;
     }
 
+    public static String camelToSnake(String str) {
+        if (isEmpty(str))
+            return "";
+
+        StringBuilder result = new StringBuilder();
+        char c = str.charAt(0);
+        result.append(Character.toLowerCase(c));
+
+        for (int i = 1; i < str.length(); i++) {
+
+            char ch = str.charAt(i);
+            if (Character.isUpperCase(ch)) {
+                result.append('_');
+                result.append(Character.toLowerCase(ch));
+            } else {
+                result.append(ch);
+            }
+        }
+        return result.toString();
+    }
+
+    public static String snakeToCamel(String str) {
+        if (isEmpty(str))
+            return "";
+
+        StringBuilder result = new StringBuilder();
+        boolean toUpper = false;
+
+        for (int i = 0; i < str.length(); i++) {
+
+            char ch = str.charAt(i);
+            if (ch == '_') {
+                toUpper = true;
+            } else {
+                if (toUpper) {
+                    result.append(Character.toUpperCase(ch));
+                    toUpper = false;
+                } else {
+                    result.append(ch);
+                }
+            }
+        }
+        return result.toString();
+    }
+
+    public static boolean isBlank(String string) {
+        return string == null || string.trim().isEmpty();
+    }
+
 }

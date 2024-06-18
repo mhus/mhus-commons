@@ -1323,7 +1323,7 @@ public class MSystem {
     }
 
     public static boolean isVmDebug() {
-        return java.lang.management.ManagementFactory.getRuntimeMXBean().
-                getInputArguments().toString().contains("-agentlib:jdwp");
+        return java.lang.management.ManagementFactory.getRuntimeMXBean().getInputArguments().toString()
+                .contains("-agentlib:jdwp");
     }
 }
