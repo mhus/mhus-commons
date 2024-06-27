@@ -15,7 +15,6 @@
  */
 package de.mhus.lib.test;
 
-import de.mhus.commons.errors.TimeoutException;
 import de.mhus.commons.errors.TimeoutRuntimeException;
 import de.mhus.commons.errors.UsageException;
 import de.mhus.commons.tools.MLang;
@@ -42,23 +41,23 @@ public class MLangTest {
         }).getException()).isInstanceOf(UsageException.class);
         assertThat(MLang.tryThis(() -> {
             throw new UsageException();
-        }).or("b")).isEqualTo("b");
+        }).orElse("b")).isEqualTo("b");
         assertThat(MLang.tryThis(() -> {
             throw new UsageException();
-        }).orGet(() -> "c")).isEqualTo("c");
+        }).orElseGet(() -> "c")).isEqualTo("c");
         assertThat(MLang.tryThis(() -> {
             throw new UsageException();
-        }).orTry(() -> "d").get()).isEqualTo("d");
+        }).orElseTry(() -> "d").get()).isEqualTo("d");
         assertThat(MLang.tryThis(() -> {
             throw new UsageException();
-        }).orTry(() -> {
+        }).orElseTry(() -> {
             throw new UsageException();
         }).get()).isNull();
         assertThat(MLang.tryThis(() -> {
             throw new UsageException();
-        }).orTry(() -> {
+        }).orElseTry(() -> {
             throw new UsageException();
-        }).or("e")).isEqualTo("e");
+        }).orElse("e")).isEqualTo("e");
 
         final Value<Exception> exception = new Value<>();
         MLang.tryThis(() -> {
@@ -81,23 +80,23 @@ public class MLangTest {
         }, this).getException()).isInstanceOf(UsageException.class);
         assertThat(MLang.synchronizeAndTry(() -> {
             throw new UsageException();
-        }, this).or("b")).isEqualTo("b");
+        }, this).orElse("b")).isEqualTo("b");
         assertThat(MLang.synchronizeAndTry(() -> {
             throw new UsageException();
-        }, this).orGet(() -> "c")).isEqualTo("c");
+        }, this).orElseGet(() -> "c")).isEqualTo("c");
         assertThat(MLang.synchronizeAndTry(() -> {
             throw new UsageException();
-        }, this).orTry(() -> "d").get()).isEqualTo("d");
+        }, this).orElseTry(() -> "d").get()).isEqualTo("d");
         assertThat(MLang.synchronizeAndTry(() -> {
             throw new UsageException();
-        }, this).orTry(() -> {
+        }, this).orElseTry(() -> {
             throw new UsageException();
         }).get()).isNull();
         assertThat(MLang.synchronizeAndTry(() -> {
             throw new UsageException();
-        }, this).orTry(() -> {
+        }, this).orElseTry(() -> {
             throw new UsageException();
-        }).or("e")).isEqualTo("e");
+        }).orElse("e")).isEqualTo("e");
 
         final Value<Exception> exception = new Value<>();
         MLang.synchronizeAndTry(() -> {

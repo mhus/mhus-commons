@@ -117,6 +117,46 @@ public class MLang {
     }
 
     /**
+     * Wait until the action returns a true value or the timeout is reached. If timeout is reach a
+     * TimeoutRuntimeException is thrown.
+     *
+     * @param action
+     *            The action to execute
+     * @param timeout
+     *            The timeout in milliseconds
+     */
+    public static void awaitTrue(Supplier<Boolean> action, long timeout) {
+        awaitTrue(action, timeout, 100);
+    }
+
+    /**
+     * Wait until the action returns a true value or the timeout is reached. If timeout is reach a
+     * TimeoutRuntimeException is thrown.
+     *
+     * @param action
+     *            The action to execute
+     * @param timeout
+     *            The timeout in milliseconds
+     * @param delay
+     *            The delay between checks
+     */
+    public static void awaitTrue(Supplier<Boolean> action, long timeout, long delay) {
+        var start = System.currentTimeMillis();
+        while (true) {
+            try {
+                var result = action.get();
+                if (result != null && result)
+                    return;
+            } catch (Exception e) {
+                throw new InternalRuntimeException(e);
+            }
+            if (System.currentTimeMillis() - start > timeout)
+                throw new TimeoutRuntimeException("Timeout");
+            MThread.sleep(delay);
+        }
+    }
+
+    /**
      * Synchronize the execution of the function with the given locks. The locks are sorted by their identity hash code
      * to avoid deadlocks. It will throw an InternalRuntimeException if an exception is thrown. If no lock is given the
      * global lock is used.
@@ -234,7 +274,7 @@ public class MLang {
             return exception != null;
         }
 
-        public T or(T def) {
+        public T orElse(T def) {
             if (exception != null)
                 return def;
             return result;
@@ -262,25 +302,25 @@ public class MLang {
             return this;
         }
 
-        public T orGet(Supplier<T> def) {
+        public T orElseGet(Supplier<T> def) {
             if (exception != null)
                 return def.get();
             return result;
         }
 
-        public TryResult<T> orTry(Function0<T> def) {
+        public TryResult<T> orElseTry(Function0<T> def) {
             if (exception != null)
                 return tryThis(def);
             return this;
         }
 
-        public TryResult<T> orThrow() {
+        public TryResult<T> orElseThrow() {
             if (exception != null)
                 throw new RuntimeException(exception);
             return this;
         }
 
-        public <E extends Exception> TryResult<T> orThrow(Class<E> exceptionClass) throws E {
+        public <E extends Exception> TryResult<T> orElseThrow(Class<E> exceptionClass) throws E {
             if (exception != null && exceptionClass.isInstance(exception))
                 throw (E) exception;
             return this;
