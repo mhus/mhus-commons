@@ -49,9 +49,9 @@ public class PojoTest extends TestCase {
         PojoAttribute<String> myString = model.getAttribute("mystring");
         assertNotNull(myString);
 
-        myString.set(example, "aloa", false);
-        assertEquals("aloa", example.getMyString());
-        assertEquals("aloa", myString.get(example));
+        myString.set(example, "aloha", false);
+        assertEquals("aloha", example.getMyString());
+        assertEquals("aloha", myString.get(example));
 
         PojoAction doClean = model.getAction("doclean");
         assertNotNull(doClean);
@@ -126,9 +126,9 @@ public class PojoTest extends TestCase {
         PojoAttribute<String> myString = model.getAttribute("mystring");
         assertNotNull(myString);
 
-        myString.set(example, "aloa", false);
-        assertEquals("aloa", example.getMyString());
-        assertEquals("aloa", myString.get(example));
+        myString.set(example, "aloha", false);
+        assertEquals("aloha", example.getMyString());
+        assertEquals("aloha", myString.get(example));
 
         PojoAttribute<String> myAttributeOnly = model.getAttribute("myattributeonly");
         assertNotNull(myString);
@@ -170,9 +170,9 @@ public class PojoTest extends TestCase {
         PojoAttribute<String> myString = model.getAttribute("mystring");
         assertNotNull(myString);
 
-        myString.set(example, "aloa", false);
-        assertEquals("aloa", example.getMyString());
-        assertEquals("aloa", myString.get(example));
+        myString.set(example, "aloha", false);
+        assertEquals("aloha", example.getMyString());
+        assertEquals("aloha", myString.get(example));
 
         PojoAttribute<String> myAttributeOnly = model.getAttribute("myattributeonly");
         assertNotNull(myString);
