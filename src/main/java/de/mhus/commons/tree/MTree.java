@@ -56,6 +56,20 @@ public class MTree {
         return array.stream().map((entry) -> entry.getString(ITreeNode.NAMELESS_VALUE).orElse("")).toList();
     }
 
+    public static String getParentPath(String path) {
+        int pos = path.lastIndexOf('/');
+        if (pos < 0)
+            return "";
+        return path.substring(0, pos);
+    }
+
+    public static String getNodeName(String path) {
+        int pos = path.lastIndexOf('/');
+        if (pos < 0)
+            return path;
+        return path.substring(pos + 1);
+    }
+
     private static class EmptyTreeNodeList extends TreeNodeList {
         private EmptyTreeNodeList() {
             super("", null);

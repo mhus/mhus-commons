@@ -133,22 +133,44 @@ public class TreeNode extends MProperties implements ITreeNode {
     }
 
     @Override
-    public ITreeNode getObjectByPath(String path) {
+    public Optional<ITreeNode> getObjectByPath(String path) {
         if (path == null)
-            return null;
+            return Optional.empty();
         if (path.equals("") || path.equals("."))
-            return this;
+            return Optional.of(this);
         while (path.startsWith("/"))
             path = path.substring(1);
         if (path.length() == 0)
-            return this;
+            return Optional.of(this);
         int p = path.indexOf('/');
         if (p < 0)
-            return getObject(path).orElse(null);
+            return getObject(path);
         ITreeNode next = getObject(path.substring(0, p)).orElse(null);
         if (next == null)
-            return null;
+            return Optional.empty();
         return next.getObjectByPath(path.substring(p + 1));
+    }
+
+    @Override
+    public Optional<TreeNodeList> getArrayByPath(String path) {
+        if (path == null)
+            return Optional.empty();
+        if (path.equals("") || path.equals("."))
+            return Optional.empty();
+
+        var pos = path.lastIndexOf('/');
+        if (pos < 0) {
+            if (isArray(path))
+                return getArray(path);
+            return Optional.empty();
+        }
+        var parent = getObjectByPath(path.substring(0, pos)).orElse(null);
+        if (parent == null)
+            return Optional.empty();
+        var name = path.substring(pos + 1);
+        if (parent.isArray(name))
+            return parent.getArray(name);
+        return Optional.empty();
     }
 
     @Override

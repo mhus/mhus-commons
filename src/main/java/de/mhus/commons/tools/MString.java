@@ -39,6 +39,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.Vector;
 import java.util.regex.Pattern;
+import java.util.stream.Collector;
 
 /** @author hummel */
 @Slf4j

@@ -70,7 +70,9 @@ public interface ITreeNode extends IProperties {
 
     Optional<TreeNodeList> getArray(String key);
 
-    ITreeNode getObjectByPath(String path);
+    Optional<ITreeNode> getObjectByPath(String path);
+
+    Optional<TreeNodeList> getArrayByPath(String path);
 
     String getExtracted(String key, String def);
 

@@ -23,6 +23,8 @@ import de.mhus.commons.lang.Function0;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Optional;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class MLang {
@@ -274,6 +276,10 @@ public class MLang {
             return exception != null;
         }
 
+        public boolean isSuccess() {
+            return exception == null;
+        }
+
         public T orElse(T def) {
             if (exception != null)
                 return def;
@@ -332,6 +338,18 @@ public class MLang {
             return result;
         }
 
+        public Optional<T> toOptional() {
+            if (exception != null)
+                return Optional.ofNullable(result);
+            return Optional.empty();
+        }
+
+        public TryResult<T> onException(Class<? extends Throwable> exceptionClass, Function<Exception, T> action) {
+            if (exception != null && exceptionClass.isInstance(exception)) {
+                return new TryResult<>(action.apply(exception));
+            }
+            return this;
+        }
     }
 
 }
