@@ -244,13 +244,13 @@ public class MTreeTest extends TestCase {
         {
             Document doc = MXml.loadXml(xml);
 
-            ITreeNode c = ITreeNode.readFromXmlString(doc.getDocumentElement());
+            ITreeNode c = MTree.readFromXmlString(doc.getDocumentElement());
 
             validateTree(c, true);
         }
         {
             Document doc = MXml.loadXml(xml);
-            ITreeNode c = ITreeNode.readFromXmlString(doc.getDocumentElement());
+            ITreeNode c = MTree.readFromXmlString(doc.getDocumentElement());
 
             // save
             File file = new File("target/config.xml");
@@ -272,11 +272,11 @@ public class MTreeTest extends TestCase {
                 + "- properties:\n" + "    name: name\n" + "    url: http://test.de";
 
         {
-            ITreeNode c = ITreeNode.readFromYamlString(yaml);
+            ITreeNode c = MTree.readFromYamlString(yaml);
             validateTree(c, true);
         }
         {
-            ITreeNode c = ITreeNode.readFromYamlString(yaml);
+            ITreeNode c = MTree.readFromYamlString(yaml);
             File file = new File("target/config.yaml");
             DefaultNodeFactory dcf = new DefaultNodeFactory();
             System.out.println("C1: " + c);
@@ -301,13 +301,13 @@ public class MTreeTest extends TestCase {
                 + "{'test1':'wow1','test2':'alf1'} , " + "{'test1':'wow2','test2':'alf2'} , "
                 + "{'test1':'wow3','test2':'alf3'}  " + "] }", "'", "\"");
         {
-            ITreeNode c = ITreeNode.readFromJsonString(json);
+            ITreeNode c = MTree.readFromJsonString(json);
             validateTree(c, true);
             assertTrue(c.getBoolean("boolon").getOrFalse());
             assertFalse(c.getBoolean("booloff").getOrTrue());
         }
         {
-            ITreeNode c = ITreeNode.readFromJsonString(json);
+            ITreeNode c = MTree.readFromJsonString(json);
             File file = new File("target/config.json");
             DefaultNodeFactory dcf = new DefaultNodeFactory();
             System.out.println("C1: " + c);
