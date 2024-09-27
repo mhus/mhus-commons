@@ -33,7 +33,7 @@
 
 		<maven.java.version>17</maven.java.version>
 		<jline.version>3.25.0</jline.version>
-		<jackson.version>2.16.1</jackson.version>
+		<jackson.version>2.18.0</jackson.version>
 		<snakeyaml.version>2.2</snakeyaml.version>
 		<bouncycastle.version>1.77</bouncycastle.version>
 		<junit.juniper.version>5.6.2</junit.juniper.version>
