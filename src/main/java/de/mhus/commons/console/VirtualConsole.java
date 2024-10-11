@@ -15,12 +15,13 @@
  */
 package de.mhus.commons.console;
 
-import de.mhus.commons.io.PipedStream;
 import de.mhus.commons.io.TextReader;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
 import java.io.PrintStream;
 import java.util.LinkedList;
 
@@ -37,12 +38,9 @@ public class VirtualConsole extends Console {
     private boolean bold;
     protected boolean echo;
 
-    // private PipedInputStream inPipe = new PipedInputStream();
-    // private PipedOutputStream outPipe = new PipedOutputStream();
-    // private TextReader reader = new TextReader(inPipe);
-
-    private PipedStream piped = new PipedStream();
-    private TextReader reader = new TextReader(piped.getIn());
+    private PipedOutputStream outPipe = new PipedOutputStream();
+    private PipedInputStream inPipe = new PipedInputStream(outPipe);
+    private TextReader reader = new TextReader(inPipe);
 
     private VirtualInStream writerStream = new VirtualInStream();
     private PrintStream writer = new PrintStream(writerStream);
@@ -250,7 +248,7 @@ public class VirtualConsole extends Console {
         if (!quiet)
             writeChar(c);
         // outPipe.write(c);
-        piped.getOut().write(c);
+        outPipe.write(c);
     }
 
     protected void writeChar(char c) {
