@@ -32,7 +32,7 @@
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 
 		<maven.java.version>17</maven.java.version>
-		<jline.version>3.25.0</jline.version>
+		<jline.version>3.27.1</jline.version>
 		<jackson.version>2.18.0</jackson.version>
 		<snakeyaml.version>2.2</snakeyaml.version>
 		<bouncycastle.version>1.77</bouncycastle.version>
