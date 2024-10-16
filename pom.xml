@@ -38,7 +38,7 @@
 		<bouncycastle.version>1.78.1</bouncycastle.version>
 		<junit.juniper.version>5.6.2</junit.juniper.version>
 		<junit.platform.version>1.6.2</junit.platform.version>
-		<tmpl.plugin>1.1.0</tmpl.plugin>
+		<tmpl.plugin>2.0.0</tmpl.plugin>
 		<license.plugin>2.11.1</license.plugin>
 		<git-code-format-maven-plugin.version>5.3</git-code-format-maven-plugin.version>
 		<nexus.plugin.version>1.7.0</nexus.plugin.version>
