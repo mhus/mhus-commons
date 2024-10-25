@@ -75,4 +75,26 @@ public class WeakList<E> extends AbstractList<E> {
         });
         return out;
     }
+
+    public boolean remove(Object o) {
+        cleanupWeak();
+        Iterator<WeakReference<E>> it = items.iterator();
+        if (o == null) {
+            while (it.hasNext()) {
+                if (it.next() == null) {
+                    it.remove();
+                    return true;
+                }
+            }
+        } else {
+            while (it.hasNext()) {
+                if (o.equals(it.next().get())) {
+                    it.remove();
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 }
