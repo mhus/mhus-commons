@@ -23,14 +23,34 @@ import de.mhus.lib.test.util.TestCase;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.Map;
 import java.util.jar.Manifest;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class MSystemTest extends TestCase {
+
+    @Test
+    public void testDarkMode() {
+        System.out.println("DarkMode: " + MSystem.isDarkMode());
+    }
+
+    @Test
+    public void testSetEnv() throws Exception {
+        String key;
+        while (true) {
+            key = "KEY_" + (int) (Math.random() * 10000);
+            if (!System.getenv().containsKey(key))
+                break;
+        }
+        var value = "VALUE_" + (int) (Math.random() * 10000);
+        MSystem.setEnv(key, value);
+        assertThat(System.getenv(key)).isEqualTo(value);
+    }
 
     @Test
     public void testManifest() throws NotFoundException {

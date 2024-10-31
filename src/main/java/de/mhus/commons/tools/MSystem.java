@@ -35,6 +35,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.lang.annotation.Annotation;
 import java.lang.management.LockInfo;
 import java.lang.management.ManagementFactory;
@@ -48,6 +49,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -60,6 +62,149 @@ import java.util.regex.Pattern;
 
 @Slf4j
 public class MSystem {
+
+    // Credits to HanSolo
+    // Adapted from https://gist.github.com/HanSolo/7cf10b86efff8ca2845bf5ec2dd0fe1d
+
+    /**
+     * Try to detect if dark mode is active.
+     *
+     * @return true if detection was possible and dark mode is activated.
+     */
+    public static final boolean isDarkMode() {
+        if (isWindows())
+            return isWindowsDarkMode();
+        if (isMac())
+            return isMacOsDarkMode();
+        return false;
+    }
+
+    public static final boolean isMacOsDarkMode() {
+        try {
+            boolean isDarkMode = false;
+            Runtime runtime = Runtime.getRuntime();
+            Process process = runtime.exec("defaults read -g AppleInterfaceStyle");
+            InputStreamReader isr = new InputStreamReader(process.getInputStream());
+            BufferedReader rdr = new BufferedReader(isr);
+            String line;
+            while ((line = rdr.readLine()) != null) {
+                if (line.equals("Dark")) {
+                    isDarkMode = true;
+                }
+            }
+            int rc = process.waitFor(); // Wait for the process to complete
+            return 0 == rc && isDarkMode;
+        } catch (IOException | InterruptedException e) {
+            return false;
+        }
+    }
+
+    private static final String REGQUERY_UTIL = "reg query ";
+    private static final String REGDWORD_TOKEN = "REG_DWORD";
+    private static final String DARK_THEME_CMD = REGQUERY_UTIL
+            + "\"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize\""
+            + " /v AppsUseLightTheme";
+
+    public static boolean isWindowsDarkMode() {
+        try {
+            Process process = Runtime.getRuntime().exec(DARK_THEME_CMD);
+            MyStreamReader reader = new MyStreamReader(process.getInputStream());
+
+            reader.start();
+            process.waitFor();
+            reader.join();
+
+            String result = reader.getResult();
+            int p = result.indexOf(REGDWORD_TOKEN);
+
+            if (p == -1) {
+                return false;
+            }
+
+            // 1 == Light Mode, 0 == Dark Mode
+            String temp = result.substring(p + REGDWORD_TOKEN.length()).trim();
+            return ((Integer.parseInt(temp.substring("0x".length()), 16))) == 0;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private static class MyStreamReader extends Thread {
+        private InputStream is;
+        private StringWriter sw;
+
+        MyStreamReader(InputStream is) {
+            this.is = is;
+            sw = new StringWriter();
+        }
+
+        public void run() {
+            try {
+                int c;
+                while ((c = is.read()) != -1)
+                    sw.write(c);
+            } catch (IOException e) {
+                ;
+            }
+        }
+
+        String getResult() {
+            return sw.toString();
+        }
+    }
+
+    /**
+     * Need to set: --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED
+     *
+     * @param key
+     * @param value
+     *
+     * @throws NoSuchFieldException
+     * @throws ClassNotFoundException
+     * @throws IllegalAccessException
+     */
+    public static void setEnv(String key, String value)
+            throws NoSuchFieldException, ClassNotFoundException, IllegalAccessException {
+        setEnv(Map.of(key, value));
+    }
+
+    /**
+     * Need to set: --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED
+     *
+     * @param newenv
+     *
+     * @throws ClassNotFoundException
+     * @throws NoSuchFieldException
+     * @throws IllegalAccessException
+     */
+    public static void setEnv(Map<String, String> newenv)
+            throws ClassNotFoundException, NoSuchFieldException, IllegalAccessException {
+        try {
+            Class<?> processEnvironmentClass = Class.forName("java.lang.ProcessEnvironment");
+            Field theEnvironmentField = processEnvironmentClass.getDeclaredField("theEnvironment");
+            theEnvironmentField.setAccessible(true);
+            Map<String, String> env = (Map<String, String>) theEnvironmentField.get(null);
+            env.putAll(newenv);
+            Field theCaseInsensitiveEnvironmentField = processEnvironmentClass
+                    .getDeclaredField("theCaseInsensitiveEnvironment");
+            theCaseInsensitiveEnvironmentField.setAccessible(true);
+            Map<String, String> cienv = (Map<String, String>) theCaseInsensitiveEnvironmentField.get(null);
+            cienv.putAll(newenv);
+        } catch (NoSuchFieldException e) {
+            Class[] classes = Collections.class.getDeclaredClasses();
+            Map<String, String> env = System.getenv();
+            for (Class cl : classes) {
+                if ("java.util.Collections$UnmodifiableMap".equals(cl.getName())) {
+                    Field field = cl.getDeclaredField("m");
+                    field.setAccessible(true);
+                    Object obj = field.get(env);
+                    Map<String, String> map = (Map<String, String>) obj;
+                    map.clear();
+                    map.putAll(newenv);
+                }
+            }
+        }
+    }
 
     public static long getEnv(Class<?> owner, String name, long def) {
         return MService.getService(EnvironmentProvider.class).getEnv(owner, name, def);
