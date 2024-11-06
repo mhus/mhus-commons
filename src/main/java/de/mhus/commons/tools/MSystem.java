@@ -51,6 +51,7 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -63,14 +64,13 @@ import java.util.regex.Pattern;
 @Slf4j
 public class MSystem {
 
-    // Credits to HanSolo
-    // Adapted from https://gist.github.com/HanSolo/7cf10b86efff8ca2845bf5ec2dd0fe1d
-
     /**
      * Try to detect if dark mode is active.
      *
      * @return true if detection was possible and dark mode is activated.
      */
+    // Credits to HanSolo
+    // Adapted from https://gist.github.com/HanSolo/7cf10b86efff8ca2845bf5ec2dd0fe1d
     public static final boolean isDarkMode() {
         if (isWindows())
             return isWindowsDarkMode();
@@ -165,7 +165,9 @@ public class MSystem {
      */
     public static void setEnv(String key, String value)
             throws NoSuchFieldException, ClassNotFoundException, IllegalAccessException {
-        setEnv(Map.of(key, value));
+        var current = new HashMap<>(System.getenv());
+        current.put(key, value);
+        setEnv(current);
     }
 
     /**
