@@ -39,7 +39,6 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.Vector;
 import java.util.regex.Pattern;
-import java.util.stream.Collector;
 
 /** @author hummel */
 @Slf4j
@@ -2785,6 +2784,16 @@ public class MString {
 
     public static boolean isBlank(String string) {
         return string == null || string.trim().isEmpty();
+    }
+
+    public static String encodeDoubleQuotes(String line) {
+        if (line == null) return null;
+        return line.replaceAll("\\\\", "\\\\\\\\").replaceAll("\\\"", "\\\\\"");
+    }
+
+    public static String encodeQuotes(String line) {
+        if (line == null) return null;
+        return line.replaceAll("\\\\", "\\\\\\\\").replaceAll("\\'", "\\\\'");
     }
 
 }

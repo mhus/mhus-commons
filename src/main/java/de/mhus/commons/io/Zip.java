@@ -75,6 +75,7 @@ public class Zip {
     /**
      * If true no log output will be generated.
      */
+    @Builder.Default
     private boolean quiet = false;
 
     private Consumer<Event> consumer;

@@ -84,22 +84,22 @@ public class JsonStreamNodeBuilder extends ITreeNodeBuilder {
                                 array = null;
                             }
                         } else if (token == JsonToken.VALUE_STRING)
-                            array.createObject().setString(jsonParser.getCurrentName(), jsonParser.getValueAsString());
+                            array.createObject().setString(jsonParser.currentName(), jsonParser.getValueAsString());
                         else if (token == JsonToken.VALUE_FALSE)
-                            array.createObject().setBoolean(jsonParser.getCurrentName(), false);
+                            array.createObject().setBoolean(jsonParser.currentName(), false);
                         else if (token == JsonToken.VALUE_TRUE)
-                            array.createObject().setBoolean(jsonParser.getCurrentName(), true);
+                            array.createObject().setBoolean(jsonParser.currentName(), true);
                         else if (token == JsonToken.VALUE_NUMBER_FLOAT)
-                            array.createObject().setDouble(jsonParser.getCurrentName(), jsonParser.getDoubleValue());
+                            array.createObject().setDouble(jsonParser.currentName(), jsonParser.getDoubleValue());
                         else if (token == JsonToken.VALUE_NUMBER_INT)
-                            array.createObject().setLong(jsonParser.getCurrentName(), jsonParser.getLongValue());
+                            array.createObject().setLong(jsonParser.currentName(), jsonParser.getLongValue());
                     } else if (node != null) {
                         // IN OBJECT
                         if (token == JsonToken.START_ARRAY) {
-                            array = node.createArray(jsonParser.getCurrentName());
+                            array = node.createArray(jsonParser.currentName());
                             node = null;
                         } else if (token == JsonToken.START_OBJECT) {
-                            node = node.createObject(jsonParser.getCurrentName());
+                            node = node.createObject(jsonParser.currentName());
                             array = null;
                         } else if (token == JsonToken.END_OBJECT) {
                             if (node.getParentArray() != null) {
@@ -110,17 +110,17 @@ public class JsonStreamNodeBuilder extends ITreeNodeBuilder {
                                 array = null;
                             }
                         } else if (token == JsonToken.VALUE_STRING)
-                            node.setString(jsonParser.getCurrentName(), jsonParser.getValueAsString());
+                            node.setString(jsonParser.currentName(), jsonParser.getValueAsString());
                         else if (token == JsonToken.END_ARRAY) {
                             // should not happen
                         } else if (token == JsonToken.VALUE_FALSE)
-                            node.setBoolean(jsonParser.getCurrentName(), false);
+                            node.setBoolean(jsonParser.currentName(), false);
                         else if (token == JsonToken.VALUE_TRUE)
-                            node.setBoolean(jsonParser.getCurrentName(), true);
+                            node.setBoolean(jsonParser.currentName(), true);
                         else if (token == JsonToken.VALUE_NUMBER_FLOAT)
-                            node.setDouble(jsonParser.getCurrentName(), jsonParser.getDoubleValue());
+                            node.setDouble(jsonParser.currentName(), jsonParser.getDoubleValue());
                         else if (token == JsonToken.VALUE_NUMBER_INT)
-                            node.setLong(jsonParser.getCurrentName(), jsonParser.getLongValue());
+                            node.setLong(jsonParser.currentName(), jsonParser.getLongValue());
                     } else {
                         // should not happen
                     }

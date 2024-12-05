@@ -33,6 +33,45 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class MStringTest extends TestCase {
 
     @Test
+    public void testEncodeDoubleQuotes() {
+        {
+            String from = "Aloha \"Quotes\"";
+            String to = MString.encodeDoubleQuotes(from);
+            assertEquals("Aloha \\\"Quotes\\\"", to);
+        }
+        {
+            String from = "Aloha \\";
+            String to = MString.encodeDoubleQuotes(from);
+            assertEquals("Aloha \\\\", to);
+        }
+        {
+            String from = "Aloha \\\"Quotes\\\"";
+            String to = MString.encodeDoubleQuotes(from);
+            assertEquals("Aloha \\\\\\\"Quotes\\\\\\\"", to);
+        }
+    }
+
+    @Test
+    public void testEncodeQuotes() {
+        {
+            String from = "Aloha 'Quotes'";
+            String to = MString.encodeQuotes(from);
+            assertEquals("Aloha \\'Quotes\\'", to);
+        }
+        {
+            String from = "Aloha \\";
+            String to = MString.encodeQuotes(from);
+            assertEquals("Aloha \\\\", to);
+        }
+        {
+            String from = "Aloha \\'Quotes\\'";
+            String to = MString.encodeQuotes(from);
+            assertEquals("Aloha \\\\\\'Quotes\\\\\\'", to);
+        }
+    }
+
+
+    @Test
     public void testReplace() {
         {
             var repl = MString.replaceSQLLikePattern("It is a text", "%is%", "was");
