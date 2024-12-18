@@ -15,6 +15,9 @@
  */
 package de.mhus.commons.tools;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 public class MMath {
 
     public static final int ROTATE_LEFT = 1;
@@ -174,4 +177,13 @@ public class MMath {
     public static byte subRotate(byte b, byte add) {
         return (byte) ((((b & 0xFF) * 256) - ((add & 0xFF) * 256)) / 256);
     }
+
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = BigDecimal.valueOf(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
+    }
+
 }
