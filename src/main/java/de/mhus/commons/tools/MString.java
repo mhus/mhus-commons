@@ -2787,12 +2787,14 @@ public class MString {
     }
 
     public static String encodeDoubleQuotes(String line) {
-        if (line == null) return null;
+        if (line == null)
+            return null;
         return line.replaceAll("\\\\", "\\\\\\\\").replaceAll("\\\"", "\\\\\"");
     }
 
     public static String encodeQuotes(String line) {
-        if (line == null) return null;
+        if (line == null)
+            return null;
         return line.replaceAll("\\\\", "\\\\\\\\").replaceAll("\\'", "\\\\'");
     }
 

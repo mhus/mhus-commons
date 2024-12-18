@@ -70,7 +70,6 @@ public class MStringTest extends TestCase {
         }
     }
 
-
     @Test
     public void testReplace() {
         {
