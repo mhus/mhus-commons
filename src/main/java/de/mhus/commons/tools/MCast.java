@@ -534,6 +534,10 @@ public final class MCast {
         return DOUBLE_TO_STRING.toString(in);
     }
 
+    public static String toString(double in, int digits, int fractionDigits) {
+        return String.format( "%" + (digits < 0 ? "" : digits) + "." + (fractionDigits < 0 ? "" : fractionDigits) +"f", in);
+    }
+
     /**
      * Convert a double to string. The separator is a dot.
      *

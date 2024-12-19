@@ -28,12 +28,22 @@ import java.util.Locale;
 import java.util.TimeZone;
 import java.util.UUID;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MCastTest extends TestCase {
+
+    @Test
+    public void testDoubleToString() {
+        assertEquals("1.12", MCast.toString(1.123d, 1, 2).replace(',', '.') );
+        assertEquals("1.12", MCast.toString(1.123d, 2, 2).replace(',', '.') );
+        assertEquals("      1.12", MCast.toString(1.123d, 10, 2).replace(',', '.') );
+        assertEquals("1", MCast.toString(1.123d, 1, 0).replace(',', '.') );
+        assertEquals("0", MCast.toString(0.123d, 1, 0).replace(',', '.') );
+    }
 
     @BeforeAll
     public static void setUp() throws Exception {
