@@ -38,11 +38,45 @@ public class MCastTest extends TestCase {
 
     @Test
     public void testDoubleToString() {
-        assertEquals("1.12", MCast.toString(1.123d, 1, 2).replace(',', '.') );
-        assertEquals("1.12", MCast.toString(1.123d, 2, 2).replace(',', '.') );
-        assertEquals("      1.12", MCast.toString(1.123d, 10, 2).replace(',', '.') );
-        assertEquals("1", MCast.toString(1.123d, 1, 0).replace(',', '.') );
-        assertEquals("0", MCast.toString(0.123d, 1, 0).replace(',', '.') );
+        assertEquals("1.12", MCast.toString(1.123d, 1, 2).replace(',', '.'));
+        assertEquals(" 1.12", MCast.toString(1.123d, 2, 2).replace(',', '.'));
+        assertEquals("         1.12", MCast.toString(1.123d, 10, 2).replace(',', '.'));
+        assertEquals("1", MCast.toString(1.123d, 1, 0).replace(',', '.'));
+        assertEquals("0", MCast.toString(0.123d, 1, 0).replace(',', '.'));
+
+        assertEquals("-1.12", MCast.toString(-1.123d, 1, 2).replace(',', '.'));
+        assertEquals("-1.12", MCast.toString(-1.123d, 2, 2).replace(',', '.'));
+        assertEquals("        -1.12", MCast.toString(-1.123d, 10, 2).replace(',', '.'));
+        assertEquals("-1", MCast.toString(-1.123d, 1, 0).replace(',', '.'));
+        assertEquals("-0", MCast.toString(-0.123d, 1, 0).replace(',', '.'));
+
+        assertEquals("1.12", MCast.toString(1.123d, true, 1, 2).replace(',', '.'));
+        assertEquals("01.12", MCast.toString(1.123d, true, 2, 2).replace(',', '.'));
+        assertEquals("0000000001.12", MCast.toString(1.123d, true, 10, 2).replace(',', '.'));
+        assertEquals("1", MCast.toString(1.123d, true, 1, 0).replace(',', '.'));
+        assertEquals("0", MCast.toString(0.123d, true, 1, 0).replace(',', '.'));
+
+        assertEquals("-1.12", MCast.toString(-1.123d, true, 1, 2).replace(',', '.'));
+        assertEquals("-1.12", MCast.toString(-1.123d, true, 2, 2).replace(',', '.'));
+        assertEquals("-000000001.12", MCast.toString(-1.123d, true, 10, 2).replace(',', '.'));
+        assertEquals("-1", MCast.toString(-1.123d, true, 1, 0).replace(',', '.'));
+        assertEquals("-0", MCast.toString(-0.123d, true, 1, 0).replace(',', '.'));
+
+        // edge cases
+        // ------------------------------------\/ = OH NO !!!
+        assertEquals("12345678901234568", MCast.toString(12345678901234567d, 1, 0).replace(',', '.'));
+        assertEquals("1234567890123456900000000000",
+                MCast.toString(1234567890123456789012345678d, 1, 0).replace(',', '.'));
+        assertEquals("1.234568", MCast.toString(1.2345678901234567d, -1, -1).replace(',', '.'));
+        assertEquals("1.2345678901234567000000000000000000000000",
+                MCast.toString(1.2345678901234567d, -1, 40).replace(',', '.'));
+        assertEquals("                                       1.2345678901234567000000000000000000000000",
+                MCast.toString(1.2345678901234567d, 40, 40).replace(',', '.'));
+        assertEquals("0000000000000000000000000000000000000001.2345678901234567000000000000000000000000",
+                MCast.toString(1.2345678901234567d, true, 40, 40).replace(',', '.'));
+        assertEquals("0000000000000000000000000000000123456789.2345679000000000000000000000000000000000",
+                MCast.toString(123456789.2345678901234567d, true, 40, 40).replace(',', '.'));
+
     }
 
     @BeforeAll

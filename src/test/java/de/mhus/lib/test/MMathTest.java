@@ -163,10 +163,10 @@ public class MMathTest extends TestCase {
         assertEquals(-1.23, MMath.round(-1.23456789, 2));
         assertEquals(1.24, MMath.round(1.23556789, 2));
         assertEquals(-1.24, MMath.round(-1.23556789, 2));
-        assertEquals(1000.0,MMath.round(1000.0d, 17));
-        assertEquals(90080070060.1,MMath.round(90080070060.1d, 9));
-        assertEquals(-1000.0,MMath.round(-1000.0d, 17));
-        assertEquals(-90080070060.1,MMath.round(-90080070060.1d, 9));
+        assertEquals(1000.0, MMath.round(1000.0d, 17));
+        assertEquals(90080070060.1, MMath.round(90080070060.1d, 9));
+        assertEquals(-1000.0, MMath.round(-1000.0d, 17));
+        assertEquals(-90080070060.1, MMath.round(-90080070060.1d, 9));
     }
 
 }

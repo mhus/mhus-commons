@@ -535,7 +535,18 @@ public final class MCast {
     }
 
     public static String toString(double in, int digits, int fractionDigits) {
-        return String.format( "%" + (digits < 0 ? "" : digits) + "." + (fractionDigits < 0 ? "" : fractionDigits) +"f", in);
+        return toString(in, false, digits, fractionDigits);
+    }
+
+    public static String toString(double in, boolean trailingZeros, int digits, int fractionDigits) {
+        if (digits >= 0) {
+            if (fractionDigits > 0)
+                digits = digits + fractionDigits + 1;
+            else if (digits == 0)
+                digits = 1;
+        }
+        return String.format("%" + (digits < 0 ? "" : (trailingZeros ? "0" : "") + digits)
+                + (digits < 0 && fractionDigits < 0 ? "" : ".") + (fractionDigits < 0 ? "" : fractionDigits) + "f", in);
     }
 
     /**
