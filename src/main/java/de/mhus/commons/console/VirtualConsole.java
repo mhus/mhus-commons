@@ -15,7 +15,7 @@
  */
 package de.mhus.commons.console;
 
-import de.mhus.commons.io.TextReader;
+import de.mhus.commons.io.TextInputStream;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -40,7 +40,7 @@ public class VirtualConsole extends Console {
 
     private PipedOutputStream outPipe = new PipedOutputStream();
     private PipedInputStream inPipe = new PipedInputStream(outPipe);
-    private TextReader reader = new TextReader(inPipe);
+    private TextInputStream reader = new TextInputStream(inPipe);
 
     private VirtualInStream writerStream = new VirtualInStream();
     private PrintStream writer = new PrintStream(writerStream);

@@ -17,14 +17,13 @@ package de.mhus.commons.io;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.Reader;
 
 /**
  * Original from: http://www.cs.arizona.edu/people/reges/teachers/TextReader.java (no more available)
  *
  * <p>
- * Provides a simple interface for standard text reading operations from an Reader. Converts all IOExceptions to
- * RuntimeExceptions, so it should be used only with stable Reader. Uses lazy evaluation (delaying
+ * Provides a simple interface for standard text reading operations from an input stream. Converts all IOExceptions to
+ * RuntimeExceptions, so it should be used only with stable input streams like System.in. Uses lazy evaluation (delaying
  * the reading of the beginning of a new line until necessary) so as to function properly when used with console input.
  * Unlike the standard java.io.BufferedReader, it returns a correct value for ready() with console reading (returning
  * false only if the user enters an end-of-file from the console). Includes a one-character peek ahead facility.
@@ -82,7 +81,7 @@ import java.io.Reader;
  *
  * By default the token-processing methods like readInt consume the newline character at the end of each line, which
  * assumes that newline characters are not significant. There is a utility that allows a programmer to specify that
- * newline characters are significant, in which case they are left in the Reader. For example, the code below
+ * newline characters are significant, in which case they are left in the input stream. For example, the code below
  * reads exactly one line of input, adding up the integers on the line.
  *
  * <p>
@@ -165,9 +164,9 @@ import java.io.Reader;
  *
  * @author Stuart Reges
  */
-public class TextReader {
+public class TextInputStream {
 
-    private Reader myInput; // input source
+    private InputStream myInput; // input stream
     private int myNextChar; // one-char lookahead
     private boolean myUndefinedState; // for lazy input; if true,
     // then myNextChar is undefined
@@ -178,9 +177,9 @@ public class TextReader {
      * Create a text-reading stream.
      *
      * @param input
-     *            the Reader to read from
+     *            the input stream to read from
      */
-    public TextReader(Reader input) {
+    public TextInputStream(InputStream input) {
         myInput = input;
         myUndefinedState = true;
     }
@@ -321,7 +320,7 @@ public class TextReader {
     /**
      * Read the next token as an integer.
      *
-     * @return next integer in Reader
+     * @return next integer in input stream
      *
      * @throws RuntimeException
      *             if no token or next token not an integer
@@ -333,7 +332,7 @@ public class TextReader {
     /**
      * Read the next token as a double.
      *
-     * @return next double in Reader
+     * @return next double in input stream
      *
      * @throws RuntimeException
      *             if no token or next token not a double

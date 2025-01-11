@@ -15,7 +15,7 @@
  */
 package de.mhus.commons.console;
 
-import de.mhus.commons.io.TextReader;
+import de.mhus.commons.io.TextInputStream;
 
 import java.io.InputStream;
 import java.io.PrintStream;
@@ -24,7 +24,7 @@ import java.util.LinkedList;
 
 public class SimpleConsole extends Console {
 
-    private TextReader reader;
+    private TextInputStream reader;
     private COLOR foreground;
     private COLOR background;
     private boolean blink;
@@ -34,18 +34,18 @@ public class SimpleConsole extends Console {
 
     public SimpleConsole() {
         super();
-        reader = new TextReader(System.in);
+        reader = new TextInputStream(System.in);
     }
 
     public SimpleConsole(InputStream in, PrintStream out, boolean flush, String charset)
             throws UnsupportedEncodingException {
         super(out, flush, charset);
-        reader = new TextReader(in);
+        reader = new TextInputStream(in);
     }
 
     public SimpleConsole(InputStream in, PrintStream out) {
         super(out);
-        reader = new TextReader(in);
+        reader = new TextInputStream(in);
     }
 
     @Override
