@@ -109,12 +109,17 @@ public class MString {
 
     /**
      * Returns true if the string search is contained in the string s. The search is case sensitive.
-     * @param _s The string to search in
-     * @param _search The search string
+     *
+     * @param _s
+     *            The string to search in
+     * @param _search
+     *            The search string
+     *
      * @return true if the search string is found
      */
     public static boolean containsIgnoreCase(String _s, String _search) {
-        if (_s == null || _search == null) return false;
+        if (_s == null || _search == null)
+            return false;
         return _s.toLowerCase().contains(_search.toLowerCase());
     }
 

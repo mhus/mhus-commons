@@ -24,10 +24,10 @@ import java.io.Reader;
  *
  * <p>
  * Provides a simple interface for standard text reading operations from an Reader. Converts all IOExceptions to
- * RuntimeExceptions, so it should be used only with stable Reader. Uses lazy evaluation (delaying
- * the reading of the beginning of a new line until necessary) so as to function properly when used with console input.
- * Unlike the standard java.io.BufferedReader, it returns a correct value for ready() with console reading (returning
- * false only if the user enters an end-of-file from the console). Includes a one-character peek ahead facility.
+ * RuntimeExceptions, so it should be used only with stable Reader. Uses lazy evaluation (delaying the reading of the
+ * beginning of a new line until necessary) so as to function properly when used with console input. Unlike the standard
+ * java.io.BufferedReader, it returns a correct value for ready() with console reading (returning false only if the user
+ * enters an end-of-file from the console). Includes a one-character peek ahead facility.
  *
  * <p>
  * TextReader's behavior is similar to that of Pascal's standard input. It has three utilities for processing the input
@@ -82,8 +82,8 @@ import java.io.Reader;
  *
  * By default the token-processing methods like readInt consume the newline character at the end of each line, which
  * assumes that newline characters are not significant. There is a utility that allows a programmer to specify that
- * newline characters are significant, in which case they are left in the Reader. For example, the code below
- * reads exactly one line of input, adding up the integers on the line.
+ * newline characters are significant, in which case they are left in the Reader. For example, the code below reads
+ * exactly one line of input, adding up the integers on the line.
  *
  * <p>
  *

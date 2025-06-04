@@ -24,6 +24,9 @@ public class DefaultEnvironmentProvider implements EnvironmentProvider {
     }
 
     private String toEnvName(Class<?> owner, String name) {
+        if (owner == null) {
+            return name.toUpperCase();
+        }
         return owner.getName().toUpperCase().replace('.', '_') + "_" + name.toUpperCase();
     }
 

@@ -220,6 +220,18 @@ public class MSystem {
         return MService.getService(EnvironmentProvider.class).getEnv(owner, name, def);
     }
 
+    public static long getEnv(String name, long def) {
+        return MService.getService(EnvironmentProvider.class).getEnv(null, name, def);
+    }
+
+    public static int getEnv(String name, int def) {
+        return MService.getService(EnvironmentProvider.class).getEnv(null, name, def);
+    }
+
+    public static String getEnv(String name, String def) {
+        return MService.getService(EnvironmentProvider.class).getEnv(null, name, def);
+    }
+
     public static void openBrowserUrl(String url) {
         Runtime rt = Runtime.getRuntime();
         try {
