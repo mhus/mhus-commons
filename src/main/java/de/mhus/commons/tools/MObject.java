@@ -3,7 +3,11 @@ package de.mhus.commons.tools;
 import de.mhus.commons.services.ClassLoaderProvider;
 import de.mhus.commons.services.MService;
 
+import java.io.Serializable;
 import java.lang.reflect.Array;
+import java.util.Comparator;
+import java.util.Objects;
+import java.util.function.Function;
 
 public class MObject {
 
@@ -32,6 +36,15 @@ public class MObject {
             return ((Comparable<T>) a).compareTo(b);
         return a.toString().compareTo(b.toString());
     }
+
+    public static <T, U extends Comparable<? super U>> Comparator<T> comparing(
+            Function<? super T, ? extends U> keyExtractor)
+    {
+        Objects.requireNonNull(keyExtractor);
+        return (Comparator<T> & Serializable)
+                (c1, c2) -> compareTo(keyExtractor.apply(c1), keyExtractor.apply(c2));
+    }
+
 
     /**
      * Create a new instance of a class. The class must have a default constructor.
