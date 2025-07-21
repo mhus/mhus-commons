@@ -37,7 +37,7 @@
 		<snakeyaml.version>2.2</snakeyaml.version>
 		<bouncycastle.version>1.78.1</bouncycastle.version>
 		<junit.juniper.version>5.6.2</junit.juniper.version>
-		<junit.platform.version>1.6.2</junit.platform.version>
+		<junit.platform.version>1.13.4</junit.platform.version>
 		<tmpl.plugin>1.1.0</tmpl.plugin>
 		<license.plugin>2.11.1</license.plugin>
 		<git-code-format-maven-plugin.version>5.3</git-code-format-maven-plugin.version>
