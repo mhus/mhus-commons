@@ -38,13 +38,10 @@ public class MObject {
     }
 
     public static <T, U extends Comparable<? super U>> Comparator<T> comparing(
-            Function<? super T, ? extends U> keyExtractor)
-    {
+            Function<? super T, ? extends U> keyExtractor) {
         Objects.requireNonNull(keyExtractor);
-        return (Comparator<T> & Serializable)
-                (c1, c2) -> compareTo(keyExtractor.apply(c1), keyExtractor.apply(c2));
+        return (Comparator<T> & Serializable) (c1, c2) -> compareTo(keyExtractor.apply(c1), keyExtractor.apply(c2));
     }
-
 
     /**
      * Create a new instance of a class. The class must have a default constructor.

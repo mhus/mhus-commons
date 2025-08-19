@@ -121,4 +121,24 @@ public class MHttp {
         return def;
     }
 
+    /**
+     * Check if the HTTP status code indicates a successful response.
+     *
+     * @param code HTTP status code
+     * @return true if the code is in the range of 200-299, false otherwise
+     */
+    public static boolean isSuccessful(int code) {
+        return code >= 200 && code < 300;
+    }
+
+    /**
+     * Check if the HTTP status code indicates an error response.
+     *
+     * @param code HTTP status code
+     * @return true if the code is not in the range of 200-299, false otherwise
+     */
+    public boolean isError(int code) {
+        return !isSuccessful(code);
+    }
+
 }
