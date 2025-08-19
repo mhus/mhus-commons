@@ -52,12 +52,13 @@ jobs:
       - name: release_snapshot
         if: ${{ !startsWith(github.event.head_commit.message, 'wip') }}
         env:
-          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
         # Notes:
         #  - tests already run in a separate action (main)
         run: mvn -B -U --fail-at-end -Pdeploy clean deploy
       - name: Analyse
+        if: ${{ !startsWith(github.event.head_commit.message, 'wip') }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
