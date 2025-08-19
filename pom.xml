@@ -41,7 +41,6 @@
 		<tmpl.plugin>1.1.0</tmpl.plugin>
 		<license.plugin>2.11.1</license.plugin>
 		<git-code-format-maven-plugin.version>5.3</git-code-format-maven-plugin.version>
-		<nexus.plugin.version>1.7.0</nexus.plugin.version>
 		<gpg.plugin.version>3.2.7</gpg.plugin.version>
 	</properties>
     
@@ -224,16 +223,6 @@
 					</executions>
 				</plugin>
 
-                <plugin>
-                    <groupId>org.sonatype.central</groupId>
-                    <artifactId>central-publishing-maven-plugin</artifactId>
-                    <version>0.8.0</version>
-                    <extensions>true</extensions>
-                    <configuration>
-                        <publishingServerId>central</publishingServerId>
-                    </configuration>
-                </plugin>
-
 			</plugins>
 		</build>
 		</profile>
@@ -322,9 +311,21 @@
 							</execution>
 						</executions>
 					</plugin>
+
+                    <plugin>
+                        <groupId>org.sonatype.central</groupId>
+                        <artifactId>central-publishing-maven-plugin</artifactId>
+                        <version>0.8.0</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <publishingServerId>central</publishingServerId>
+                        </configuration>
+                    </plugin>
+
 				</plugins>
 			</build>
 
         </profile>
     </profiles>
+
 </project>
